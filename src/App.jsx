@@ -6,12 +6,52 @@
  * restrictions set forth in your license agreement with Eden Sign.
 */
 
+import { lazy, Suspense } from "react";
+import { Routes, Route } from "react-router-dom";
+
+import { CssBaseline, ThemeProvider, useTheme } from "@mui/material";
+// import { useIdleTimer } from 'react-idle-timer';
+
+import { ColorModeContext, useMode, tokens } from "./theme";
+import Topbar from "./components/common/Topbar";
+import Loader from "./components/common/Loader";
+import Home from "./components/pages/home/Home";
+import Salon from "./components/pages/salon/Salon";
+// import About from "./components/pages";
+// import Services from "./components/pages";
+// import PrivacyPolicy from "./components/pages";
+import Footer from './components/common/Footer';
+
 function App() {
 
+  const [theme, colorMode] = useMode();
+  const themes = useTheme();
+  const colors = tokens(themes.palette.mode);
+
   return (
-    <>
-      Start coding to build something new!!
-    </>
+    <ColorModeContext.Provider value={colorMode}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Suspense fallback={<Loader />}>
+          <div style={{
+            backgroundColor: "#f3f3f3", background: "linear-gradient(to right, #d9a7c7, #ffdde1)",
+            // backgroundColor: "#8EC5FC", backgroundImage: "linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%)",
+            color: "#000000", position: "relative", display: "flex", flexDirection: "column",
+            minHeight: "100vh", minWidth: "320px", width: "100%", maxWidth: "100vw"
+          }}>
+            <Topbar />
+            <Routes>
+              <Route exact path='/' element={<Home />} />
+              <Route exact path='/salons' element={<Salon colors={colors} />} />
+              {/* <Route path='/about' element={<About />} />
+              <Route path='/services' element={<Services />} />
+              <Route path='/privacyPolicy' element={<PrivacyPolicy />} /> */}
+            </Routes>
+            <Footer />
+          </div>
+        </Suspense>
+      </ThemeProvider>
+    </ColorModeContext.Provider >
   )
 }
 

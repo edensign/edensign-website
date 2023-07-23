@@ -12,4 +12,7 @@ import react from '@vitejs/plugin-react'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  optimizeDeps: {                   //adding optimizeDeps is the solution of the below error
+    include: ['@emotion/styled'],   //Popper.js:9 Uncaught TypeError: styled_default is not a function
+  },
 })

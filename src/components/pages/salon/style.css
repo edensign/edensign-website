@@ -1,0 +1,71 @@
+#salon-img {
+    height: 90%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+    margin-left: -12px;
+    filter: brightness(100%);
+}
+
+#salon-img:hover {
+    filter: brightness(60%);
+}
+
+
+#salon-listing-img {
+    height: auto;
+    max-width: 100%;
+    vertical-align: middle;
+    will-change: transform;
+    -webkit-transform: translateZ(0) ;
+    -webkit-perspective: 1000;
+    -webkit-backface-visibility: hidden;
+    transform: translate3d(0px, 0px, 0px);
+    transition-duration: 3s;
+}
+
+#salon-listing-img:hover {
+    transform: translate3d(0px, -880px, 0px) scale(1.1);
+    transition: transform 10s ease;
+}
+
+
+
+
+
+
+
+
+
+/*
+#makeup-para3 {
+    font-size: 32px;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+}
+
+
+.makeup-heading3 {
+    text-align: center;
+    font-size: 50px;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+}
+
+
+.makeup-para4 {
+    padding: 10px 20px;
+    line-height: 1.5em;
+}
+
+*/
+#appointment-btn {
+    background: transparent;
+    font-size: 1.5em;
+    /* border: 1px solid hsl(0, 0%, 80%); */
+}
+
+#appointment-btn:hover {
+    border-color: greenyellow;
+    color: greenyellow;
+}

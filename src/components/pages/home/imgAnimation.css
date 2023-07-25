@@ -37,10 +37,11 @@
 }
 
 .arrow {
+    height: 22px;
     cursor: pointer;
     position: absolute;
     top: 45%;
-    font-size: 34px;
+    font-size: 14px;
 }
 
 /*css for automatic navigation*/

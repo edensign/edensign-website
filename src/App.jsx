@@ -21,6 +21,7 @@ import Salon from "./components/pages/salon/Salon";
 // import Services from "./components/pages";
 // import PrivacyPolicy from "./components/pages";
 import Footer from './components/common/Footer';
+import SalonDetail from "./components/pages/salonDetail/SalonDetail";
 
 function App() {
 
@@ -33,7 +34,7 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Suspense fallback={<Loader />}>
-          <div style={{
+          <div id="main-div" style={{
             backgroundColor: "#f3f3f3", background: "linear-gradient(to right, #d9a7c7, #ffdde1)",
             // backgroundColor: "#8EC5FC", backgroundImage: "linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%)",
             color: "#000000", position: "relative", display: "flex", flexDirection: "column",
@@ -41,8 +42,9 @@ function App() {
           }}>
             <Topbar />
             <Routes>
-              <Route exact path='/' element={<Home />} />
-              <Route exact path='/salons' element={<Salon colors={colors} />} />
+              <Route exact path='/' element={<Home background="linear-gradient(to right, #d9a7c7, #ffdde1)" />} />
+              <Route exact path='/salons' element={<Salon backgroundColor="#f3f3f3" />} />
+              <Route exact path='/salon/detail' element={<SalonDetail backgroundColor="#f3f3f3" />} />
               {/* <Route path='/about' element={<About />} />
               <Route path='/services' element={<Services />} />
               <Route path='/privacyPolicy' element={<PrivacyPolicy />} /> */}

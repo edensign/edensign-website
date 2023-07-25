@@ -6,16 +6,23 @@
  * restrictions set forth in your license agreement with Eden Sign.
 */
 
+import React from "react";
+
 import AboutContainer from "./AboutContainer";
+import Brands from "../../common/Brands";
 import Carousel from "./BodyCarousel";
 import ProductList from "./BodyProductList";
 import ImageBoxes from "./ImageBoxes";
 import ImageContainer from "./ImageContainer";
 import ServicesList from "./ServicesList";
-import Testimonial from "./Testimonial";
 import Newsletter from "../../common/Newsletter";
+import Testimonial from "./Testimonial";
 
-const Home = () => {
+const Home = ({ background }) => {
+
+  React.useEffect(() => {
+    document.getElementById("main-div").style.background = background;
+  }, []);
 
   return (
     <>
@@ -26,6 +33,7 @@ const Home = () => {
       <ImageContainer />
       <AboutContainer />
       <Newsletter />
+      <Brands />
       {/* <Testimonial /> */}
 
     </>

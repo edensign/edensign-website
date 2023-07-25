@@ -42,7 +42,7 @@ function Carousel() {
     };
 
     useEffect(() => {
-        showSlides(slideIndex);
+        controller(slideIndex);
     }, []);
 
     return (

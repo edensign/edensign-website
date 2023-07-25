@@ -6,18 +6,29 @@
  * restrictions set forth in your license agreement with Eden Sign.
 */
 
+import React from "react";
+
+import Brands from "../../common/Brands";
 import PageTop from "../../common/PageTop";
-import SalonListCards from './SalonListCards';
 import FilterMenu from "../../common/FilterMenu";
+import Newsletter from "../../common/Newsletter";
+import SalonListCards from './SalonListCards';
 
 import BookAppointment from './BookAppointment';
 
-const Salon = ({ colors }) => {
+const Salon = ({ backgroundColor }) => {
+
+  React.useEffect(() => {
+    document.getElementById("main-div").style.background = `linear-gradient(to right, ${backgroundColor}, ${backgroundColor})`;
+  }, []);
+
   return (
     <>
-      <PageTop name='salons' colors={colors} />
+      <PageTop name='salons' />
       <FilterMenu />
       <SalonListCards />
+      <Newsletter />
+      <Brands />
       {/* <BookAppointment /> */}
     </>
   );

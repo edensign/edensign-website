@@ -21,31 +21,33 @@ const ServicesList = () => {
                     <ListItem sx={{ flexDirection: "column" }}>
                         <LocalShippingIcon />
                         <ListItemButton className="list" sx={{ padding: "0" }}>
-                            <ListItemText primary="free shipping" primaryTypographyProps={{ fontSize: "1.5rem" }} sx={{ textTransform: "uppercase" }} />
+                            <ListItemText primary="free shipping" primaryTypographyProps={{ fontWeight: "400", fontSize: "20px", lineHeight: "28px", letterSpacing: "0.14em", textTransform: "uppercase" }} />
                         </ListItemButton>
                         <FiberManualRecordIcon sx={{ fontSize: "6px", margin: "2%" }} />
-                        <Typography>
+                        <Typography sx={{ fontWeight: "300", fontSize: "12px", lineHeight: "22px", letterSpacing: "0.015em" }}>
                             For county now sister engage had season better had waited. Occasional mrs interested far expression.
                         </Typography>
                     </ListItem>
+
                     <ListItem sx={{ flexDirection: "column" }}>
                         <MessageIcon />
                         <CommentIcon sx={{ margin: "-10px 0 0 50px" }} />
                         <ListItemButton className="list" sx={{ padding: "0" }}>
-                            <ListItemText primary="24/7 SUPPORT" primaryTypographyProps={{ fontSize: "1.5rem" }} />
+                            <ListItemText primary="24/7 SUPPORT" primaryTypographyProps={{ fontWeight: "400", fontSize: "20px", lineHeight: "28px", letterSpacing: "0.14em" }} />
                         </ListItemButton>
                         <FiberManualRecordIcon sx={{ fontSize: "6px", margin: "2%" }} />
-                        <Typography>
+                        <Typography sx={{ fontWeight: "300", fontSize: "12px", lineHeight: "22px", letterSpacing: "0.015em" }}>
                             Our team members work for 24/7 to provide you the best experience with most simplicity.
                         </Typography>
                     </ListItem>
+
                     <ListItem sx={{ flexDirection: "column" }}>
                         <SettingsBackupRestoreIcon />
                         <ListItemButton className="list" sx={{ padding: "0" }}>
-                            <ListItemText primary="MONEY BACK" primaryTypographyProps={{ fontSize: "1.5rem" }} />
+                            <ListItemText primary="MONEY BACK" primaryTypographyProps={{ fontWeight: "400", fontSize: "20px", lineHeight: "28px", letterSpacing: "0.14em" }} />
                         </ListItemButton>
                         <FiberManualRecordIcon sx={{ fontSize: "6px", margin: "2%" }} />
-                        <Typography>
+                        <Typography sx={{ fontWeight: "300", fontSize: "12px", lineHeight: "22px", letterSpacing: "0.015em" }}>
                             We provide 100% money back guarantee within 2 days of purchase if defect is there in any of our item.
                         </Typography>
                     </ListItem>

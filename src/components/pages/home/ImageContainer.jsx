@@ -15,11 +15,11 @@ const ImageContainer = () => {
     const isTab = useMediaQuery("(max-width:920px)");
 
     return (        //border: "3px solid crimson",
-        <Grid container sx={{  marginBottom: "10%", minHeight: "80vh" }}>
+        <Grid container sx={{ marginBottom: "10%", minHeight: "80vh" }}>
             <Grid item xs={6} md={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
                 <Box
                     sx={{
-                        border: "2px solid aqua", height: "100%", width: isMobile ? "100%" : "60%"
+                        border: "2px solid aqua", height: "100%", width: isMobile ? "100%" : "70%"
                     }}
                 >
                     <img src="https://edensign.blob.core.windows.net/image-storage/makeup/skincare-closeup.jpg" className='collection-img' alt="new-collection" />
@@ -34,18 +34,17 @@ const ImageContainer = () => {
                         justifyContent: "center",
                         alignItems: "center",
                         height: "100%",
-                        width: isMobile ? "100%" : "60%",
+                        width: isMobile ? "100%" : "70%",
                         backgroundColor: "white",
                         border: "2px solid aqua"
                     }}
                 >
-                    <p id='makeup-para3'> new collection </p>
-                    <DiamondIcon />
-                    <p className='makeup-heading'> lavender </p>
-                    <p className='makeup-heading'> queen </p>
-                    <p className='makeup-para'> Hello there, this is the brand new product of the company that will make you go like a lavender queen. Hope you enjoy the day and keep purchasing the latest trends from our company to become fashion icon. </p>
-                    <p className='makeup-para'> Hello there, this is the brand new product of the company that will make you go like a lavender queen. Hope you enjoy the day and keep purchasing the latest trends from our company to become fashion icon. </p>
-                    <Button variant='contained' color='primary'> Read More </Button>
+                    <p style={{ fontFamily: "Marcellus,sans-serif", fontWeight: "400", fontSize: "18px", lineHeight: "20px", letterSpacing: "0.8em", textTransform: "uppercase" }}> new collection </p>
+                    <DiamondIcon sx={{ fontSize: "8px" }} />
+                    <p style={{ fontWeight: "400", fontSize: "30px", lineHeight: "1.28", letterSpacing: "0.14em", textTransform: "uppercase", marginTop: "6px" }}> lavender queen </p>
+                    <p style={{ fontWeight: "300", fontSize: "12px", lineHeight: "22px", letterSpacing: "0.015em", padding: "0 40px" }}> Hello there, this is the brand new product of the company that will make you go like a lavender queen. Hope you enjoy the day and keep purchasing the latest trends from our company to become fashion icon. </p>
+                    <p style={{ fontWeight: "300", fontSize: "12px", lineHeight: "22px", letterSpacing: "0.015em", padding: "0 40px" }}> Hello there, this is the brand new product of the company that will make you go like a lavender queen. Hope you enjoy the day and keep purchasing the latest trends from our company to become fashion icon. </p>
+                    <Button variant='contained' color='primary' sx={{ borderRadius: "0", fontWeight: "400", fontSize: "11px", lineHeight: "1.2", letterSpacing: "0.265em", height: "40px" }}> Read More </Button>
                 </Box>
             </Grid>
         </Grid>

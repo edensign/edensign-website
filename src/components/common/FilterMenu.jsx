@@ -26,7 +26,7 @@ const FilterMenu = () => {
     };
 
     return (
-        <Box id="filter-box" sx={{ fontFamily: "Inter, sans-serif", height: "34vh", width: "24vw", opacity: "0", transform: "translateX(100%)", transition: "all 1s ease", position: "fixed", top: "26%", right: "0" }}>
+        <Box id="filter-box" sx={{ fontFamily: "Inter, sans-serif", height: "28vh", width: "18vw", opacity: "0", transform: "translateX(100%)", transition: "all 1s ease", position: "fixed", top: "26%", right: "0" }}>
             <Box sx={{ backgroundColor: "#f3f3f3" }}>
                 <p style={{ textAlign: "center", textTransform: "uppercase", fontWeight: "500", fontSize: "16px", lineHeight: "1.2", letterSpacing: "0.05em" }}>
                     <TuneOutlined sx={{ color: "#d32f2f" }} />  Filters

@@ -19,11 +19,11 @@ const PageTop = (props) => {
     const [filterOpen, setFilterOpen] = useState(false);
 
     const handleClick = () => {
-        const btnBox = document.getElementsByClassName("btn-box")[0];
+        const box = document.getElementsByClassName("box")[0];
         const btn = document.getElementsByClassName("btn")[0];
         const filterBox = document.getElementById("filter-box");
-        btnBox.style.right = filterOpen ? "0" : "24.3%";
-        btn.style.width = filterOpen ? "9vw" : "6vw";
+        box.style.right = filterOpen ? "0" : "18.3%";
+        btn.style.width = filterOpen ? "7vw" : "4vw";
         filterBox.style.opacity = filterOpen ? "0" : "1";
         filterBox.style.transform = filterOpen ? "translateX(100%)" : "translateX(0)";
 
@@ -57,7 +57,7 @@ const PageTop = (props) => {
                 {location.pathname.slice(1)}
             </Typography>
 
-            <Box className="btn-box" onClick={handleClick} sx={{
+            <Box className="box" onClick={handleClick} sx={{
                 position: "fixed", top: "40%", right: "0", zIndex: "1", transition: "all 1s ease"
             }}>
                 <Tooltip title="Filter">

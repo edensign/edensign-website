@@ -47,19 +47,27 @@ function Topbar(props) {
 
   React.useEffect(() => {
     window.onscroll = (e) => {
-      const btnBox = document.getElementById("btn-box");
-      const linkPage = document.getElementById("link-page");
+      const btnBox = document.getElementsByClassName("btn-box");
+      const linkPage = document.getElementsByClassName("link-page");
       const appbar = document.getElementById("app-bar");
       let scroll = window.pageYOffset;
 
       if (scroll > 40) {
-        btnBox.style.color = "#000000 !important";
-        linkPage.style.color = "#000000 !important";
         appbar.style.backgroundColor = "#ffffff";
+        Array.from(btnBox).forEach(btn => {
+          btn.style.color = "#000000";
+        });
+        Array.from(linkPage).forEach(link => {
+          link.style.color = "#000000";
+        });
       } else {
-        btnBox.style.color = "#ffffff !important";
-        linkPage.style.color = "#ffffff !important";
         appbar.style.background = "transparent";
+        Array.from(btnBox).forEach(btn => {
+          btn.style.color = "#ffffff";
+        });
+        Array.from(linkPage).forEach(link => {
+          link.style.color = "#ffffff";
+        });
       }
     };
   }, []);
@@ -70,8 +78,8 @@ function Topbar(props) {
     }}>
       <Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
         <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 3 }} />
-        <Typography variant="h3" sx={{
-          textTransform: "uppercase", letterSpacing: "0.4rem", fontSize: "1.4rem", fontFamily: "Inter, sans-serif", lineHeight: "1.6", color: "#000000"
+        <Typography sx={{
+          textTransform: "uppercase", letterSpacing: "0.4rem", fontSize: "1.2em", fontFamily: "Inter, sans-serif", lineHeight: "1.6", color: "#000000"
         }}>
           <Link style={{ textDecoration: "none", color: "#000000" }} to="/"> edensign </Link>
         </Typography>
@@ -134,14 +142,14 @@ function Topbar(props) {
           LOGOoooooooooooooo
         </Typography>
 
-        <Box id="btn-box" sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: "space-evenly" }}>
+        <Box className="btn-box" sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: "space-evenly" }}>
           {pages.map(page => (
             <Button
               key={page}
               onClick={handleCloseNavMenu}
-              sx={{ my: 1, display: 'block', fontSize: "10px", letterSpacing: "0.13em", lineHeight: "1.14", fontWeight: "700", textTransform: "uppercase" }}
+              sx={{ my: 1, display: 'block', fontSize: "10px", letterSpacing: "0.13em", lineHeight: "1.14", fontWeight: "500", textTransform: "uppercase" }}
             >
-              <Link id="link-page" style={{ textDecoration: "none", color: "#ffffff" }} to={`/${page.charAt(0).toLowerCase() + page.slice(1)}`}>
+              <Link className="link-page" style={{ textDecoration: "none", color: "#ffffff" }} to={`/${page.charAt(0).toLowerCase() + page.slice(1)}`}>
                 {page} </Link>
             </Button>
           ))}

@@ -50,23 +50,23 @@ const ProductList = () => {
   return (
     <Box sx={{ pt: 2, position: "relative" }}>
       <Container sx={{
-        pt: 4, display: 'flex', flexDirection: "column", justifyContent: "center", alignItems: "center", lineHeight: "1.5rem"
+        pt: 4, display: 'flex', flexDirection: "column", justifyContent: "center", alignItems: "center"
       }}>
-        <p style={{ fontSize: '32px', letterSpacing: "0.3em" }}> TOP BRANDED </p>
-        <DiamondIcon />
-        <h2 style={{ letterSpacing: "0.4em", fontSize: '36px' }}> PRODUCTS </h2>
+        <p style={{ fontFamily: "Marcellus,sans-serif", fontWeight: "400", fontsize: "18px", lineHeight: "20px", letterSpacing: "0.8em" }}> TOP BRANDED </p>
+        <DiamondIcon sx={{ fontSize: "8px" }} />
+        <p style={{ fontSize: '32px', fontWeight: "400", lineHeight: "1.28", letterSpacing: "0.14em", marginTop: "4px" }}> PRODUCTS </p>
         <List component='nav' sx={{ display: "inline-flex" }}>
           <ListItemButton className="list">
-            <ListItemText primary="FEATURED" primaryTypographyProps={{ fontSize: "1.5rem" }} />
+            <ListItemText primary="FEATURED" primaryTypographyProps={{ fontSize: "14px", fontWeight: "400", lineHeight: "18px", letterSpacing: "0.15em" }} />
           </ListItemButton>
           <ListItemButton className="list">
-            <ListItemText primary="POPULAR" primaryTypographyProps={{ fontSize: "1.5rem" }} />
+            <ListItemText primary="POPULAR" primaryTypographyProps={{ fontSize: "14px", fontWeight: "400", lineHeight: "18px", letterSpacing: "0.15em" }} />
           </ListItemButton>
           <ListItemButton className="list">
-            <ListItemText primary="CATEGORY" primaryTypographyProps={{ fontSize: "1.5rem" }} />
+            <ListItemText primary="CATEGORY" primaryTypographyProps={{ fontSize: "14px", fontWeight: "400", lineHeight: "18px", letterSpacing: "0.15em" }} />
           </ListItemButton>
           <ListItemButton className="list" component="a" href="#simple-list">
-            <ListItemText primary="BRAND" primaryTypographyProps={{ fontSize: "1.5rem" }} />
+            <ListItemText primary="BRAND" primaryTypographyProps={{ fontSize: "14px", fontWeight: "400", lineHeight: "18px", letterSpacing: "0.15em" }} />
           </ListItemButton>
         </List>
       </Container>
@@ -81,7 +81,7 @@ const ProductList = () => {
           </React.Fragment>
         ))
           // : <div style={{ height: "500px", width: "100%", border: "4px solid crimson" }}> </div>
-          :"Errorrr"}
+          : "Errorrr"}
       </Grid>
     </Box>
   );

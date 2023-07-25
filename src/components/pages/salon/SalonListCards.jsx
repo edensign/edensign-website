@@ -7,11 +7,10 @@
 */
 
 import React from 'react';
-import { Button, Card, CardActions, CardContent, CardMedia, Chip, Rating } from '@mui/material';
+import { Button, Card, CardActions, CardContent, Rating } from '@mui/material';
 import { Grid, Box, Typography } from '@mui/material';
 
 import "./style.css";
-import SalonDetails from './SalonDetails';
 
 const SalonListCards = () => {
   const salonNames = ["#JAWED HABIB HAIR & BEAUTY", "#STUDIO11 SALON & SPA", "#SHAHNAZ HUSAIN", "#LAKMÉ SALON", "#LOOKS SALON", "#NATURALS"];
@@ -24,7 +23,7 @@ const SalonListCards = () => {
     return (
       rect.top >= 0 &&
       rect.left >= 0 &&
-      rect.bottom <= (window.innerHeight + 180 || document.documentElement.clientHeight + 180) &&
+      rect.bottom <= (window.innerHeight + 140 || document.documentElement.clientHeight + 140) &&
       rect.right <= (window.innerWidth || document.documentElement.clientWidth)
     );
   }
@@ -61,7 +60,7 @@ const SalonListCards = () => {
   {/* transform: "scale(1.1)" */ }
   return (
 
-    <Box sx={{ backgroundColor: "#f3f3f3", width: "100%", border: "2px solid yellow", marginBottom: "20%" }}>
+    <Box sx={{ backgroundColor: "#f3f3f3", width: "100%", border: "2px solid yellow", marginBottom: "10%" }}>
       <Grid container id="grid-container" spacing={8} sx={{
         margin: 'auto', marginTop: "150px", maxWidth: "90%", flexWrap: "wrap", transition: "all 0.5s ease"
       }}

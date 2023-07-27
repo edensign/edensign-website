@@ -8,9 +8,10 @@
 
 import React from "react";
 
+import "./style.css";
 import AboutContainer from "./AboutContainer";
 import Brands from "../../common/Brands";
-import Carousel from "./BodyCarousel";
+import Carousel from "../../common/Carousel";
 import ProductList from "./BodyProductList";
 import ImageBoxes from "./ImageBoxes";
 import ImageContainer from "./ImageContainer";

@@ -76,7 +76,7 @@ function Topbar(props) {
     <AppBar position="fixed" id="app-bar" sx={{
       background: "transparent", boxShadow: "none", right: "auto"
     }}>
-      <Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
+      <Toolbar disableGutters sx={{ justifyContent: "space-between", padding: "0 10px" }}>
         <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 3 }} />
         <Typography sx={{
           textTransform: "uppercase", letterSpacing: "0.4rem", fontSize: "1.2em", fontFamily: "Inter, sans-serif", lineHeight: "1.6", color: "#000000"
@@ -155,7 +155,7 @@ function Topbar(props) {
           ))}
         </Box>
 
-        <Box sx={{ flexGrow: 1, mr: "2%", display: 'flex', justifyContent: "flex-end" }}>
+        <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: "flex-end" }}>
           <IconButton sx={{ marginRight: "2%", color: "#000000" }}>
             <Tooltip title="Search">
               <SearchIcon sx={{

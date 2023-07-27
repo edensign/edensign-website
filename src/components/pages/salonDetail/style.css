@@ -1,0 +1,97 @@
+/* Carousel starts */
+.small-slider {
+    width: 80%;
+    height: 80vh;
+    position: relative;
+    border: 3px solid crimson;
+    overflow: hidden;
+    margin: -12% auto 12% auto;
+}
+
+.small-sliding {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 99.5vh;
+    opacity: 0;
+    transition: all 1s ease-in;
+}
+
+.small-sliding img {
+    width: 100%;
+}
+
+.small-arrow {
+    height: 22px;
+    cursor: pointer;
+    position: absolute;
+    top: 45%;
+    font-size: 14px;
+}
+
+.small-arrow:hover {
+    background: rgba(32, 26, 26, 0.527);
+}
+
+
+/* Salon Carousel Starts */
+.salon-slider {
+    display: flex;
+    align-items: center;
+    width: 75%;
+    height: 55vh;
+    position: relative;
+    border: 1px solid crimson;
+    overflow: hidden;
+    margin-bottom: 10%;
+    margin-left: 15%;
+    animation-delay: 1s;
+}
+
+/* .salon-slider div {
+    transition: all 0.5s
+} */
+
+.salon-sliding {
+    width: 34%;
+    height: 100%;
+    padding: 2%;
+    display: none;
+    animation: slideInUp 2s ease;
+}
+
+@keyframes slideInUp {
+    0% {
+        transform: translateX(100%);
+        visibility: visible;
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.salon-sliding img {
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    background-size: cover;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* transform: scale(-1.1); */
+}
+
+.salon-arrow {
+    height: 22px;
+    cursor: pointer;
+    position: absolute;
+    top: 45%;
+    font-size: 14px;
+}
+
+.salon-arrow:hover {
+    background: rgba(32, 26, 26, 0.527);
+}

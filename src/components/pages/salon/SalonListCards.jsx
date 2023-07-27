@@ -10,8 +10,6 @@ import React from 'react';
 import { Button, Card, CardActions, CardContent, Rating } from '@mui/material';
 import { Grid, Box, Typography } from '@mui/material';
 
-import "./style.css";
-
 const SalonListCards = () => {
   const salonNames = ["#JAWED HABIB HAIR & BEAUTY", "#STUDIO11 SALON & SPA", "#SHAHNAZ HUSAIN", "#LAKMÉ SALON", "#LOOKS SALON", "#NATURALS"];
   const salonImages = ["https://augustine.qodeinteractive.com/wp-content/uploads/2021/02/home-1-landing.jpg", "https://augustine.qodeinteractive.com/wp-content/uploads/2021/02/02_home.jpg", "https://augustine.qodeinteractive.com/wp-content/uploads/2021/02/044_home_land4.jpg", "https://augustine.qodeinteractive.com/wp-content/uploads/2021/02/augustine_land21.jpg", "https://topfranchise.com/upload/resize_cache/webp/upload/medialibrary/138/138c98b08f39bad8792b69547907eb6e.webp", "https://topfranchise.com/upload/resize_cache/webp/upload/medialibrary/c13/c134c9d42b8c406f4371648eae23392b.webp"]

@@ -26,33 +26,33 @@ const FilterMenu = () => {
     };
 
     return (
-        <Box id="filter-box" sx={{ fontFamily: "Inter, sans-serif", height: "28vh", width: "18vw", opacity: "0", transform: "translateX(100%)", transition: "all 1s ease", position: "fixed", top: "26%", right: "0" }}>
-            <Box sx={{ backgroundColor: "#f3f3f3" }}>
-                <p style={{ textAlign: "center", textTransform: "uppercase", fontWeight: "500", fontSize: "16px", lineHeight: "1.2", letterSpacing: "0.05em" }}>
-                    <TuneOutlined sx={{ color: "#d32f2f" }} />  Filters
-                </p>
-
-                <Box display="flex" justifyContent="space-around">
-                    <Chip className="chip" label="Male" variant="outlined" size="small" onClick={handleClick} onDelete={handleDelete} />
-                    <Chip className="chip" label="Female" variant="outlined" size="small" onClick={handleClick} onDelete={handleDelete} />
-                    <Chip className="chip" label="Unisex" variant="outlined" size="small" onClick={handleClick} onDelete={handleDelete} />
-                </Box>
-
-                <Box display="flex" justifyContent="space-around">
-                    <Box>
-                        <Checkbox {...checkboxLabel} color="default" size="small" />
-                        <span style={{ paddingTop: "8px", fontSize: "10px", fontWeight: "500", lineHeight: "1.2", letterSpacing: "0.05em" }}>Featured</span>
-                    </Box>
-                    <Box>
-                        <Checkbox {...checkboxLabel} color="default" size="small" />
-                        <span style={{ paddingTop: "8px", fontSize: "10px", fontWeight: "500", lineHeight: "1.2", letterSpacing: "0.05em" }}>Franchise</span>
-                    </Box>
-                </Box>
-                <Button type="submit" color="warning" variant="contained" size="small" fullWidth sx={{ borderRadius: "0", fontFamily: "Inter, sans-serif", fontWeight: "500", fontSize: "10px", lineHeight: "1.2", letterSpacing: "0.05em" }}>
-                    Apply
-                </Button>
+        <Box id="filter-box" sx={{ fontFamily: "Inter, sans-serif", height: "28vh", width: "18vw", opacity: "0", transform: "translateX(100%)", transition: "all 1s ease", position: "fixed", top: "26%", right: "0", zIndex: "10", backgroundColor: "#f3f3f3" }}>
+            <Box sx={{ textAlign: "center", marginBottom: "8px" }}>
+                <TuneOutlined sx={{ color: "#d32f2f", float: "left" }} />
+                <span style={{ textAlign: "center", textTransform: "uppercase", fontWeight: "500", fontSize: "14px", lineHeight: "1.2", letterSpacing: "0.05em" }}>           Filters     </span>
             </Box>
-        </Box>
+
+            <Box display="flex" justifyContent="space-around">
+                <Chip sx={{ fontSize: "10px", height: "20px" }} label="Male" variant="outlined" size="small" onClick={handleClick} onDelete={handleDelete} />
+                <Chip sx={{ fontSize: "10px", height: "20px" }} label="Female" variant="outlined" size="small" onClick={handleClick} onDelete={handleDelete} />
+                <Chip sx={{ fontSize: "10px", height: "20px" }} label="Unisex" variant="outlined" size="small" onClick={handleClick} onDelete={handleDelete} />
+            </Box>
+
+            <Box display="flex" justifyContent="space-around" backgroundColor="#f3f3f3">
+                <Box>
+                    <Checkbox {...checkboxLabel} color="default" size="small" />
+                    <span style={{ paddingTop: "8px", fontSize: "10px", fontWeight: "500", lineHeight: "1.2", letterSpacing: "0.05em" }}>Featured</span>
+                </Box>
+                <Box>
+                    <Checkbox {...checkboxLabel} color="default" size="small" />
+                    <span style={{ paddingTop: "8px", fontSize: "10px", fontWeight: "500", lineHeight: "1.2", letterSpacing: "0.05em" }}>Franchise</span>
+                </Box>
+            </Box>
+
+            <Button type="submit" color="warning" variant="contained" size="small" fullWidth sx={{ borderRadius: "0", fontFamily: "Inter, sans-serif", fontWeight: "500", fontSize: "10px", lineHeight: "1.2", letterSpacing: "0.05em" }}>
+                Apply
+            </Button>
+        </Box >
     )
 };
 

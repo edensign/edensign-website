@@ -58,7 +58,7 @@ const PageTop = (props) => {
             </Typography>
 
             <Box className="box" onClick={handleClick} sx={{
-                position: "fixed", top: "40%", right: "0", zIndex: "1", transition: "all 1s ease"
+                position: "fixed", top: "40%", right: "0", zIndex: "10", transition: "all 1s ease"
             }}>
                 <Tooltip title="Filter">
                     <Button
@@ -67,7 +67,7 @@ const PageTop = (props) => {
                         size="small"
                         className="btn"
                         startIcon={filterOpen ? <TrendingFlat /> : <TuneOutlined />}
-                        sx={{ width: "9vw", fontWeight: "500", fontSize: "10px", lineHeight: "1.2", letterSpacing: "0.1em" }}
+                        sx={{ width: "7vw", fontWeight: "500", fontSize: "10px", lineHeight: "1.2", letterSpacing: "0.1em", zIndex: "10" }}
                     >
                         {/* , height: "7vh" */}
                         {filterOpen ? '' : 'Filter'}

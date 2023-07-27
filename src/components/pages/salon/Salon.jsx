@@ -8,6 +8,7 @@
 
 import React from "react";
 
+import "./style.css";
 import Brands from "../../common/Brands";
 import PageTop from "../../common/PageTop";
 import FilterMenu from "../../common/FilterMenu";

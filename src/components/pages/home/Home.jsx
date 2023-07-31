@@ -19,11 +19,7 @@ import ServicesList from "./ServicesList";
 import Newsletter from "../../common/Newsletter";
 import Testimonial from "./Testimonial";
 
-const Home = ({ background }) => {
-
-  React.useEffect(() => {
-    document.getElementById("main-div").style.background = background;
-  }, []);
+const Home = () => {
 
   return (
     <>

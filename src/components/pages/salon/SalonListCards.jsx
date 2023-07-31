@@ -67,7 +67,7 @@ const SalonListCards = () => {
           const img = salonImages[index];
           const ratings = rating[index];
           return (
-            <Grid item xs={12} md={6} lg={4} key={index} className={`grid-item`} sx={{
+            <Grid item xs={12} md={6} lg={6} key={index} className={`grid-item`} sx={{
               padding: "0", opacity: "0", transform: "translateY(30px)", transition: "all 0.5s ease",
             }}>
               <Card sx={{

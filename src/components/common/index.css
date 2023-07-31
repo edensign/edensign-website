@@ -208,7 +208,7 @@
   color: #ffffff;
   font-weight: 400;
   font-family: 'Marcellus', sans-serif;
-  font-size: 20px;
+  font-size: 24px;
   line-height: 26px;
   letter-spacing: 0.82em;
   text-transform: uppercase;
@@ -221,9 +221,9 @@
   left: 16%;
   color: #ffffff;
   font-weight: 300;
-  font-size: 74px;
+  font-size: 86px;
   letter-spacing: 0.2em;
-  line-height: 1.02;
+  line-height: 1.2;
   text-transform: uppercase;
 }
 
@@ -234,7 +234,7 @@
   left: 16%;
   color: #ffffff;
   font-weight: 300;
-  font-size: 14px;
+  font-size: 18px;
   line-height: 30px;
   letter-spacing: 0.1em;
 }

@@ -15,6 +15,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from "@mui/x-date-pickers";
 
+import appointmentImg from "../../assets/appointment.jpg"
+
 
 const Booking = () => {
     const [checkIn, setCheckIn] = React.useState(dayjs(Date.now()));
@@ -56,15 +58,23 @@ const Booking = () => {
     console.log(formik.values)
 
     return (
-
-        <Box sx={{ height: "auto", width: "40%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", flexWrap: "wrap", border: "2px solid black", zIndex: "11", marginBottom: "10%" }}>
-            <Box sx={{ display: "flex", flexDirection: "column", padding: "6px 40px", boxShadow: "0 3px 6px #0000000F" }}>
-                <h4 style={{ fontWeight: "400", fontSize: "44px", lineHeight: "1.3em", letterSpacing: "0.03em" }}>
+        //padding: "12px 50px", paddingTop: "0",
+        <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", width: "90%", height: "108vh", margin: "auto", boxShadow: "4px 4px 6px #800080, -4px -4px 6px #800080", marginBottom: "10%", position: "relative" }}>
+            <Box sx={{ display: "flex", width: "75%", position: "relative", backgroundColor: "#ffffff" }}>
+                <img src={appointmentImg} alt="Salon"
+                    style={{
+                        width: "1100px", maxWidth: "100%", aspectRatio: "1092 / 916", boxShadow: "none", border: "none", backgroundPosition: "center", backgroundSize: "cover", cursor: "pointer", display: "flex", justifyContent: "center", alignItems: "center", overflow: "clip"
+                    }} />
+            </Box>
+            <Box sx={{
+                display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", height: "100%", width: "37%", backgroundColor: "#ffffff", marginLeft: "2%", boxShadow: "0 3px 6px #0000000F"
+            }}>
+                <h4 style={{ width: "78%", textAlign: "center", fontWeight: "400", fontSize: "36px", fontFamily: "Marcellus, sans-serif", letterSpacing: "0.1em", lineHeight: "initial", margin: "2px 0 26px 0" }}>
                     Book Your Appointment
                 </h4>
-                <form ref={refId}>
+                <form ref={refId} style={{ width: "78%" }}>
                     <Box display="flex" flexDirection="column" marginBottom="20px">
-                        <span style={{ fontWeight: "500", fontSize: "12px", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "10px" }}> Check-in:</span>
+                        <span style={{ fontWeight: "500", fontSize: "13px", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "10px" }}> Check-in:</span>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker
                                 views={['day', "month", "year"]}
@@ -77,7 +87,7 @@ const Booking = () => {
                     </Box>
 
                     <Box display="flex" flexDirection="column" marginBottom="20px">
-                        <span style={{ fontWeight: "500", fontSize: "12px", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "10px" }}> Check-out:</span>
+                        <span style={{ fontWeight: "500", fontSize: "13px", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "10px" }}> Check-out:</span>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker
                                 views={['day', "month", "year"]}
@@ -90,7 +100,7 @@ const Booking = () => {
                     </Box>
 
                     <Box display="flex" flexDirection="column" marginBottom="20px">
-                        <span style={{ fontWeight: "500", fontSize: "12px", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "10px" }}> salons:</span>
+                        <span style={{ fontWeight: "500", fontSize: "13px", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "10px" }}> salons:</span>
                         <FormControl variant="filled" sx={{}}>
                             <InputLabel id="salonsField">Choose</InputLabel>
                             <Select
@@ -110,7 +120,7 @@ const Booking = () => {
                     </Box>
 
                     <Box display="flex" flexDirection="column" marginBottom="20px">
-                        <span style={{ fontWeight: "500", fontSize: "12px", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "10px" }}> guests:</span>
+                        <span style={{ fontWeight: "500", fontSize: "13px", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "10px" }}> guests:</span>
                         <FormControl variant="filled" sx={{}}>
                             <InputLabel id="guestsField">Adult</InputLabel>
                             <Select
@@ -127,31 +137,10 @@ const Booking = () => {
                             </Select>
                         </FormControl>
                     </Box>
-                    <Button
-                        fullWidth
+                    <Button fullWidth type="submit" variant="contained" color='success' onClick={e => e.preventDefault()}
                         // disabled={!formik.dirty || loading}  later to be included
-                        type="submit"
-                        variant="contained"
-                        color='success'
-                        onClick={(e) => {
-                            e.preventDefault();
-                        }}
                         sx={{
-                            borderRadius: 0,
-                            fontSize: "10px",
-                            letterSpacing: "0.2em",
-                            lineHeight: "2.9em",
-                            fontWeight: "600",
-                            textTransform: "uppercase",
-                            "&:after": {
-                                backgroundColor: "#1b5e20",
-                                position: "absolute",
-                                left: "0",
-                                top: "0",
-                                height: "1px",
-                                width: "100%",
-                                transition: "transform .3s cubic-bezier(.4,0,.2,1)"
-                            }
+                            borderRadius: 0, fontSize: "12px", letterSpacing: "0.2em", lineHeight: "2em", fontWeight: "600", padding: "20px", textTransform: "uppercase"
                         }}
                     >
                         {/* {loading === true ? <SignInLoader /> : "Sign In"} */}
@@ -160,7 +149,6 @@ const Booking = () => {
                 </form>
             </Box>
         </Box>
-
     )
 };
 

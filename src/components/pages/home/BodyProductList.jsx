@@ -52,21 +52,21 @@ const ProductList = () => {
       <Container sx={{
         pt: 4, display: 'flex', flexDirection: "column", justifyContent: "center", alignItems: "center"
       }}>
-        <p style={{ fontFamily: "Marcellus,sans-serif", fontWeight: "400", fontsize: "18px", lineHeight: "20px", letterSpacing: "0.8em" }}> TOP BRANDED </p>
-        <DiamondIcon sx={{ fontSize: "8px" }} />
-        <p style={{ fontSize: '32px', fontWeight: "400", lineHeight: "1.28", letterSpacing: "0.14em", marginTop: "4px" }}> PRODUCTS </p>
+        <p style={{ fontFamily: "Marcellus,sans-serif", fontWeight: "400", fontSize: "20px", lineHeight: "20px", letterSpacing: "0.8em" }}> TOP BRANDED </p>
+        <DiamondIcon sx={{ fontSize: "10px" }} />
+        <p style={{ fontSize: '40px', fontWeight: "400", lineHeight: "1.28", letterSpacing: "0.14em", marginTop: "4px" }}> PRODUCTS </p>
         <List component='nav' sx={{ display: "inline-flex" }}>
           <ListItemButton className="list">
-            <ListItemText primary="FEATURED" primaryTypographyProps={{ fontSize: "14px", fontWeight: "400", lineHeight: "18px", letterSpacing: "0.15em" }} />
+            <ListItemText primary="FEATURED" primaryTypographyProps={{ fontSize: "20px", fontWeight: "400", lineHeight: "18px", letterSpacing: "0.15em" }} />
           </ListItemButton>
           <ListItemButton className="list">
-            <ListItemText primary="POPULAR" primaryTypographyProps={{ fontSize: "14px", fontWeight: "400", lineHeight: "18px", letterSpacing: "0.15em" }} />
+            <ListItemText primary="POPULAR" primaryTypographyProps={{ fontSize: "20px", fontWeight: "400", lineHeight: "18px", letterSpacing: "0.15em" }} />
           </ListItemButton>
           <ListItemButton className="list">
-            <ListItemText primary="CATEGORY" primaryTypographyProps={{ fontSize: "14px", fontWeight: "400", lineHeight: "18px", letterSpacing: "0.15em" }} />
+            <ListItemText primary="CATEGORY" primaryTypographyProps={{ fontSize: "20px", fontWeight: "400", lineHeight: "18px", letterSpacing: "0.15em" }} />
           </ListItemButton>
           <ListItemButton className="list" component="a" href="#simple-list">
-            <ListItemText primary="BRAND" primaryTypographyProps={{ fontSize: "14px", fontWeight: "400", lineHeight: "18px", letterSpacing: "0.15em" }} />
+            <ListItemText primary="BRAND" primaryTypographyProps={{ fontSize: "20px", fontWeight: "400", lineHeight: "18px", letterSpacing: "0.15em" }} />
           </ListItemButton>
         </List>
       </Container>

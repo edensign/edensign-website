@@ -10,11 +10,11 @@ import { Box } from "@mui/material";
 
 const ExclusiveOffer = () => {
     return (
-        <Box sx={{ width: "70%", display: "flex", flexDirection: "column", alignItems: "flex-start", margin: "auto", marginTop: "10%", position: "relative" }}>
-            <span style={{ width: "1px", height: "48px", backgroundColor: "#000000", position: "absolute", top: "-54px" }}></span>
+        <Box sx={{ width: "90%", display: "flex", flexDirection: "column", alignItems: "flex-start", margin: "auto", marginTop: "10%", position: "relative" }}>
+            <span className="offer-line"></span>
             <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
                 <span style={{ fontSize: "12px", fontWeight: "500", lineHeight: "32px", letterSpacing: "2.1px", textTransform: "uppercase" }}>exclusive offer</span>
-                <p style={{ fontWeight: "400", fontSize: "42px", fontFamily: "Marcellus, sans-serif", lineHeight: "0.05em", letterSpacing: "-0.04em", textTransform: "capitalize", }}>Find The Perfect Salon</p>
+                <p style={{ fontWeight: "400", fontSize: "42px", fontFamily: "Marcellus, sans-serif", lineHeight: "0.05em", letterSpacing: "-0.04em", textTransform: "capitalize" }}>Find The Perfect Service</p>
             </Box>
         </Box>
     )

@@ -18,42 +18,43 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 
 import { tokens } from "../../theme";
+import bg from "../assets/footer_bg.jpg";
 
 function Footer() {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
     return (
-        <Box color="white" id="bottom-bar" position="relative" sx={{ background: "#000000", padding: "20px 0" }}>
+        <Box color="white" id="bottom-bar" position="relative" sx={{ backgroundImage: `url(${bg})`, backgroundPosition: "center center", backgroundRepeat: "repeat", backgroundSize: "300px auto", padding: "20px 0" }}>
             <Box display="flex" justifyContent="center">
                 <List component='nav' sx={{ display: "inline-flex", alignItems: "flex-start" }}>
                     <ListItemButton className="list">
                         <ListItemText primary="ABOUT US" sx={{ marginRight: "30px" }} primaryTypographyProps={{
-                            fontWeight: "500", fontSize: "11px", fontFamily: "Inter, sans-serif", lineHeight: "1", letterSpacing: "0.13em"
+                            fontWeight: "500", fontSize: "12px", fontFamily: "Inter, sans-serif", lineHeight: "1", letterSpacing: "0.13em"
                         }} />
                         <FiberManualRecordIcon sx={{ fontSize: "4px" }} />
                     </ListItemButton>
                     <ListItemButton className="list">
                         <ListItemText primary="OUR TEAM" sx={{ marginRight: "30px" }} primaryTypographyProps={{
-                            fontWeight: "500", fontSize: "11px", fontFamily: "Inter, sans-serif", lineHeight: "1", letterSpacing: "0.13em"
+                            fontWeight: "500", fontSize: "12px", fontFamily: "Inter, sans-serif", lineHeight: "1", letterSpacing: "0.13em"
                         }} />
                         <FiberManualRecordIcon sx={{ fontSize: "4px" }} />
                     </ListItemButton>
                     <ListItemButton className="list">
                         <ListItemText primary="FAQ" sx={{ marginRight: "30px" }} primaryTypographyProps={{
-                            fontWeight: "500", fontSize: "11px", fontFamily: "Inter, sans-serif", lineHeight: "1", letterSpacing: "0.13em"
+                            fontWeight: "500", fontSize: "12px", fontFamily: "Inter, sans-serif", lineHeight: "1", letterSpacing: "0.13em"
                         }} />
                         <FiberManualRecordIcon sx={{ fontSize: "4px" }} />
                     </ListItemButton>
                     <ListItemButton className="list">
                         <ListItemText primary="MAINTENANCE MODE" sx={{ marginRight: "30px" }} primaryTypographyProps={{
-                            fontWeight: "500", fontSize: "11px", fontFamily: "Inter, sans-serif", lineHeight: "1", letterSpacing: "0.13em"
+                            fontWeight: "500", fontSize: "12px", fontFamily: "Inter, sans-serif", lineHeight: "1", letterSpacing: "0.13em"
                         }} />
                         <FiberManualRecordIcon sx={{ fontSize: "4px" }} />
                     </ListItemButton>
                     <ListItemButton className="list">
                         <ListItemText primary="CONTACT" primaryTypographyProps={{
-                            fontWeight: "500", fontSize: "11px", fontFamily: "Inter, sans-serif", lineHeight: "1", letterSpacing: "0.13em"
+                            fontWeight: "500", fontSize: "12px", fontFamily: "Inter, sans-serif", lineHeight: "1", letterSpacing: "0.13em"
                         }} />
                     </ListItemButton>
                 </List>
@@ -64,48 +65,48 @@ function Footer() {
                     <List component='nav'>
                         <ListItem disablePadding>
                             <ListItemButton sx={{ padding: "0 10px" }}>
-                                <CallIcon sx={{ fontSize: "0.7rem", marginRight: "10px" }} />
-                                <ListItemText primary="123 488 6532" primaryTypographyProps={{ fontSize: "11px", letterSpacing: "0.55px", lineHeight: "14px", fontWeight: "400" }} />
+                                <CallIcon sx={{ fontSize: "0.9em", marginRight: "10px" }} />
+                                <ListItemText primary="123 488 6532" primaryTypographyProps={{ fontSize: "12px", letterSpacing: "0.55px", lineHeight: "14px", fontWeight: "400" }} />
                             </ListItemButton>
                         </ListItem>
                         <ListItemButton sx={{ padding: "0 10px" }}>
-                            <PlaceIcon sx={{ fontSize: "0.7rem", marginRight: "10px" }} />
-                            <ListItemText primary="25 West 21th Street, Miami Fl, USA" primaryTypographyProps={{ fontSize: "11px", letterSpacing: "0.55px", lineHeight: "14px", fontWeight: "400" }} />
+                            <PlaceIcon sx={{ fontSize: "0.9em", marginRight: "10px" }} />
+                            <ListItemText primary="25 West 21th Street, Miami Fl, USA" primaryTypographyProps={{ fontSize: "12px", letterSpacing: "0.55px", lineHeight: "14px", fontWeight: "400" }} />
                         </ListItemButton>
                         <ListItemButton sx={{ padding: "0 10px" }}>
-                            <MailIcon sx={{ fontSize: "0.7rem", marginRight: "10px" }} />
-                            <ListItemText primary="info@edensign.com" primaryTypographyProps={{ fontSize: "11px", letterSpacing: "0.55px", lineHeight: "14px", fontWeight: "400" }} />
+                            <MailIcon sx={{ fontSize: "0.9em", marginRight: "10px" }} />
+                            <ListItemText primary="info@edensign.com" primaryTypographyProps={{ fontSize: "12px", letterSpacing: "0.55px", lineHeight: "14px", fontWeight: "400" }} />
                         </ListItemButton>
                         <ListItemButton sx={{ padding: "0 10px" }}>
-                            <ScheduleIcon sx={{ fontSize: "0.7rem", marginRight: "10px" }} />
-                            <ListItemText primary="Mon-Fri: 10:00-18:00" primaryTypographyProps={{ fontSize: "11px", letterSpacing: "0.55px", lineHeight: "14px", fontWeight: "400" }} />
+                            <ScheduleIcon sx={{ fontSize: "0.9em", marginRight: "10px" }} />
+                            <ListItemText primary="Mon-Fri: 10:00-18:00" primaryTypographyProps={{ fontSize: "12px", letterSpacing: "0.55px", lineHeight: "14px", fontWeight: "400" }} />
                         </ListItemButton>
                     </List>
                 </Box>
                 <Box marginTop="2%">
                     <Typography variant="h3" sx={{
-                        textTransform: "uppercase", letterSpacing: "0.4rem", fontSize: "1.2rem", fontFamily: "Inter, sans-serif", lineHeight: "1.6"
+                        textTransform: "uppercase", letterSpacing: "0.4rem", fontSize: "1.4rem", fontFamily: "Inter, sans-serif", lineHeight: "1.6"
                     }}> edensign </Typography>
                     <List component='nav' sx={{
                         display: "inline-flex", color: colors.redAccent[800], width: "90%"
                     }}>
                         <ListItemButton className="list" sx={{ paddingRight: "7px" }}>
-                            <FacebookIcon sx={{ fontSize: "0.8rem", "&:hover": { color: "white" } }} />
+                            <FacebookIcon sx={{ fontSize: "1em", "&:hover": { color: "white" } }} />
                         </ListItemButton>
                         <ListItemButton className="list" sx={{ paddingRight: "7px" }}>
-                            <InstagramIcon sx={{ fontSize: "0.8rem", "&:hover": { color: "white" } }} />
+                            <InstagramIcon sx={{ fontSize: "1em", "&:hover": { color: "white" } }} />
                         </ListItemButton>
                         <ListItemButton className="list" sx={{ paddingRight: "7px" }}>
-                            <TwitterIcon sx={{ fontSize: "0.8rem", "&:hover": { color: "white" } }} />
+                            <TwitterIcon sx={{ fontSize: "1em", "&:hover": { color: "white" } }} />
                         </ListItemButton>
                         <ListItemButton className="list">
-                            <YouTubeIcon sx={{ fontSize: "0.8rem", "&:hover": { color: "white" } }} />
+                            <YouTubeIcon sx={{ fontSize: "1em", "&:hover": { color: "white" } }} />
                         </ListItemButton>
                     </List>
                 </Box>
                 <Box sx={{ width: "16%" }}>
                     <Typography sx={{
-                        fontFamily: "Inter, sans-serif", color: "#868686", textAlign: "right", fontSize: "10px", fontWeight: "400", letterSpacing: "0.6px"
+                        fontFamily: "Inter, sans-serif", color: "#868686", textAlign: "right", fontSize: "12px", fontWeight: "400", letterSpacing: "0.6px"
                     }}>
                         Hello there, hope you enjoy the day and keep purchasing the latest trends from our company to become...<br /><kbd style={{ float: "right", color: "white" }}>READ MORE</kbd>
                     </Typography>
@@ -113,28 +114,28 @@ function Footer() {
             </Box>
 
             <Box sx={{
-                display: "flex", justifyContent: "space-between", width: "98%", height: "10vh", margin: "auto", padding: "0 9%", paddingTop: "3%"
+                display: "flex", justifyContent: "space-between", width: "80.5%", height: "10vh", margin: "auto", paddingTop: "3%"
             }}>
                 <Typography sx={{
-                    color: "#868686", fontSize: "10px", textAlign: "left", fontWeight: "400", letterSpacing: "0.275px", lineHeight: "1em"
+                    color: "#868686", fontSize: "11px", textAlign: "left", fontWeight: "400", letterSpacing: "0.275px", lineHeight: "1em"
                 }}>
-                    @ 2023 EDENSIGN Theme. All Rights Reserved.
+                    &copy; 2023 EDENSIGN Theme. All Rights Reserved.
                 </Typography>
                 <List component='nav' sx={{ display: "inline-flex", padding: "0", marginRight: "-34px" }}>
                     <ListItemButton className="list">
                         <ListItemText primary="PRIVACY POLICY" primaryTypographyProps={{
-                            fontSize: "10px", marginRight: "10px"
+                            fontSize: "11px", marginRight: "10px"
                         }} />
                         <FiberManualRecordIcon sx={{ fontSize: "4px" }} />
                     </ListItemButton>
                     <ListItemButton className="list" sx={{ paddingLeft: "0" }}>
                         <ListItemText primary="TERMS" primaryTypographyProps={{
-                            fontSize: "10px", marginRight: "10px"
+                            fontSize: "11px", marginRight: "10px"
                         }} />
                         <FiberManualRecordIcon sx={{ fontSize: "4px" }} />
                     </ListItemButton>
                     <ListItemButton className="list" sx={{ paddingLeft: "0" }}>
-                        <ListItemText primary="FAQ" primaryTypographyProps={{ fontSize: "10px" }} />
+                        <ListItemText primary="FAQ" primaryTypographyProps={{ fontSize: "11px" }} />
                     </ListItemButton>
                 </List>
             </Box>

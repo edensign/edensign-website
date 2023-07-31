@@ -24,7 +24,7 @@ import img6 from "../assets/brandImg/brandImg6.jpg"
 
 const Brands = () => {
     return (
-        <Box sx={{ height: "110vh", width: "100%", border: "2px solid black", marginBottom: "2%", position: "relative" }}>
+        <Box sx={{ height: "110vh", width: "100%", border: "1px solid black", marginBottom: "5%", position: "relative" }}>
             <Box display="flex" justifyContent="center" marginBottom="2%">
                 <List component='nav' sx={{ display: "inline-flex", alignItems: "center" }}>
                     <ListItemButton sx={{ "&:hover": { background: "transparent" } }}>
@@ -83,13 +83,13 @@ const Brands = () => {
             <Box sx={{
                 height: "50vh", width: "24%", backgroundColor: "#ffffff", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "absolute", left: "38%", top: "32%", opacity: "0.9", "&:hover": { color: "#ffdde1", cursor: "pointer" }
             }}>
-                <InstagramIcon sx={{ height: "16px", width: "16px", fontSize: "16px", lineHeight: "1", display: "block", borderColor: "#868686" }} />
+                <InstagramIcon sx={{ height: "18px", width: "18px", fontSize: "18px", lineHeight: "1", display: "block", borderColor: "#868686" }} />
                 <Typography sx={{
-                    textTransform: "uppercase", letterSpacing: "0.5em", fontSize: "14px", fontFamily: "Marcellus,sans-serif", fontWeight: "400", lineHeight: "28px", paddingTop: "10px"
+                    textTransform: "uppercase", letterSpacing: "0.5em", fontSize: "16px", fontFamily: "Marcellus,sans-serif", fontWeight: "400", lineHeight: "28px", paddingTop: "10px"
                 }}>
                     instagram </Typography>
                 <Typography sx={{
-                    textTransform: "uppercase", letterSpacing: "0.2em", fontSize: "10px", fontFamily: "Inter, sans-serif", lineHeight: "25px"
+                    textTransform: "uppercase", letterSpacing: "0.2em", fontSize: "12px", fontFamily: "Inter, sans-serif", lineHeight: "25px"
                 }}>
                     @edensign </Typography>
             </Box>

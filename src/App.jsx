@@ -29,22 +29,21 @@ function App() {
   const themes = useTheme();
   const colors = tokens(themes.palette.mode);
 
+
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Suspense fallback={<Loader />}>
           <div id="main-div" style={{
-            backgroundColor: "#f3f3f3", background: "linear-gradient(to right, #d9a7c7, #ffdde1)",
-            // backgroundColor: "#8EC5FC", backgroundImage: "linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%)",
-            color: "#000000", position: "relative", display: "flex", flexDirection: "column",
-            minHeight: "100vh", minWidth: "320px", width: "100%", maxWidth: "100vw"
+            backgroundColor: "#f3f3f3", color: "#000000", position: "relative", display: "flex", flexDirection: "column",
+            minHeight: "100vh", minWidth: "320px", width: "100%", maxWidth: "100vw", transition: "background 1s ease"
           }}>
             <Topbar />
             <Routes>
-              <Route exact path='/' element={<Home background="linear-gradient(to right, #d9a7c7, #ffdde1)" />} />
-              <Route exact path='/salons' element={<Salon backgroundColor="#f3f3f3" />} />
-              <Route exact path='/salon/detail' element={<SalonDetail backgroundColor="#f3f3f3" />} />
+              <Route exact path='/' element={<Home />} />
+              <Route exact path='/salons' element={<Salon />} />
+              <Route exact path='/salon/detail' element={<SalonDetail />} />
               {/* <Route path='/about' element={<About />} />
               <Route path='/services' element={<Services />} />
               <Route path='/privacyPolicy' element={<PrivacyPolicy />} /> */}

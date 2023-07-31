@@ -7,7 +7,7 @@
 */
 
 import { useEffect } from 'react';
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 
 import haircutImg from "../../assets/services/haircut.jpg"
 import hairwashImg from "../../assets/services/hair_wash.jpg"
@@ -51,46 +51,215 @@ const SalonCarousel = () => {
 
     useEffect(() => {
         showSlides(slideIndex);
-        // let interval = setInterval(() => {
-        // }, 2000);
-
-        // return () => {
-        //     clearInterval(interval);
-        // };
     }, []);
 
     return (
         <Box className="salon-slider">
 
             <Box className='salon-sliding'>
+                <Box style={{ display: "flex", alignItems: "center", position: "absolute", top: "26px", left: "26px", padding: "18px 12px", backdropFilter: "blur(13px)", color: "#ffffff", fontWeight: "500", fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}>
+                    <span style={{ marginRight: "8px" }}>from</span>
+                    <span> &#8377;500</span>
+                </Box>
                 <img src="https://edensign.blob.core.windows.net/image-storage/header/photo1.jpg" />
+                <Box>
+                    <h4 style={{ fontWeight: "400", fontFamily: "Marcellus, sans-serif", fontSize: "26px", letterSpacing: "0.2em", textTransform: "capitalize" }}>
+                        Airbrush Makeup
+                    </h4>
+                    <p style={{ fontWeight: "300", fontSize: "13px", lineHeight: "22px", letterSpacing: "0.1em", marginTop: "-20px", paddingRight: "20px" }}> Lorem ipsum dolor sit amet, in nam denique suavitate repudiandae, homero dictas omnesque duo et. Novum dignissim consectetuer ei mel. Ne patrioque consequat persequeris</p>
+                    <Button type="submit" onClick={e => e.preventDefault()}
+                        sx={{
+                            borderRadius: 0,
+                            fontSize: "12px",
+                            letterSpacing: "0.05em",
+                            lineHeight: "2em",
+                            fontWeight: "600",
+                            padding: "4px 0",
+                            borderBottom: "1px solid",
+                            textTransform: "capitalize"
+                        }}>Book Appointment</Button>
+                </Box>
             </Box>
+
             <Box className='salon-sliding'>
+                <Box style={{ display: "flex", alignItems: "center", position: "absolute", top: "26px", left: "26px", padding: "18px 12px", backdropFilter: "blur(13px)", color: "#ffffff", fontWeight: "500", fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}>
+                    <span style={{ marginRight: "8px" }}>from</span>
+                    <span> &#8377;500</span>
+                </Box>
                 <img src="https://edensign.blob.core.windows.net/image-storage/header/photo2.jpg" />
+                <Box>
+                    <h4 style={{ fontWeight: "400", fontFamily: "Marcellus, sans-serif", fontSize: "26px", letterSpacing: "0.2em", textTransform: "capitalize" }}>
+                        Matte Makeup
+                    </h4>
+                    <p style={{ fontWeight: "300", fontSize: "13px", lineHeight: "22px", letterSpacing: "0.1em", marginTop: "-20px", paddingRight: "20px" }}> Lorem ipsum dolor sit amet, in nam denique suavitate repudiandae, homero dictas omnesque duo et. Novum dignissim consectetuer ei mel. Ne patrioque consequat persequeris</p>
+                    <Button type="submit" onClick={e => e.preventDefault()}
+                        sx={{
+                            borderRadius: 0,
+                            fontSize: "12px",
+                            letterSpacing: "0.05em",
+                            lineHeight: "2em",
+                            fontWeight: "600",
+                            padding: "4px 0",
+                            borderBottom: "1px solid",
+                            textTransform: "capitalize"
+                        }}>Book Appointment</Button>
+                </Box>
             </Box>
+
             <Box className='salon-sliding'>
+                <Box style={{ display: "flex", alignItems: "center", position: "absolute", top: "26px", left: "26px", padding: "18px 12px", backdropFilter: "blur(13px)", color: "#ffffff", fontWeight: "500", fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}>
+                    <span style={{ marginRight: "8px" }}>from</span>
+                    <span> &#8377;500</span>
+                </Box>
                 <img src="https://edensign.blob.core.windows.net/image-storage/header/photo3.jpg" />
+                <Box>
+                    <h4 style={{ fontWeight: "400", fontFamily: "Marcellus, sans-serif", fontSize: "26px", letterSpacing: "0.2em", textTransform: "capitalize" }}>
+                        Mineral Makeup
+                    </h4>
+                    <p style={{ fontWeight: "300", fontSize: "13px", lineHeight: "22px", letterSpacing: "0.1em", marginTop: "-20px", paddingRight: "20px" }}> Lorem ipsum dolor sit amet, in nam denique suavitate repudiandae, homero dictas omnesque duo et. Novum dignissim consectetuer ei mel. Ne patrioque consequat persequeris</p>
+                    <Button type="submit" onClick={e => e.preventDefault()}
+                        sx={{
+                            borderRadius: 0,
+                            fontSize: "12px",
+                            letterSpacing: "0.05em",
+                            lineHeight: "2em",
+                            fontWeight: "600",
+                            padding: "4px 0",
+                            borderBottom: "1px solid",
+                            textTransform: "capitalize"
+                        }}>Book Appointment</Button>
+                </Box>
             </Box>
+
             <Box className='salon-sliding'>
+                <Box style={{ display: "flex", alignItems: "center", position: "absolute", top: "26px", left: "26px", padding: "18px 12px", backdropFilter: "blur(13px)", color: "#ffffff", fontWeight: "500", fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}>
+                    <span style={{ marginRight: "8px" }}>from</span>
+                    <span> &#8377;500</span>
+                </Box>
                 <img src={haircutImg} />
+                <Box>
+                    <h4 style={{ fontWeight: "400", fontFamily: "Marcellus, sans-serif", fontSize: "26px", letterSpacing: "0.2em", textTransform: "capitalize" }}>
+                        Haircut
+                    </h4>
+                    <p style={{ fontWeight: "300", fontSize: "13px", lineHeight: "22px", letterSpacing: "0.1em", marginTop: "-20px", paddingRight: "20px" }}> Lorem ipsum dolor sit amet, in nam denique suavitate repudiandae, homero dictas omnesque duo et. Novum dignissim consectetuer ei mel. Ne patrioque consequat persequeris</p>
+                    <Button type="submit" onClick={e => e.preventDefault()}
+                        sx={{
+                            borderRadius: 0,
+                            fontSize: "12px",
+                            letterSpacing: "0.05em",
+                            lineHeight: "2em",
+                            fontWeight: "600",
+                            padding: "4px 0",
+                            borderBottom: "1px solid",
+                            textTransform: "capitalize"
+                        }}>Book Appointment</Button>
+                </Box>
             </Box>
+
             <Box className='salon-sliding'>
+                <Box style={{ display: "flex", alignItems: "center", position: "absolute", top: "26px", left: "26px", padding: "18px 12px", backdropFilter: "blur(13px)", color: "#ffffff", fontWeight: "500", fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}>
+                    <span style={{ marginRight: "8px" }}>from</span>
+                    <span> &#8377;500</span>
+                </Box>
                 <img src={hairwashImg} />
+                <Box>
+                    <h4 style={{ fontWeight: "400", fontFamily: "Marcellus, sans-serif", fontSize: "26px", letterSpacing: "0.2em", textTransform: "capitalize" }}>
+                        Hair Wash
+                    </h4>
+                    <p style={{ fontWeight: "300", fontSize: "13px", lineHeight: "22px", letterSpacing: "0.1em", marginTop: "-20px", paddingRight: "20px" }}> Lorem ipsum dolor sit amet, in nam denique suavitate repudiandae, homero dictas omnesque duo et. Novum dignissim consectetuer ei mel. Ne patrioque consequat persequeris</p>
+                    <Button type="submit" onClick={e => e.preventDefault()}
+                        sx={{
+                            borderRadius: 0,
+                            fontSize: "12px",
+                            letterSpacing: "0.05em",
+                            lineHeight: "2em",
+                            fontWeight: "600",
+                            padding: "4px 0",
+                            borderBottom: "1px solid",
+                            textTransform: "capitalize"
+                        }}>Book Appointment</Button>
+                </Box>
             </Box>
+
             <Box className='salon-sliding'>
+                <Box style={{ display: "flex", alignItems: "center", position: "absolute", top: "26px", left: "26px", padding: "18px 12px", backdropFilter: "blur(13px)", color: "#ffffff", fontWeight: "500", fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}>
+                    <span style={{ marginRight: "8px" }}>from</span>
+                    <span> &#8377;500</span>
+                </Box>
                 <img src={pedicureImg} />
+                <Box>
+                    <h4 style={{ fontWeight: "400", fontFamily: "Marcellus, sans-serif", fontSize: "26px", letterSpacing: "0.2em", textTransform: "capitalize" }}>
+                        Pedicure
+                    </h4>
+                    <p style={{ fontWeight: "300", fontSize: "13px", lineHeight: "22px", letterSpacing: "0.1em", marginTop: "-20px", paddingRight: "20px" }}> Lorem ipsum dolor sit amet, in nam denique suavitate repudiandae, homero dictas omnesque duo et. Novum dignissim consectetuer ei mel. Ne patrioque consequat persequeris</p>
+                    <Button type="submit" onClick={e => e.preventDefault()}
+                        sx={{
+                            borderRadius: 0,
+                            fontSize: "12px",
+                            letterSpacing: "0.05em",
+                            lineHeight: "2em",
+                            fontWeight: "600",
+                            padding: "4px 0",
+                            borderBottom: "1px solid",
+                            textTransform: "capitalize"
+                        }}>Book Appointment</Button>
+                </Box>
             </Box>
+
             <Box className='salon-sliding'>
+                <Box style={{ display: "flex", alignItems: "center", position: "absolute", top: "26px", left: "26px", padding: "18px 12px", backdropFilter: "blur(13px)", color: "#ffffff", fontWeight: "500", fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}>
+                    <span style={{ marginRight: "8px" }}>from</span>
+                    <span> &#8377;500</span>
+                </Box>
                 <img src={manicureImg} />
+                <Box>
+                    <h4 style={{ fontWeight: "400", fontFamily: "Marcellus, sans-serif", fontSize: "26px", letterSpacing: "0.2em", textTransform: "capitalize" }}>
+                        Manicure
+                    </h4>
+                    <p style={{ fontWeight: "300", fontSize: "13px", lineHeight: "22px", letterSpacing: "0.1em", marginTop: "-20px", paddingRight: "20px" }}> Lorem ipsum dolor sit amet, in nam denique suavitate repudiandae, homero dictas omnesque duo et. Novum dignissim consectetuer ei mel. Ne patrioque consequat persequeris</p>
+                    <Button type="submit" onClick={e => e.preventDefault()}
+                        sx={{
+                            borderRadius: 0,
+                            fontSize: "12px",
+                            letterSpacing: "0.05em",
+                            lineHeight: "2em",
+                            fontWeight: "600",
+                            padding: "4px 0",
+                            borderBottom: "1px solid",
+                            textTransform: "capitalize"
+                        }}>Book Appointment</Button>
+                </Box>
             </Box>
+
             <Box className='salon-sliding'>
+                <Box style={{ display: "flex", alignItems: "center", position: "absolute", top: "26px", left: "26px", padding: "18px 12px", backdropFilter: "blur(13px)", color: "#ffffff", fontWeight: "500", fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}>
+                    <span style={{ marginRight: "8px" }}>from</span>
+                    <span> &#8377;500</span>
+                </Box>
                 <img src={bridalMakeupImg} />
+                <Box>
+                    <h4 style={{ fontWeight: "400", fontFamily: "Marcellus, sans-serif", fontSize: "26px", letterSpacing: "0.2em", textTransform: "capitalize" }}>
+                        Bridal Makeup
+                    </h4>
+                    <p style={{ fontWeight: "300", fontSize: "13px", lineHeight: "22px", letterSpacing: "0.1em", marginTop: "-20px", paddingRight: "20px" }}> Lorem ipsum dolor sit amet, in nam denique suavitate repudiandae, homero dictas omnesque duo et. Novum dignissim consectetuer ei mel. Ne patrioque consequat persequeris</p>
+                    <Button type="submit" onClick={e => e.preventDefault()}
+                        sx={{
+                            borderRadius: 0,
+                            fontSize: "12px",
+                            letterSpacing: "0.05em",
+                            lineHeight: "2em",
+                            fontWeight: "600",
+                            padding: "4px 0",
+                            borderBottom: "1px solid",
+                            textTransform: "capitalize"
+                        }}>Book Appointment</Button>
+                </Box>
             </Box>
 
             <span className='salon-arrow' style={{ left: "4%" }} onClick={() => controller(-1)}>&#10094;</span>
             <span className='salon-arrow' style={{ right: "4%" }} onClick={() => controller(+1)}>&#10095;</span>
 
-        </Box>
+        </Box >
     )
 }
 

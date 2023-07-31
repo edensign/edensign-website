@@ -46,10 +46,20 @@ function Topbar(props) {
   };
 
   React.useEffect(() => {
-    window.onscroll = (e) => {
+    window.onscroll = () => {
       const btnBox = document.getElementsByClassName("btn-box");
       const linkPage = document.getElementsByClassName("link-page");
       const appbar = document.getElementById("app-bar");
+      const mainDiv = document.getElementById("main-div");
+
+      const welcomeText = document.getElementsByClassName("bigger-text")[0];
+      const welcomeLine = document.getElementsByClassName("offer-line")[0];
+      const serviceLine = document.getElementsByClassName("offer-line")[1];
+      const offersLine = document.getElementsByClassName("offer-line")[2];
+      const locationsLine = document.getElementsByClassName("offer-line")[3];
+      const facilitiesImg = document.getElementsByClassName("facilities-img-box")[0];
+      const facilitiesListLeft = document.getElementsByClassName("facilities-list-left")[0];
+      const facilitiesListRight = document.getElementsByClassName("facilities-list-right")[0];
       let scroll = window.pageYOffset;
 
       if (scroll > 40) {
@@ -69,6 +79,48 @@ function Topbar(props) {
           link.style.color = "#ffffff";
         });
       }
+
+      console.log(scroll)
+      if (scroll > 500) {
+        welcomeLine.classList.add("clip-line");
+      }
+
+      if (scroll > 600) {
+        welcomeText.style.animation = `shine 4s linear`;
+      }
+
+      if (scroll > 800) {
+        facilitiesImg.classList.add("facilities-img-box-show");
+        facilitiesListLeft.classList.add("facilities-list-show");
+        facilitiesListRight.classList.add("facilities-list-show");
+      }
+
+      if (scroll > 1450) {
+        serviceLine.classList.add("clip-line");
+      }
+
+      if (scroll > 3000) {
+        offersLine.classList.add("clip-line");
+      }
+
+      if (scroll > 5300) {
+        locationsLine.classList.add("clip-line");
+      }
+
+      //changing background gradients on page scroll
+      if (scroll > 10 && scroll < 1399) {
+        mainDiv.style.background = `linear-gradient(to right, #d9a7c7, #ffdde1)`;
+      }
+      if (scroll > 1400 && scroll < 2599) {
+        mainDiv.style.background = `linear-gradient(to left, #f4c4f3, #fc67fa)`;
+      }
+      if (scroll > 2600 && scroll < 3999) {
+        mainDiv.style.background = `linear-gradient(to top, #fbd3e9, #bb377d)`;
+      }
+      if (scroll > 4000 && scroll < 7000) {
+        mainDiv.style.background = `linear-gradient(to bottom right, #800080, #ffc0cb)`;
+      }
+
     };
   }, []);
 
@@ -76,10 +128,10 @@ function Topbar(props) {
     <AppBar position="fixed" id="app-bar" sx={{
       background: "transparent", boxShadow: "none", right: "auto"
     }}>
-      <Toolbar disableGutters sx={{ justifyContent: "space-between", padding: "0 10px" }}>
+      <Toolbar disableGutters sx={{ justifyContent: "space-between", padding: "30px" }}>
         <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 3 }} />
         <Typography sx={{
-          textTransform: "uppercase", letterSpacing: "0.4rem", fontSize: "1.2em", fontFamily: "Inter, sans-serif", lineHeight: "1.6", color: "#000000"
+          display: { xs: 'none', md: "flex" }, textTransform: "uppercase", letterSpacing: "0.4rem", fontSize: "1.6em", fontFamily: "Inter, sans-serif", lineHeight: "1.6", color: "#000000"
         }}>
           <Link style={{ textDecoration: "none", color: "#000000" }} to="/"> edensign </Link>
         </Typography>
@@ -139,7 +191,7 @@ function Topbar(props) {
             textDecoration: 'none',
           }}
         >
-          LOGOoooooooooooooo
+          EDEN SIGN
         </Typography>
 
         <Box className="btn-box" sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: "space-evenly" }}>
@@ -147,7 +199,7 @@ function Topbar(props) {
             <Button
               key={page}
               onClick={handleCloseNavMenu}
-              sx={{ my: 1, display: 'block', fontSize: "10px", letterSpacing: "0.13em", lineHeight: "1.14", fontWeight: "500", textTransform: "uppercase" }}
+              sx={{ my: 1, display: 'block', fontSize: "12px", letterSpacing: "0.13em", lineHeight: "1.14", fontWeight: "500", textTransform: "uppercase" }}
             >
               <Link className="link-page" style={{ textDecoration: "none", color: "#ffffff" }} to={`/${page.charAt(0).toLowerCase() + page.slice(1)}`}>
                 {page} </Link>
@@ -159,9 +211,9 @@ function Topbar(props) {
           <IconButton sx={{ marginRight: "2%", color: "#000000" }}>
             <Tooltip title="Search">
               <SearchIcon sx={{
-                fontSize: "16px",
+                fontSize: "22px",
                 "&:hover": {
-                  fontSize: "22px",
+                  fontSize: "28px",
                   transition: "all 0.5s ease"
                 }
               }} />
@@ -170,9 +222,9 @@ function Topbar(props) {
           <IconButton sx={{ marginRight: "2%", color: "#000000" }}>
             <Tooltip title="Login">
               <LoginIcon sx={{
-                fontSize: "16px",
+                fontSize: "22px",
                 "&:hover": {
-                  fontSize: "22px",
+                  fontSize: "28px",
                   transition: "all 0.5s ease"
                 }
               }}
@@ -182,9 +234,9 @@ function Topbar(props) {
           <IconButton sx={{ marginRight: "2%", color: "#000000" }}>
             <Tooltip title="Wishlist">
               <FavoriteBorderIcon sx={{
-                fontSize: "16px",
+                fontSize: "22px",
                 "&:hover": {
-                  fontSize: "22px",
+                  fontSize: "28px",
                   transition: "all 0.5s ease"
                 }
               }}
@@ -196,9 +248,9 @@ function Topbar(props) {
               <Tooltip title="Cart">
                 <ShoppingBagOutlinedIcon onClick={handleOpenUserMenu}
                   sx={{
-                    fontSize: "16px",
+                    fontSize: "22px",
                     "&:hover": {
-                      fontSize: "22px",
+                      fontSize: "28px",
                       transition: "all 0.5s ease"
                     }
                   }}

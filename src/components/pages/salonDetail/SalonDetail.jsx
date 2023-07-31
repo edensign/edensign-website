@@ -9,32 +9,43 @@
 import React from "react";
 
 import "./style.css";
-import Booking from "./Booking";
-import FilterMenu from "../../common/FilterMenu";
-import PageTop from "../../common/PageTop";
-import Offer from "./Offer";
-import SmallCarousel from "./SmallCarousel";
-import Facilities from "./Facilities";
-import SalonCarousel from "./SalonCarousel";
+import BookAppointment from "./BookAppointment";
 import ExclusiveOffer from "./ExclusiveOffer";
+import Facilities from "./Facilities";
+import FilterMenu from "../../common/FilterMenu";
+import ImagesCarousel from "./ImagesCarousel";
+import LatestOffer from "./LatestOffer";
+import Newsletter from "../../common/Newsletter";
+import Offer from "./Offer";
+import PageTop from "../../common/PageTop";
+import SmallCarousel from "./SmallCarousel";
+import SalonCarousel from "./SalonCarousel";
+import TheLocations from "./TheLocations";
+import VideoSection from "./VideoSection";
 
 
 const SalonDetail = ({ backgroundColor }) => {
 
-    React.useEffect(() => {
-        document.getElementById("main-div").style.background = `linear-gradient(to right, ${backgroundColor}, ${backgroundColor})`;
-    }, []);
+    //808076, 94948b, a9a9a1, bebeb8, d3d3cf
+    // React.useEffect(() => {
+    // document.getElementById("main-div").style.background = `linear-gradient(to bottom right, ${backgroundColor} 10%, d3d3cf 20%)`;
+    // }, []);
 
     return (
         <>
             <PageTop name='details' />
             <FilterMenu />
             <SmallCarousel />
-            <Booking />
             <Offer />
             <Facilities />
             <ExclusiveOffer />
             <SalonCarousel />
+            <VideoSection />
+            <LatestOffer />
+            <ImagesCarousel />
+            <BookAppointment />
+            <Newsletter />
+            <TheLocations />
         </>
     )
 };

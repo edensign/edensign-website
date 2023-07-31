@@ -23,7 +23,7 @@ const PageTop = (props) => {
         const btn = document.getElementsByClassName("btn")[0];
         const filterBox = document.getElementById("filter-box");
         box.style.right = filterOpen ? "0" : "18.3%";
-        btn.style.width = filterOpen ? "7vw" : "4vw";
+        btn.style.width = filterOpen ? "7em" : "4em";
         filterBox.style.opacity = filterOpen ? "0" : "1";
         filterBox.style.transform = filterOpen ? "translateX(100%)" : "translateX(0)";
 
@@ -52,7 +52,7 @@ const PageTop = (props) => {
         >
                 {props.name}
             </Typography>
-            <Typography sx={{ color: "#ffffff", textTransform: "uppercase", fontWeight: "500", fontSize: "10px", lineHeight: "1.2", letterSpacing: "0.1em", marginTop: "8px" }}>
+            <Typography sx={{ color: "#ffffff", textTransform: "uppercase", fontWeight: "500", fontSize: "11px", lineHeight: "1.2", letterSpacing: "0.1em", marginTop: "8px" }}>
                 <Link style={{ textDecoration: "none", color: "#ffffff", position: "relative", zIndex: "2" }} to="/"> HOME &gt; </Link>
                 {location.pathname.slice(1)}
             </Typography>
@@ -67,7 +67,7 @@ const PageTop = (props) => {
                         size="small"
                         className="btn"
                         startIcon={filterOpen ? <TrendingFlat /> : <TuneOutlined />}
-                        sx={{ width: "7vw", fontWeight: "500", fontSize: "10px", lineHeight: "1.2", letterSpacing: "0.1em", zIndex: "10" }}
+                        sx={{ width: "7em", fontWeight: "500", fontSize: "12px", lineHeight: "1.2", letterSpacing: "0.1em", zIndex: "10" }}
                     >
                         {/* , height: "7vh" */}
                         {filterOpen ? '' : 'Filter'}

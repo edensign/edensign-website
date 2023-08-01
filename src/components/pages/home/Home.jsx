@@ -12,12 +12,13 @@ import "./style.css";
 import AboutContainer from "./AboutContainer";
 import Brands from "../../common/Brands";
 import Carousel from "../../common/Carousel";
-import ProductList from "./BodyProductList";
 import ImageBoxes from "./ImageBoxes";
 import ImageContainer from "./ImageContainer";
-import ServicesList from "./ServicesList";
 import Newsletter from "../../common/Newsletter";
-import Testimonial from "./Testimonial";
+import ProductList from "./BodyProductList";
+import ServicesList from "./ServicesList";
+import ServiceListBottom from "./ServiceListBottom";
+import Testimonials from "../../common/Testimonials";
 
 const Home = () => {
 
@@ -29,9 +30,10 @@ const Home = () => {
       <ServicesList />
       <ImageContainer />
       <AboutContainer />
-      <Newsletter />
       <Brands />
-      {/* <Testimonial /> */}
+      <ServiceListBottom />
+      <Testimonials />
+      <Newsletter />
 
     </>
   )

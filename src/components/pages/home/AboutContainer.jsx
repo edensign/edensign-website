@@ -24,23 +24,23 @@ const AboutContainer = () => {
                         justifyContent: "center",
                         alignItems: "center",
                         height: "100%",
-                        width: isMobile ? "100%" : "70%",
+                        width: isMobile ? "100%" : "80%",
                         backgroundColor: 'white',
                         border: "2px solid aqua"
                     }}
                 >
-                    <p style={{ fontFamily: "Marcellus,sans-serif", fontWeight: "400", fontSize: "18px", lineHeight: "20px", letterSpacing: "0.8em", textTransform: "uppercase" }}> about </p>
-                    <DiamondIcon sx={{ fontSize: "8px" }} />
-                    <p style={{ fontWeight: "400", fontSize: "30px", lineHeight: "1.28", letterSpacing: "0.14em", textTransform: "uppercase", marginTop: "6px" }}> our shop </p>
-                    <p style={{ fontWeight: "300", fontSize: "12px", lineHeight: "22px", letterSpacing: "0.015em", padding: "0 40px" }}> Hello there, this is the brand new product of the company that will make you go like a lavender queen. Hope you enjoy the day and keep purchasing the latest trends from our company to become fashion icon. </p>
-                    <p style={{ fontWeight: "300", fontSize: "12px", lineHeight: "22px", letterSpacing: "0.015em", padding: "0 40px" }}> Hello there, this is the brand new product of the company that will make you go like a lavender queen. Hope you enjoy the day and keep purchasing the latest trends from our company to become fashion icon. </p>
-                    <Button variant='contained' color='primary' sx={{ borderRadius: "0", fontWeight: "400", fontSize: "11px", lineHeight: "1.2", letterSpacing: "0.265em", height: "40px" }}> Read More </Button>
+                    <p style={{ fontFamily: "Marcellus,sans-serif", fontWeight: "400", fontSize: "20px", lineHeight: "20px", letterSpacing: "0.8em", textTransform: "uppercase" }}> about </p>
+                    <DiamondIcon sx={{ fontSize: "10px" }} />
+                    <p style={{ fontWeight: "400", fontSize: "32px", lineHeight: "1.28", letterSpacing: "0.14em", textTransform: "uppercase", marginTop: "6px" }}> our shop </p>
+                    <p style={{ fontWeight: "300", fontSize: "14px", lineHeight: "22px", letterSpacing: "0.015em", padding: "0 40px" }}> Hello there, this is the brand new product of the company that will make you go like a lavender queen. Hope you enjoy the day and keep purchasing the latest trends from our company to become fashion icon. </p>
+                    <p style={{ fontWeight: "300", fontSize: "14px", lineHeight: "22px", letterSpacing: "0.015em", padding: "0 40px" }}> Hello there, this is the brand new product of the company that will make you go like a lavender queen. Hope you enjoy the day and keep purchasing the latest trends from our company to become fashion icon. </p>
+                    <Button variant='contained' color='primary' sx={{ borderRadius: "0", fontWeight: "400", fontSize: "12px", lineHeight: "1.2", letterSpacing: "0.265em", height: "40px" }}> Read More </Button>
                 </Box>
             </Grid>
             <Grid item xs={6} md={6}>
                 <Box
                     sx={{
-                        border: "2px solid aqua", height: "100%", width: isMobile ? "100%" : "60%", backgroundColor: '#E6E6FA', marginTop: "10%"
+                        border: "2px solid aqua", height: "100%", width: isMobile ? "100%" : "80%", backgroundColor: '#E6E6FA', marginTop: "10%"
                     }}
                 >
                     <img src="https://edensign.blob.core.windows.net/image-storage/makeup/brushes3.jpg" className='collection-img' alt="about-us" />

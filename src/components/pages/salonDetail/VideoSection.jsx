@@ -13,9 +13,9 @@ import videoImg from "../../assets/video.jpg"
 
 const VideoSection = () => {
     return (
-        <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", width: "90%", height: "93vh", margin: "auto", boxShadow: "4px 4px 6px #bb377d, -4px -4px 6px #bb377d", marginBottom: "10%", position: "relative" }}>
+        <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", width: "90%", height: "93vh", margin: "auto", marginBottom: "10%", position: "relative" }}>
             <Box sx={{
-                display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", height: "100%", width: "37%", backgroundColor: "#ffffff", marginRight: "2%"
+                display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", height: "100%", width: "37%", backgroundColor: "#ffffff", marginRight: "2%", boxShadow: "4px 4px 6px #bb377d, -4px -4px 6px #bb377d"
             }}>
                 <span style={{ width: "1px", height: "48px", backgroundColor: "#c4c4c4", position: "absolute", top: "60px", left: "50px" }}></span>
                 <p style={{ width: "72%", textAlign: "left", marginTop: "20px", fontWeight: "400", fontSize: "16px", lineHeight: "1.28", letterSpacing: "0.1em", textTransform: "uppercase" }}> luxury salon </p>
@@ -25,7 +25,7 @@ const VideoSection = () => {
                     sx={{ borderRadius: 0, width: "72%", marginTop: "20px", fontSize: "12px", letterSpacing: "0.2em", lineHeight: "2em", fontWeight: "600", padding: "20px", textTransform: "uppercase" }}>Discover More</Button>
             </Box>
 
-            <Box sx={{ display: "flex", width: "75%", position: "relative" }}>
+            <Box sx={{ display: "flex", width: "75%", position: "relative", boxShadow: "4px 4px 6px #bb377d, -4px -4px 6px #bb377d" }}>
                 <Box display="inline-block" position="inherit">
                     <img src={videoImg} alt="Salon video"
                         style={{

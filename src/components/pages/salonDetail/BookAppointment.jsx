@@ -19,8 +19,10 @@ import appointmentImg from "../../assets/appointment.jpg"
 
 
 const Booking = () => {
+    const addOneDay = (dateVar = new Date()) => dayjs(dateVar.setDate(dateVar.getDate() + 1));
+
     const [checkIn, setCheckIn] = React.useState(dayjs(Date.now()));
-    const [checkOut, setCheckOut] = React.useState(dayjs(Date.now()));
+    const [checkOut, setCheckOut] = React.useState(addOneDay());
     const [loading, setLoading] = React.useState(false);
 
     const refId = React.useRef();
@@ -59,15 +61,15 @@ const Booking = () => {
 
     return (
         //padding: "12px 50px", paddingTop: "0",
-        <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", width: "90%", height: "108vh", margin: "auto", boxShadow: "4px 4px 6px #800080, -4px -4px 6px #800080", marginBottom: "10%", position: "relative" }}>
-            <Box sx={{ display: "flex", width: "75%", position: "relative", backgroundColor: "#ffffff" }}>
+        <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", width: "90%", height: "108vh", margin: "auto", marginBottom: "10%", position: "relative" }}>
+            <Box sx={{ display: "flex", width: "75%", position: "relative", backgroundColor: "#ffffff", boxShadow: "4px 4px 6px #800080, -4px -4px 6px #800080" }}>
                 <img src={appointmentImg} alt="Salon"
                     style={{
                         width: "1100px", maxWidth: "100%", aspectRatio: "1092 / 916", boxShadow: "none", border: "none", backgroundPosition: "center", backgroundSize: "cover", cursor: "pointer", display: "flex", justifyContent: "center", alignItems: "center", overflow: "clip"
                     }} />
             </Box>
             <Box sx={{
-                display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", height: "100%", width: "37%", backgroundColor: "#ffffff", marginLeft: "2%", boxShadow: "0 3px 6px #0000000F"
+                display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", height: "100%", width: "37%", backgroundColor: "#ffffff", marginLeft: "2%", boxShadow: "4px 4px 6px #800080, -4px -4px 6px #800080"
             }}>
                 <h4 style={{ width: "78%", textAlign: "center", fontWeight: "400", fontSize: "36px", fontFamily: "Marcellus, sans-serif", letterSpacing: "0.1em", lineHeight: "initial", margin: "2px 0 26px 0" }}>
                     Book Your Appointment

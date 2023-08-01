@@ -81,40 +81,38 @@ function Topbar(props) {
       }
 
       console.log(scroll)
-      if (scroll > 500) {
+      if (scroll > 500 && welcomeLine) {
         welcomeLine.classList.add("clip-line");
       }
 
-      if (scroll > 600) {
+      if (scroll > 600 && welcomeText) {
         welcomeText.style.animation = `shine 4s linear`;
       }
 
-      if (scroll > 800) {
+      if (scroll > 800 && facilitiesImg) {
         facilitiesImg.classList.add("facilities-img-box-show");
         facilitiesListLeft.classList.add("facilities-list-show");
         facilitiesListRight.classList.add("facilities-list-show");
       }
 
-      if (scroll > 1450) {
+      if (scroll > 1450 && serviceLine) {
         serviceLine.classList.add("clip-line");
       }
 
-      if (scroll > 3000) {
+      if (scroll > 3000 && offersLine) {
         offersLine.classList.add("clip-line");
       }
 
-      if (scroll > 5300) {
-        locationsLine.classList.add("clip-line");
-      }
+      // if (scroll > 5300) {
+      //   locationsLine.classList.add("clip-line");
+      // }
 
       //changing background gradients on page scroll
-      if (scroll > 10 && scroll < 1399) {
-        mainDiv.style.background = `linear-gradient(to right, #d9a7c7, #ffdde1)`;
-      }
-      if (scroll > 1400 && scroll < 2599) {
+      if (scroll > 500 && scroll < 2499) {
+        mainDiv.style.transition = "background 1s ease-in-out";
         mainDiv.style.background = `linear-gradient(to left, #f4c4f3, #fc67fa)`;
       }
-      if (scroll > 2600 && scroll < 3999) {
+      if (scroll > 2500 && scroll < 3999) {
         mainDiv.style.background = `linear-gradient(to top, #fbd3e9, #bb377d)`;
       }
       if (scroll > 4000 && scroll < 7000) {

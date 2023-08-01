@@ -22,6 +22,7 @@ import SmallCarousel from "./SmallCarousel";
 import SalonCarousel from "./SalonCarousel";
 import TheLocations from "./TheLocations";
 import VideoSection from "./VideoSection";
+import Review from "./Review";
 
 
 const SalonDetail = ({ backgroundColor }) => {
@@ -45,7 +46,8 @@ const SalonDetail = ({ backgroundColor }) => {
             <ImagesCarousel />
             <BookAppointment />
             <Newsletter />
-            <TheLocations />
+            <Review />
+            {/* <TheLocations /> */}
         </>
     )
 };

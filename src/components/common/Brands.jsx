@@ -24,7 +24,7 @@ import img6 from "../assets/brandImg/brandImg6.jpg"
 
 const Brands = () => {
     return (
-        <Box sx={{ height: "110vh", width: "100%", border: "1px solid black", marginBottom: "5%", position: "relative" }}>
+        <Box sx={{ height: "110vh", width: "100%", border: "1px solid black", position: "relative" }}>
             <Box display="flex" justifyContent="center" marginBottom="2%">
                 <List component='nav' sx={{ display: "inline-flex", alignItems: "center" }}>
                     <ListItemButton sx={{ "&:hover": { background: "transparent" } }}>

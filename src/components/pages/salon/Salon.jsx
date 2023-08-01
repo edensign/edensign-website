@@ -10,27 +10,25 @@ import React from "react";
 
 import "./style.css";
 import Brands from "../../common/Brands";
-import PageTop from "../../common/PageTop";
 import FilterMenu from "../../common/FilterMenu";
 import Newsletter from "../../common/Newsletter";
 import SalonListCards from './SalonListCards';
+import SalonPageTop from "./SalonPageTop";
 
-import BookAppointment from './BookAppointment';
 
-const Salon = ({ backgroundColor }) => {
+const Salon = () => {
 
-  React.useEffect(() => {
-    document.getElementById("main-div").style.background = `linear-gradient(to right, ${backgroundColor}, ${backgroundColor})`;
-  }, []);
+  // React.useEffect(() => {
+  //   document.getElementById("main-div").style.background = `linear-gradient(to right, ${backgroundColor}, ${backgroundColor})`;
+  // }, []);
 
   return (
     <>
-      <PageTop name='salons' />
+      <SalonPageTop />
       <FilterMenu />
       <SalonListCards />
       <Newsletter />
       <Brands />
-      {/* <BookAppointment /> */}
     </>
   );
 }

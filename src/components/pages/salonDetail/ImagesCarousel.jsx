@@ -22,13 +22,13 @@ const ImagesCarousel = () => {
 
     function showSlides(num) {
         let slides = document.getElementsByClassName("images-sliding");
-        if (num == slides.length - 1) {
+        if (num == slides.length - (counter - 1)) {
             num = 0;
             slideIndex = 0;
         }
         if (num < 0) {
-            num = slides.length - 1;
-            slideIndex = slides.length - 1;
+            num = slides.length - counter;
+            slideIndex = slides.length - counter;
         }
         for (let slide of slides) {
             slide.style.display = "none";

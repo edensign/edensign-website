@@ -7,7 +7,7 @@
 */
 
 import { useEffect } from 'react';
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 
 // import haircutImg from "../../assets/services/haircut.jpg"
 // import hairwashImg from "../../assets/services/hair_wash.jpg"
@@ -35,11 +35,11 @@ const Testimonials = () => {
         }
         if (counter) {
             for (let x = num; x < (counter + num); x++) {
-                slides[x].style.display = "block";
+                slides[x].style.display = "flex";
                 // slides[x].style.opacity = "1";
             }
         } else {
-            slides[num].style.display = "block";
+            slides[num].style.display = "flex";
             // slides[num].style.opacity = "1";
         }
     };
@@ -61,9 +61,9 @@ const Testimonials = () => {
     }, []);
 
     return (
-        <Box position="relative" width="100%" height="100vh">
+        <Box position="relative" width="100%" height="100vh" marginBottom="8%">
             <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start", width: "89%", margin: "auto" }}>
-                <p className="bigger-text" style={{ fontSize: "72px", fontWeight: "700", width: "32%", margin: "1% 0" }}>Testimonials</p>
+                <p style={{ fontSize: "72px", fontWeight: "700", fontFamily: "Marcellus, sans-serif", lineHeight: "1.2em", letterSpacing: "-0.04em", width: "50%", margin: "1% 0" }}>Testimonials</p>
                 <span style={{ fontSize: "14px", fontWeight: "500", letterSpacing: "2.1px", textTransform: "capitalize", margin: "-16px 0 6px 0" }}>What clients say about us</span>
                 <span style={{ border: "1px solid #000000", width: "108px", marginBottom: "4%" }}></span>
             </Box>
@@ -75,10 +75,10 @@ const Testimonials = () => {
                     <div className="single-testimonial"></div>
                     <div className="round-1 round"></div>
                     <div className="round-2 round"></div>
-                    <h4 style={{ fontWeight: "400", fontFamily: "Marcellus, sans-serif", fontSize: "26px", letterSpacing: "0.2em", textTransform: "capitalize" }}>
-                        Anjalina Jolie
+                    <h4 style={{ fontWeight: "400", fontFamily: "Marcellus, sans-serif", fontSize: "26px", letterSpacing: "0.2em", textTransform: "capitalize", margin: "30px 0 15px 0" }}>
+                        John Doe
                     </h4>
-                    <p style={{ fontWeight: "300", fontSize: "13px", lineHeight: "22px", letterSpacing: "0.1em", marginTop: "-20px", paddingRight: "20px" }}> Lorem ipsum dolor sit amet, in nam denique suavitate repudiandae, homero dictas omnesque duo et. Novum dignissim consectetuer ei mel. Ne patrioque consequat persequeris</p>
+                    <p style={{ width: "78%", fontWeight: "300", fontSize: "13px", lineHeight: "26px", letterSpacing: "0.1em", textAlign: "center" }}> Lorem ipsum dolor sit amet, in nam denique suavitate repudiandae, homero dictas omnesque duo et. Novum dignissim consectetuer ei mel. Ne patrioque consequat persequeris</p>
                     <img src="https://edensign.blob.core.windows.net/image-storage/header/photo1.jpg" />
                 </Box>
 
@@ -86,10 +86,10 @@ const Testimonials = () => {
                     <div className="single-testimonial"></div>
                     <div className="round-1 round"></div>
                     <div className="round-2 round"></div>
-                    <h4 style={{ fontWeight: "400", fontFamily: "Marcellus, sans-serif", fontSize: "26px", letterSpacing: "0.2em", textTransform: "capitalize" }}>
+                    <h4 style={{ fontWeight: "400", fontFamily: "Marcellus, sans-serif", fontSize: "26px", letterSpacing: "0.2em", textTransform: "capitalize", margin: "30px 0 15px 0" }}>
                         Esra Bilgic
                     </h4>
-                    <p style={{ fontWeight: "300", fontSize: "13px", lineHeight: "22px", letterSpacing: "0.1em", marginTop: "-20px", paddingRight: "20px" }}> Lorem ipsum dolor sit amet, in nam denique suavitate repudiandae, homero dictas omnesque duo et. Novum dignissim consectetuer ei mel. Ne patrioque consequat persequeris</p>
+                    <p style={{ width: "78%", fontWeight: "300", fontSize: "13px", lineHeight: "26px", letterSpacing: "0.1em", textAlign: "center" }}> Lorem ipsum dolor sit amet, in nam denique suavitate repudiandae, homero dictas omnesque duo et. Novum dignissim consectetuer ei mel. Ne patrioque consequat persequeris</p>
                     <img src="https://edensign.blob.core.windows.net/image-storage/header/photo2.jpg" />
                 </Box>
 
@@ -97,10 +97,10 @@ const Testimonials = () => {
                     <div className="single-testimonial"></div>
                     <div className="round-1 round"></div>
                     <div className="round-2 round"></div>
-                    <h4 style={{ fontWeight: "400", fontFamily: "Marcellus, sans-serif", fontSize: "26px", letterSpacing: "0.2em", textTransform: "capitalize" }}>
+                    <h4 style={{ fontWeight: "400", fontFamily: "Marcellus, sans-serif", fontSize: "26px", letterSpacing: "0.2em", textTransform: "capitalize", margin: "30px 0 15px 0" }}>
                         Tom Cruize
                     </h4>
-                    <p style={{ fontWeight: "300", fontSize: "13px", lineHeight: "22px", letterSpacing: "0.1em", marginTop: "-20px", paddingRight: "20px" }}> Lorem ipsum dolor sit amet, in nam denique suavitate repudiandae, homero dictas omnesque duo et. Novum dignissim consectetuer ei mel. Ne patrioque consequat persequeris</p>
+                    <p style={{ width: "78%", fontWeight: "300", fontSize: "13px", lineHeight: "26px", letterSpacing: "0.1em", textAlign: "center" }}> Lorem ipsum dolor sit amet, in nam denique suavitate repudiandae, homero dictas omnesque duo et. Novum dignissim consectetuer ei mel. Ne patrioque consequat persequeris</p>
                     <img src="https://edensign.blob.core.windows.net/image-storage/header/photo3.jpg" />
 
                 </Box>

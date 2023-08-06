@@ -13,12 +13,11 @@ const ImageBoxes = () => {
     const isTab = useMediaQuery("(max-width:920px)");
 
     return (        // border: "3px solid crimson",
-        <Grid container sx={{ width: "100%", maxHeight: "100vh", margin: "4% 0" }}>
+        <Grid container sx={{ width: "100%", maxHeight: "100vh", marginBottom: "8%" }}>
             <Grid item xs={12} md={6}>
                 <Box sx={{
-                    border: "2px solid green", position: "relative", width: "100%", height: "90vh", backgroundColor: '#ffffff'
-                }}
-                >
+                    position: "relative", width: "100%", height: "90vh", backgroundColor: '#ffffff'
+                }}>
                     <img id="best-of-img" src="https://edensign.blob.core.windows.net/image-storage/makeup/skincare.jpg" />
                     <p id="best-of"> best of </p>
                     <p id="skincare"> skincare </p>
@@ -26,9 +25,8 @@ const ImageBoxes = () => {
             </Grid>
             <Grid item xs={12} md={6}>
                 <Box sx={{
-                    border: "2px solid green", position: "relative", width: "100%", height: "90vh", backgroundColor: '#ffffff', marginTop: "4%"
-                }}
-                >
+                    position: "relative", width: "100%", height: "90vh", backgroundColor: '#ffffff', marginTop: "4%"
+                }}>
                     <img id="top-brands-img" src="https://edensign.blob.core.windows.net/image-storage/makeup/product.jpg" />
                     <p id="top-brands"> top brands </p>
                     <p id="makeup"> makeup </p>

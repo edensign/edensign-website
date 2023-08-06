@@ -71,7 +71,7 @@ const Review = () => {
             slide.style.display = "none";
             // slide.style.opacity = "1";
         }
-        slides[num].style.display = "block";
+        slides[num].style.display = "flex";
         // slides[num].style.opacity = "1";
     };
 
@@ -93,103 +93,105 @@ const Review = () => {
 
 
     return (
-        <Box sx={{ width: "91%", margin: "auto", marginBottom: "5%", borderRadius: "8px", background: "linear-gradient(to right, #d3cce3, #e9e4f0)", position: "relative", boxShadow: "0.1px 0.33px 3px 0px rgb(0 0 0 / 15%)" }}>
-            <div style={{ borderBottom: "1px solid #f4f4f4", padding: "1rem 1.5rem", display: "flex", alignItems: "center", width: "49%" }}>
-                <CreateIcon sx={{ marginRight: "10px", fontSize: "30px" }} />
-                <p style={{ fontWeight: "400", fontSize: "22px", fontFamily: "Marcellus, sans-serif", lineHeight: "0.05em", letterSpacing: "-0.04em", textTransform: "capitalize" }}> write a review </p>
+        <Box sx={{ display: "flex", justifyContent: "space-between", width: "91%", margin: "auto", marginBottom: "8%", position: "relative" }}>
+            <div style={{ width: "33%", backgroundColor: "#ffffff", boxShadow: "4px 4px 6px #800080, -4px -4px 6px #800080", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+                <div style={{ borderBottom: "1px solid #000000", padding: "1rem 1.5rem", display: "flex", alignItems: "center", width: "100%" }}>
+                    <CreateIcon sx={{ marginRight: "10px", fontSize: "30px" }} />
+                    <p style={{ fontWeight: "400", fontSize: "22px", fontFamily: "Marcellus, sans-serif", lineHeight: "0.05em", letterSpacing: "-0.04em", textTransform: "capitalize" }}> write a review </p>
+                </div>
+
+                <form ref={refId}>
+                    <div style={{ padding: "1.5rem" }}>
+                        <div style={{ display: "flex", flexWrap: "wrap" }}>
+                            <div style={{ width: "60%", display: "flex", alignItems: "center", margin: "0.5rem 0" }}>
+                                <SentimentSatisfiedAltIcon sx={{ marginRight: "10px", fontSize: "26px" }} />
+                                <div style={{ width: "78%", height: "75px", display: "flex", flexDirection: "column" }}>
+                                    <span style={{ fontSize: "14px", fontWeight: "500", lineHeight: "32px", letterSpacing: "2.1px", textTransform: "capitalize" }}>quality of service</span>
+                                    <StarRating />
+                                </div>
+                            </div>
+                            <div style={{ width: "40%", display: "flex", alignItems: "center", margin: "0.5rem 0" }}>
+                                <ExtensionIcon sx={{ marginRight: "10px", fontSize: "26px" }} />
+                                <div style={{ width: "75%", height: "75px", display: "flex", flexDirection: "column" }}>
+                                    <span style={{ fontSize: "14px", fontWeight: "500", lineHeight: "32px", letterSpacing: "2.1px", textTransform: "capitalize" }}>facilities</span>
+                                    <StarRating sx={{ width: "115px" }} />
+                                </div>
+                            </div>
+                            <div style={{ width: "60%", display: "flex", alignItems: "center", margin: "0.5rem 0" }}>
+                                <GroupIcon sx={{ marginRight: "10px", fontSize: "26px" }} />
+                                <div style={{ width: "77%", height: "75px", display: "flex", flexDirection: "column" }}>
+                                    <span style={{ fontSize: "14px", fontWeight: "500", lineHeight: "32px", letterSpacing: "2.1px", textTransform: "capitalize" }}>staff</span>
+                                    <StarRating />
+                                </div>
+                            </div>
+                            <div style={{ width: "40%", display: "flex", alignItems: "center", margin: "0.5rem 0" }}>
+                                <TuneIcon sx={{ marginRight: "10px", fontSize: "26px" }} />
+                                <div style={{ width: "75%", height: "75px", display: "flex", flexDirection: "column" }}>
+                                    <span style={{ fontSize: "14px", fontWeight: "500", lineHeight: "32px", letterSpacing: "2.1px", textTransform: "capitalize" }}>flexibility</span>
+                                    <StarRating />
+                                </div>
+                            </div>
+                            <div style={{ width: "60%", display: "flex", alignItems: "center", margin: "0.5rem 0" }}>
+                                <AttachMoneyIcon sx={{ marginRight: "10px", fontSize: "26px" }} />
+                                <div style={{ width: "77%", height: "75px", display: "flex", flexDirection: "column" }}>
+                                    <span style={{ fontSize: "14px", fontWeight: "500", lineHeight: "32px", letterSpacing: "2.1px", textTransform: "capitalize" }}>value of money</span>
+                                    <StarRating />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style={{ display: "flex", flexDirection: "column", marginTop: "1.5rem", marginBottom: "1.5rem" }}>
+                            <TextField
+                                fullWidth
+                                variant="filled"
+                                type="text"
+                                name="reason"
+                                label="Main Reason For Your Rating"
+                                autoComplete="new-reason"
+                                onBlur={formik.handleBlur}
+                                onChange={formik.handleChange}
+                                value={formik.values.reason}
+                                error={!!formik.touched.reason && !!formik.errors.reason}
+                                helperText={formik.touched.reason && formik.errors.reason}
+                                sx={{ marginBottom: "3%" }}
+                            />
+                            <TextField
+                                fullWidth
+                                variant="filled"
+                                type="text"
+                                name="comments"
+                                label="Your Comments"
+                                autoComplete="new-comments"
+                                onBlur={formik.handleBlur}
+                                onChange={formik.handleChange}
+                                value={formik.values.comments}
+                                error={!!formik.touched.comments && !!formik.errors.comments}
+                                helperText={formik.touched.comments && formik.errors.comments}
+                                InputProps={{
+                                    style: {
+                                        height: "250px"
+                                    }
+                                }}
+                            />
+                        </div>
+
+                        <div style={{ display: "flex" }}>
+                            <Button type="submit" color='success' variant='contained' onClick={e => e.preventDefault()}
+                                sx={{
+                                    width: "100px", fontSize: "14px", letterSpacing: "0.15em", lineHeight: "2em", fontWeight: "400", padding: "6px 10px", textTransform: "capitalize"
+                                }}> submit </Button>
+                        </div>
+                    </div>
+                </form>
             </div>
 
-            <form ref={refId} style={{ width: "51%" }}>
-                <div style={{ padding: "1.5rem" }}>
-                    <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "flex-start" }}>
-                        <div style={{ display: "flex", alignItems: "center", margin: "0.5rem 0" }}>
-                            <SentimentSatisfiedAltIcon sx={{ marginRight: "10px", fontSize: "30px" }} />
-                            <div style={{ display: "flex", flexDirection: "column" }}>
-                                <span style={{ fontSize: "14px", fontWeight: "500", lineHeight: "32px", letterSpacing: "2.1px", textTransform: "capitalize" }}>quality of service</span>
-                                <StarRating />
-                            </div>
-                        </div>
-                        <div style={{ display: "flex", alignItems: "center", margin: "0.5rem 0" }}>
-                            <ExtensionIcon sx={{ marginRight: "10px", fontSize: "30px" }} />
-                            <div style={{ display: "flex", flexDirection: "column" }}>
-                                <span style={{ fontSize: "14px", fontWeight: "500", lineHeight: "32px", letterSpacing: "2.1px", textTransform: "capitalize" }}>facilities</span>
-                                <StarRating />
-                            </div>
-                        </div>
-                        <div style={{ display: "flex", alignItems: "center", margin: "0.5rem 0" }}>
-                            <GroupIcon sx={{ marginRight: "10px", fontSize: "30px" }} />
-                            <div style={{ display: "flex", flexDirection: "column" }}>
-                                <span style={{ fontSize: "14px", fontWeight: "500", lineHeight: "32px", letterSpacing: "2.1px", textTransform: "capitalize" }}>staff</span>
-                                <StarRating />
-                            </div>
-                        </div>
-                        <div style={{ display: "flex", alignItems: "center", margin: "0.5rem 0" }}>
-                            <TuneIcon sx={{ marginRight: "10px", fontSize: "30px" }} />
-                            <div style={{ display: "flex", flexDirection: "column" }}>
-                                <span style={{ fontSize: "14px", fontWeight: "500", lineHeight: "32px", letterSpacing: "2.1px", textTransform: "capitalize" }}>flexibility</span>
-                                <StarRating />
-                            </div>
-                        </div>
-                        <div style={{ display: "flex", alignItems: "center", margin: "0.5rem 0" }}>
-                            <AttachMoneyIcon sx={{ marginRight: "10px", fontSize: "30px" }} />
-                            <div style={{ display: "flex", flexDirection: "column" }}>
-                                <span style={{ fontSize: "14px", fontWeight: "500", lineHeight: "32px", letterSpacing: "2.1px", textTransform: "capitalize" }}>value of money</span>
-                                <StarRating />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div style={{ display: "flex", flexDirection: "column", marginTop: "1.5rem", marginBottom: "1.5rem" }}>
-                        <TextField
-                            fullWidth
-                            variant="filled"
-                            type="text"
-                            name="reason"
-                            label="Main Reason For Your Rating"
-                            autoComplete="new-reason"
-                            onBlur={formik.handleBlur}
-                            onChange={formik.handleChange}
-                            value={formik.values.reason}
-                            error={!!formik.touched.reason && !!formik.errors.reason}
-                            helperText={formik.touched.reason && formik.errors.reason}
-                            sx={{ marginBottom: "3%" }}
-                        />
-                        <TextField
-                            fullWidth
-                            variant="filled"
-                            type="text"
-                            name="comments"
-                            label="Your Comments"
-                            autoComplete="new-comments"
-                            onBlur={formik.handleBlur}
-                            onChange={formik.handleChange}
-                            value={formik.values.comments}
-                            error={!!formik.touched.comments && !!formik.errors.comments}
-                            helperText={formik.touched.comments && formik.errors.comments}
-                            InputProps={{
-                                style: {
-                                    height: "250px"
-                                }
-                            }}
-                        />
-                    </div>
-
-                    <div style={{ display: "flex" }}>
-                        <Button type="submit" color='info' variant='contained' onClick={e => e.preventDefault()}
-                            sx={{
-                                fontSize: "14px", letterSpacing: "0.15em", lineHeight: "2em", fontWeight: "400", padding: "6px 10px", textTransform: "capitalize"
-                            }}> submit </Button>
-                    </div>
-                </div>
-            </form>
-
-            <div style={{ position: "absolute", left: "54%", top: "0", width: "45%" }} >
-                <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
-                    <p className="bigger-text" style={{ fontSize: "72px", fontWeight: "700", width: "100%", color: "#000000", margin: "1% 0" }}>Testimonials</p>
-                    <span style={{ fontSize: "14px", fontWeight: "500", letterSpacing: "2.1px", textTransform: "capitalize", margin: "-16px 0 6px 0" }}>What clients say about us</span>
-                    <span style={{ border: "1px solid #000000", width: "108px", marginBottom: "4%" }}></span>
+            {/* testimonials start */}
+            <div style={{ width: "65%", background: "linear-gradient(to right, #d3cce3, #e9e4f0)", boxShadow: "4px 4px 6px #800080, -4px -4px 6px #800080" }}>
+                <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                    <p style={{ fontSize: "62px", fontWeight: "700", fontFamily: "Marcellus, sans-serif", lineHeight: "1.2em", letterSpacing: "-0.04em", marginBottom: "-2px" }}>Testimonials</p>
+                    <span style={{ fontSize: "14px", fontWeight: "500", letterSpacing: "2.1px", textTransform: "capitalize", margin: "0 0 6px 0" }}>What clients say about us</span>
+                    <span style={{ border: "1px solid #000000", width: "108px", marginBottom: "6%" }}></span>
                 </Box>
-
 
                 <Box className="review-testimonial-slider">
 
@@ -198,9 +200,9 @@ const Review = () => {
                         <div className="review-round-1 review-round"></div>
                         <div className="review-round-2 review-round"></div>
                         <h4 style={{ fontWeight: "400", fontFamily: "Marcellus, sans-serif", fontSize: "26px", letterSpacing: "0.2em", textTransform: "capitalize" }}>
-                            Anjalina Jolie
+                            John Doe
                         </h4>
-                        <p style={{ fontWeight: "300", fontSize: "13px", lineHeight: "22px", letterSpacing: "0.1em", marginTop: "-20px", paddingRight: "20px" }}> Lorem ipsum dolor sit amet, in nam denique suavitate repudiandae, homero dictas omnesque duo et. Novum dignissim consectetuer ei mel. Ne patrioque consequat persequeris</p>
+                        <p style={{ width: "78%", fontWeight: "300", fontSize: "13px", lineHeight: "26px", letterSpacing: "0.1em", textAlign: "center" }}> Lorem ipsum dolor sit amet, in nam denique suavitate repudiandae, homero dictas omnesque duo et. Novum dignissim consectetuer ei mel. Ne patrioque consequat persequeris</p>
                         <img src="https://edensign.blob.core.windows.net/image-storage/header/photo1.jpg" />
                     </Box>
 
@@ -211,7 +213,7 @@ const Review = () => {
                         <h4 style={{ fontWeight: "400", fontFamily: "Marcellus, sans-serif", fontSize: "26px", letterSpacing: "0.2em", textTransform: "capitalize" }}>
                             Esra Bilgic
                         </h4>
-                        <p style={{ fontWeight: "300", fontSize: "13px", lineHeight: "22px", letterSpacing: "0.1em", marginTop: "-20px", paddingRight: "20px" }}> Lorem ipsum dolor sit amet, in nam denique suavitate repudiandae, homero dictas omnesque duo et. Novum dignissim consectetuer ei mel. Ne patrioque consequat persequeris</p>
+                        <p style={{ width: "78%", fontWeight: "300", fontSize: "13px", lineHeight: "26px", letterSpacing: "0.1em", textAlign: "center" }}> Lorem ipsum dolor sit amet, in nam denique suavitate repudiandae, homero dictas omnesque duo et. Novum dignissim consectetuer ei mel. Ne patrioque consequat persequeris</p>
                         <img src="https://edensign.blob.core.windows.net/image-storage/header/photo2.jpg" />
                     </Box>
 
@@ -222,117 +224,10 @@ const Review = () => {
                         <h4 style={{ fontWeight: "400", fontFamily: "Marcellus, sans-serif", fontSize: "26px", letterSpacing: "0.2em", textTransform: "capitalize" }}>
                             Tom Cruize
                         </h4>
-                        <p style={{ fontWeight: "300", fontSize: "13px", lineHeight: "22px", letterSpacing: "0.1em", marginTop: "-20px", paddingRight: "20px" }}> Lorem ipsum dolor sit amet, in nam denique suavitate repudiandae, homero dictas omnesque duo et. Novum dignissim consectetuer ei mel. Ne patrioque consequat persequeris</p>
+                        <p style={{ width: "78%", fontWeight: "300", fontSize: "13px", lineHeight: "26px", letterSpacing: "0.1em", textAlign: "center" }}> Lorem ipsum dolor sit amet, in nam denique suavitate repudiandae, homero dictas omnesque duo et. Novum dignissim consectetuer ei mel. Ne patrioque consequat persequeris</p>
                         <img src="https://edensign.blob.core.windows.net/image-storage/header/photo3.jpg" />
 
                     </Box>
-
-                    {/*
-                 <Box className='testimonial-sliding'>
-                <Box style={{ display: "flex", alignItems: "center", position: "absolute", top: "26px", left: "26px", padding: "18px 12px", backdropFilter: "blur(13px)", color: "#ffffff", fontWeight: "500", fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}>
-                    <span style={{ marginRight: "8px" }}>from</span>
-                    <span> &#8377;500</span>
-                </Box>
-                <img src={haircutImg} />
-                <Box>
-                    <h4 style={{ fontWeight: "400", fontFamily: "Marcellus, sans-serif", fontSize: "26px", letterSpacing: "0.2em", textTransform: "capitalize" }}>
-                        Haircut
-                    </h4>
-                    <p style={{ fontWeight: "300", fontSize: "13px", lineHeight: "22px", letterSpacing: "0.1em", marginTop: "-20px", paddingRight: "20px" }}> Lorem ipsum dolor sit amet, in nam denique suavitate repudiandae, homero dictas omnesque duo et. Novum dignissim consectetuer ei mel. Ne patrioque consequat persequeris</p>
-                    
-                </Box>
-            </Box>
-
-            <Box className='testimonial-sliding'>
-                <Box style={{ display: "flex", alignItems: "center", position: "absolute", top: "26px", left: "26px", padding: "18px 12px", backdropFilter: "blur(13px)", color: "#ffffff", fontWeight: "500", fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}>
-                    <span style={{ marginRight: "8px" }}>from</span>
-                    <span> &#8377;500</span>
-                </Box>
-                <img src={hairwashImg} />
-                <Box>
-                    <h4 style={{ fontWeight: "400", fontFamily: "Marcellus, sans-serif", fontSize: "26px", letterSpacing: "0.2em", textTransform: "capitalize" }}>
-                        Hair Wash
-                    </h4>
-                    <p style={{ fontWeight: "300", fontSize: "13px", lineHeight: "22px", letterSpacing: "0.1em", marginTop: "-20px", paddingRight: "20px" }}> Lorem ipsum dolor sit amet, in nam denique suavitate repudiandae, homero dictas omnesque duo et. Novum dignissim consectetuer ei mel. Ne patrioque consequat persequeris</p>
-                    <Button type="submit" onClick={e => e.preventDefault()}
-                        sx={{
-                            borderRadius: 0,
-                            fontSize: "12px",
-                            letterSpacing: "0.05em",
-                            lineHeight: "2em",
-                            fontWeight: "600",
-                            padding: "4px 0",
-                            borderBottom: "1px solid",
-                            textTransform: "capitalize"
-                        }}>Book Appointment</Button>
-                </Box>
-            </Box>
-
-            <Box className='testimonial-sliding'>
-                <Box style={{ display: "flex", alignItems: "center", position: "absolute", top: "26px", left: "26px", padding: "18px 12px", backdropFilter: "blur(13px)", color: "#ffffff", fontWeight: "500", fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}>
-                    <span style={{ marginRight: "8px" }}>from</span>
-                    <span> &#8377;500</span>
-                </Box>
-                <img src={pedicureImg} />
-                <Box>
-                    <h4 style={{ fontWeight: "400", fontFamily: "Marcellus, sans-serif", fontSize: "26px", letterSpacing: "0.2em", textTransform: "capitalize" }}>
-                        Pedicure
-                    </h4>
-                    <p style={{ fontWeight: "300", fontSize: "13px", lineHeight: "22px", letterSpacing: "0.1em", marginTop: "-20px", paddingRight: "20px" }}> Lorem ipsum dolor sit amet, in nam denique suavitate repudiandae, homero dictas omnesque duo et. Novum dignissim consectetuer ei mel. Ne patrioque consequat persequeris</p>
-                    <Button type="submit" onClick={e => e.preventDefault()}
-                        sx={{
-                            borderRadius: 0,
-                            fontSize: "12px",
-                            letterSpacing: "0.05em",
-                            lineHeight: "2em",
-                            fontWeight: "600",
-                            padding: "4px 0",
-                            borderBottom: "1px solid",
-                            textTransform: "capitalize"
-                        }}>Book Appointment</Button>
-                </Box>
-            </Box>
-
-            <Box className='testimonial-sliding'>
-                <Box style={{ display: "flex", alignItems: "center", position: "absolute", top: "26px", left: "26px", padding: "18px 12px", backdropFilter: "blur(13px)", color: "#ffffff", fontWeight: "500", fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}>
-                    <span style={{ marginRight: "8px" }}>from</span>
-                    <span> &#8377;500</span>
-                </Box>
-                <img src={manicureImg} />
-                <Box>
-                    <h4 style={{ fontWeight: "400", fontFamily: "Marcellus, sans-serif", fontSize: "26px", letterSpacing: "0.2em", textTransform: "capitalize" }}>
-                        Manicure
-                    </h4>
-                    <p style={{ fontWeight: "300", fontSize: "13px", lineHeight: "22px", letterSpacing: "0.1em", marginTop: "-20px", paddingRight: "20px" }}> Lorem ipsum dolor sit amet, in nam denique suavitate repudiandae, homero dictas omnesque duo et. Novum dignissim consectetuer ei mel. Ne patrioque consequat persequeris</p>
-                </Box>
-            </Box>
-
-            <Box className='testimonial-sliding'>
-                <Box style={{ display: "flex", alignItems: "center", position: "absolute", top: "26px", left: "26px", padding: "18px 12px", backdropFilter: "blur(13px)", color: "#ffffff", fontWeight: "500", fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}>
-                    <span style={{ marginRight: "8px" }}>from</span>
-                    <span> &#8377;500</span>
-                </Box>
-                <img src={bridalMakeupImg} />
-                <Box>
-                    <h4 style={{ fontWeight: "400", fontFamily: "Marcellus, sans-serif", fontSize: "26px", letterSpacing: "0.2em", textTransform: "capitalize" }}>
-                        Bridal Makeup
-                    </h4>
-                    <p style={{ fontWeight: "300", fontSize: "13px", lineHeight: "22px", letterSpacing: "0.1em", marginTop: "-20px", paddingRight: "20px" }}> Lorem ipsum dolor sit amet, in nam denique suavitate repudiandae, homero dictas omnesque duo et. Novum dignissim consectetuer ei mel. Ne patrioque consequat persequeris</p>
-                    <Button type="submit" onClick={e => e.preventDefault()}
-                        sx={{
-                            borderRadius: 0,
-                            fontSize: "12px",
-                            letterSpacing: "0.05em",
-                            lineHeight: "2em",
-                            fontWeight: "600",
-                            padding: "4px 0",
-                            borderBottom: "1px solid",
-                            textTransform: "capitalize"
-                        }}>Book Appointment</Button>
-                </Box>
-            </Box> 
-            
-            </Box> */}
 
                     <span className='review-testimonial-arrow' style={{ left: "4%" }} onClick={() => prevArrowClick(-1)}>&#10094;</span>
                     <span className='review-testimonial-arrow' style={{ right: "4%", zIndex: "11" }} onClick={() => nextArrowClick(+1)}>&#10095;</span>

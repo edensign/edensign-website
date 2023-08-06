@@ -25,8 +25,7 @@ const AboutContainer = () => {
                         alignItems: "center",
                         height: "100%",
                         width: isMobile ? "100%" : "80%",
-                        backgroundColor: 'white',
-                        border: "2px solid aqua"
+                        backgroundColor: "#ffffff"
                     }}
                 >
                     <p style={{ fontFamily: "Marcellus,sans-serif", fontWeight: "400", fontSize: "20px", lineHeight: "20px", letterSpacing: "0.8em", textTransform: "uppercase" }}> about </p>
@@ -39,9 +38,7 @@ const AboutContainer = () => {
             </Grid>
             <Grid item xs={6} md={6}>
                 <Box
-                    sx={{
-                        border: "2px solid aqua", height: "100%", width: isMobile ? "100%" : "80%", backgroundColor: '#E6E6FA', marginTop: "10%"
-                    }}
+                    sx={{ height: "100%", width: isMobile ? "100%" : "80%", backgroundColor: '#E6E6FA', marginTop: "10%" }}
                 >
                     <img src="https://edensign.blob.core.windows.net/image-storage/makeup/brushes3.jpg" className='collection-img' alt="about-us" />
                 </Box>

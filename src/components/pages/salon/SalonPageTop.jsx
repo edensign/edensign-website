@@ -12,7 +12,7 @@ import { Box, Button, Tooltip } from '@mui/material';
 import { TuneOutlined } from '@mui/icons-material';
 import { TrendingFlat } from '@mui/icons-material';
 
-import SalonBg from "../../assets/salons.jpg";
+import SalonBg from "../../assets/salonbg.jpg";
 import Search from '../../common/Search';
 
 const SalonPageTop = () => {
@@ -30,14 +30,14 @@ const SalonPageTop = () => {
 
         setFilterOpen(!filterOpen);
     };
-
+    // backgroundRepeat: "no-repeat",  backgroundSize: "contain",
     return (
         <Box sx={{
-            height: "80vh", width: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center",
-            border: "1px solid crimson", position: "relative", backgroundImage: `url(${SalonBg})`, backgroundRepeat: "repeat", backgroundPosition: "center center", color: "#ffffff"
+            height: "80vh", width: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "relative", backgroundColor: "#A6B7C5", color: "#ffffff"
         }}>
-            <Box display="flex" flexDirection="column" justifyContent="flex-start" alignItems="center" height="42vh">
-                <p style={{ textTransform: "capitalize", fontSize: "32px", fontWeight: "600", lineHeight: "1" }}  >
+            <img src={SalonBg} style={{ width: "100%", position: "absolute" }} />
+            <Box display="flex" flexDirection="column" justifyContent="flex-start" alignItems="center">
+                <p style={{ textTransform: "capitalize", fontSize: "32px", fontWeight: "600", lineHeight: "1", zIndex: "1" }}  >
                     Over 100,000 Eden Sign Salons across 15 states  </p>
                 <Search />
             </Box>

@@ -228,7 +228,7 @@
     background-color: #6a0dad;
 }
 
-
+/* ------------------------------------------------ */
 
 
 
@@ -242,72 +242,9 @@
 
 /*
 
-.makeup-para4 {
-    padding: 10px 20px;
-    line-height: 1.5em;
-}
-
-
-
-.about-para1 {
-    font-size: 32px;
-    text-transform: uppercase;
-    letter-spacing: 0.3em;
-}
-
-
-.about-para2 {
-    font-size: 46px;
-    text-transform: uppercase;
-    letter-spacing: 0.3em;
-}
-
-
-.about-para3 {
-    padding: 10px 20px;
-    line-height: 1.5em;
-}
-
-
-.react-slideshow-wrapper.slide {
-    height: 490px;
-}
-
-
 button.nav.default-nav {
     height: 80px;
     width: 80px;
-}
-
-
-.body-boxes3-headings {
-    color: white;
-    font-size: 60px;
-    text-transform: uppercase;
-    letter-spacing: 0.25em;
-    position: absolute;
-    z-index: 1;
-}
-
-
-
-.body-boxes3-images:hover {
-    filter: brightness(60%);
-    cursor: pointer;
-    transition: all 1s ease;
-}
-
-
-.newsletter-image {
-    width: 500px;
-    height: 400px;
-    object-fit: cover;
-}
-
-
-.react-slideshow-container {
-    width: 35vw;
-    margin: auto;
 }
 
 

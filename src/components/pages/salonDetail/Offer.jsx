@@ -10,7 +10,7 @@ import { Box } from "@mui/material";
 
 const Offer = () => {
     return (
-        <Box sx={{ width: "70%", display: "flex", flexDirection: "column", alignItems: "center", margin: "auto", marginBottom: "6%", position: "relative" }}>
+        <Box sx={{ width: "70%", display: "flex", flexDirection: "column", alignItems: "center", margin: "auto", marginBottom: "8%", position: "relative" }}>
             <span className="offer-line"></span>
             <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                 <span style={{ fontSize: "12px", fontWeight: "500", lineHeight: "32px", letterSpacing: "2.1px", textTransform: "uppercase" }}>exclusive offer</span>

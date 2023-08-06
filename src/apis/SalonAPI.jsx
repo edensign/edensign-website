@@ -20,9 +20,6 @@ export const SalonAPI = {
         const searchParam = search ? `&search=${search}` : '';
         const { data: response } = await api.request({
             url: `/get-salons?page=${page}&size=${size}${queryParam}${searchParam}`,
-            // headers: {
-            //     "x-access-token": getLocalStorage("auth")?.token
-            // },
             method: "GET",
             signal: cancel ? cancelApiObject[this.getAll.name].handleRequestCancellation().signal : undefined,
         });

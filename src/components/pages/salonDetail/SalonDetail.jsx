@@ -10,6 +10,7 @@ import React from "react";
 
 import "./style.css";
 import BookAppointment from "./BookAppointment";
+import DetailPageTop from "./DetailPageTop";
 import ExclusiveOffer from "./ExclusiveOffer";
 import Facilities from "./Facilities";
 import FilterMenu from "../../common/FilterMenu";
@@ -17,15 +18,14 @@ import ImagesCarousel from "./ImagesCarousel";
 import LatestOffer from "./LatestOffer";
 import Newsletter from "../../common/Newsletter";
 import Offer from "./Offer";
-import PageTop from "../../common/PageTop";
-import SmallCarousel from "./SmallCarousel";
+import Review from "./Review";
 import SalonCarousel from "./SalonCarousel";
+import ServicesStrip from "./ServicesStrip";
 import TheLocations from "./TheLocations";
 import VideoSection from "./VideoSection";
-import Review from "./Review";
 
 
-const SalonDetail = ({ backgroundColor }) => {
+const SalonDetail = () => {
 
     //808076, 94948b, a9a9a1, bebeb8, d3d3cf
     // React.useEffect(() => {
@@ -34,9 +34,9 @@ const SalonDetail = ({ backgroundColor }) => {
 
     return (
         <>
-            <PageTop name='details' />
+            <DetailPageTop />
             <FilterMenu />
-            <SmallCarousel />
+            <ServicesStrip />
             <Offer />
             <Facilities />
             <ExclusiveOffer />
@@ -47,7 +47,7 @@ const SalonDetail = ({ backgroundColor }) => {
             <BookAppointment />
             <Newsletter />
             <Review />
-            {/* <TheLocations /> */}
+            <TheLocations />
         </>
     )
 };

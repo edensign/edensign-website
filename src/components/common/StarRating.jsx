@@ -35,9 +35,10 @@ export default function StarRating() {
     return (
         <Box
             sx={{
-                width: 200,
+                width: 115,
                 display: 'flex',
-                alignItems: 'center',
+                alignItems: "flex-start",
+                flexDirection: "column"
             }}
         >
             <Rating

@@ -11,8 +11,8 @@ import augustine from "../../assets/salon-detail.png";
 
 const Facilities = () => {
     return (
-        <Box display="flex" justifyContent="space-around" alignItems="center" sx={{ width: "100%", position: "relative", fontFamily: "Inter, sans-serif" }}>
-            <Box display="flex" flexDirection="column" textAlign="right" width="30%">
+        <Box display="flex" justifyContent="space-around" alignItems="center" sx={{ width: "100%", position: "relative", marginBottom: "11%", fontFamily: "Inter, sans-serif" }}>
+            <Box display="flex" flexDirection="column" textAlign="right" width="29%">
                 <nav aria-label="services provided by this website">
                     <List className="facilities-list-left">
                         <ListItemText primary="free shipping" primaryTypographyProps={{ fontWeight: "400", fontSize: "21px", lineHeight: "28px", letterSpacing: "0.14em", textTransform: "uppercase" }} />
@@ -37,7 +37,7 @@ const Facilities = () => {
                 <img src={augustine} alt="brand" style={{ height: "auto", width: "276px", maxWidth: "100%", border: "none", borderRadius: "0", boxShadow: "none", aspectRatio: "auto 276/641" }} />
             </Box>
 
-            <Box display="flex" flexDirection="column" width="30%">
+            <Box display="flex" flexDirection="column" width="29%">
                 <nav aria-label="services provided by this website">
                     <List className="facilities-list-right">
                         <ListItemText primary="free shipping" primaryTypographyProps={{ fontWeight: "400", fontSize: "21px", lineHeight: "28px", letterSpacing: "0.14em", textTransform: "uppercase" }} />

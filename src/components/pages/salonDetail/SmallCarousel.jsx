@@ -9,11 +9,16 @@
 import { useEffect } from 'react';
 import { Box } from '@mui/material';
 
+import Salon1 from "../../assets/dummy/salon_dummy1.jpg";
+import Salon2 from "../../assets/dummy/salon_dummy2.jpg";
+import Salon3 from "../../assets/dummy/salon_dummy3.jpg";
+
 const SmallCarousel = () => {
     let slideIndex = 0;
 
     function showSlides(num) {
         let slides = document.getElementsByClassName("small-sliding");
+        let bigSlides = document.getElementsByClassName("big-sliding");
         if (num == slides.length) {
             num = 0;
             slideIndex = 0;
@@ -22,10 +27,15 @@ const SmallCarousel = () => {
             num = slides.length - 1;
             slideIndex = slides.length - 1;
         }
+
         for (let slide of slides) {
             slide.style.opacity = "0";
         }
+        for (let bigSlide of bigSlides) {
+            bigSlide.style.opacity = "0";
+        }
         slides[num].style.opacity = "1";
+        bigSlides[num].style.opacity = "1";
         // controller(i);
     };
 
@@ -45,35 +55,31 @@ const SmallCarousel = () => {
     }, []);
 
     return (
-        <>
-            <Box sx={{ width: "100%", height: "70vh", position: "relative", marginBottom: "4%", backgroundAttachment: "fixed", background: "url(https://edensign.blob.core.windows.net/image-storage/header/photo1.jpg) 50% 50% no-repeat", backgroundSize: "cover", filter: "blur(8px)" }}>
-            </Box>
-            <Box className="small-slider">
+        <Box className="small-slider">
 
-                <Box className='small-sliding'>
-                    {/* <span className='header-span1'> collection</span>
+            <Box className='small-sliding'>
+                {/* <span className='header-span1'> collection</span>
                 <span className='header-span2'> forever beautiful</span>
                 <span className='header-span3'> This collection focuses on natural, plant-based ingredients to help customers achieve a radiant and healthy glow.</span> */}
-                    <img src="https://edensign.blob.core.windows.net/image-storage/header/photo1.jpg" />
-                </Box>
-                <Box className='small-sliding'>
-                    {/* <span className='header-span1'> new collection</span>
+                <img src={Salon1} />
+            </Box>
+            <Box className='small-sliding'>
+                {/* <span className='header-span1'> new collection</span>
                 <span className='header-span2'> jozy and marco</span>
                 <span className='header-span3'> This collection is all about making a statement with vibrant colors and bold finishes.</span> */}
-                    <img src="https://edensign.blob.core.windows.net/image-storage/header/photo2.jpg" />
-                </Box>
-                <Box className='small-sliding'>
-                    {/* <span className='header-span1'> article</span>
+                <img src={Salon2} />
+            </Box>
+            <Box className='small-sliding'>
+                {/* <span className='header-span1'> article</span>
                 <span className='header-span2'> princess story</span>
                 <span className='header-span3'> This story is perfect for customers who prefer a minimalist approach to makeup.</span> */}
-                    <img src="https://edensign.blob.core.windows.net/image-storage/header/photo3.jpg" />
-                </Box>
-
-                <span className='small-arrow' style={{ left: "4%" }} onClick={() => controller(-1)}>&#10094;</span>
-                <span className='small-arrow' style={{ right: "4%" }} onClick={() => controller(+1)}>&#10095;</span>
-
+                <img src={Salon3} />
             </Box>
-        </>
+
+            <span className='small-arrow' style={{ left: "4%" }} onClick={() => controller(-1)}>&#10094;</span>
+            <span className='small-arrow' style={{ right: "4%" }} onClick={() => controller(+1)}>&#10095;</span>
+
+        </Box>
     )
 }
 

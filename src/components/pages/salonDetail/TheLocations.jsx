@@ -33,8 +33,8 @@ const TheLocations = () => {
             </Box>
 
             <Box sx={{ maxWidth: "40%", width: "39%", height: "70vh", position: "relative", display: "flex", flexWrap: "wrap" }}>
-                <Box sx={{ position: "absolute", left: "0", top: "0", zIndex: "1", height: "100%", width: "100%", borderRadius: "50%", overflow: "hidden", border: "1px solid #000000", cursor: `url(https://maps.gstatic.com/mapfiles/openhand_8_8.cur), default`, touchAction: "pan-x pan-y" }}>
-                    <iframe aria-hidden="true" allowFullScreen="" frameBorder="0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" width="500" height="440"
+                <Box sx={{ position: "absolute", left: "0", top: "20px", zIndex: "1", height: "100%", width: "100%", borderRadius: "50%", boxShadow: "4px 4px 6px #800080, -4px -4px 6px #800080", overflow: "hidden", cursor: `url(https://maps.gstatic.com/mapfiles/openhand_8_8.cur), default`, touchAction: "pan-x pan-y" }}>
+                    <iframe aria-hidden="true" allowFullScreen="" frameBorder="0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" width="470" height="440"
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3510.079569210787!2d79.4141265744352!3d28.38666459520531!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39a007b41b1eec35%3A0xc44ff0449ba21640!2sEden%20Signature!5e0!3m2!1sen!2sin!4v1690528770409!5m2!1sen!2sin">
                     </iframe>
 

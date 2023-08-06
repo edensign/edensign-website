@@ -7,7 +7,7 @@
 */
 
 import * as React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import { AppBar, Box, IconButton, Menu, MenuItem, Toolbar, Typography } from '@mui/material';
 import { Button, Tooltip, useTheme } from '@mui/material';
@@ -29,6 +29,7 @@ function Topbar(props) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorMode = React.useContext(ColorModeContext);
+  const location = useLocation();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -45,82 +46,84 @@ function Topbar(props) {
     setAnchorElUser(null);
   };
 
-  React.useEffect(() => {
-    window.onscroll = () => {
-      const btnBox = document.getElementsByClassName("btn-box");
-      const linkPage = document.getElementsByClassName("link-page");
-      const appbar = document.getElementById("app-bar");
-      const mainDiv = document.getElementById("main-div");
 
-      const welcomeText = document.getElementsByClassName("bigger-text")[0];
-      const welcomeLine = document.getElementsByClassName("offer-line")[0];
-      const serviceLine = document.getElementsByClassName("offer-line")[1];
-      const offersLine = document.getElementsByClassName("offer-line")[2];
-      const locationsLine = document.getElementsByClassName("offer-line")[3];
-      const facilitiesImg = document.getElementsByClassName("facilities-img-box")[0];
-      const facilitiesListLeft = document.getElementsByClassName("facilities-list-left")[0];
-      const facilitiesListRight = document.getElementsByClassName("facilities-list-right")[0];
-      let scroll = window.pageYOffset;
+  window.onscroll = () => {
+    const btnBox = document.getElementsByClassName("btn-box");
+    const linkPage = document.getElementsByClassName("link-page");
+    const appbar = document.getElementById("app-bar");
+    const mainDiv = document.getElementById("main-div");
 
-      if (scroll > 40) {
-        appbar.style.backgroundColor = "#ffffff";
-        Array.from(btnBox).forEach(btn => {
-          btn.style.color = "#000000";
-        });
-        Array.from(linkPage).forEach(link => {
-          link.style.color = "#000000";
-        });
-      } else {
-        appbar.style.background = "transparent";
-        Array.from(btnBox).forEach(btn => {
-          btn.style.color = "#ffffff";
-        });
-        Array.from(linkPage).forEach(link => {
-          link.style.color = "#ffffff";
-        });
-      }
+    const welcomeText = document.getElementsByClassName("bigger-text")[0];
+    const welcomeLine = document.getElementsByClassName("offer-line")[0];
+    const serviceLine = document.getElementsByClassName("offer-line")[1];
+    const offersLine = document.getElementsByClassName("offer-line")[2];
+    const locationsLine = document.getElementsByClassName("offer-line")[3];
+    const facilitiesImg = document.getElementsByClassName("facilities-img-box")[0];
+    const facilitiesListLeft = document.getElementsByClassName("facilities-list-left")[0];
+    const facilitiesListRight = document.getElementsByClassName("facilities-list-right")[0];
+    let scroll = window.pageYOffset;
+    console.log(scroll);
 
-      console.log(scroll)
-      if (scroll > 500 && welcomeLine) {
-        welcomeLine.classList.add("clip-line");
-      }
+    if (scroll > 40) {
+      appbar.style.backgroundColor = "#ffffff";
+      Array.from(btnBox).forEach(btn => {
+        btn.style.color = "#000000";
+      });
+      Array.from(linkPage).forEach(link => {
+        link.style.color = "#000000";
+      });
+    } else {
+      appbar.style.background = "transparent";
+      Array.from(btnBox).forEach(btn => {
+        btn.style.color = "#ffffff";
+      });
+      Array.from(linkPage).forEach(link => {
+        link.style.color = "#ffffff";
+      });
+    }
 
-      if (scroll > 600 && welcomeText) {
-        welcomeText.style.animation = `shine 4s linear`;
-      }
+    if (scroll > 500 && welcomeLine) {
+      welcomeLine.classList.add("clip-line");
+    }
 
-      if (scroll > 800 && facilitiesImg) {
-        facilitiesImg.classList.add("facilities-img-box-show");
-        facilitiesListLeft.classList.add("facilities-list-show");
-        facilitiesListRight.classList.add("facilities-list-show");
-      }
+    if (scroll > 600 && welcomeText) {
+      welcomeText.style.animation = `shine 4s linear`;
+    }
 
-      if (scroll > 1450 && serviceLine) {
-        serviceLine.classList.add("clip-line");
-      }
+    if (scroll > 800 && facilitiesImg) {
+      facilitiesImg.classList.add("facilities-img-box-show");
+      facilitiesListLeft.classList.add("facilities-list-show");
+      facilitiesListRight.classList.add("facilities-list-show");
+    }
 
-      if (scroll > 3000 && offersLine) {
-        offersLine.classList.add("clip-line");
-      }
+    if (scroll > 1450 && serviceLine) {
+      serviceLine.classList.add("clip-line");
+    }
 
-      // if (scroll > 5300) {
-      //   locationsLine.classList.add("clip-line");
-      // }
+    if (scroll > 3000 && offersLine) {
+      offersLine.classList.add("clip-line");
+    }
 
-      //changing background gradients on page scroll
-      if (scroll > 500 && scroll < 2499) {
-        mainDiv.style.transition = "background 1s ease-in-out";
-        mainDiv.style.background = `linear-gradient(to left, #f4c4f3, #fc67fa)`;
-      }
-      if (scroll > 2500 && scroll < 3999) {
-        mainDiv.style.background = `linear-gradient(to top, #fbd3e9, #bb377d)`;
-      }
-      if (scroll > 4000 && scroll < 7000) {
-        mainDiv.style.background = `linear-gradient(to bottom right, #800080, #ffc0cb)`;
-      }
+    if (scroll > 6230) {
+      locationsLine.classList.add("clip-line");
+    }
 
-    };
-  }, []);
+
+    //changing background gradients on page scroll
+    // if (scroll > 500 && scroll < 2499) {
+    //   mainDiv.style.background = location.pathname === "/salons" ? `linear-gradient(to left, rgb(166,179,195), rgb(166,179,195))` :
+    //     `linear-gradient(to left, #f4c4f3, #fc67fa)`;
+    // }
+    // if (scroll > 2500 && scroll < 3999) {
+    //   mainDiv.style.background = location.pathname === "/salons" ? `linear-gradient(to left, rgb(166,179,195), rgb(166,179,195))` :
+    //     `linear-gradient(to top, #fbd3e9, #bb377d)`;
+    // }
+    // if (scroll > 4000 && scroll < 7000) {
+    //   mainDiv.style.background = location.pathname === "/salons" ? `linear-gradient(to left, rgb(166,179,195), rgb(166,179,195))` :
+    //     `linear-gradient(to bottom right, #800080, #ffc0cb)`;
+    // }
+
+  };
 
   return (
     <AppBar position="fixed" id="app-bar" sx={{

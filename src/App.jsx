@@ -7,7 +7,7 @@
 */
 
 import { lazy, Suspense } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 
 import { CssBaseline, ThemeProvider, useTheme } from "@mui/material";
 // import { useIdleTimer } from 'react-idle-timer';
@@ -28,7 +28,9 @@ function App() {
   const [theme, colorMode] = useMode();
   const themes = useTheme();
   const colors = tokens(themes.palette.mode);
+  const location = useLocation();
 
+  // old gradient = linear-gradient(to right, #d9a7c7, #ffdde1)
 
   return (
     <ColorModeContext.Provider value={colorMode}>
@@ -36,8 +38,8 @@ function App() {
         <CssBaseline />
         <Suspense fallback={<Loader />}>
           <div id="main-div" style={{
-            backgroundColor: "#f3f3f3", background: `linear-gradient(to right, #d9a7c7, #ffdde1)`, color: "#000000", position: "relative", display: "flex", flexDirection: "column",
-            minHeight: "100vh", minWidth: "320px", width: "100%", maxWidth: "100vw", transition: "background 1s ease"
+            backgroundColor: "#f3f3f3", background: location.pathname == "/salons" ? `linear-gradient(to left, rgb(166,179,195), rgb(166,179,195))` : `linear-gradient(to bottom right, rgba(182,164,159,1), rgba(231,214,202,1))`, color: "#000000",
+            position: "relative", display: "flex", flexDirection: "column", minHeight: "100vh", minWidth: "320px", width: "100%", maxWidth: "100vw", transition: "background 1s ease"
           }}>
             <Topbar />
             <Routes>

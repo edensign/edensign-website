@@ -91,16 +91,16 @@ function Footer() {
                         display: "inline-flex", color: colors.redAccent[800], width: "90%"
                     }}>
                         <ListItemButton className="list" sx={{ paddingRight: "7px" }}>
-                            <FacebookIcon sx={{ fontSize: "1em", "&:hover": { color: "white" } }} />
+                            <FacebookIcon sx={{ fontSize: "14px", "&:hover": { color: "#ffffff" } }} />
                         </ListItemButton>
                         <ListItemButton className="list" sx={{ paddingRight: "7px" }}>
-                            <InstagramIcon sx={{ fontSize: "1em", "&:hover": { color: "white" } }} />
+                            <InstagramIcon sx={{ fontSize: "14px", "&:hover": { color: "#ffffff" } }} />
                         </ListItemButton>
                         <ListItemButton className="list" sx={{ paddingRight: "7px" }}>
-                            <TwitterIcon sx={{ fontSize: "1em", "&:hover": { color: "white" } }} />
+                            <TwitterIcon sx={{ fontSize: "14px", "&:hover": { color: "white" } }} />
                         </ListItemButton>
                         <ListItemButton className="list">
-                            <YouTubeIcon sx={{ fontSize: "1em", "&:hover": { color: "white" } }} />
+                            <YouTubeIcon sx={{ fontSize: "14px", "&:hover": { color: "white" } }} />
                         </ListItemButton>
                     </List>
                 </Box>

@@ -15,13 +15,10 @@ const ImageContainer = () => {
     const isTab = useMediaQuery("(max-width:920px)");
 
     return (        //border: "3px solid crimson",
-        <Grid container sx={{ marginBottom: "10%", minHeight: "80vh" }}>
+        <Grid container sx={{ marginBottom: "12%", minHeight: "80vh" }}>
             <Grid item xs={6} md={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
                 <Box
-                    sx={{
-                        border: "2px solid aqua", height: "100%", width: isMobile ? "100%" : "80%"
-                    }}
-                >
+                    sx={{ height: "100%", width: isMobile ? "100%" : "80%" }}>
                     <img src="https://edensign.blob.core.windows.net/image-storage/makeup/skincare-closeup.jpg" className='collection-img' alt="new-collection" />
                 </Box>
             </Grid>
@@ -35,10 +32,8 @@ const ImageContainer = () => {
                         alignItems: "center",
                         height: "100%",
                         width: isMobile ? "100%" : "80%",
-                        backgroundColor: "white",
-                        border: "2px solid aqua"
-                    }}
-                >
+                        backgroundColor: "#ffffff"
+                    }}>
                     <p style={{ fontFamily: "Marcellus,sans-serif", fontWeight: "400", fontSize: "20px", lineHeight: "20px", letterSpacing: "0.8em", textTransform: "uppercase" }}> new collection </p>
                     <DiamondIcon sx={{ fontSize: "10px" }} />
                     <p style={{ fontWeight: "400", fontSize: "32px", lineHeight: "1.28", letterSpacing: "0.14em", textTransform: "uppercase", marginTop: "6px" }}> lavender queen </p>

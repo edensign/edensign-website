@@ -6,12 +6,55 @@
  * restrictions set forth in your license agreement with Eden Sign.
 */
 
+import { lazy, Suspense } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
+
+import { CssBaseline, ThemeProvider, useTheme } from "@mui/material";
+// import { useIdleTimer } from 'react-idle-timer';
+
+import { ColorModeContext, useMode, tokens } from "./theme";
+import Topbar from "./components/common/Topbar";
+import Loader from "./components/common/Loader";
+import Home from "./components/pages/home/Home";
+import Salon from "./components/pages/salon/Salon";
+// import About from "./components/pages";
+// import Services from "./components/pages";
+// import PrivacyPolicy from "./components/pages";
+import Footer from './components/common/Footer';
+import SalonDetail from "./components/pages/salonDetail/SalonDetail";
+
 function App() {
 
+  const [theme, colorMode] = useMode();
+  const themes = useTheme();
+  const colors = tokens(themes.palette.mode);
+  const location = useLocation();
+
+  // old gradient = linear-gradient(to right, #d9a7c7, #ffdde1)
+
   return (
-    <>
-      Start coding to build something new!!
-    </>
+    <ColorModeContext.Provider value={colorMode}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Suspense fallback={<Loader />}>
+          <div id="main-div" style={{
+            backgroundColor: "#f3f3f3", background: location.pathname == "/salons" ? `linear-gradient(to left, rgb(166,179,195), rgb(166,179,195))` : `linear-gradient(to bottom right, rgba(182,164,159,1), rgba(231,214,202,1))`, color: "#000000",
+            position: "relative", display: "flex", flexDirection: "column", minHeight: "100vh", minWidth: "320px", width: "100%", maxWidth: "100vw", transition: "background 1s ease"
+          }}>
+            <Topbar />
+            <Routes>
+              <Route exact path='/' element={<Home />} />
+              <Route exact path='/salons' element={<Salon />} />
+              <Route exact path='/salon/detail' element={<SalonDetail />} />
+              {/* <Route path='/about' element={<About />} />
+              <Route path='/services' element={<Services />} />
+              <Route path='/privacyPolicy' element={<PrivacyPolicy />} /> */}
+            </Routes>
+            <Footer />
+          </div>
+        </Suspense>
+      </ThemeProvider>
+    </ColorModeContext.Provider >
   )
 }
 

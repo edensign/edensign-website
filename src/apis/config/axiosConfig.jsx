@@ -34,6 +34,7 @@ api.interceptors.response.use(undefined, (error) => {
   return errorHandler(error);
 });
 
+//request token when edensign admin is logged in not on website
 api.interceptors.request.use(req => {
   req.headers.Type = "website";
   return req;

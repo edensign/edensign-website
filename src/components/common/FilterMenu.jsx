@@ -26,19 +26,19 @@ const FilterMenu = () => {
     };
 
     return (
-        <Box id="filter-box" sx={{ fontFamily: "Inter, sans-serif", height: "17vh", width: "18vw", opacity: "0", transform: "translateX(100%)", transition: "all 1s ease", position: "fixed", top: "34%", right: "0", zIndex: "10" }}>
-            <Box sx={{ textAlign: "center", marginBottom: "8px" }}>
+        <Box id="filter-box" sx={{ width: "17%", fontFamily: "Inter, sans-serif", backgroundColor: "#ffffff", display: "flex", flexDirection: "column", borderRadius: "20px", opacity: "0", transform: "translateX(100%)", transitionDelay: "300ms", transition: "all .5s cubic-bezier(0.77, 0, 0.175, 1)", position: "fixed", top: "34%", right: "0", zIndex: "10", boxShadow: "0 0 9.8px 0.2px rgba(0, 0, 0, 0.14)" }}>
+            <Box sx={{ fontFamily: "inherit", textAlign: "center", margin: "20px 0 30px 0" }}>
                 <TuneOutlined sx={{ color: "#d32f2f", float: "left" }} />
-                <span style={{ textAlign: "center", textTransform: "uppercase", fontWeight: "500", fontSize: "15px", lineHeight: "1.2", letterSpacing: "0.05em" }}>  Filters </span>
+                <span style={{ textTransform: "uppercase", fontWeight: "500", fontSize: "15px", lineHeight: "1.2", letterSpacing: "0.05em" }}>  Filters </span>
             </Box>
 
-            <Box display="flex" justifyContent="space-around">
+            <Box display="flex" justifyContent="space-around" marginBottom="30px">
                 <Chip sx={{ fontSize: "11px", height: "20px" }} label="Male" variant="outlined" size="small" onClick={handleClick} onDelete={handleDelete} />
                 <Chip sx={{ fontSize: "11px", height: "20px" }} label="Female" variant="outlined" size="small" onClick={handleClick} onDelete={handleDelete} />
                 <Chip sx={{ fontSize: "11px", height: "20px" }} label="Unisex" variant="outlined" size="small" onClick={handleClick} onDelete={handleDelete} />
             </Box>
 
-            <Box display="flex" justifyContent="space-around" backgroundColor="#f3f3f3">
+            <Box display="flex" justifyContent="space-around" marginBottom="30px">
                 <Box>
                     <Checkbox {...checkboxLabel} color="default" size="small" />
                     <span style={{ paddingTop: "8px", fontSize: "11px", fontWeight: "500", lineHeight: "1.2", letterSpacing: "0.05em" }}>Featured</span>
@@ -49,9 +49,11 @@ const FilterMenu = () => {
                 </Box>
             </Box>
 
-            <Button type="submit" color="warning" variant="contained" size="small" fullWidth sx={{ borderRadius: "0", fontFamily: "Inter, sans-serif", fontWeight: "500", fontSize: "12px", lineHeight: "1.2", letterSpacing: "0.05em" }}>
-                Apply
-            </Button>
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                <Button type="submit" color="info" variant="contained" sx={{ width: "66%", fontFamily: "Inter, sans-serif", fontWeight: "500", fontSize: "12px", lineHeight: "1.2", letterSpacing: "0.05em", marginBottom: "20px" }}>
+                    Apply
+                </Button>
+            </div>
         </Box >
     )
 };

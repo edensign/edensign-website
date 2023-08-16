@@ -14,3 +14,10 @@ export const setSalons = (salons) => {
         payload: salons
     };
 };
+
+export const setSalonDetail = (salonDetail) => {
+    return {
+        type: ActionTypes.SET_SALON_DETAIL,
+        payload: salonDetail
+    };
+};

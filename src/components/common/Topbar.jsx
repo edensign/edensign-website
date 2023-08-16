@@ -62,7 +62,7 @@ function Topbar(props) {
     const facilitiesListLeft = document.getElementsByClassName("facilities-list-left")[0];
     const facilitiesListRight = document.getElementsByClassName("facilities-list-right")[0];
     let scroll = window.pageYOffset;
-    console.log(scroll);
+    // console.log(scroll);
 
     if (scroll > 40) {
       appbar.style.backgroundColor = "#ffffff";
@@ -199,7 +199,8 @@ function Topbar(props) {
           {pages.map(page => (
             <Button
               key={page}
-              onClick={handleCloseNavMenu}
+              // onClick={handleCloseNavMenu}
+              disableRipple
               sx={{ my: 1, display: 'block', fontSize: "12px", letterSpacing: "0.13em", lineHeight: "1.14", fontWeight: "500", textTransform: "uppercase" }}
             >
               <Link className="link-page" style={{ textDecoration: "none", color: "#ffffff" }} to={`/${page.charAt(0).toLowerCase() + page.slice(1)}`}>

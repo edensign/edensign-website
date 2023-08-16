@@ -9,15 +9,10 @@
 import { useEffect } from 'react';
 import { Box, Button } from '@mui/material';
 
-import haircutImg from "../../assets/services/haircut.jpg"
-import hairwashImg from "../../assets/services/hair_wash.jpg"
-import pedicureImg from "../../assets/services/pedicure.jpg"
-import manicureImg from "../../assets/services/manicure.jpg"
-import bridalMakeupImg from "../../assets/services/bridal_makeup.jpg"
-
 const SalonCarousel = () => {
     let slideIndex = 0;
     let counter = 3;
+    const servicesSectionURL = "https://edensign.blob.core.windows.net/image-storage/services/";
 
     function showSlides(num) {
         let slides = document.getElementsByClassName("salon-sliding");
@@ -68,12 +63,12 @@ const SalonCarousel = () => {
                     <span style={{ marginRight: "8px" }}>from</span>
                     <span> &#8377;500</span>
                 </Box>
-                <img src="https://edensign.blob.core.windows.net/image-storage/header/photo1.jpg" />
+                <img src={`${servicesSectionURL}bridalMakeup.jpg`} />
                 <Box>
                     <h4 style={{ fontWeight: "400", fontFamily: "Marcellus, sans-serif", fontSize: "26px", letterSpacing: "0.2em", textTransform: "capitalize" }}>
-                        Airbrush Makeup
+                        Bridal Makeup
                     </h4>
-                    <p style={{ fontWeight: "300", fontSize: "13px", lineHeight: "22px", letterSpacing: "0.1em", marginTop: "-20px", paddingRight: "20px" }}> Lorem ipsum dolor sit amet, in nam denique suavitate repudiandae, homero dictas omnesque duo et. Novum dignissim consectetuer ei mel. Ne patrioque consequat persequeris</p>
+                    <p style={{ fontWeight: "300", fontSize: "13px", lineHeight: "22px", letterSpacing: "0.1em", marginTop: "-20px", paddingRight: "26px" }}> Lorem ipsum dolor sit amet, in nam denique suavitate repudiandae, homero dictas omnesque duo et. Novum dignissim consectetuer ei mel. Ne patrioque consequat persequeris</p>
                     <Button type="submit" onClick={e => e.preventDefault()}
                         sx={{
                             borderRadius: 0,
@@ -93,12 +88,12 @@ const SalonCarousel = () => {
                     <span style={{ marginRight: "8px" }}>from</span>
                     <span> &#8377;500</span>
                 </Box>
-                <img src="https://edensign.blob.core.windows.net/image-storage/header/photo2.jpg" />
+                <img src={`${servicesSectionURL}matteMakeup.jpg`} />
                 <Box>
                     <h4 style={{ fontWeight: "400", fontFamily: "Marcellus, sans-serif", fontSize: "26px", letterSpacing: "0.2em", textTransform: "capitalize" }}>
                         Matte Makeup
                     </h4>
-                    <p style={{ fontWeight: "300", fontSize: "13px", lineHeight: "22px", letterSpacing: "0.1em", marginTop: "-20px", paddingRight: "20px" }}> Lorem ipsum dolor sit amet, in nam denique suavitate repudiandae, homero dictas omnesque duo et. Novum dignissim consectetuer ei mel. Ne patrioque consequat persequeris</p>
+                    <p style={{ fontWeight: "300", fontSize: "13px", lineHeight: "22px", letterSpacing: "0.1em", marginTop: "-20px", paddingRight: "26px" }}> Lorem ipsum dolor sit amet, in nam denique suavitate repudiandae, homero dictas omnesque duo et. Novum dignissim consectetuer ei mel. Ne patrioque consequat persequeris</p>
                     <Button type="submit" onClick={e => e.preventDefault()}
                         sx={{
                             borderRadius: 0,
@@ -118,12 +113,12 @@ const SalonCarousel = () => {
                     <span style={{ marginRight: "8px" }}>from</span>
                     <span> &#8377;500</span>
                 </Box>
-                <img src="https://edensign.blob.core.windows.net/image-storage/header/photo3.jpg" />
+                <img src={`${servicesSectionURL}eyebrow.jpg`} />
                 <Box>
                     <h4 style={{ fontWeight: "400", fontFamily: "Marcellus, sans-serif", fontSize: "26px", letterSpacing: "0.2em", textTransform: "capitalize" }}>
-                        Mineral Makeup
+                        Eyebrow Makeup
                     </h4>
-                    <p style={{ fontWeight: "300", fontSize: "13px", lineHeight: "22px", letterSpacing: "0.1em", marginTop: "-20px", paddingRight: "20px" }}> Lorem ipsum dolor sit amet, in nam denique suavitate repudiandae, homero dictas omnesque duo et. Novum dignissim consectetuer ei mel. Ne patrioque consequat persequeris</p>
+                    <p style={{ fontWeight: "300", fontSize: "13px", lineHeight: "22px", letterSpacing: "0.1em", marginTop: "-20px", paddingRight: "26px" }}> Lorem ipsum dolor sit amet, in nam denique suavitate repudiandae, homero dictas omnesque duo et. Novum dignissim consectetuer ei mel. Ne patrioque consequat persequeris</p>
                     <Button type="submit" onClick={e => e.preventDefault()}
                         sx={{
                             borderRadius: 0,
@@ -143,12 +138,12 @@ const SalonCarousel = () => {
                     <span style={{ marginRight: "8px" }}>from</span>
                     <span> &#8377;500</span>
                 </Box>
-                <img src={haircutImg} />
+                <img src={`${servicesSectionURL}AirbrushMakeup.jpg`} />
                 <Box>
                     <h4 style={{ fontWeight: "400", fontFamily: "Marcellus, sans-serif", fontSize: "26px", letterSpacing: "0.2em", textTransform: "capitalize" }}>
-                        Haircut
+                        Airbrush Makeup
                     </h4>
-                    <p style={{ fontWeight: "300", fontSize: "13px", lineHeight: "22px", letterSpacing: "0.1em", marginTop: "-20px", paddingRight: "20px" }}> Lorem ipsum dolor sit amet, in nam denique suavitate repudiandae, homero dictas omnesque duo et. Novum dignissim consectetuer ei mel. Ne patrioque consequat persequeris</p>
+                    <p style={{ fontWeight: "300", fontSize: "13px", lineHeight: "22px", letterSpacing: "0.1em", marginTop: "-20px", paddingRight: "26px" }}> Lorem ipsum dolor sit amet, in nam denique suavitate repudiandae, homero dictas omnesque duo et. Novum dignissim consectetuer ei mel. Ne patrioque consequat persequeris</p>
                     <Button type="submit" onClick={e => e.preventDefault()}
                         sx={{
                             borderRadius: 0,
@@ -168,7 +163,7 @@ const SalonCarousel = () => {
                     <span style={{ marginRight: "8px" }}>from</span>
                     <span> &#8377;500</span>
                 </Box>
-                <img src={hairwashImg} />
+                <img src={`${servicesSectionURL}hairwash.jpg`} />
                 <Box>
                     <h4 style={{ fontWeight: "400", fontFamily: "Marcellus, sans-serif", fontSize: "26px", letterSpacing: "0.2em", textTransform: "capitalize" }}>
                         Hair Wash
@@ -193,7 +188,82 @@ const SalonCarousel = () => {
                     <span style={{ marginRight: "8px" }}>from</span>
                     <span> &#8377;500</span>
                 </Box>
-                <img src={pedicureImg} />
+                <img src={`${servicesSectionURL}haircut.jpg`} />
+                <Box>
+                    <h4 style={{ fontWeight: "400", fontFamily: "Marcellus, sans-serif", fontSize: "26px", letterSpacing: "0.2em", textTransform: "capitalize" }}>
+                        Haircut
+                    </h4>
+                    <p style={{ fontWeight: "300", fontSize: "13px", lineHeight: "22px", letterSpacing: "0.1em", marginTop: "-20px", paddingRight: "20px" }}> Lorem ipsum dolor sit amet, in nam denique suavitate repudiandae, homero dictas omnesque duo et. Novum dignissim consectetuer ei mel. Ne patrioque consequat persequeris</p>
+                    <Button type="submit" onClick={e => e.preventDefault()}
+                        sx={{
+                            borderRadius: 0,
+                            fontSize: "12px",
+                            letterSpacing: "0.05em",
+                            lineHeight: "2em",
+                            fontWeight: "600",
+                            padding: "4px 0",
+                            borderBottom: "1px solid",
+                            textTransform: "capitalize"
+                        }}>Book Appointment</Button>
+                </Box>
+            </Box>
+
+            <Box className='salon-sliding'>
+                <Box style={{ display: "flex", alignItems: "center", position: "absolute", top: "26px", left: "26px", padding: "18px 12px", backdropFilter: "blur(13px)", color: "#ffffff", fontWeight: "500", fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}>
+                    <span style={{ marginRight: "8px" }}>from</span>
+                    <span> &#8377;500</span>
+                </Box>
+                <img src={`${servicesSectionURL}haircolor.jpg`} />
+                <Box>
+                    <h4 style={{ fontWeight: "400", fontFamily: "Marcellus, sans-serif", fontSize: "26px", letterSpacing: "0.2em", textTransform: "capitalize" }}>
+                        Hair Color
+                    </h4>
+                    <p style={{ fontWeight: "300", fontSize: "13px", lineHeight: "22px", letterSpacing: "0.1em", marginTop: "-20px", paddingRight: "20px" }}> Lorem ipsum dolor sit amet, in nam denique suavitate repudiandae, homero dictas omnesque duo et. Novum dignissim consectetuer ei mel. Ne patrioque consequat persequeris</p>
+                    <Button type="submit" onClick={e => e.preventDefault()}
+                        sx={{
+                            borderRadius: 0,
+                            fontSize: "12px",
+                            letterSpacing: "0.05em",
+                            lineHeight: "2em",
+                            fontWeight: "600",
+                            padding: "4px 0",
+                            borderBottom: "1px solid",
+                            textTransform: "capitalize"
+                        }}>Book Appointment</Button>
+                </Box>
+            </Box>
+
+            <Box className='salon-sliding'>
+                <Box style={{ display: "flex", alignItems: "center", position: "absolute", top: "26px", left: "26px", padding: "18px 12px", backdropFilter: "blur(13px)", color: "#ffffff", fontWeight: "500", fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}>
+                    <span style={{ marginRight: "8px" }}>from</span>
+                    <span> &#8377;500</span>
+                </Box>
+                <img src={`${servicesSectionURL}keratin.jpg`} />
+                <Box>
+                    <h4 style={{ fontWeight: "400", fontFamily: "Marcellus, sans-serif", fontSize: "26px", letterSpacing: "0.2em", textTransform: "capitalize" }}>
+                        Keratin Treatment
+                    </h4>
+                    <p style={{ fontWeight: "300", fontSize: "13px", lineHeight: "22px", letterSpacing: "0.1em", marginTop: "-20px", paddingRight: "20px" }}> Lorem ipsum dolor sit amet, in nam denique suavitate repudiandae, homero dictas omnesque duo et. Novum dignissim consectetuer ei mel. Ne patrioque consequat persequeris</p>
+                    <Button type="submit" onClick={e => e.preventDefault()}
+                        sx={{
+                            borderRadius: 0,
+                            fontSize: "12px",
+                            letterSpacing: "0.05em",
+                            lineHeight: "2em",
+                            fontWeight: "600",
+                            padding: "4px 0",
+                            borderBottom: "1px solid",
+                            textTransform: "capitalize"
+                        }}>Book Appointment</Button>
+                </Box>
+            </Box>
+
+            <Box className='salon-sliding'>
+                <Box style={{ display: "flex", alignItems: "center", position: "absolute", top: "26px", left: "26px", padding: "18px 12px", backdropFilter: "blur(13px)", color: "#ffffff", fontWeight: "500", fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}>
+                    <span style={{ marginRight: "8px" }}>from</span>
+                    <span> &#8377;500</span>
+                </Box>
+                <img src={`${servicesSectionURL}pedicure.jpg`} />
                 <Box>
                     <h4 style={{ fontWeight: "400", fontFamily: "Marcellus, sans-serif", fontSize: "26px", letterSpacing: "0.2em", textTransform: "capitalize" }}>
                         Pedicure
@@ -218,10 +288,10 @@ const SalonCarousel = () => {
                     <span style={{ marginRight: "8px" }}>from</span>
                     <span> &#8377;500</span>
                 </Box>
-                <img src={manicureImg} />
+                <img src={`${servicesSectionURL}fishPedicure.jpg`} />
                 <Box>
                     <h4 style={{ fontWeight: "400", fontFamily: "Marcellus, sans-serif", fontSize: "26px", letterSpacing: "0.2em", textTransform: "capitalize" }}>
-                        Manicure
+                        Fish Pedicure
                     </h4>
                     <p style={{ fontWeight: "300", fontSize: "13px", lineHeight: "22px", letterSpacing: "0.1em", marginTop: "-20px", paddingRight: "20px" }}> Lorem ipsum dolor sit amet, in nam denique suavitate repudiandae, homero dictas omnesque duo et. Novum dignissim consectetuer ei mel. Ne patrioque consequat persequeris</p>
                     <Button type="submit" onClick={e => e.preventDefault()}
@@ -243,10 +313,10 @@ const SalonCarousel = () => {
                     <span style={{ marginRight: "8px" }}>from</span>
                     <span> &#8377;500</span>
                 </Box>
-                <img src={bridalMakeupImg} />
+                <img src={`${servicesSectionURL}manicure.jpg`} />
                 <Box>
                     <h4 style={{ fontWeight: "400", fontFamily: "Marcellus, sans-serif", fontSize: "26px", letterSpacing: "0.2em", textTransform: "capitalize" }}>
-                        Bridal Makeup
+                        Manicure
                     </h4>
                     <p style={{ fontWeight: "300", fontSize: "13px", lineHeight: "22px", letterSpacing: "0.1em", marginTop: "-20px", paddingRight: "20px" }}> Lorem ipsum dolor sit amet, in nam denique suavitate repudiandae, homero dictas omnesque duo et. Novum dignissim consectetuer ei mel. Ne patrioque consequat persequeris</p>
                     <Button type="submit" onClick={e => e.preventDefault()}

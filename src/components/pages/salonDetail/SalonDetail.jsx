@@ -23,17 +23,14 @@ import SalonCarousel from "./SalonCarousel";
 import ServicesStrip from "./ServicesStrip";
 import TheLocations from "./TheLocations";
 import VideoSection from "./VideoSection";
+import ScrollToTop from "../../common/ScrollToTop";
 
 
 const SalonDetail = () => {
-
-    //808076, 94948b, a9a9a1, bebeb8, d3d3cf
-    // React.useEffect(() => {
-    // document.getElementById("main-div").style.background = `linear-gradient(to bottom right, ${backgroundColor} 10%, d3d3cf 20%)`;
-    // }, []);
+    //scroll to top on page load
 
     return (
-        <>
+        <ScrollToTop>
             <DetailPageTop />
             <FilterMenu />
             <ServicesStrip />
@@ -48,7 +45,7 @@ const SalonDetail = () => {
             <Newsletter />
             <Review />
             <TheLocations />
-        </>
+        </ScrollToTop>
     )
 };
 

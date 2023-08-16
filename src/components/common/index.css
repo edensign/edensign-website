@@ -132,28 +132,6 @@
   transform: translateX(-220%);
 }
 
-.eden-signature {
-  color: hsl(0, 0%, 25%);
-  background: linear-gradient(to right, hsl(0, 0%, 20%) 0, hsl(0, 0%, 100%) 0.2%, hsl(0, 0%, 20%) 20%);
-  font-weight: 400;
-  font-size: 50px;
-  font-family: 'Satisfy', cursive;
-  line-height: 78px;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: shineIt 4s linear 1s infinite;
-}
-
-@keyframes shineIt {
-  0% {
-    background-position: 0px;
-  }
-
-  100% {
-    background-position: 290px;
-  }
-}
-
 
 /* Homepage Carousel starts */
 .slider {
@@ -403,13 +381,19 @@
 }
 
 .testimonial-arrow {
-  height: 22px;
   cursor: pointer;
   position: absolute;
-  top: 48%;
-  font-size: 18px;
+  top: 47%;
+  color: #ffffff;
+  font-size: 30px;
+  border-radius: 10px;
+  transition: transform 0.2s ease-in;
 }
 
 .testimonial-arrow:hover {
   background: rgba(32, 26, 26, 0.527);
+}
+
+.testimonial-arrow:active {
+  transform: translateY(8px);
 }

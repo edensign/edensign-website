@@ -18,14 +18,6 @@ import SalonPageTop from "./SalonPageTop";
 
 const Salon = () => {
 
-  React.useEffect(() => {
-    //scroll to top of the page automatically
-    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-      document.body.scrollTop = 0;
-      document.documentElement.scrollTop = 0;
-    }
-  }, []);
-
   return (
     <>
       <SalonPageTop />

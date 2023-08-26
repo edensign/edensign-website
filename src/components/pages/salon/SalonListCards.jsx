@@ -13,13 +13,11 @@ import { Box, Button, Card, CardActions, CardContent, Grid, Rating } from '@mui/
 
 import API from '../../../apis';
 import { setSalons } from '../../../redux/actions/SalonAction';
-import { setSalonDetail } from '../../../redux/actions/SalonAction';
 
 const SalonListCards = () => {
 
   const dispatch = useDispatch();
   const { listData } = useSelector(state => state.allSalons);
-  const { salon, images } = useSelector(state => state.salonDetail);
 
   const getSalons = () => {
     API.SalonAPI.getSalonList()
@@ -38,8 +36,6 @@ const SalonListCards = () => {
   React.useEffect(() => {
     getSalons();
   }, []);
-  console.log("useselector=>", listData);
-  console.log("redux data=>", salon, images);
 
   // Function to check if an element is in the viewport
   function isElementInViewport(el) {
@@ -97,24 +93,6 @@ const SalonListCards = () => {
     salonImage.style.transitionDuration = "3s";
   };
 
-  const handleClick = (id) => {
-    API.SalonAPI.getSalonDetail({ id })
-      .then(response => {
-        if (response.status === "Success") {
-          dispatch(setSalonDetail({ salon: response.data.salon, images: response.data.images }));
-        } else {
-          dispatch(setSalonDetail({ salon: {}, images: [] }))
-        }
-        console.log(response.data);
-      })
-      .catch(error => {
-        throw error;
-      });
-  };
-
-  //url banega salon/detail/salonName, we have the salon id from salon.id, hit an api salnodetail api
-  //salon joined with images table & address table by adding it in redux
-
   return (
 
     <Box sx={{ width: "100%", marginBottom: "10%" }}>
@@ -154,8 +132,7 @@ const SalonListCards = () => {
                 <CardActions sx={{ justifyContent: "space-around" }}>
                   <Button size="small"> <Rating name="read-only" defaultValue={5} /> </Button>
                   <span style={{ fontWeight: "300", fontSize: "14px", lineHeight: "22px", letterSpacing: "0.1em", textAlign: "center", padding: "0 30px" }}>{salon.type}</span>
-                  <Link to={`/salon/detail/${salon.salon_code}`} rel='noreferrer' style={{ textDecoration: "none" }}
-                    onClick={(event) => handleClick(salon.id)}>
+                  <Link to={`/salon/detail/${salon.salon_code}`} rel='noreferrer' style={{ textDecoration: "none" }}>
                     Know More
                   </Link>
                 </CardActions>

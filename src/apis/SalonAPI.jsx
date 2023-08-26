@@ -2,7 +2,7 @@
  * Copyright © 2023, Eden Sign Inc. ALL RIGHTS RESERVED.
  *
  * This software is the confidential information of Eden Sign Inc., and is licensed as
- * restricted rights software. The use,reproduction, or disclosure of this software is subject to
+ * restricted rights software. The use, reproduction, or disclosure of this software is subject to
  * restrictions set forth in your license agreement with Eden Sign.
  */
 
@@ -37,11 +37,11 @@ export const SalonAPI = {
 
     /** Get complete salon detail of a particular salon from the database
      */
-    getSalonDetail: async (id, cancel = false) => {
+    getSalonDetail: async (salon_code, cancel = false) => {
         const { data: response } = await api.request({
             url: `/get-salon-detail`,
             method: "POST",
-            data: id,
+            data: salon_code,
             signal: cancel ? cancelApiObject[this.getSalonDetail.name].handleRequestCancellation().signal : undefined,
         });
         return response;

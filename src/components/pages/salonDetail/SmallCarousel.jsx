@@ -13,7 +13,6 @@ import { Box } from '@mui/material';
 
 const SmallCarousel = () => {
     const { images } = useSelector(state => state.salonDetail);
-    console.log("Carousel images=>", images)
     let slideIndex = 0;
 
     function showSlides(num) {
@@ -46,7 +45,7 @@ const SmallCarousel = () => {
 
     setTimeout(() => {
         controller(0);
-        console.log("Running Controller")
+        console.log("Running Controller");
     }, 500);
 
     // useEffect(() => {
@@ -61,22 +60,12 @@ const SmallCarousel = () => {
     return (
         <Box className="small-slider">
 
-            {images?.map((image, index) => {
-                console.log("Inside loop=>", image)
-                return (
-                    <Box className='small-sliding' key={index} >
-                        <img src={`https://edensign.blob.core.windows.net/image-storage/salon/${image}`} />
-                    </Box>
-                )
-            }
+            {images?.map((image, index) => (
+                <Box className='small-sliding' key={index} >
+                    <img src={`https://edensign.blob.core.windows.net/image-storage/salon/${image}`} />
+                </Box>
+            )
             )}
-
-            {/* <Box className='small-sliding'>
-                <img src={Salon2} />
-            </Box>
-            <Box className='small-sliding'>
-                <img src={Salon3} />
-            </Box> */}
 
             <span className='small-arrow' style={{ left: "4%" }} onClick={() => controller(-1)}>&#10094;</span>
             <span className='small-arrow' style={{ right: "4%" }} onClick={() => controller(+1)}>&#10095;</span>

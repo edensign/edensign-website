@@ -6,28 +6,102 @@
  * restrictions set forth in your license agreement with Eden Sign.
 */
 
-import React from "react";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
 
 import "./style.css";
+import AmenitiesComponent from "./AmenitiesComponent";
 import BookAppointment from "./BookAppointment";
 import DetailPageTop from "./DetailPageTop";
 import ExclusiveOffer from "./ExclusiveOffer";
-import Facilities from "./Facilities";
 import FilterMenu from "../../common/FilterMenu";
 import ImagesCarousel from "./ImagesCarousel";
 import LatestOffer from "./LatestOffer";
 import Newsletter from "../../common/Newsletter";
 import Offer from "./Offer";
 import Review from "./Review";
-import SalonCarousel from "./SalonCarousel";
+import ServicesCarousel from "./ServicesCarousel";
 import ServicesStrip from "./ServicesStrip";
 import TheLocations from "./TheLocations";
 import VideoSection from "./VideoSection";
 import ScrollToTop from "../../common/ScrollToTop";
 
+import API from '../../../apis';
+import { setSalonDetail } from '../../../redux/actions/SalonAction';
 
 const SalonDetail = () => {
-    //scroll to top on page load
+    const [amenities, setAmenities] = useState([]);
+    const [services, setServices] = useState([]);
+    const URLParams = useParams();
+    const dispatch = useDispatch();
+    const appointmentRef = useRef(null);
+
+    const handleClick = () => {
+        appointmentRef.current.scrollIntoView({ behavior: "smooth" });
+    };
+
+    const getSelectedAmenitiesByName = (dataObj) => {
+        if (dataObj) {
+            return amenities.filter(amenity => dataObj.includes(amenity.id.toString()));
+        }
+    };
+
+    const getSelectedServicesByName = (dataObj) => {
+        if (dataObj) {
+            return services.filter(service => dataObj.includes(service.id.toString()));
+        }
+    };
+
+    useEffect(() => {
+        API.SalonAPI.getSalonDetail(URLParams)
+            .then(response => {
+                if (response.status === "Success") {
+                    response.data.salon.amenities = getSelectedAmenitiesByName(response.data.salon?.amenities);
+                    response.data.salon.services = getSelectedServicesByName(response.data.salon?.services);
+
+                    dispatch(setSalonDetail({ salon: response.data.salon, images: response.data.images }));
+                    console.log("Salon detail response=>", response.data);
+                } else {
+                    dispatch(setSalonDetail({ salon: {}, images: [] }))
+                }
+            })
+            .catch(error => {
+                dispatch(setSalonDetail({ salon: {}, images: [] }))
+                throw error;
+            });
+    }, [amenities, services]);
+
+    //get all amenities from amenity table stored in the db
+    useEffect(() => {
+        API.AmenityAPI.getAll(false, 0, 30)
+            .then(amenities => {
+                if (amenities.status === 'Success') {
+                    setAmenities(amenities.data.rows);
+                } else {
+                    console.log("Error, Please Try Again");
+                }
+            })
+            .catch(err => {
+                throw err;
+            });
+    }, []);
+
+    //get all services from service table stored in db
+    useEffect(() => {
+        API.ServiceAPI.getAll(false, 0, 30)
+            .then(services => {
+                if (services.status === 'Success') {
+                    setServices(services.data.rows);
+                } else {
+                    console.log("Error, Please Try Again");
+                }
+            })
+            .catch(err => {
+                throw err;
+            });
+    }, []);
+
 
     return (
         <ScrollToTop>
@@ -35,13 +109,13 @@ const SalonDetail = () => {
             <FilterMenu />
             <ServicesStrip />
             <Offer />
-            <Facilities />
+            <AmenitiesComponent />
             <ExclusiveOffer />
-            <SalonCarousel />
+            <ServicesCarousel handleClick={handleClick} />
             <VideoSection />
             <LatestOffer />
             <ImagesCarousel />
-            <BookAppointment />
+            <BookAppointment appointmentRef={appointmentRef} />
             <Newsletter />
             <Review />
             <TheLocations />

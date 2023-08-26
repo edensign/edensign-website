@@ -6,14 +6,13 @@
  * restrictions set forth in your license agreement with Eden Sign.
  */
 
-import { AddressAPI } from "./AddressAPI";
-import { CommonAPI } from "./CommonAPI";
-import { ImageAPI } from "./ImageAPI";
+import { AmenityAPI } from "./AmenityAPI";
 import { SalonAPI } from "./SalonAPI";
+import { ServiceAPI } from "./ServiceAPI";
+
 
 export default {
-    AddressAPI,
-    CommonAPI,
-    ImageAPI,
-    SalonAPI
+    AmenityAPI,
+    SalonAPI,
+    ServiceAPI
 };

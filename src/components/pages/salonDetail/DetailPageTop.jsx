@@ -17,10 +17,8 @@ import { TrendingFlat } from '@mui/icons-material';
 import SmallCarousel from './SmallCarousel';
 
 const DetailPageTop = () => {
-    const location = useLocation();
     const [filterOpen, setFilterOpen] = useState(false);
     const { images } = useSelector(state => state.salonDetail);
-    console.log(images);
 
     const handleClick = () => {
         const box = document.getElementsByClassName("box")[0];
@@ -41,17 +39,13 @@ const DetailPageTop = () => {
             height: "120vh", width: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", marginBottom: "1%",
             position: "relative", backgroundPosition: "center", color: "#ffffff"
         }}>
-            {images?.map((image, index) => {
-                console.log("Inside loop=>", image)
-                return (
-                    <Box className='big-sliding' key={index} style={{
-                        position: "absolute", width: "100%", height: "100%", opacity: "0", transition: "all 1s ease-in", filter: "blur(10px)"
-                    }}>
-                        <img src={`https://edensign.blob.core.windows.net/image-storage/salon/${image}`} style={{ aspectRatio: "1300/715", width: "100%" }} />
-                    </Box>
-                )
-            }
-            )}
+            {images?.map((image, index) => (
+                <Box className='big-sliding' key={index} style={{
+                    position: "absolute", width: "100%", height: "100%", opacity: "0", transition: "all 1s ease-in", filter: "blur(10px)"
+                }}>
+                    <img src={`https://edensign.blob.core.windows.net/image-storage/salon/${image}`} style={{ aspectRatio: "1300/715", width: "100%" }} />
+                </Box>
+            ))}
 
             < SmallCarousel />
 

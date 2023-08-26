@@ -7,6 +7,8 @@
 */
 
 import React from "react";
+import { useSelector } from "react-redux";
+
 import { useFormik } from "formik";
 import { Box, Button, Checkbox, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 
@@ -18,11 +20,11 @@ import { DatePicker } from "@mui/x-date-pickers";
 import appointmentImg from "../../assets/appointment.jpg"
 
 
-const Booking = () => {
+const Booking = ({ appointmentRef }) => {
     // const addOneDay = (dateVar = new Date()) => dayjs(dateVar.setDate(dateVar.getDate() + 1));
 
     const [checkIn, setCheckIn] = React.useState(dayjs(Date.now()));
-    const [loading, setLoading] = React.useState(false);
+    const { salon } = useSelector(state => state.salonDetail);
 
     const refId = React.useRef();
     const checkboxLabel = { inputProps: { 'aria-label': 'Checkboxes' } };
@@ -60,19 +62,9 @@ const Booking = () => {
     }
     console.log(formik.values);
 
-    const personsBox = document.getElementById("persons-box");
-    const btn = document.getElementById("availability-btn");
-    // React.useEffect(() => {
-    //     if (formik.values?.else) {
-    //         btn.style.transform = "translateY(-4px)";
-    //     } else {
-    //         btn.style.transform = "translateY(0)";
-    //     }
-    // }, [formik.values.else]);
 
     return (
-        //padding: "12px 50px", paddingTop: "0",
-        <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", width: "90%", height: "110vh", margin: "auto", marginBottom: "10%", position: "relative" }}>
+        <Box ref={appointmentRef} sx={{ display: "flex", justifyContent: "center", alignItems: "center", width: "90%", height: "110vh", margin: "auto", marginBottom: "10%", position: "relative" }}>
             <Box sx={{ display: "flex", width: "75%", height: "100%", position: "relative", backgroundColor: "#ffffff", boxShadow: "4px 4px 6px #800080, -4px -4px 6px #800080" }}>
                 <img src={appointmentImg} alt="Salon"
                     style={{
@@ -82,7 +74,7 @@ const Booking = () => {
             <Box sx={{
                 display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", overflowY: "auto", height: "100%", width: "37%", backgroundColor: "#ffffff", marginLeft: "2%", boxShadow: "4px 4px 6px #800080, -4px -4px 6px #800080"
             }}>
-                <h4 style={{ width: "78%", textAlign: "center", fontWeight: "400", fontSize: "36px", fontFamily: "Marcellus, sans-serif", letterSpacing: "0.1em", lineHeight: "initial", margin: "20px 0 20px 0" }}>
+                <h4 style={{ width: "78%", textAlign: "center", fontWeight: "400", fontSize: "36px", fontFamily: "Marcellus, sans-serif", letterSpacing: "0.1em", lineHeight: "initial", margin: formik.values.else ? "80px 0 26px 0" : "29px 0 29px 0" }}>
                     Book Your Appointment
                 </h4>
                 <form ref={refId} style={{ width: "78%" }}>
@@ -112,16 +104,9 @@ const Booking = () => {
                                 value={formik.values.services}
                                 error={!!formik.touched.services && !!formik.errors.services}
                             >
-                                <MenuItem value="haircut">Haircut</MenuItem>
-                                <MenuItem value="haircolor">Hair Color</MenuItem>
-                                <MenuItem value="keratin">Keratin</MenuItem>
-                                <MenuItem value="manicure">Manicure</MenuItem>
-                                <MenuItem value="pedicure">Pedicure</MenuItem>
-                                <MenuItem value="fishPedicure">Fish Pedicure</MenuItem>
-                                <MenuItem value="airbrushMakeup">Airbrush Makeup</MenuItem>
-                                <MenuItem value="bridalMakeup">Bridal Makeup</MenuItem>
-                                <MenuItem value="matteMakeup">Matte Makeup</MenuItem>
-                                <MenuItem value="eyebrow">Eyebrow Makeup</MenuItem>
+                                {salon?.services?.map((service, index) => (
+                                    <MenuItem value={service.name.toLowerCase()} key={index}>{service.name}</MenuItem>
+                                ))}
                             </Select>
                         </FormControl>
                     </Box>
@@ -211,7 +196,7 @@ const Booking = () => {
                         id="availability-btn" onClick={e => e.preventDefault()}
                         // disabled={!formik.dirty || loading}  later to be included
                         sx={{
-                            borderRadius: 0, fontSize: "13px", letterSpacing: "0.2em", lineHeight: "2em", fontWeight: "600", padding: "16px", marginBottom: "20px", textTransform: "uppercase", transform: "translateY(0)", transition: "transform 1s ease"
+                            borderRadius: 0, fontSize: "13px", letterSpacing: "0.2em", lineHeight: "2em", fontWeight: "600", padding: "16px", marginBottom: "19px", textTransform: "uppercase", transform: "translateY(0)", transition: "transform 1s ease"
                         }}
                     >
                         {/* {loading === true ? <SignInLoader /> : "Sign In"} */}

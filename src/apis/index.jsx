@@ -7,12 +7,16 @@
  */
 
 import { AmenityAPI } from "./AmenityAPI";
+import { JobSeekerAPI } from "./JobSeekerAPI";
 import { SalonAPI } from "./SalonAPI";
+import { SalonEmployeeAPI } from "./SalonEmployeeAPI";
 import { ServiceAPI } from "./ServiceAPI";
 
 
 export default {
     AmenityAPI,
+    JobSeekerAPI,
     SalonAPI,
+    SalonEmployeeAPI,
     ServiceAPI
 };

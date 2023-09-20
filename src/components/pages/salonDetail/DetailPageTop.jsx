@@ -8,7 +8,6 @@
 
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
 
 import { Box, Button, Tooltip } from '@mui/material';
 import { TuneOutlined } from '@mui/icons-material';
@@ -20,10 +19,12 @@ const DetailPageTop = () => {
     const [filterOpen, setFilterOpen] = useState(false);
     const { images } = useSelector(state => state.salonDetail);
 
+    const box = document.getElementsByClassName("filter-btn-box")[0];
+    const btn = document.getElementsByClassName("filter-open-btn")[0];
+    const filterBox = document.getElementById("filter-box");
+
     const handleClick = () => {
-        const box = document.getElementsByClassName("box")[0];
-        const btn = document.getElementsByClassName("btn")[0];
-        const filterBox = document.getElementById("filter-box");
+
         box.style.right = filterOpen ? "0" : "17%";
         box.style.transform = filterOpen ? "translateX(0)" : "matrix(1, 0, 0, 1, 0, 0)";
         btn.style.width = filterOpen ? "7em" : "4em";
@@ -49,19 +50,14 @@ const DetailPageTop = () => {
 
             < SmallCarousel />
 
-            <Box className="box" onClick={handleClick} sx={{ position: "fixed", top: "40%", right: "0", zIndex: "10", transform: "translateX(0)", transition: "all .5s cubic-bezier(0.77, 0, 0.175, 1)" }}>
+            <Box className="filter-btn-box" onClick={handleClick} sx={{ position: "fixed", top: "40%", right: "0", zIndex: "10", transform: "translateX(0)", transition: "all .5s cubic-bezier(0.77, 0, 0.175, 1)" }}>
                 <Tooltip title="Filter">
-                    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", fontSize: "0 !important", lineHeight: "42 !important", fontWeight: "500" }}>
-                        {/* <span style={{
-                            color: "#ffffff", width: "42px", display: "inline-block", lineHeight: "1 !important", textAlign: "center", verticalAlign: "middle", position: "relative"
-                        }}>  </span> */}
-                        <Button color="error" variant="contained" size="small" className="btn"
-                            startIcon={filterOpen ? <TrendingFlat id="flat-icon" /> : <TuneOutlined id="tune-icon" />}
-                            sx={{ width: "7em", fontWeight: "500", fontSize: "12px", lineHeight: "1.2", letterSpacing: "0.1em", zIndex: "10", padding: "10px 50px" }}
-                        >
-                            {filterOpen ? '' : 'Filter'}
-                        </Button>
-                    </div>
+                    <Button color="error" variant="contained" size="small" className="filter-open-btn"
+                        startIcon={filterOpen ? <TrendingFlat id="flat-icon" /> : <TuneOutlined id="tune-icon" />}
+                        sx={{ width: "7em", fontWeight: "500", fontSize: "12px", lineHeight: "1.2", letterSpacing: "0.1em", zIndex: "10", padding: "10px 50px" }}
+                    >
+                        {filterOpen ? '' : 'Filter'}
+                    </Button>
                 </Tooltip>
             </Box>
         </Box>

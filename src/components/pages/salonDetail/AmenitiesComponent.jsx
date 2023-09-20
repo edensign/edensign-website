@@ -11,7 +11,7 @@ import { useSelector } from 'react-redux';
 
 import { Box, List, ListItemText } from "@mui/material";
 
-import salonImg from "../../assets/pos.png";
+import salonImg from "../../assets/salon-detail.png";
 
 const AmenitiesComponent = () => {
 

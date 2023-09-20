@@ -8,6 +8,7 @@
 
 export const ActionTypes = {
     SET_PRODUCTS: "SET_PRODUCTS",
+    SET_JOB_SEEKERS: "SET_JOB_SEEKERS",
     SET_SALONS: "SET_SALONS",
     SET_SALON_DETAIL: "SET_SALON_DETAIL"
 };

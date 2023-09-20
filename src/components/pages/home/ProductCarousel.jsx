@@ -8,7 +8,6 @@
 
 import { useEffect } from 'react';
 import { Box, Chip, Rating } from '@mui/material';
-
 import StarIcon from '@mui/icons-material/Star';
 
 import botanicsImg from "../../assets/products/botanics.jpg"

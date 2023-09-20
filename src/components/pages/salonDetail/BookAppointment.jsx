@@ -6,8 +6,9 @@
  * restrictions set forth in your license agreement with Eden Sign.
 */
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
 import { useFormik } from "formik";
 import { Box, Button, Checkbox, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
@@ -17,6 +18,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from "@mui/x-date-pickers";
 
+import API from "../../../apis";
 import appointmentImg from "../../assets/appointment.jpg"
 
 
@@ -24,7 +26,9 @@ const Booking = ({ appointmentRef }) => {
     // const addOneDay = (dateVar = new Date()) => dayjs(dateVar.setDate(dateVar.getDate() + 1));
 
     const [checkIn, setCheckIn] = React.useState(dayjs(Date.now()));
+    const [salonEmployee, setSalonEmployee] = React.useState([]);
     const { salon } = useSelector(state => state.salonDetail);
+    const URLParams = useParams();
 
     const refId = React.useRef();
     const checkboxLabel = { inputProps: { 'aria-label': 'Checkboxes' } };
@@ -62,6 +66,19 @@ const Booking = ({ appointmentRef }) => {
     }
     console.log(formik.values);
 
+    useEffect(() => {
+        API.SalonEmployeeAPI.getSalonEmployee({ ...URLParams, service_id: formik.values.services })
+            .then(response => {
+                response.status === "Success" ?
+                    setSalonEmployee(response.data)
+                    :
+                    setSalonEmployee([]);
+            })
+            .catch(error => {
+                throw error;
+            });
+    }, [formik.values.services]);
+    console.log("Salon employee=>", salonEmployee)
 
     return (
         <Box ref={appointmentRef} sx={{ display: "flex", justifyContent: "center", alignItems: "center", width: "90%", height: "110vh", margin: "auto", marginBottom: "10%", position: "relative" }}>
@@ -105,7 +122,7 @@ const Booking = ({ appointmentRef }) => {
                                 error={!!formik.touched.services && !!formik.errors.services}
                             >
                                 {salon?.services?.map((service, index) => (
-                                    <MenuItem value={service.name.toLowerCase()} key={index}>{service.name}</MenuItem>
+                                    <MenuItem value={service.id} key={index}>{service.name}</MenuItem>
                                 ))}
                             </Select>
                         </FormControl>
@@ -124,13 +141,9 @@ const Booking = ({ appointmentRef }) => {
                                 value={formik.values.stylist}
                                 error={!!formik.touched.stylist && !!formik.errors.stylist}
                             >
-                                <MenuItem value="ram">Ram</MenuItem>
-                                <MenuItem value="rahim">Rahim</MenuItem>
-                                <MenuItem value="rohan">Rohan</MenuItem>
-                                <MenuItem value="rubina">Rubina</MenuItem>
-                                <MenuItem value="robin">Robin</MenuItem>
-                                <MenuItem value="steve">Steve</MenuItem>
-                                <MenuItem value="shawn">Shawn</MenuItem>
+                                {salonEmployee?.map((employee, index) => (
+                                    <MenuItem value={employee.name.toLowerCase()} key={index}>{employee.name}</MenuItem>
+                                ))}
                             </Select>
                         </FormControl>
                     </Box>

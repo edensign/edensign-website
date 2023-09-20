@@ -20,7 +20,7 @@ import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 
 import { ColorModeContext, tokens } from "../../theme";
 
-const pages = ['About', 'Services', 'Salons', 'Products', 'contact'];
+const pages = ['About', 'Services', 'Salons', 'Products', 'contact', 'job seeker'];
 // const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function Topbar(props) {
@@ -29,7 +29,6 @@ function Topbar(props) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorMode = React.useContext(ColorModeContext);
-  const location = useLocation();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);

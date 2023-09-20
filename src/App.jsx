@@ -15,10 +15,13 @@ import { CssBaseline, ThemeProvider, useTheme } from "@mui/material";
 import { ColorModeContext, useMode, tokens } from "./theme";
 import Topbar from "./components/common/Topbar";
 import Loader from "./components/common/Loader";
+import AboutUs from "./components/pages/about/AboutUs";
+import ContactUs from "./components/pages/contact/ContactUsForm";
 import Home from "./components/pages/home/Home";
+import JobSeeker from "./components/pages/jobSeeker/JobSeeker";
+import Animated404Component from "./components/pages/404/Animated404Component";
 import Salon from "./components/pages/salon/Salon";
 import SalonDetail from "./components/pages/salonDetail/SalonDetail";
-// import About from "./components/pages";
 // import Services from "./components/pages";
 // import PrivacyPolicy from "./components/pages";
 import Footer from './components/common/Footer';
@@ -42,23 +45,27 @@ function App() {
         <CssBaseline />
         <Suspense fallback={<Loader />}>
           <div id="main-div" style={{
-            backgroundColor: "#f3f3f3", background: location.pathname == "/salons" ? `radial-gradient(circle, rgba(160,177,193,1) 0%, rgba(194,192,197,1) 100%)` : `linear-gradient(to bottom right, rgba(182,164,159,1), rgba(231,214,202,1))`, color: "#000000",
-            position: "relative", display: "flex", flexDirection: "column", minHeight: "100vh", minWidth: "320px", width: "100%", maxWidth: "100vw", transition: "background 1s ease"
+            backgroundColor: "#f3f3f3", background: location.pathname == "/salons" ? `radial-gradient(circle, rgba(160,177,193,1) 0%, rgba(194,192,197,1) 100%)` :
+              location.pathname == "/about" ? `linear-gradient(to bottom right, rgb(249,249,249), #f3f3f3, rgb(236,236,236))` : `linear-gradient(to bottom right, rgba(182,164,159,1), rgba(231,214,202,1))`,
+            color: "#000000", position: "relative", display: "flex", flexDirection: "column", minHeight: "100vh", minWidth: "320px", width: "100%", maxWidth: "100vw", transition: "background 1s ease"
           }}>
             <Topbar />
             <Routes>
               <Route exact path='/' element={<Home />} />
+              <Route path='*' element={<Animated404Component />} />
+              <Route path='/about' element={<AboutUs />} />
+              <Route exact path='/contact' element={<ContactUs />} />
+              <Route exact path='/job seeker' element={<JobSeeker />} />
               <Route exact path='/salons' element={<Salon />} />
               <Route exact path='/salon/detail/:code' element={<SalonDetail />} />
-              {/* <Route path='/about' element={<About />} />
-              <Route path='/services' element={<Services />} />
+              {/* <Route path='/services' element={<Services />} />
               <Route path='/privacyPolicy' element={<PrivacyPolicy />} /> */}
             </Routes>
             <Footer />
           </div>
         </Suspense>
       </ThemeProvider>
-    </ColorModeContext.Provider >
+    </ColorModeContext.Provider>
   )
 }
 

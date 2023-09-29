@@ -22,7 +22,7 @@ import API from "../../../apis";
 import appointmentImg from "../../assets/appointment.jpg"
 
 
-const Booking = ({ appointmentRef }) => {
+const Booking = ({ appointmentRef, selectedService }) => {
     // const addOneDay = (dateVar = new Date()) => dayjs(dateVar.setDate(dateVar.getDate() + 1));
 
     const [checkIn, setCheckIn] = React.useState(dayjs(Date.now()));
@@ -63,8 +63,9 @@ const Booking = ({ appointmentRef }) => {
                     : false,
             });
         };
-    }
-    console.log(formik.values);
+    };
+
+    console.log('appointment values=>', formik.values);
 
     useEffect(() => {
         API.SalonEmployeeAPI.getSalonEmployee({ ...URLParams, service_id: formik.values.services })
@@ -79,6 +80,11 @@ const Booking = ({ appointmentRef }) => {
             });
     }, [formik.values.services]);
     console.log("Salon employee=>", salonEmployee)
+
+    useEffect(() => {
+        //set the selected service from services carousel in the services field of book appointment form
+        formik.setFieldValue("services", selectedService);
+    }, [selectedService]);
 
     return (
         <Box ref={appointmentRef} sx={{ display: "flex", justifyContent: "center", alignItems: "center", width: "90%", height: "110vh", margin: "auto", marginBottom: "10%", position: "relative" }}>

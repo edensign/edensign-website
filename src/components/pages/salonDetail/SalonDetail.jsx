@@ -33,12 +33,15 @@ import { setSalonDetail } from '../../../redux/actions/SalonAction';
 const SalonDetail = () => {
     const [amenities, setAmenities] = useState([]);
     const [services, setServices] = useState([]);
+    const [selectedService, setSelectedService] = useState(null);   //this will contain id of service selected from services carousel
+
     const URLParams = useParams();
     const dispatch = useDispatch();
     const appointmentRef = useRef(null);
 
-    const handleClick = () => {
+    const handleClick = (service) => {
         appointmentRef.current.scrollIntoView({ behavior: "smooth" });
+        setSelectedService(service.id);
     };
 
     const getSelectedAmenitiesByName = (dataObj) => {
@@ -115,7 +118,7 @@ const SalonDetail = () => {
             <VideoSection />
             <LatestOffer />
             <ImagesCarousel />
-            <BookAppointment appointmentRef={appointmentRef} />
+            <BookAppointment appointmentRef={appointmentRef} selectedService={selectedService} />
             <Newsletter />
             <Review />
             <TheLocations />

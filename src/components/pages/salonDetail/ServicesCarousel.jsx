@@ -62,8 +62,8 @@ const ServicesCarousel = ({ handleClick }) => {
     return (
         <Box className="salon-slider">
 
-            {salon?.services?.map((service, index) => (
-                <Box className='salon-sliding' key={index}>
+            {salon?.services?.map(service => (
+                <Box className='salon-sliding' key={service.id}>
                     <Box style={{ display: "flex", alignItems: "center", position: "absolute", top: "26px", left: "26px", padding: "18px 12px", backdropFilter: "blur(13px)", color: "#ffffff", fontWeight: "500", fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}>
                         <span style={{ marginRight: "8px" }}>from</span>
                         <span> &#8377;500</span>
@@ -75,7 +75,7 @@ const ServicesCarousel = ({ handleClick }) => {
                         </h4>
                         <p style={{ fontWeight: "300", fontSize: "13px", lineHeight: "22px", letterSpacing: "0.1em", marginTop: "-20px", paddingRight: "26px" }}>
                             {service.description} </p>
-                        <Button type="submit" onClick={event => handleClick(event)}
+                        <Button type="submit" onClick={() => handleClick(service)}
                             sx={{
                                 borderRadius: 0,
                                 fontSize: "12px",

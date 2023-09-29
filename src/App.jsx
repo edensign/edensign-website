@@ -9,8 +9,8 @@
 import React, { lazy, Suspense } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 
-import CssBaseline from '@mui/material/CssBaseline'
-import { ThemeProvider, useTheme } from "@mui/material";
+import { ThemeProvider, useTheme } from "@mui/material/styles";
+import { CssBaseline } from "@mui/material";
 // import { useIdleTimer } from 'react-idle-timer';
 
 import { ColorModeContext, useMode, tokens } from "./theme";
@@ -20,7 +20,7 @@ import AboutUs from "./components/pages/about/AboutUs";
 import ContactUs from "./components/pages/contact/ContactUsForm";
 import Home from "./components/pages/home/Home";
 import JobSeeker from "./components/pages/jobSeeker/JobSeeker";
-import Animated404Component from "./components/pages/404/Animated404Component";
+import NotFound from "./components/pages/404/Animated404Component";
 import Salon from "./components/pages/salon/Salon";
 import SalonDetail from "./components/pages/salonDetail/SalonDetail";
 // import Services from "./components/pages";
@@ -53,10 +53,10 @@ function App() {
             <Topbar />
             <Routes>
               <Route exact path='/' element={<Home />} />
-              <Route path='*' element={<Animated404Component />} />
+              <Route path='*' element={<NotFound />} />
               <Route path='/about' element={<AboutUs />} />
               <Route exact path='/contact' element={<ContactUs />} />
-              <Route exact path='/job seeker' element={<JobSeeker />} />
+              <Route exact path='/job-seeker' element={<JobSeeker />} />
               <Route exact path='/salons' element={<Salon />} />
               <Route exact path='/salon/detail/:code' element={<SalonDetail />} />
               {/* <Route path='/services' element={<Services />} />

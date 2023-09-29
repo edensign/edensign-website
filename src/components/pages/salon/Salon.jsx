@@ -17,11 +17,13 @@ import SalonPageTop from "./SalonPageTop";
 
 
 const Salon = () => {
+  //variable for showing selective filter menu fields
+  const [showCategory, showGender, showUnisex] = [true, true, true];
 
   return (
     <>
       <SalonPageTop />
-      <FilterMenu />
+      <FilterMenu showCategory={showCategory} showGender={showGender} showUnisex={showUnisex} />
       <SalonListCards />
       <Newsletter />
       <Brands />

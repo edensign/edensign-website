@@ -6,12 +6,26 @@
  * restrictions set forth in your license agreement with Eden Sign.
 */
 
-import { Box, Chip, Checkbox, useMediaQuery, Button } from "@mui/material";
-import { TuneOutlined } from '@mui/icons-material';
+import { useLocation } from "react-router-dom";
+import { Box, Chip, Checkbox, Divider, useMediaQuery, Button, Slider } from "@mui/material";
+// import { TuneOutlined } from '@mui/icons-material';
 
-const FilterMenu = () => {
+const FilterMenu = ({
+    max,
+    value,
+    handleChange,
+    showSkills,
+    showCategory,
+    showBrand,
+    showGender,
+    showUnisex,
+    showPriceRange,
+    showExperienceRange }) => {
+
+    const location = useLocation();
     const checkboxLabel = { inputProps: { 'aria-label': 'Checkboxes' } };
     const isMobile = useMediaQuery("(max-width:480px)");
+
 
     const handleClick = (event) => {
         console.log(event.target.parentElement)
@@ -25,32 +39,233 @@ const FilterMenu = () => {
         event.target.parentElement.style.border = "1px solid #bdbdbd";
     };
 
+    const handleFilter = () => { };
+
+
     return (
-        <Box id="filter-box" sx={{ width: "17%", fontFamily: "Inter, sans-serif", backgroundColor: "#ffffff", display: "flex", flexDirection: "column", borderRadius: "20px", opacity: "0", transform: "translateX(100%)", transitionDelay: "300ms", transition: "all .5s cubic-bezier(0.77, 0, 0.175, 1)", position: "fixed", top: "34%", right: "0", zIndex: "10", boxShadow: "0 0 9.8px 0.2px rgba(0, 0, 0, 0.14)" }}>
-            <Box sx={{ fontFamily: "inherit", textAlign: "center", margin: "20px 0 30px 0" }}>
-                <TuneOutlined sx={{ color: "#d32f2f", float: "left" }} />
-                <span style={{ textTransform: "uppercase", fontWeight: "500", fontSize: "15px", lineHeight: "1.2", letterSpacing: "0.05em" }}>  Filters </span>
-            </Box>
+        <Box id="filter-box" sx={{
+            width: location.pathname === '/salons' ? '21%' : "27%", fontFamily: "Inter, sans-serif", backgroundColor: "#ffffff", display: "flex",
+            flexDirection: "column", borderRadius: "14px", opacity: "0", transform: "translateX(100%)",
+            transitionDelay: "300ms", transition: "all .5s cubic-bezier(0.77, 0, 0.175, 1)", position: "fixed",
+            top: location.pathname === '/salons' ? '32%' : "21%", right: "0", zIndex: "10", boxShadow: "0 0 9.8px 0.2px rgba(0, 0, 0, 0.14)", color: "#000000"
+        }}>
 
-            <Box display="flex" justifyContent="space-around" marginBottom="30px">
-                <Chip sx={{ fontSize: "11px", height: "20px" }} label="Male" variant="outlined" size="small" onClick={handleClick} onDelete={handleDelete} />
-                <Chip sx={{ fontSize: "11px", height: "20px" }} label="Female" variant="outlined" size="small" onClick={handleClick} onDelete={handleDelete} />
-                <Chip sx={{ fontSize: "11px", height: "20px" }} label="Unisex" variant="outlined" size="small" onClick={handleClick} onDelete={handleDelete} />
-            </Box>
-
-            <Box display="flex" justifyContent="space-around" marginBottom="30px">
-                <Box>
-                    <Checkbox {...checkboxLabel} color="default" size="small" />
-                    <span style={{ paddingTop: "8px", fontSize: "11px", fontWeight: "500", lineHeight: "1.2", letterSpacing: "0.05em" }}>Featured</span>
+            {showSkills && <div>
+                <p style={{
+                    fontWeight: "700", fontSize: "16px", letterSpacing: "0.1em", textTransform: "capitalize",
+                    padding: "0 16px", marginBottom: "8px"
+                }}> Skills </p>
+                <Divider sx={{ width: "88%", margin: "auto" }} />
+                <Box width="100%" display="grid" gap="4px" gridTemplateColumns="repeat(2, minmax(0, 1fr))" justifyItems="start" padding="4px 10px 2px 10px">
+                    <Box>
+                        <Checkbox {...checkboxLabel} color="default" size="small" />
+                        <span style={{
+                            paddingTop: "8px", fontSize: "12px", fontWeight: "500", lineHeight: "1.2",
+                            letterSpacing: "0.05em", textTransform: "capitalize"
+                        }}>Hair stylist</span>
+                    </Box>
+                    <Box>
+                        <Checkbox {...checkboxLabel} color="default" size="small" />
+                        <span style={{
+                            paddingTop: "8px", fontSize: "12px", fontWeight: "500", lineHeight: "1.2",
+                            letterSpacing: "0.05em", textTransform: "capitalize"
+                        }}>Assistant hair stylist</span>
+                    </Box>
+                    <Box>
+                        <Checkbox {...checkboxLabel} color="default" size="small" />
+                        <span style={{
+                            paddingTop: "8px", fontSize: "12px", fontWeight: "500", lineHeight: "1.2",
+                            letterSpacing: "0.05em", textTransform: "capitalize"
+                        }}>Makeup artist</span>
+                    </Box>
+                    <Box>
+                        <Checkbox {...checkboxLabel} color="default" size="small" />
+                        <span style={{
+                            paddingTop: "8px", fontSize: "12px", fontWeight: "500", lineHeight: "1.2",
+                            letterSpacing: "0.05em", textTransform: "capitalize"
+                        }}>Bridal makeup artist</span>
+                    </Box>
+                    <Box>
+                        <Checkbox {...checkboxLabel} color="default" size="small" />
+                        <span style={{
+                            paddingTop: "8px", fontSize: "12px", fontWeight: "500", lineHeight: "1.2",
+                            letterSpacing: "0.05em", textTransform: "capitalize"
+                        }}>eyebrow specialist</span>
+                    </Box>
+                    <Box>
+                        <Checkbox {...checkboxLabel} color="default" size="small" />
+                        <span style={{
+                            paddingTop: "8px", fontSize: "12px", fontWeight: "500", lineHeight: "1.2",
+                            letterSpacing: "0.05em", textTransform: "capitalize"
+                        }}>manicure specialist</span>
+                    </Box>
+                    <Box>
+                        <Checkbox {...checkboxLabel} color="default" size="small" />
+                        <span style={{
+                            paddingTop: "8px", fontSize: "12px", fontWeight: "500", lineHeight: "1.2",
+                            letterSpacing: "0.05em", textTransform: "capitalize"
+                        }}>Nail technician</span>
+                    </Box>
+                    <Box>
+                        <Checkbox {...checkboxLabel} color="default" size="small" />
+                        <span style={{
+                            paddingTop: "8px", fontSize: "12px", fontWeight: "500", lineHeight: "1.2",
+                            letterSpacing: "0.05em", textTransform: "capitalize"
+                        }}>Receptionist</span>
+                    </Box>
                 </Box>
-                <Box>
-                    <Checkbox {...checkboxLabel} color="default" size="small" />
-                    <span style={{ paddingTop: "8px", fontSize: "11px", fontWeight: "500", lineHeight: "1.2", letterSpacing: "0.05em" }}>Franchise</span>
-                </Box>
-            </Box>
+            </div>}
 
-            <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                <Button type="submit" color="info" variant="contained" sx={{ width: "66%", fontFamily: "Inter, sans-serif", fontWeight: "500", fontSize: "12px", lineHeight: "1.2", letterSpacing: "0.05em", marginBottom: "20px" }}>
+            {showCategory && <div>
+                <p style={{
+                    fontWeight: "700", fontSize: "16px", letterSpacing: "0.1em", textTransform: "capitalize",
+                    padding: "0 16px", marginBottom: "8px"
+                }}> Category </p>
+                <Divider sx={{ width: "88%", margin: "auto" }} />
+                <Box width="75%" display="flex" justifyContent="space-between" padding="4px 10px 2px 10px">
+                    <Box>
+                        <Checkbox {...checkboxLabel} color="default" size="small" />
+                        <span style={{
+                            paddingTop: "8px", fontSize: "12px", fontWeight: "500", lineHeight: "1.2",
+                            letterSpacing: "0.05em", textTransform: "capitalize"
+                        }}>Featured</span>
+                    </Box>
+                    <Box>
+                        <Checkbox {...checkboxLabel} color="default" size="small" />
+                        <span style={{
+                            paddingTop: "8px", fontSize: "12px", fontWeight: "500", lineHeight: "1.2",
+                            letterSpacing: "0.05em", textTransform: "capitalize"
+                        }}>Franchise</span>
+                    </Box>
+                </Box>
+            </div>}
+
+            {showBrand && <div>
+                <p style={{
+                    fontWeight: "700", fontSize: "16px", letterSpacing: "0.1em", textTransform: "capitalize",
+                    padding: "0 16px", margin: "8px"
+                }}> Brand </p>
+                <Divider sx={{ width: "88%", margin: "auto" }} />
+                <Box width="100%" display="grid" gap="4px" gridTemplateColumns="repeat(2, minmax(0, 1fr))" justifyItems="start" padding="4px 10px 2px 10px">
+                    <Box>
+                        <Checkbox {...checkboxLabel} color="default" size="small" />
+                        <span style={{
+                            paddingTop: "8px", fontSize: "12px", fontWeight: "500", lineHeight: "1.2",
+                            letterSpacing: "0.05em", textTransform: "capitalize"
+                        }}>Aerin</span>
+                    </Box>
+                    <Box>
+                        <Checkbox {...checkboxLabel} color="default" size="small" />
+                        <span style={{
+                            paddingTop: "8px", fontSize: "12px", fontWeight: "500", lineHeight: "1.2",
+                            letterSpacing: "0.05em", textTransform: "capitalize"
+                        }}>Fable & Mane</span>
+                    </Box>
+                    <Box>
+                        <Checkbox {...checkboxLabel} color="default" size="small" />
+                        <span style={{
+                            paddingTop: "8px", fontSize: "12px", fontWeight: "500", lineHeight: "1.2",
+                            letterSpacing: "0.05em", textTransform: "capitalize"
+                        }}>Loreal</span>
+                    </Box>
+                    <Box>
+                        <Checkbox {...checkboxLabel} color="default" size="small" />
+                        <span style={{
+                            paddingTop: "8px", fontSize: "12px", fontWeight: "500", lineHeight: "1.2",
+                            letterSpacing: "0.05em", textTransform: "capitalize"
+                        }}>Mac</span>
+                    </Box>
+                    <Box>
+                        <Checkbox {...checkboxLabel} color="default" size="small" />
+                        <span style={{
+                            paddingTop: "8px", fontSize: "12px", fontWeight: "500", lineHeight: "1.2",
+                            letterSpacing: "0.05em", textTransform: "capitalize"
+                        }}>Revlon</span>
+                    </Box>
+                    <Box>
+                        <Checkbox {...checkboxLabel} color="default" size="small" />
+                        <span style={{
+                            paddingTop: "8px", fontSize: "12px", fontWeight: "500", lineHeight: "1.2",
+                            letterSpacing: "0.05em", textTransform: "capitalize"
+                        }}>Schwarzkopf</span>
+                    </Box>
+                    <Box gridColumn="span 2">
+                        <Checkbox {...checkboxLabel} color="default" size="small" />
+                        <span style={{
+                            paddingTop: "8px", fontSize: "12px", fontWeight: "500", lineHeight: "1.2",
+                            letterSpacing: "0.05em", textTransform: "capitalize"
+                        }}>Eden Signature</span>
+                    </Box>
+                </Box>
+            </div>}
+
+            {showGender && <div style={{ marginBottom: location.pathname === '/salons' ? "15px" : null }}>
+                <p style={{
+                    fontWeight: "700", fontSize: "16px", letterSpacing: "0.1em", textTransform: "capitalize",
+                    padding: "0 16px", margin: "8px"
+                }}> Gender </p>
+                <Divider sx={{ width: "88%", margin: "auto" }} />
+                <Box width={location.pathname === '/job-seeker' ? "64%" : "auto"} display="flex" justifyContent="space-around" padding="12px 10px">
+                    <Chip sx={{ fontSize: "12px", height: "20px", fontWeight: "300" }} label="Male"
+                        variant="outlined" size="small" onClick={handleClick} onDelete={handleDelete} />
+                    <Chip sx={{ fontSize: "12px", height: "20px", fontWeight: "300" }} label="Female"
+                        variant="outlined" size="small" onClick={handleClick} onDelete={handleDelete} />
+                    {showUnisex && <div style={{ display: "inherit" }}>
+                        <Chip sx={{ fontSize: "12px", height: "20px", fontWeight: "300" }} label="Unisex"
+                            variant="outlined" size="small" onClick={handleClick} onDelete={handleDelete} />
+                    </div>}
+                </Box>
+            </div>}
+
+            {showPriceRange && <div>
+                <p style={{
+                    fontWeight: "700", fontSize: "16px", letterSpacing: "0.1em", textTransform: "capitalize",
+                    padding: "0 16px", margin: "8px"
+                }}> Price Range </p>
+                <Divider sx={{ width: "88%", margin: "auto" }} />
+                <Box sx={{ width: 240, margin: "auto", marginBottom: "10px" }}>
+                    <Slider
+                        color="secondary"
+                        size="small"
+                        value={value}
+                        onChange={handleChange}
+                        valueLabelDisplay="auto"
+                        getAriaLabel={() => 'Price range'}
+                        getAriaValueText={valueText}
+                    />
+                </Box>
+            </div>}
+
+            {showExperienceRange && <div>
+                <p style={{
+                    fontWeight: "700", fontSize: "16px", letterSpacing: "0.1em", textTransform: "capitalize",
+                    padding: "0 16px", margin: "8px"
+                }}> Experience Range </p>
+                <Divider sx={{ width: "88%", margin: "auto" }} />
+                <Box sx={{ width: 300, margin: "auto", marginBottom: "10px" }}>
+                    <Slider
+                        max={max}
+                        disableSwap
+                        color="secondary"
+                        size="small"
+                        value={value}
+                        onChange={handleChange}
+                        valueLabelDisplay="auto"
+                        getAriaLabel={() => 'Experience range'}
+                        sx={{ width: location.pathname === '/job-seeker' ? "52%" : "auto" }}
+                    />
+                    <p style={{
+                        fontSize: "12px", fontWeight: "500", lineHeight: "1.2", letterSpacing: "0.05em",
+                        textTransform: "capitalize", margin: "4px 0px 18px 0px"
+                    }}>{`experience: ${value[0]} - ${value[1]} years`}</p>
+                </Box>
+            </div>}
+
+            <div style={{ display: "flex", alignItems: "center", padding: "2px 26px" }}>
+                <Button type="submit" color="info" variant="contained" onClick={handleFilter} sx={{
+                    fontFamily: "Inter, sans-serif", fontWeight: "500", fontSize: "12px",
+                    letterSpacing: "0.05em", marginBottom: "20px", padding: "4px 19px"
+                }}>
                     Apply
                 </Button>
             </div>

@@ -67,7 +67,7 @@ function ContactUsForm() {
         </Box>
 
         <Box sx={{ width: "50%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }} >
-          <p style={{ width: "84%", margin: "36px 10px", fontWeight: "400", fontSize: "24px", letterSpacing: "0.05em", textTransform: "uppercase" }}>
+          <p style={{ width: "84%", margin: "46px 10px 22px 10px", fontWeight: "400", fontSize: "24px", letterSpacing: "0.05em", textTransform: "uppercase" }}>
             send your question </p>
 
           <Formik

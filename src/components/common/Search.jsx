@@ -8,6 +8,7 @@
 
 import { useState } from "react";
 import { Autocomplete, Box, Button, InputBase, TextField, useMediaQuery } from "@mui/material";
+import { useLocation } from "react-router-dom";
 
 const Search = ({
     // getSearchData,
@@ -19,8 +20,7 @@ const Search = ({
     // api
 }) => {
     const [inputValue, setInputValue] = useState("");
-    // const theme = useTheme();
-    // const colors = tokens(theme.palette.mode);
+    const location = useLocation();
     const isMobile = useMediaQuery("(max-width:480px)");
     const isTab = useMediaQuery("(max-width:920px)");
 
@@ -60,18 +60,22 @@ const Search = ({
         };
     };
     console.log("Autocomplete value=>", inputValue);
+    console.log("Autocomplete value=>", location);
 
     return (
-        <Box borderRadius="4px" width="60vw" height="auto" position="relative" sx={{
-            backgroundColor: "#ffffff", display: "flex", alignItems: "center", boxShadow: "2px 2px 4px hsl(0, 0%, 50%)"
-        }}>
+        <Box borderRadius="4px" width={location.pathname === "/job-seeker" ? "50vw" : "60vw"} height="auto" position="relative"
+            sx={{
+                backgroundColor: "#ffffff", display: "flex", alignItems: "center", boxShadow: "2px 2px 4px hsl(0, 0%, 50%)"
+            }}>
 
             <Autocomplete disablePortal id="input" options={cities}
                 onChange={handleChange} onKeyDown={handleKeyDown} sx={{ width: "80.5%", outline: "none" }}
                 renderInput={(params) => <TextField {...params} label="Search.." />}
             />
-            <Button onClick={handleSearch} type="submit" variant="contained" color='success' sx={{
-                width: "20%", position: "absolute", right: isTab ? "1%" : "0", top: "0", fontSize: "20px", letterSpacing: "0.01em", lineHeight: "2em", fontWeight: "500", padding: "6.5px", textTransform: "capitalize"
+            <Button onClick={handleSearch} type="submit" variant="contained" sx={{
+                width: "20%", position: "absolute", right: isTab ? "1%" : "0", top: "0", fontSize: "20px",
+                letterSpacing: "0.01em", lineHeight: "2em", fontWeight: "500", padding: "6.5px",
+                textTransform: "capitalize", backgroundColor: "rgb(76, 206, 172)"
             }}>
                 Search
             </Button>
@@ -79,7 +83,7 @@ const Search = ({
             {/* <InputBase sx={{ ml: 2, flex: 1, width: "88%" }} placeholder="Search.."
                 id="input" value={inputValue} onChange={handleChange} onKeyDown={handleKeyDown} />  */}
 
-        </Box>
+        </Box >
     );
 }
 

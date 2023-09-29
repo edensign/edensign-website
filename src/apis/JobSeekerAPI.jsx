@@ -13,9 +13,9 @@ import { defineCancelApiObject } from "./config/axiosUtils";
 export const JobSeekerAPI = {
     /** Get Job Seeker list by joining 2 tables from the database
      */
-    getJobSeekerList: async (cancel = false) => {
+    getJobSeekerList: async (page, size, cancel = false) => {
         const { data: response } = await api.request({
-            url: `/get-job-seeker-list`,
+            url: `/get-job-seeker-list/${page}/${size}`,
             method: "GET",
             signal: cancel ? cancelApiObject[this.getJobSeekerList.name].handleRequestCancellation().signal : undefined,
         });

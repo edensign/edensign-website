@@ -7,16 +7,20 @@
  */
 
 import { AmenityAPI } from "./AmenityAPI";
+import { CityAPI } from "./CityAPI";
 import { JobSeekerAPI } from "./JobSeekerAPI";
 import { SalonAPI } from "./SalonAPI";
 import { SalonEmployeeAPI } from "./SalonEmployeeAPI";
 import { ServiceAPI } from "./ServiceAPI";
+import { StateAPI } from "./StateAPI";
 
 
 export default {
     AmenityAPI,
+    CityAPI,
     JobSeekerAPI,
     SalonAPI,
     SalonEmployeeAPI,
-    ServiceAPI
+    ServiceAPI,
+    StateAPI
 };

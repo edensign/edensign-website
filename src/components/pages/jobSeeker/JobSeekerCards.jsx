@@ -41,7 +41,7 @@ const JobSeekerCards = () => {
                 if (response.status === "Success") {
                     setJobSeekerList({
                         ...jobSeekerList,
-                        listData: response.data,
+                        listData: response.data.rows,
                         loading: false
                     });
                     console.log("Job detail response=>", response.data);

@@ -13,6 +13,7 @@ import { SalonEmployeeAPI } from "./SalonEmployeeAPI";
 import { ServiceAPI } from "./ServiceAPI";
 
 
+
 export default {
     AmenityAPI,
     JobSeekerAPI,

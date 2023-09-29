@@ -9,7 +9,8 @@
 import React, { lazy, Suspense } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 
-import { CssBaseline, ThemeProvider, useTheme } from "@mui/material";
+import CssBaseline from '@mui/material/CssBaseline'
+import { ThemeProvider, useTheme } from "@mui/material";
 // import { useIdleTimer } from 'react-idle-timer';
 
 import { ColorModeContext, useMode, tokens } from "./theme";
@@ -42,7 +43,7 @@ function App() {
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
-        <CssBaseline />
+       <CssBaseline/>
         <Suspense fallback={<Loader />}>
           <div id="main-div" style={{
             backgroundColor: "#f3f3f3", background: location.pathname == "/salons" ? `radial-gradient(circle, rgba(160,177,193,1) 0%, rgba(194,192,197,1) 100%)` :

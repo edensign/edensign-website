@@ -107,10 +107,6 @@ function Topbar(props) {
     }
 
 
-    function removeSpaces(string) {
-      return string.replace(/\s/g, '');
-    }
-
     //changing background gradients on page scroll
     // if (scroll > 500 && scroll < 2499) {
     //   mainDiv.style.background = location.pathname === "/salons" ? `linear-gradient(to left, rgb(166,179,195), rgb(166,179,195))` :

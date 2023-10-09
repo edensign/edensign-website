@@ -13,25 +13,30 @@ import { defineCancelApiObject } from "./config/axiosUtils";
 export const JobSeekerAPI = {
     /** Get Job Seeker list by joining 2 tables from the database
      */
-    getJobSeekerList: async (cancel = false, page = 0, size = 9, search = "") => {
+    getJobSeekerDetail: async (page, size, skill, gender, experience = [], cancel = false) => {
+        const skillParam = skill.length ? `skills=${skill}` : '';
+        const genderParam = gender ? `gender=${gender}` : '';
+        const experienceParam = experience.toString() === '0,0' ? '' : `experience=${experience}`;
+        console.log("job-seeerAPI=>", page, size, skill, gender, experience, skillParam, genderParam, experienceParam);
         const { data: response } = await api.request({
-            url: `/get-job-seekers?page=${page}&size=${size}&search=${search}`,
+            url: `/get-job-seeker-detail/${page}/${size}?${skillParam}${genderParam}${experienceParam}`,
             method: "GET",
-            signal: cancel ? cancelApiObject[this.getJobSeekerList.name].handleRequestCancellation().signal : undefined,
-        });
-        return response;
-    },
-    /** Get complete Job Seeker detail of a particular Job Seeker from the database
-     */
-    getJobSeekerDetail: async (JobSeeker_code, cancel = false) => {
-        const { data: response } = await api.request({
-            url: `/get-job-seeker-detail`,
-            method: "POST",
-            data: id,
             signal: cancel ? cancelApiObject[this.getJobSeekerDetail.name].handleRequestCancellation().signal : undefined,
         });
         return response;
-    }
+    },
+
+    /** Get complete Job Seeker detail of a particular Job Seeker from the database
+     */
+    // getJobSeeker: async (JobSeeker_code, cancel = false) => {
+    //     const { data: response } = await api.request({
+    //         url: `/get-job-seeker-detail`,
+    //         method: "POST",
+    //         data: id,
+    //         signal: cancel ? cancelApiObject[this.getJobSeekerDetail.name].handleRequestCancellation().signal : undefined,
+    //     });
+    //     return response;
+    // }
 };
 
 // defining the cancel API object for JobSeekerAPI

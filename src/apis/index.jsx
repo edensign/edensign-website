@@ -12,6 +12,7 @@ import { JobSeekerAPI } from "./JobSeekerAPI";
 import { SalonAPI } from "./SalonAPI";
 import { SalonEmployeeAPI } from "./SalonEmployeeAPI";
 import { ServiceAPI } from "./ServiceAPI";
+import { SkillAPI } from "./SkillAPI";
 import { StateAPI } from "./StateAPI";
 
 
@@ -23,5 +24,6 @@ export default {
     SalonAPI,
     SalonEmployeeAPI,
     ServiceAPI,
+    SkillAPI,
     StateAPI
 };

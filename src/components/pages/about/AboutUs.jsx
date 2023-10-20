@@ -4,6 +4,8 @@ import AboutPageTop from "./AboutPageTop";
 import MissionComponent from "./MissionComponent";
 import Newsletter from "../../common/Newsletter";
 
+import "./AboutUs.css";
+
 const AboutUs = () => {
     return (
         <>

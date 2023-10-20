@@ -1,54 +1,47 @@
-
-.ourcomponent{
- background-image: url("../../assets/edensign2.png");
- background-repeat: repeat;
- background-size: 200px;
+.ourcomponent {
+  background-image: url("../../assets/edensign2.png");
+  background-repeat: repeat;
+  background-size: 200px;
+  /* Adjust animation duration and timing function as needed */
+  animation: slideAnimation 60s linear infinite;
 }
+
 @keyframes slideAnimation {
   0% {
     background-position: 0% 0;
   }
+
   100% {
     background-position: 100% 0;
   }
 }
 
-.ourcomponent {
-  animation: slideAnimation 60s linear infinite;  /* Adjust animation duration and timing function as needed */
-}
 
-/* .flip-card-front{
-  background: linear-gradient(to bottom, blue, red);
-  
-} */
-
-.flip-card-front:hover{
+.flip-card-front:hover {
   background-image: none;
   transition: background-color 1s linear;
   background-color: #cc3266;
- 
-  
 }
-.unique{
+
+.unique {
   color: hsl(0, 0%, 25%);
-    background: linear-gradient(to right, hsl(0, 0%, 20%) 0, hsl(0, 0%, 100%) 0.2%, hsl(0, 0%, 20%) 20%);
-    animation: shineIt 5s linear 1s infinite;
-    text-transform: uppercase;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    
+  background: linear-gradient(to right, hsl(0, 0%, 20%) 0, hsl(0, 0%, 100%) 0.2%, hsl(0, 0%, 20%) 20%);
+  animation: shineIt 5s linear 1s infinite;
+  text-transform: uppercase;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
+
 @keyframes shineIt {
-    0% {
-      background-position: 0px;
-    }
-  
-    100% {
-      background-position: 650px;
-    }
+  0% {
+    background-position: 0px;
   }
 
-.flip-card-front:hover .flip-card-back{
-display: flex;
+  100% {
+    background-position: 650px;
+  }
+}
 
+.flip-card-front:hover .flip-card-back {
+  display: flex;
 }

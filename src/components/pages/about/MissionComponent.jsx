@@ -1,13 +1,14 @@
 import { Box, Container, List, ListItem, ListItemText, Typography } from '@mui/material';
 import DiamondIcon from '@mui/icons-material/Diamond';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import "../about/AboutUs.css"
 
 const MissionComponent = () => {
 
   return (
-    <Box sx={{ position: "relative", margin: "60px 0" }}>
+    <Box  sx={{ position: "relative", margin: "60px 0"}}>
       <Box sx={{
-        display: 'flex', flexDirection: "column", justifyContent: "center", alignItems: "center"
+        display: 'flex', flexDirection: "column", justifyContent: "center", alignItems: "center",
       }}>
         <p style={{ fontFamily: "Marcellus,sans-serif", fontWeight: "400", fontSize: "20px", lineHeight: "20px", letterSpacing: "0.8em" }}> OUR </p>
         <DiamondIcon sx={{ fontSize: "10px" }} />

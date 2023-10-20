@@ -20,6 +20,7 @@ import { downloadResumeFromAzure } from '../../azure/AzureStorageConnection';
 
 import "./InfiniteScroll.css";
 import customer from "../../assets/customer-resiz.jpg";
+import sadFaceImage from "../../assets/sad-face.svg";
 
 const ENV = import.meta.env;
 
@@ -37,7 +38,7 @@ const JobSeekerCards = ({ skills, selectedSkill, selectedGender, selectedExperie
 
 
     useEffect(() => {
-        API.JobSeekerAPI.getJobSeekerDetail(jobSeekerDetail.page, ENV.VITE_JOB_SEEKER_SIZE, selectedSkill, selectedGender, selectedExperience)
+        API.JobSeekerAPI.getJobSeekerDetail(ENV.VITE_JOB_SEEKER_PAGE, ENV.VITE_JOB_SEEKER_SIZE, selectedSkill, selectedGender, selectedExperience)
             .then(response => {
                 if (response.status === "Success") {
                     if (response.data) {
@@ -178,7 +179,7 @@ const JobSeekerCards = ({ skills, selectedSkill, selectedGender, selectedExperie
             loading: true
         });
 
-        API.JobSeekerAPI.getJobSeekerDetail(jobSeekerDetail.page + 1, ENV.VITE_JOB_SEEKER_SIZE, selectedSkill, selectedGender, selectedExperience)
+        API.JobSeekerAPI.getJobSeekerDetail(ENV.VITE_JOB_SEEKER_PAGE + 1, ENV.VITE_JOB_SEEKER_SIZE, selectedSkill, selectedGender, selectedExperience)
             .then(response => {
                 if (response.status === "Success") {
 
@@ -191,7 +192,6 @@ const JobSeekerCards = ({ skills, selectedSkill, selectedGender, selectedExperie
                             listData: jobSeekerDetail.listData.concat(response.data),
                             loading: false
                         });
-                        console.log("Job detail response=>", response.data);
                     }
                 } else {
                     setjobSeekerDetail({ listData: [], loading: false });
@@ -202,7 +202,6 @@ const JobSeekerCards = ({ skills, selectedSkill, selectedGender, selectedExperie
                 throw error;
             });
     };
-    console.log("jobList=>", jobSeekerDetail)
 
 
     return (
@@ -333,10 +332,15 @@ const JobSeekerCards = ({ skills, selectedSkill, selectedGender, selectedExperie
                                 </Card>
                             </Grid>
                         ))
-                            : null
+                            : <Box sx={{ height: "300px", width: "310px", margin: "2% auto" }}>
+                                <img src={sadFaceImage} style={{ height: "100%", width: "100%", objectFit: "contain" }} />
+                                <p style={{
+                                    fontSize: "32px", fontWeight: "600", fontFamily: "Marcellus,sans-serif", letterSpacing: "2px", textTransform: "capitalize", color: "fuchsia", margin: "0 auto"
+                                }}>Nothing to Display</p>
+                            </Box>
                     }
                 </Grid>
-            </Box>
+            </Box >
         </InfiniteScroll >
     )
 }

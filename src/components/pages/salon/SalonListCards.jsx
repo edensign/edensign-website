@@ -14,7 +14,7 @@ import { Box, Button, Card, CardActions, CardContent, Grid, Rating } from '@mui/
 import API from '../../../apis';
 import { setSalons } from '../../../redux/actions/SalonAction';
 
-const SalonListCards = () => {
+const SalonListCards = ({ selectedCategory, selectedGender }) => {
 
   const dispatch = useDispatch();
   const { listData } = useSelector(state => state.allSalons);

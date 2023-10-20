@@ -8,8 +8,6 @@ import ServicesStrip from "./ServicesStrip";
 import API from '../../../apis';
 
 const JobSeekers = () => {
-    //performing State Upliftment for filter-menu
-    const [filterOpen, setFilterOpen] = useState(false);
     //for experience slider value
     const [value, setValue] = useState([0, 0]);
     //grab all the skills from skill table in db
@@ -37,8 +35,7 @@ const JobSeekers = () => {
     const handleFilterChange = (gender, filterSkills) => {
         gender ? setSelectedGender(gender) : '';
         if (filterSkills) {
-            console.log(skills.filter(skill => filterSkills.includes(skill.name))
-                .map(skill => skill.id));
+            console.log(skills.filter(skill => filterSkills.includes(skill.name)));
             setSelectedSkill(skills
                 .filter(skill => filterSkills.includes(skill.name))
                 .map(skill => skill.id));
@@ -60,11 +57,10 @@ const JobSeekers = () => {
         getAllSkills();
     }, []);
 
-    console.log('Main doc skills', skills, selectedSkill)
 
     return (
         <div style={{ backgroundColor: "#e5e5e5", color: "#ffffff" }}>
-            <PageTop filterOpen={filterOpen} setFilterOpen={setFilterOpen} />
+            <PageTop />
             <FilterMenu showSkills={showSkills} showGender={showGender} showExperienceRange={showExperienceRange}
                 value={value} handleChange={handleExperienceSliderChange} max={20} onFilter={handleFilterChange} />
             <JobSeekerCards skills={skills} selectedSkill={selectedSkill} selectedGender={selectedGender} selectedExperience={value} />

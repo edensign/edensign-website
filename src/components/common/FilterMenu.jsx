@@ -7,9 +7,12 @@
 */
 
 import { useState } from "react";
+import { useSelector, useDispatch } from 'react-redux';
 import { useLocation } from "react-router-dom";
 
 import { Box, Chip, Checkbox, Divider, useMediaQuery, Button, Slider, FormControlLabel } from "@mui/material";
+
+import { setFilterOpen } from "../../redux/actions/FilterAction";
 // import { TuneOutlined } from '@mui/icons-material';
 
 const FilterMenu = ({
@@ -30,9 +33,13 @@ const FilterMenu = ({
     const [selectedBrand, setSelectedBrand] = useState('');
     const [selectedGender, setSelectedGender] = useState('');
 
+    const filterOpen = useSelector(state => state.filterOpen);
+    const dispatch = useDispatch();
     const location = useLocation();
     const checkboxLabel = { inputProps: { 'aria-label': 'Checkboxes' } };
     const isMobile = useMediaQuery("(max-width:480px)");
+    // const box = document.getElementsByClassName("filter-btn-box")[0];
+    // const filterBox = document.getElementById("filter-box");
 
 
     const handleSkillClick = (event, value) => {
@@ -51,7 +58,6 @@ const FilterMenu = ({
 
     const handleGenderClick = (event) => {
         setSelectedGender(event.target.innerText.toLowerCase())
-        // setFilterQuery({ ...filterQuery, [category]: event.target.innerText.toLowerCase() });
         event.target.parentElement.style.color = "#0288d1";
         event.target.parentElement.style.border = "1px solid rgba(2, 136, 209, 0.7)";
     };
@@ -63,7 +69,23 @@ const FilterMenu = ({
     };
 
     const handleFilterChange = () => {
+        const box = document.getElementsByClassName("filter-btn-box")[0];
+        const btn = document.getElementsByClassName("filter-open-btn")[0];
+        const filterBox = document.getElementById("filter-box");
+        const arrowicon = document.getElementById("arrowicon");
+
         onFilter(selectedGender, selectedSkill);
+        console.log('filtermenu utton', filterOpen)
+        dispatch(setFilterOpen(!filterOpen.filterOpen))
+        window.scrollTo(0, 270);
+
+        box.style.right = filterOpen.filterOpen ? "0" : "27%";
+        box.style.transform = filterOpen.filterOpen ? "translateX(0)" : "matrix(1, 0, 0, 1, 0, 0)";
+        btn.style.width = filterOpen.filterOpen ? "7em" : "4em";
+        btn.style.padding = filterOpen.filterOpen ? "10px 50px" : "9px 0px 9px 4px";
+        filterBox.style.opacity = filterOpen.filterOpen ? "0" : "1";
+        filterBox.style.transform = filterOpen.filterOpen ? "translateX(100%)" : "translateX(0)";
+        arrowicon.style.transform = filterOpen.filterOpen ? "" : "rotate(180deg)";
     };
     console.log("Gender=>", selectedGender)
     console.log("Skill=>", selectedSkill)

@@ -19,7 +19,7 @@ const AboutCEO = () => {
             <Grid item xs={6} md={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
                 <Box
                     sx={{ height: "100%", width: isMobile ? "100%" : "80%" }}>
-                    <img src="https://edensign.blob.core.windows.net/image-storage/makeup/skincare-closeup.jpg" className='collection-img' alt="new-collection" />
+                    <img src="https://sinequanonsalons.com/wp-content/uploads/2022/11/sqn_westtown.jpg" className='collection-img' alt="new-collection" />
                 </Box>
             </Grid>
             <Grid item xs={6} md={6}>
@@ -32,7 +32,9 @@ const AboutCEO = () => {
                         alignItems: "center",
                         height: "100%",
                         width: isMobile ? "100%" : "80%",
-                        backgroundColor: "#ffffff"
+                        backgroundColor: "#f5f6fa;",
+                        
+
                     }}>
                     <p style={{ fontFamily: "Marcellus,sans-serif", fontWeight: "400", fontSize: "20px", lineHeight: "20px", letterSpacing: "0.8em", textTransform: "uppercase" }}> Hello From </p>
                     <DiamondIcon sx={{ fontSize: "10px" }} />

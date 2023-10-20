@@ -7,6 +7,7 @@
 */
 
 export const ActionTypes = {
+    SET_FILTER_OPEN: "SET_FILTER_OPEN",
     SET_PRODUCTS: "SET_PRODUCTS",
     SET_JOB_SEEKERS: "SET_JOB_SEEKERS",
     SET_SALONS: "SET_SALONS",

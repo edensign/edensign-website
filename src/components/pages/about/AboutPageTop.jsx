@@ -10,18 +10,18 @@ import { useState } from 'react';
 
 import { Box, Button, Tooltip } from '@mui/material';
 
-import AboutBg from "../../assets/eden.jpg";
-
+import AboutBg from "../../assets/eden-signature.png";
+import "../about/AboutUs.css"
 
 const AboutPageTop = () => {
     // const location = useLocation();
 
     return (
         <Box sx={{
-            height: "80vh", width: "100%", display: "flex", flexDirection: "column", justifyContent: "center",
+            height: "84vh", width: "100%", display: "flex", flexDirection: "column", justifyContent: "center",
             alignItems: "center", position: "relative", color: "#ffffff"
         }}>
-            <img src={AboutBg} style={{ width: "100%", height: "100%", position: "absolute" }} />
+            <img id='imgbg' src={AboutBg} style={{ width: "214vh", height: "110vh", position: "absolute",marginBottom:"80px" }} />
 
             {/* <Box display="flex" flexDirection="column" justifyContent="flex-start" alignItems="center">
                 <p style={{ textTransform: "capitalize", fontSize: "32px", fontWeight: "600", lineHeight: "1", zIndex: "1" }}  >

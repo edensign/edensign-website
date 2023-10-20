@@ -13,10 +13,18 @@ import { defineCancelApiObject } from "./config/axiosUtils";
 export const JobSeekerAPI = {
     /** Get Job Seeker list by joining 2 tables from the database
      */
-    getJobSeekerDetail: async (page, size, skill, gender, experience = [], cancel = false) => {
-        const skillParam = skill.length ? `skills=${skill}` : '';
-        const genderParam = gender ? `gender=${gender}` : '';
+    getJobSeekerDetail: async (page, size, skill, gender = null, experience = [], cancel = false) => {
+        let skillParam = skill.length ? `skills=${skill}` : '';
+        let genderParam = gender ? `gender=${gender}` : '';
         const experienceParam = experience.toString() === '0,0' ? '' : `experience=${experience}`;
+
+        if (skillParam && (genderParam || experienceParam)) {
+            skillParam = `${skillParam}&`;
+        }
+        if (genderParam && experienceParam) {
+            genderParam = `${genderParam}&`;
+        }
+
         console.log("job-seeerAPI=>", page, size, skill, gender, experience, skillParam, genderParam, experienceParam);
         const { data: response } = await api.request({
             url: `/get-job-seeker-detail/${page}/${size}?${skillParam}${genderParam}${experienceParam}`,

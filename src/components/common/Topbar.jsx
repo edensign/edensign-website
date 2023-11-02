@@ -130,7 +130,7 @@ function Topbar(props) {
       <Toolbar disableGutters sx={{ justifyContent: "space-between", padding: "30px" }}>
         <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 3 }} />
         <Typography sx={{
-          display: { xs: 'none', md: "flex" }, textTransform: "uppercase", letterSpacing: "0.4rem", fontSize: "1.6em", fontFamily: "Inter, sans-serif", lineHeight: "1.6", color: "#000000"
+          display: { xs: 'none', md: "flex" }, textTransform: "uppercase", letterSpacing: "0.4rem", fontSize: "2.0em", fontFamily: "Inter, sans-serif", lineHeight: "1.6", color: "#000000",marginRight:"80px",marginLeft:"30px"
         }}>
           <Link style={{ textDecoration: "none", color: "#000000" }} to="/"> edensign </Link>
         </Typography>
@@ -173,7 +173,7 @@ function Topbar(props) {
         </Box>
         <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
         <Typography
-          variant="h5"
+          variant="h4"
           noWrap
           component="a"
           href=""
@@ -183,7 +183,7 @@ function Topbar(props) {
             flexGrow: 1,
             paddingRight: '20px',
             fontFamily: 'monospace',
-            fontWeight: 400,
+            fontWeight: 500,
             letterSpacing: '.3rem',
             color: 'inherit',
             textDecoration: 'none',
@@ -198,7 +198,7 @@ function Topbar(props) {
               key={page}
               // onClick={handleCloseNavMenu}
               disableRipple
-              sx={{ my: 1, display: 'block', fontSize: "12px", letterSpacing: "0.13em", lineHeight: "1.14", fontWeight: "500", textTransform: "uppercase" }}
+              sx={{ my: 1, display: 'block', fontSize: "14px", letterSpacing: "0.11em", lineHeight: "1.14", fontWeight: "400", textTransform: "uppercase",fontFamily:"inter" }}
             >
               <Link className="link-page" style={{ textDecoration: "none", color: "#ffffff" }}
                 to={`/${page.charAt(0).toLowerCase() + page.slice(1).replace(/\s/g, '-')}`}>

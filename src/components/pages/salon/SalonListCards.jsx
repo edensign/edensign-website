@@ -106,6 +106,7 @@ const SalonListCards = ({ selectedCategory, selectedGender }) => {
               visibility: "visible", WebkitBackfaceVisibility: "hidden", transition: "all 0.3s ease-in-out"
             }}>
               <Card sx={{
+
                 maxWidth: "88%", height: 520, boxShadow: "4px 4px 9px #043927", filter: "brightness(100%)"
               }}>
 

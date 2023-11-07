@@ -31,13 +31,23 @@ function ProductCard() {
 
   const [hoveredCard, setHoveredCard] = useState(null);
   const [cardImage, setCardImage] = useState(null);
-  const [openDialog, setOpenDialog]= useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const itemsPerPage = 7; 
+  const data = Array(10).fill(null);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const DisplayedData = data.slice(startIndex, endIndex);
+
+  const handlePageChange = (event,page) => {
+    setCurrentPage(page);
+    window.scrollTo(0,300);
+  };
 
 
   const handleMouseEnter = (event, cardNumber) => {
     setHoveredCard(cardNumber);
-    // setCardImage(event.target.style.backgroundImage);
-    console.log(event);
   };
 
   const handleMouseLeave = () => {
@@ -58,20 +68,11 @@ function ProductCard() {
     }, 2000);
   }
 
-  console.log("Card value=", openDialog);
-  console.log(cardImage);
-
-  // const [page, setPage] = React.useState(0);
-  // const [cardsPerPage, setcardsPerPage] = React.useState(2);
-
-  // const handleChangePage = (event, newPage) => {
-  //   setPage(newPage);
-  // };
-
-  // const handleChangeCardsPerPage = (event) => {
-  //   setcardsPerPage(parseInt(event.target.value, 4));
-  //   setPage(1);
-  // };
+  const spanElement = <span style={{ backgroundColor: "black", fontSize: "15px" }}>-11%</span>
+  const spanElement2 = <span style={{
+    backgroundColor: "#e4c1b1", textTransform: "uppercase", fontSize: "12px",
+    width: "70px", textAlign: "center"
+  }}>featured</span>
 
 
   return (
@@ -80,7 +81,7 @@ function ProductCard() {
         severity={severity}
         message={message}
       />
-      <ProductDialogBox openDialog={openDialog} setOpenDialog={setOpenDialog} image={image1} />
+      <ProductDialogBox openDialog={openDialog} setOpenDialog={setOpenDialog} image={image1} span={spanElement} span1={spanElement2} />
 
 
       <Box sx={{
@@ -90,7 +91,7 @@ function ProductCard() {
           display: "block", position: "absolute", top: "30px", left: "70px", width: "90%", opacity: ".62",
           textTransform: "uppercase"
         }}>
-          <span> This is personal </span>
+          <span> showing {startIndex+1}-{endIndex>data.length ? `${data.length}`:endIndex} of {data.length} result </span>
           <Select defaultValue={"menu order"} size='small' style={{ float: "right", fontSize: "12px", bottom: "9px" }} >
             <MenuItem value="menu order" selected="selected">Default Sorting</MenuItem>
             <MenuItem value="popularity">Sort By Popularity</MenuItem>
@@ -104,16 +105,12 @@ function ProductCard() {
           </Select>
         </Box>
 
-        {Array(10).fill(null).map((_, i) => (
+        {DisplayedData.map((_, i) => (
 
           <Card key={i} sx={{ height: "82vh", margin: "70px 0 0 70px", borderRadius: "0", position: "relative" }}
             onMouseEnter={(event) => handleMouseEnter(event, i)} onMouseLeave={(event) => handleMouseLeave(event, i)}>
             <div style={{ display: "flex", justifyContent: "space-between", color: "white" }}>
-              <span style={{ backgroundColor: "black", fontSize: "15px" }}>-11%</span>
-              <span style={{
-                backgroundColor: "#e4c1b1", textTransform: "uppercase", fontSize: "12px",
-                width: "67px", textAlign: "center"
-              }}>featured</span>
+              {spanElement}{spanElement2}
             </div>
 
             <CardMedia
@@ -123,7 +120,7 @@ function ProductCard() {
               <Box sx={{
                 position: "absolute", display: "grid", top: "90px", left: "60px", height: "135px",
                 gridTemplateColumns: "repeat(2, minmax(0, 1fr))", rowGap: "50px"
-              }}
+              }} 
 
               >
                 <Button className={hoveredCard === i ? 'btn-visibility' : ''} sx={{
@@ -171,19 +168,19 @@ function ProductCard() {
                 <input type="radio" id="star1" name="rate" value="1" />
                 <label htmlFor="star1" title="text">1 star</label>
               </div>
-              <Typography sx={{ textAlign: "center", width: "75%", fontSize: "16.5px", fontWeight: "520", letterSpacing: ".8px", fontFamily: "inter" }}>
+              <Typography sx={{ textAlign: "center", width: "75%", fontSize: "16.5px", fontWeight: "520", letterSpacing: ".8px",
+               fontFamily: "inter" }}>
                 $40.00
               </Typography>
             </CardContent>
           </Card>
         ))}
         <Stack spacing={2} sx={{ position: "absolute", bottom: "20px", width: "100%", alignItems: "center", }} >
-          <Pagination count={4} variant="outlined" shape="rounded"
-
-          // onPageChange={handleChangePage}
-          // cardsPerPage={cardsPerPage}
-          // onCardsPerPageChange={handleChangeCardsPerPage}
-          />
+        <Pagination color="primary"  size="large" shape="rounded"
+          count={Math.ceil(data.length / itemsPerPage)}
+          page={currentPage}
+          onChange={handlePageChange}
+        />
         </Stack>
       </Box>
     </>

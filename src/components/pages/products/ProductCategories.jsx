@@ -24,16 +24,18 @@ function ProductCategories() {
 
     return (
         <div style={{ display: "flex", backgroundColor: "rgb(236,236,236)" }}>
-            <Box sx={{ width: "23%", margin: "40px 0 0 70px", backgroundColor: "white",height:"210vh" }}>
-                <h1 style={{ margin: "20px", letterSpacing: ".2em", textTransform: "uppercase", fontWeight: "600", fontSize: "18px" }}>product categories</h1>
-                <List sx={{ margin: "20px", display: "flex", flexDirection: "column", fontWeight: "300", fontSize: "19px", letterSpacing: "0.05em" }}>
+            <Box sx={{ width: "19%", margin: "40px 0 0 70px", backgroundColor: "white",height:"215vh" }}>
+                <h1 style={{ margin: "12px", letterSpacing: ".2em", textTransform: "uppercase", fontWeight: "500",
+                 fontSize: "17px" }}>product categories</h1>
+                <List sx={{ margin: "20px", display: "flex", flexDirection: "column", fontWeight: "300", fontSize: "17px", letterSpacing: "0.05em" }}>
                     <ListItem className='productcategory' >Fragrance</ListItem>
-                    <List sx={{ margin: "16px", display: "flex", flexDirection: "column", fontWeight: "300", fontSize: "19px", letterSpacing: "0.05em" }}> Makeup
+                    <List sx={{ margin: "16px", display: "flex", flexDirection: "column", fontWeight: "300", fontSize: "17px",
+                     letterSpacing: "0.05em" }}> Makeup
                         <ListItem className='productcategory' sx={{ fontSize: "14px" }} >Eye Palettes</ListItem>
                         <ListItem className='productcategory' sx={{ fontSize: "14px" }}  >Hair Health</ListItem>
                         <ListItem className='productcategory' sx={{ fontSize: "14px" }} >Lips Gloss</ListItem>
                     </List>
-                    <ListItem className='productcategory' >Skincare</ListItem>
+                    <ListItem className='productcategory' sx={{fontSize:"17px"}} >Skincare</ListItem>
                 </List>
                 <Divider />
                 {/* </Box>
@@ -57,15 +59,13 @@ function ProductCategories() {
                     fontSize: "12px", fontWeight: "500", lineHeight: "1.2", letterSpacing: "0.05em",
                     textTransform: "capitalize", margin: "4px 0px 18px 30px"
                 }}>{`Range : $${value[0]} - $${value[1]} `}</p>
-                <Button type='submit' sx={{ margin: "20px 0 0 25px", border: "1px solid black", borderRadius: "0", width: "80%", height: "50px", marginBottom: "30px" }}> Filter</Button>
-
-                {/* </Box>
-            <Box sx={{ width: "20%", height: "40vh", margin: "1px 0 0 70px ", backgroundColor: "white" }}> */}
+                <Button type='submit' sx={{ margin: "20px 0 0 25px", border: "1px solid black", borderRadius: "0",
+                 width: "75%", height: "40px", marginBottom: "30px" }}> Filter</Button>
                 <Divider />
                 <p style={{
                     margin: "20px", letterSpacing: ".2em", textTransform: "uppercase", fontWeight: "500", fontSize: "18px"
                 }}> color</p>
-                <List sx={{ margin: "5px 0 0 30px", fontSize: "18px" }}>
+                <List sx={{ margin: "5px 0 0 30px", fontSize: "15px" }}>
                     <ListItem className='productcategory' >
                         <span style={{ width: "22px", height: "22px", borderRadius: "50%", backgroundColor: "black", marginRight: "10px" }}></span>
                         Black</ListItem>
@@ -81,7 +81,8 @@ function ProductCategories() {
                     margin: "20px", letterSpacing: ".2em", textTransform: "uppercase", fontWeight: "400", fontSize: "18px"
                 }}> Capacity </p>
 
-                <List sx={{ margin: "10px 15px 0 15px", fontSize: "15px", display: "flex", justifyContent: "space-around", marginBottom: "30px" }}>
+                <List sx={{ margin: "10px 18px 0 18px", fontSize: "12px", display: "flex", justifyContent: "space-around",
+                 marginBottom: "30px" }}>
                     <ListItem className='productcategory' sx={{ border: "1px solid black", marginRight: "4px" }}>30mL</ListItem>
                     <ListItem className='productcategory' sx={{ border: "1px solid black", marginRight: "4px" }}>40mL</ListItem>
                     <ListItem className='productcategory' sx={{ border: "1px solid black" }}>50mL</ListItem>

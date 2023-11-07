@@ -22,7 +22,7 @@ import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 
 import "./Product.css"
 
-const ProductDialogBox = ({ openDialog, setOpenDialog, image }) => {
+const ProductDialogBox = ({ openDialog, setOpenDialog, image, span, span1 }) => {
   const theme = useTheme();
   // const fullScreen = useMediaQuery(theme.breakpoints.down('900px'));
   const isMobile = useMediaQuery("(max-width:480px)");
@@ -52,29 +52,38 @@ const ProductDialogBox = ({ openDialog, setOpenDialog, image }) => {
         open={openDialog}
         aria-labelledby="responsive-dialog-title"
         sx={{
-          top: isMobile ? "38%" : isTab ? "30%" : "10%", height: isMobile ? "24%" : isTab ? "14%" : "80%",
+          top: isMobile ? "38%" : isTab ? "30%" : "10%", height: isMobile ? "24%" : isTab ? "14%" : "78%",
           width: "64%", marginLeft: "18%",
           "& .MuiBackdrop-root": {
             backgroundColor: '#ffffff',
-            opacity: '0.8 !important'
+            opacity: '0.9 !important'
           },
           "& .MuiDialog-container": {
-            height: '89%'
+            height: '90%',
+            borderTop: "1px solid black"
+
           }
         }}>
-
         <List sx={{
-          width: '100%', height: "100%", display: "flex"
+          width: '100%', display: "flex", overflow: "hidden", backgroundColor: "rgb(222,222,222)", marginTop: "-7.5px",
+          border: "1px solid black"
         }}>
-          <Box sx={{ width: "50%", backgroundColor: "green" }} >
+
+          <Box sx={{ width: "50%", position: "relative" }} >
+            <div style={{ color: "white", position: "absolute", top: -2, zIndex: 10, }}>
+              {span}
+            </div>
+            <div style={{ color:"white", position: "absolute", top: -3, right:0, zIndex: 10}}>
+            {span1}
+            </div>
             <ReactImageMagnify
+
               {...{
                 smallImage: {
                   alt: 'Makeup',
                   isFluidWidth: true,
                   src: image,
-                  className: "small-image",
-                  // sizes: '(max-width: 480px) 100vw, (max-height: 1200px) 30vw, 480px'
+                  className: "small-image"
 
                 },
                 largeImage: {
@@ -87,6 +96,7 @@ const ProductDialogBox = ({ openDialog, setOpenDialog, image }) => {
                 shouldUsePositiveSpaceLens: true,
               }}
             />
+
           </Box>
           <ListItem className='list-it' sx={{
             width: "50%", height: "100%", display: "flex", flexDirection: "column",
@@ -124,10 +134,11 @@ const ProductDialogBox = ({ openDialog, setOpenDialog, image }) => {
                 <Button variant='contained' sx={{ borderRadius: "0", width: "135px", height: "45px", fontSize: "12px" }}>Add to cart</Button>
               </Box>
 
-              <Box sx={{
+              <Box  className='hovericons'sx={{
                 width: "75%", marginTop: "20px", display: 'flex', alignItems: 'center', justifyContent: 'center'
-              }}>
-                <FavoriteBorderOutlinedIcon className='hovericons' sx={{ verticalAlign: "middle", fontSize: "15px", border: '1px solid #E4C1B1' }} onClick={toggleWishlist} /> {isInWishlist ? 'Remove from Wishlist' : 'Add to Wishlist'}
+              }} onClick={toggleWishlist} >
+                <FavoriteBorderOutlinedIcon  sx={{ verticalAlign: "middle", fontSize: "15px",
+                 border: '1px solid #E4C1B1' }} /> {isInWishlist   ? 'Remove from Wishlist' : 'Add to Wishlist'}
                 {/* <span style={{ fontSize: "14px", fontWeight: "400", letterSpacing: ".8px" }}> add to wishlist </span> */}
               </Box>
 

@@ -72,7 +72,8 @@ const SalonPageTop = () => {
 
     return (
         <Box sx={{
-            height: "80vh", width: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "relative", backgroundColor: "#A6B7C5", color: "#ffffff"
+            height: "80vh", width: "100%", display: "flex", flexDirection: "column", justifyContent: "center",
+             alignItems: "center", position: "relative", backgroundColor: "#A6B7C5", color: "#ffffff"
         }}>
             <img src={SalonBg} style={{ width: "100%", position: "absolute" }} />
             <Box display="flex" flexDirection="column" justifyContent="flex-start" alignItems="center">
@@ -81,7 +82,8 @@ const SalonPageTop = () => {
                 <Search />
             </Box>
 
-            <Box className="filter-btn-box" onClick={handleClick} sx={{ position: "fixed", top: "40%", right: "0", zIndex: "10", transform: "translateX(0)", transition: "all .5s cubic-bezier(0.77, 0, 0.175, 1)" }}>
+            <Box className="filter-btn-box" onClick={handleClick} sx={{ position: "fixed", top: "40%", right: "0",
+             zIndex: "10", transform: "translateX(0)", transition: "all .5s cubic-bezier(0.77, 0, 0.175, 1)" }}>
                 <Tooltip title="Show Filters">
                     <Button color="error" variant="contained" size="small" className="filter-open-btn" startIcon={<TuneOutlined />}
                         sx={{

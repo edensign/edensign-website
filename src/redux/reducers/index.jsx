@@ -8,12 +8,14 @@
 
 import { combineReducers } from "redux";
 
-import { setSalonReducer } from "./SalonReducer";
 import { setProductReducer } from "./ProductReducer";
+import { setSalonReducer } from "./SalonReducer";
+import { setSalonDetailReducer } from "./SalonReducer";
 
 const reducers = combineReducers({
     allProducts: setProductReducer,
-    allSalons: setSalonReducer
+    allSalons: setSalonReducer,
+    salonDetail: setSalonDetailReducer
 });
 
 export default reducers;

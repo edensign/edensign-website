@@ -8,30 +8,25 @@
 
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Card, CardActions, CardContent, Rating } from '@mui/material';
-import { Grid, Box, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
+import { Box, Button, Card, CardActions, CardContent, Grid, Rating } from '@mui/material';
 
 import API from '../../../apis';
 import { setSalons } from '../../../redux/actions/SalonAction';
 
 const SalonListCards = () => {
-  const salonNames = ["#JAWED HABIB HAIR & BEAUTY", "#STUDIO11 SALON & SPA", "#SHAHNAZ HUSAIN", "#LAKMÉ SALON", "#LOOKS SALON", "#NATURALS"];
-  const salonImages = ["https://augustine.qodeinteractive.com/wp-content/uploads/2021/02/home-1-landing.jpg", "https://augustine.qodeinteractive.com/wp-content/uploads/2021/02/02_home.jpg", "https://augustine.qodeinteractive.com/wp-content/uploads/2021/02/044_home_land4.jpg", "https://augustine.qodeinteractive.com/wp-content/uploads/2021/02/augustine_land21.jpg", "https://topfranchise.com/upload/resize_cache/webp/upload/medialibrary/138/138c98b08f39bad8792b69547907eb6e.webp", "https://topfranchise.com/upload/resize_cache/webp/upload/medialibrary/c13/c134c9d42b8c406f4371648eae23392b.webp"]
-  const rating = [4.5, 4, 4.5, 4.5, 4, 4.5];
 
   const dispatch = useDispatch();
   const { listData } = useSelector(state => state.allSalons);
 
   const getSalons = () => {
-    API.SalonAPI.getAll()
+    API.SalonAPI.getSalonList()
       .then(res => {
         if (res.status === "Success") {
-          console.log("Res.status===Success", res.data.rows)
-          dispatch(setSalons({ listData: res.data.rows, loading: false }))
+          dispatch(setSalons({ listData: res.data, loading: false }))
         } else {
           dispatch(setSalons({ listData: [], loading: false }))
         }
-        console.log(res);
       })
       .catch(error => {
         throw error;
@@ -39,14 +34,8 @@ const SalonListCards = () => {
   };
 
   React.useEffect(() => {
-    //scroll to top of the page automatically
-    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-      document.body.scrollTop = 0;
-      document.documentElement.scrollTop = 0;
-    }
     getSalons();
   }, []);
-  console.log("useselector=>", listData)
 
   // Function to check if an element is in the viewport
   function isElementInViewport(el) {
@@ -54,7 +43,7 @@ const SalonListCards = () => {
     return (
       rect.top >= 0 &&
       rect.left >= 0 &&
-      rect.bottom <= (window.innerHeight + 140 || document.documentElement.clientHeight + 140) &&
+      rect.bottom <= (window.innerHeight + 260 || document.documentElement.clientHeight + 260) &&
       rect.right <= (window.innerWidth || document.documentElement.clientWidth)
     );
   }
@@ -79,7 +68,7 @@ const SalonListCards = () => {
         item.style.transform = 'translateY(0)';
       }
     });
-  }
+  };
 
   // Attach scroll event listener to the container
   document.addEventListener('scroll', onScroll);
@@ -87,49 +76,71 @@ const SalonListCards = () => {
   // Call the onScroll function initially to handle items already in view
   onScroll();
 
+
+  const handleMouseOver = (index) => {
+    const salonImage = document.getElementById(`salon-listing-img-${index}`);
+    const imageHeight = Math.ceil(salonImage.getBoundingClientRect().height) - 320;
+
+    salonImage.style.transform = `translate3D(0, ${-imageHeight}px, 0)`;
+    salonImage.style.transition = "transform 16s ease";
+  };
+
+  const handleMouseOut = (index) => {
+    const salonImage = document.getElementById(`salon-listing-img-${index}`);
+
+    salonImage.style.transform = `translate3D(0, 0, 0)`;
+    salonImage.style.webkitTransform = `translate3D(0, 0, 0)`;
+    salonImage.style.transitionDuration = "3s";
+  };
+
   return (
 
     <Box sx={{ width: "100%", marginBottom: "10%" }}>
       <Grid container id="grid-container" spacing={8} sx={{
-        margin: 'auto', marginTop: "150px", maxWidth: "90%", flexWrap: "wrap", transition: "all 0.5s ease"
-      }}
-      >
-        {salonNames.map((salon, index) => {
-          const img = salonImages[index];
-          const ratings = rating[index];
+        margin: 'auto', marginTop: "150px", maxWidth: "90%", flexWrap: "wrap", WebkitBackfaceVisibility: "hidden", transition: "all .2s linear"
+      }}>
+        {listData?.map((salon, index) => {
           return (
             <Grid item xs={12} md={6} lg={6} key={index} className={`grid-item`} sx={{
-              padding: "0", opacity: "0", transform: "translateY(30px)", transition: "all 0.5s ease",
+              padding: "0", opacity: "0", transform: "translateY(30px)",
+              visibility: "visible", WebkitBackfaceVisibility: "hidden", transition: "all 0.3s ease-in-out"
             }}>
               <Card sx={{
-                maxWidth: "82%", height: 500, boxShadow: "4px 4px 9px #043927", filter: "brightness(100%)",
-                // "&:hover": { transform: "translate3d(0px, -880px, 0px)", transition: "transform 10s ease" }
-              }} >
+                maxWidth: "88%", height: 520, boxShadow: "4px 4px 9px #043927", filter: "brightness(100%)"
+              }}>
 
-                <Box height="340px" sx={{ overflow: "hidden" }}>
+                <Box height="318px" onMouseOut={() => handleMouseOut(index)}
+                  sx={{ overflow: "hidden", WebkitBackfaceVisibility: "hidden", transform: "translate(0, 0)", transitionDuration: "3s" }}>
                   <img
-                    id="salon-listing-img"
-                    src={img}
-                    title={salon}
+                    id={`salon-listing-img-${index}`}
+                    className="salon-listing-img"
+                    src={salon.banner_image}
+                    title={salon.name}
                     alt="Not Found"
+                    onMouseOver={() => handleMouseOver(index)}
                   />
                 </Box>
 
                 <CardContent>
-                  <Typography gutterBottom variant="h5" component="div" textAlign="center" marginBottom="-10px">
-                    {salon}
-                  </Typography>
+                  <h4 style={{ fontWeight: "400", fontFamily: "Marcellus, sans-serif", fontSize: "26px", letterSpacing: "0.2em", textTransform: "capitalize", margin: "0", textAlign: "center" }}>
+                    {salon.name}
+                  </h4>
                 </CardContent>
+                <CardActions sx={{ justifyContent: "center" }}>
+                  <span style={{ fontWeight: "300", fontSize: "14px", lineHeight: "22px", letterSpacing: "0.1em", textAlign: "center", padding: "0 30px" }}>{salon.landmark} {salon.street}</span>
+                </CardActions>
                 <CardActions sx={{ justifyContent: "space-around" }}>
-                  <Button size="small"> <Rating name="read-only" value={ratings} readOnly />  </Button>
-                  <a href={salon} rel='noreferrer' style={{ textDecoration: "none" }}>
+                  <Button size="small"> <Rating name="read-only" defaultValue={5} /> </Button>
+                  <span style={{ fontWeight: "300", fontSize: "14px", lineHeight: "22px", letterSpacing: "0.1em", textAlign: "center", padding: "0 30px" }}>{salon.type}</span>
+                  <Link to={`/salon/detail/${salon.salon_code}`} rel='noreferrer' style={{ textDecoration: "none" }}>
                     Know More
-                  </a>
+                  </Link>
                 </CardActions>
               </Card>
             </Grid>
           )
-        })}
+        }
+        )}
       </Grid>   {/* for spacing between container & card bottom */}
       <div style={{ width: "50px", height: "50px" }}></div>
     </Box>

@@ -1,0 +1,27 @@
+/**
+ * Copyright © 2023, Eden Sign Inc. ALL RIGHTS RESERVED.
+ *
+ * This software is the confidential information of Eden Sign Inc., and is licensed as
+ * restricted rights software. The use,reproduction, or disclosure of this software is subject to
+ * restrictions set forth in your license agreement with Eden Sign.
+ */
+
+import { api } from "./config/axiosConfig";
+import { defineCancelApiObject } from "./config/axiosUtils";
+
+
+export const StateAPI = {
+    /** Get states from the database
+     */
+    getStates: async (cancel = false) => {
+        const { data: response } = await api.request({
+            url: `/get-states/`,
+            method: "GET",
+            signal: cancel ? cancelApiObject[this.getStates.name].handleRequestCancellation().signal : undefined,
+        });
+        return response;
+    },
+}
+
+// defining the cancel API object for StateAPI
+const cancelApiObject = defineCancelApiObject(StateAPI);

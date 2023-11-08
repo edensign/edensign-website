@@ -6,32 +6,39 @@
  * restrictions set forth in your license agreement with Eden Sign.
 */
 
-import React from "react";
-import { Box, Button, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+
 import { useFormik } from "formik";
+import { Box, Button, Checkbox, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 
 import dayjs from "dayjs";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from "@mui/x-date-pickers";
 
+import API from "../../../apis";
 import appointmentImg from "../../assets/appointment.jpg"
 
 
-const Booking = () => {
-    const addOneDay = (dateVar = new Date()) => dayjs(dateVar.setDate(dateVar.getDate() + 1));
+const Booking = ({ appointmentRef, selectedService }) => {
+    // const addOneDay = (dateVar = new Date()) => dayjs(dateVar.setDate(dateVar.getDate() + 1));
 
     const [checkIn, setCheckIn] = React.useState(dayjs(Date.now()));
-    const [checkOut, setCheckOut] = React.useState(addOneDay());
-    const [loading, setLoading] = React.useState(false);
+    const [salonEmployee, setSalonEmployee] = React.useState([]);
+    const { salon } = useSelector(state => state.salonDetail);
+    const URLParams = useParams();
 
     const refId = React.useRef();
+    const checkboxLabel = { inputProps: { 'aria-label': 'Checkboxes' } };
 
     const initialValues = {
-        check_in: checkIn,
-        check_out: checkOut,
-        salons: "",
-        guests: ""
+        date: checkIn,
+        services: "",
+        stylist: "",
+        slots: "",
+        else: false
     };
 
     const formik = useFormik({
@@ -56,32 +63,51 @@ const Booking = () => {
                     : false,
             });
         };
-    }
-    console.log(formik.values)
+    };
+
+    console.log('appointment values=>', formik.values);
+
+    useEffect(() => {
+        API.SalonEmployeeAPI.getSalonEmployee({ ...URLParams, service_id: formik.values.services })
+            .then(response => {
+                response.status === "Success" ?
+                    setSalonEmployee(response.data)
+                    :
+                    setSalonEmployee([]);
+            })
+            .catch(error => {
+                throw error;
+            });
+    }, [formik.values.services]);
+    console.log("Salon employee=>", salonEmployee)
+
+    useEffect(() => {
+        //set the selected service from services carousel in the services field of book appointment form
+        formik.setFieldValue("services", selectedService);
+    }, [selectedService]);
 
     return (
-        //padding: "12px 50px", paddingTop: "0",
-        <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", width: "90%", height: "108vh", margin: "auto", marginBottom: "10%", position: "relative" }}>
-            <Box sx={{ display: "flex", width: "75%", position: "relative", backgroundColor: "#ffffff", boxShadow: "4px 4px 6px #800080, -4px -4px 6px #800080" }}>
+        <Box ref={appointmentRef} sx={{ display: "flex", justifyContent: "center", alignItems: "center", width: "90%", height: "110vh", margin: "auto", marginBottom: "10%", position: "relative" }}>
+            <Box sx={{ display: "flex", width: "75%", height: "100%", position: "relative", backgroundColor: "#ffffff", boxShadow: "4px 4px 6px #800080, -4px -4px 6px #800080" }}>
                 <img src={appointmentImg} alt="Salon"
                     style={{
                         width: "1100px", maxWidth: "100%", aspectRatio: "1092 / 916", boxShadow: "none", border: "none", backgroundPosition: "center", backgroundSize: "cover", cursor: "pointer", display: "flex", justifyContent: "center", alignItems: "center", overflow: "clip"
                     }} />
             </Box>
             <Box sx={{
-                display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", height: "100%", width: "37%", backgroundColor: "#ffffff", marginLeft: "2%", boxShadow: "4px 4px 6px #800080, -4px -4px 6px #800080"
+                display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", overflowY: "auto", height: "100%", width: "37%", backgroundColor: "#ffffff", marginLeft: "2%", boxShadow: "4px 4px 6px #800080, -4px -4px 6px #800080"
             }}>
-                <h4 style={{ width: "78%", textAlign: "center", fontWeight: "400", fontSize: "36px", fontFamily: "Marcellus, sans-serif", letterSpacing: "0.1em", lineHeight: "initial", margin: "2px 0 26px 0" }}>
+                <h4 style={{ width: "78%", textAlign: "center", fontWeight: "400", fontSize: "36px", fontFamily: "Marcellus, sans-serif", letterSpacing: "0.1em", lineHeight: "initial", margin: formik.values.else ? "80px 0 26px 0" : "29px 0 29px 0" }}>
                     Book Your Appointment
                 </h4>
                 <form ref={refId} style={{ width: "78%" }}>
                     <Box display="flex" flexDirection="column" marginBottom="20px">
-                        <span style={{ fontWeight: "500", fontSize: "13px", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "10px" }}> Check-in:</span>
+                        <span style={{ fontWeight: "500", fontSize: "13px", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "10px" }}> &nbsp;Date:</span>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                             <DatePicker
                                 views={['day', "month", "year"]}
                                 format="DD MMMM YYYY"       //ex - 25 July 2023
-                                name="check_in"
+                                name="date"
                                 value={checkIn}
                                 onChange={newCheckIn => setCheckIn(newCheckIn)}
                             />
@@ -89,60 +115,107 @@ const Booking = () => {
                     </Box>
 
                     <Box display="flex" flexDirection="column" marginBottom="20px">
-                        <span style={{ fontWeight: "500", fontSize: "13px", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "10px" }}> Check-out:</span>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DatePicker
-                                views={['day', "month", "year"]}
-                                format="DD MMMM YYYY"       //ex - 25 July 2023
-                                name="check_out"
-                                value={checkOut}
-                                onChange={newCheckOut => setCheckOut(newCheckOut)}
-                            />
-                        </LocalizationProvider>
-                    </Box>
-
-                    <Box display="flex" flexDirection="column" marginBottom="20px">
-                        <span style={{ fontWeight: "500", fontSize: "13px", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "10px" }}> salons:</span>
-                        <FormControl variant="filled" sx={{}}>
-                            <InputLabel id="salonsField">Choose</InputLabel>
+                        <span style={{ fontWeight: "500", fontSize: "13px", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "10px" }}> &nbsp;Services:</span>
+                        <FormControl variant="filled">
+                            <InputLabel id="servicesField">Choose</InputLabel>
                             <Select
                                 variant="filled"
-                                labelId="salonsField"
-                                name="salons"
-                                autoComplete="new-salons"
+                                labelId="servicesField"
+                                name="services"
+                                autoComplete="new-services"
                                 onChange={formik.handleChange}
-                                value={formik.values.salons}
-                                error={!!formik.touched.salons && !!formik.errors.salons}
+                                value={formik.values.services}
+                                error={!!formik.touched.services && !!formik.errors.services}
                             >
-                                <MenuItem value="sunday">Sunday</MenuItem>
-                                <MenuItem value="monday">Monday</MenuItem>
-                                <MenuItem value="tuesday">Tuesday</MenuItem>
+                                {salon?.services?.map((service, index) => (
+                                    <MenuItem value={service.id} key={index}>{service.name}</MenuItem>
+                                ))}
                             </Select>
                         </FormControl>
                     </Box>
 
                     <Box display="flex" flexDirection="column" marginBottom="20px">
-                        <span style={{ fontWeight: "500", fontSize: "13px", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "10px" }}> guests:</span>
-                        <FormControl variant="filled" sx={{}}>
-                            <InputLabel id="guestsField">Adult</InputLabel>
+                        <span style={{ fontWeight: "500", fontSize: "13px", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "10px" }}> &nbsp;Stylist:</span>
+                        <FormControl variant="filled">
+                            <InputLabel id="stylistField">Choose</InputLabel>
                             <Select
                                 variant="filled"
-                                labelId="guestsField"
-                                name="guests"
-                                autoComplete="new-guests"
+                                labelId="stylistField"
+                                name="stylist"
+                                autoComplete="new-stylist"
                                 onChange={formik.handleChange}
-                                value={formik.values.guests}
-                                error={!!formik.touched.guests && !!formik.errors.guests}
+                                value={formik.values.stylist}
+                                error={!!formik.touched.stylist && !!formik.errors.stylist}
                             >
-                                <MenuItem value="children">Children</MenuItem>
-                                <MenuItem value="lady">Lady</MenuItem>
+                                {salonEmployee?.map((employee, index) => (
+                                    <MenuItem value={employee.name.toLowerCase()} key={index}>{employee.name}</MenuItem>
+                                ))}
                             </Select>
                         </FormControl>
                     </Box>
-                    <Button fullWidth type="submit" variant="contained" color='success' onClick={e => e.preventDefault()}
+
+                    <Box display="flex" flexDirection="column" marginBottom="20px">
+                        <span style={{ fontWeight: "500", fontSize: "13px", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "10px" }}> &nbsp;Time Slots:</span>
+                        <FormControl variant="filled">
+                            <InputLabel id="slotsField">Choose</InputLabel>
+                            <Select
+                                variant="filled"
+                                labelId="slotsField"
+                                name="slots"
+                                autoComplete="new-slots"
+                                onChange={formik.handleChange}
+                                value={formik.values.slots}
+                                error={!!formik.touched.slots && !!formik.errors.slots}
+                            >
+                                <MenuItem value="12:00-1:00">12:00 - 01:00</MenuItem>
+                                <MenuItem value="1:00-2:00">01:00 - 02:00</MenuItem>
+                                <MenuItem value="3:00-4:00">03:00 - 04:00</MenuItem>
+                                <MenuItem value="4:00-5:00">04:00 - 05:00</MenuItem>
+                                <MenuItem value="5:00-7:00">05:00 - 07:00</MenuItem>
+                                <MenuItem value="7:00-9:00">07:00 - 09:00</MenuItem>
+                                <MenuItem value="9:00-10:00">09:00 - 10:00</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Box>
+
+                    <Box marginBottom="10px">
+                        <Checkbox {...checkboxLabel} color="default" size="small"
+                            name="else"
+                            checked={formik.values?.else}
+                            onChange={(event, value) => formik.setFieldValue("else", value)}
+                            value={formik.values.else}
+                        />
+                        <span style={{ paddingTop: "8px", fontSize: "11px", fontWeight: "500", lineHeight: "1.2", letterSpacing: "0.05em" }}>Book For Someone Else</span>
+                    </Box>
+
+                    {formik.values.else && <Box id="persons-box" display="flex" flexDirection="column" marginBottom="20px">
+                        <span style={{ fontWeight: "500", fontSize: "13px", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "10px" }}> &nbsp;persons:</span>
+                        <FormControl variant="filled">
+                            <InputLabel id="personsField">Choose</InputLabel>
+                            <Select
+                                variant="filled"
+                                labelId="personsField"
+                                name="persons"
+                                autoComplete="new-persons"
+                                onChange={formik.handleChange}
+                                value={formik.values.persons}
+                                error={!!formik.touched.persons && !!formik.errors.persons}
+                            >
+                                <MenuItem value="kid">Kid</MenuItem>
+                                <MenuItem value="boy">Boy</MenuItem>
+                                <MenuItem value="girl">Girl</MenuItem>
+                                <MenuItem value="man">Man</MenuItem>
+                                <MenuItem value="woman">Woman</MenuItem>
+                                <MenuItem value="seniorCitizen">Senior Citizen</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Box>}
+
+                    <Button fullWidth type="submit" variant="contained" color='success'
+                        id="availability-btn" onClick={e => e.preventDefault()}
                         // disabled={!formik.dirty || loading}  later to be included
                         sx={{
-                            borderRadius: 0, fontSize: "12px", letterSpacing: "0.2em", lineHeight: "2em", fontWeight: "600", padding: "20px", textTransform: "uppercase"
+                            borderRadius: 0, fontSize: "13px", letterSpacing: "0.2em", lineHeight: "2em", fontWeight: "600", padding: "16px", marginBottom: "19px", textTransform: "uppercase", transform: "translateY(0)", transition: "transform 1s ease"
                         }}
                     >
                         {/* {loading === true ? <SignInLoader /> : "Sign In"} */}

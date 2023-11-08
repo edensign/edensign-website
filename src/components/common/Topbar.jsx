@@ -20,7 +20,7 @@ import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 
 import { ColorModeContext, tokens } from "../../theme";
 
-const pages = ['About', 'Services', 'Salons', 'Products', 'contact'];
+const pages = ['About', 'Services', 'Salons', 'Products', 'contact', 'job seeker'];
 // const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function Topbar(props) {
@@ -29,7 +29,6 @@ function Topbar(props) {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorMode = React.useContext(ColorModeContext);
-  const location = useLocation();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -62,7 +61,6 @@ function Topbar(props) {
     const facilitiesListLeft = document.getElementsByClassName("facilities-list-left")[0];
     const facilitiesListRight = document.getElementsByClassName("facilities-list-right")[0];
     let scroll = window.pageYOffset;
-    console.log(scroll);
 
     if (scroll > 40) {
       appbar.style.backgroundColor = "#ffffff";
@@ -108,6 +106,10 @@ function Topbar(props) {
       locationsLine.classList.add("clip-line");
     }
 
+
+    function removeSpaces(string) {
+      return string.replace(/\s/g, '');
+    }
 
     //changing background gradients on page scroll
     // if (scroll > 500 && scroll < 2499) {
@@ -168,8 +170,7 @@ function Topbar(props) {
           >
             {pages.map(page => (
               <MenuItem key={page} onClick={handleCloseNavMenu}>
-                <Typography sx={{ textAlign: "center", fontFamily: "Inter, sans-serif", color: "#ffffff" }}>
-                  {page}</Typography>
+                <p sx={{ textAlign: "center", fontFamily: "Inter, sans-serif", color: "#ffffff" }}>{page}</p>
               </MenuItem>
             ))}
           </Menu>
@@ -199,10 +200,12 @@ function Topbar(props) {
           {pages.map(page => (
             <Button
               key={page}
-              onClick={handleCloseNavMenu}
+              // onClick={handleCloseNavMenu}
+              disableRipple
               sx={{ my: 1, display: 'block', fontSize: "12px", letterSpacing: "0.13em", lineHeight: "1.14", fontWeight: "500", textTransform: "uppercase" }}
             >
-              <Link className="link-page" style={{ textDecoration: "none", color: "#ffffff" }} to={`/${page.charAt(0).toLowerCase() + page.slice(1)}`}>
+              <Link className="link-page" style={{ textDecoration: "none", color: "#ffffff" }}
+                to={`/${page.charAt(0).toLowerCase() + page.slice(1).replace(/\s/g, '-')}`}>
                 {page} </Link>
             </Button>
           ))}

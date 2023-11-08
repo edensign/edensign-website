@@ -9,72 +9,57 @@
 import { Box, List, ListItemButton, Typography } from "@mui/material";
 import InstagramIcon from '@mui/icons-material/Instagram';
 
-import loreal from "../assets/brands/loreal.jpg"
-import aerin from "../assets/brands/aerin.jpg"
-import mac from "../assets/brands/mac.jpg"
-import fable from "../assets/brands/fable.jpg"
-import schwar from "../assets/brands/schwar.jpg"
-import revlon from "../assets/brands/revlon.png"
-
-import bg from "../assets/brands/bg2.png"
-
-import img from "../assets/brandImg/brandImg.jpg"
-import img2 from "../assets/brandImg/brandImg2.jpg"
-import img3 from "../assets/brandImg/brandImg3.jpg"
-import img4 from "../assets/brandImg/brandImg4.jpg"
-import img5 from "../assets/brandImg/brandImg5.jpg"
-import img6 from "../assets/brandImg/brandImg6.jpg"
 
 const Brands = () => {
-    //border: "1px solid black",
+
+    const brandSectionUrl = "https://edensign.blob.core.windows.net/image-storage/";
+
     return (
         <Box sx={{ height: "96vh", width: "100%", marginBottom: "8%", position: "relative" }}>
             <Box display="flex" justifyContent="center" marginBottom="6%"
-                sx={{ backgroundImage: `url(${bg})`, backgroundSize: "cover", backgroundRepeat: "repeat" }}>
+                sx={{ backgroundImage: `url(${brandSectionUrl}brands/bg2.png)`, backgroundSize: "cover", backgroundRepeat: "repeat" }}>
                 <List component='nav' sx={{ display: "inline-flex", alignItems: "center" }}>
                     <ListItemButton sx={{ "&:hover": { background: "transparent" } }}>
                         <Box sx={{
-                            height: "20px", width: "108px", padding: "8px 25px", backgroundImage: `url(${loreal})`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", opacity: "0.4", transition: "all 0.2s ease",
+                            height: "20px", width: "108px", padding: "8px 25px", backgroundImage: `url(${brandSectionUrl}brands/loreal.jpg)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", opacity: "0.4", transition: "all 0.2s ease",
                             "&:hover": { opacity: "1", transform: "scale(1.2)" }
                         }} />
                     </ListItemButton>
                     <ListItemButton sx={{ "&:hover": { background: "transparent" } }}>
                         <Box sx={{
-                            height: "20px", width: "100px", padding: "8px 25px", backgroundImage: `url(${aerin})`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", opacity: "0.4", transition: "all 0.2s ease",
+                            height: "20px", width: "100px", padding: "8px 25px", backgroundImage: `url(${brandSectionUrl}brands/aerin.jpg)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", opacity: "0.4", transition: "all 0.2s ease",
                             "&:hover": { opacity: "1", transform: "scale(1.2)" }
                         }} />
                     </ListItemButton>
                     <ListItemButton sx={{ "&:hover": { background: "transparent" } }}>
                         <Box sx={{
-                            height: "20px", width: "140px", padding: "8px 25px", backgroundImage: `url(${mac})`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", opacity: "0.4", transition: "all 0.2s ease",
+                            height: "20px", width: "140px", padding: "8px 25px", backgroundImage: `url(${brandSectionUrl}brands/mac.jpg)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", opacity: "0.4", transition: "all 0.2s ease",
                             "&:hover": { opacity: "1", transform: "scale(1.2)" }
                         }} />
                     </ListItemButton>
-
 
                     <Box sx={{
-                        display: "flex", justifyContent: "center", paddingRight: "10px", opacity: "0.8", transition: "all 0.2s ease",
+                        display: "flex", justifyContent: "center", paddingRight: "10px", opacity: "0.4", transition: "all 0.2s ease",
                         "&:hover": { opacity: "1", transform: "scale(1.2)" }
                     }}>
-                        <span className="eden-signature">&nbsp;Eden signature</span>
+                        <span style={{ fontWeight: "500", fontSize: "46px", fontFamily: "Dancing Script, cursive", textTransform: "capitalize" }}>&nbsp;Eden signature</span>
                     </Box>
 
-
                     <ListItemButton sx={{ "&:hover": { background: "transparent" } }}>
                         <Box sx={{
-                            height: "48px", width: "130px", padding: "8px 25px", backgroundImage: `url(${revlon})`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", opacity: "0.4", transition: "all 0.2s ease",
+                            height: "48px", width: "130px", padding: "8px 25px", backgroundImage: `url(${brandSectionUrl}brands/revlon.png)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", opacity: "0.4", transition: "all 0.2s ease",
                             "&:hover": { opacity: "1", transform: "scale(1.2)" }
                         }} />
                     </ListItemButton>
                     <ListItemButton sx={{ "&:hover": { background: "transparent" } }}>
                         <Box sx={{
-                            height: "20px", width: "180px", padding: "8px 25px", backgroundImage: `url(${fable})`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", opacity: "0.4", transition: "all 0.2s ease",
+                            height: "20px", width: "180px", padding: "8px 25px", backgroundImage: `url(${brandSectionUrl}brands/fable.jpg)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", opacity: "0.4", transition: "all 0.2s ease",
                             "&:hover": { opacity: "1", transform: "scale(1.2)" }
                         }} />
                     </ListItemButton>
                     <ListItemButton sx={{ "&:hover": { background: "transparent" } }}>
                         <Box sx={{
-                            height: "76px", width: "150px", padding: "8px 35px", backgroundImage: `url(${schwar})`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", opacity: "0.4", transition: "all 0.2s ease",
+                            height: "76px", width: "150px", padding: "8px 35px", backgroundImage: `url(${brandSectionUrl}brands/schwar.jpg)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", opacity: "0.4", transition: "all 0.2s ease",
                             "&:hover": { opacity: "1", transform: "scale(1.2)" }
                         }} />
                     </ListItemButton>
@@ -83,22 +68,22 @@ const Brands = () => {
 
             <Box display="flex" justifyContent="center" alignItems="center">
                 <Box sx={{
-                    height: "40vh", width: "18%", backgroundImage: `url(${img})`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover"
+                    height: "40vh", width: "18%", backgroundImage: `url(${brandSectionUrl}brandImg/brandImg.jpg)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover"
                 }} />
                 <Box sx={{
-                    height: "40vh", width: "18%", backgroundImage: `url(${img2})`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", marginTop: "8%"
+                    height: "40vh", width: "18%", backgroundImage: `url(${brandSectionUrl}brandImg/brandImg2.jpg)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", marginTop: "8%"
                 }} />
                 <Box sx={{
-                    height: "40vh", width: "18%", backgroundImage: `url(${img3})`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", marginTop: "-8%"
+                    height: "40vh", width: "18%", backgroundImage: `url(${brandSectionUrl}brandImg/brandImg3.jpg)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", marginTop: "-8%"
                 }} />
                 <Box sx={{
-                    height: "40vh", width: "18%", backgroundImage: `url(${img4})`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", marginTop: "14%"
+                    height: "40vh", width: "18%", backgroundImage: `url(${brandSectionUrl}brandImg/brandImg4.jpg)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", marginTop: "14%"
                 }} />
                 <Box sx={{
-                    height: "40vh", width: "18%", backgroundImage: `url(${img5})`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", marginTop: "-4%"
+                    height: "40vh", width: "18%", backgroundImage: `url(${brandSectionUrl}brandImg/brandImg5.jpg)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", marginTop: "-4%"
                 }} />
                 <Box sx={{
-                    height: "40vh", width: "18%", backgroundImage: `url(${img6})`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", marginTop: "8%"
+                    height: "40vh", width: "18%", backgroundImage: `url(${brandSectionUrl}brandImg/brandImg6.jpg)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", marginTop: "8%"
                 }} />
             </Box>
             <Box sx={{

@@ -7,13 +7,12 @@
 */
 
 import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { Box } from '@mui/material';
 
-import Salon1 from "../../assets/dummy/salon_dummy1.jpg";
-import Salon2 from "../../assets/dummy/salon_dummy2.jpg";
-import Salon3 from "../../assets/dummy/salon_dummy3.jpg";
 
 const SmallCarousel = () => {
+    const { images } = useSelector(state => state.salonDetail);
     let slideIndex = 0;
 
     function showSlides(num) {
@@ -36,7 +35,7 @@ const SmallCarousel = () => {
         }
         slides[num].style.opacity = "1";
         bigSlides[num].style.opacity = "1";
-        // controller(i);
+        // controller(1);
     };
 
     function controller(i) {
@@ -44,42 +43,34 @@ const SmallCarousel = () => {
         showSlides(slideIndex);
     };
 
-    useEffect(() => {
-        showSlides(slideIndex);
-        // let interval = setInterval(() => {
-        // }, 2000);
+    setTimeout(() => {
+        controller(0);
+        console.log("Running Controller");
+    }, 500);
 
-        // return () => {
-        //     clearInterval(interval);
-        // };
-    }, []);
+    // useEffect(() => {
+    // let interval = setInterval(() => {
+    // }, 2000);
+
+    // return () => {
+    //     clearInterval(interval);
+    // };
+    // }, []);
 
     return (
         <Box className="small-slider">
 
-            <Box className='small-sliding'>
-                {/* <span className='header-span1'> collection</span>
-                <span className='header-span2'> forever beautiful</span>
-                <span className='header-span3'> This collection focuses on natural, plant-based ingredients to help customers achieve a radiant and healthy glow.</span> */}
-                <img src={Salon1} />
-            </Box>
-            <Box className='small-sliding'>
-                {/* <span className='header-span1'> new collection</span>
-                <span className='header-span2'> jozy and marco</span>
-                <span className='header-span3'> This collection is all about making a statement with vibrant colors and bold finishes.</span> */}
-                <img src={Salon2} />
-            </Box>
-            <Box className='small-sliding'>
-                {/* <span className='header-span1'> article</span>
-                <span className='header-span2'> princess story</span>
-                <span className='header-span3'> This story is perfect for customers who prefer a minimalist approach to makeup.</span> */}
-                <img src={Salon3} />
-            </Box>
+            {images?.map((image, index) => (
+                <Box className='small-sliding' key={index} >
+                    <img src={`https://edensign.blob.core.windows.net/image-storage/salon/${image}`} />
+                </Box>
+            )
+            )}
 
             <span className='small-arrow' style={{ left: "4%" }} onClick={() => controller(-1)}>&#10094;</span>
             <span className='small-arrow' style={{ right: "4%" }} onClick={() => controller(+1)}>&#10095;</span>
 
-        </Box>
+        </Box >
     )
 }
 

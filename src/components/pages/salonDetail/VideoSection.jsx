@@ -9,7 +9,8 @@
 import { Box, Button } from "@mui/material";
 import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
 
-import videoImg from "../../assets/video.jpg"
+import videoImg from "../../assets/video.png"
+import video from "../../assets/salon_working.mp4"
 
 const VideoSection = () => {
     return (
@@ -17,10 +18,10 @@ const VideoSection = () => {
             <Box sx={{
                 display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", height: "100%", width: "37%", backgroundColor: "#ffffff", marginRight: "2%", boxShadow: "4px 4px 6px #800080, -4px -4px 6px #800080"
             }}>
-                <span style={{ width: "1px", height: "48px", backgroundColor: "#c4c4c4", position: "absolute", top: "60px", left: "50px" }}></span>
+                <span style={{ width: "1px", height: "48px", backgroundColor: "#c4c4c4", position: "absolute", top: "30px", left: "56px" }}></span>
                 <p style={{ width: "72%", textAlign: "left", marginTop: "20px", fontWeight: "400", fontSize: "16px", lineHeight: "1.28", letterSpacing: "0.1em", textTransform: "uppercase" }}> luxury salon </p>
                 <p style={{ width: "72%", textAlign: "left", fontWeight: "400", fontSize: "36px", fontFamily: "Marcellus, sans-serif", lineHeight: "1", letterSpacing: "0.1em", textTransform: "capitalize", marginTop: "6px" }}> get cozy. </p>
-                <p style={{ width: "72%", textAlign: "left", marginTop: "-4px", fontWeight: "300", fontSize: "14px", lineHeight: "22px", letterSpacing: "0.015em" }}> Hello there, this is the brand new product of the company that will make you go like a lavender queen. Hope you enjoy the day and keep purchasing the latest trends from our company to become fashion icon. </p>
+                <p style={{ width: "72%", textAlign: "left", marginTop: "-4px", fontWeight: "300", fontSize: "14px", lineHeight: "22px", letterSpacing: "0.015em" }}> Welcome to our exquisite luxury salon, where indulgence meets elegance in every detail. As you step into our opulent sanctuary, you'll be enveloped in an atmosphere of refined sophistication and unparalleled comfort. Our salon is more than just a place for beauty treatments; it's a haven for rejuvenation and relaxation. </p>
                 <Button type="submit" variant="outlined" onClick={e => e.preventDefault()}
                     sx={{ borderRadius: 0, width: "72%", marginTop: "20px", fontSize: "12px", letterSpacing: "0.2em", lineHeight: "2em", fontWeight: "600", padding: "20px", textTransform: "uppercase" }}>Discover More</Button>
             </Box>
@@ -33,7 +34,7 @@ const VideoSection = () => {
                         }} />
                 </Box>
 
-                <a href="https://augustine.qodeinteractive.com/wp-content/uploads/2020/11/video2.mp4" datatype="iframe" target="_blank"
+                <a href={video} datatype="iframe" target="_blank"
                     style={{ display: "flex", justifyContent: "center", alignItems: "center", position: "absolute", left: "0", top: "0", height: "100%", width: "100%", zIndex: "10" }}
                 >
                     <PlayCircleFilledIcon sx={{

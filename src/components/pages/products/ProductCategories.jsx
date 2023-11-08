@@ -24,7 +24,7 @@ function ProductCategories() {
 
     return (
         <div style={{ display: "flex", backgroundColor: "rgb(236,236,236)" }}>
-            <Box sx={{ width: "19%", margin: "40px 0 0 70px", backgroundColor: "white",height:"215vh" }}>
+            <Box sx={{ width: "19%", margin: "40px 0 0 70px", backgroundColor: "white",height:"215vh",marginBottom:"50px" }}>
                 <h1 style={{ margin: "12px", letterSpacing: ".2em", textTransform: "uppercase", fontWeight: "500",
                  fontSize: "17px" }}>product categories</h1>
                 <List sx={{ margin: "20px", display: "flex", flexDirection: "column", fontWeight: "300", fontSize: "17px", letterSpacing: "0.05em" }}>
@@ -41,7 +41,7 @@ function ProductCategories() {
                 {/* </Box>
             <Box sx={{ width: "20%", height: "30vh", margin: "1px 0 0 70px ", backgroundColor: "white" }}> */}
                 <p style={{
-                    margin: "20px", letterSpacing: ".2em", textTransform: "uppercase", fontWeight: "400", fontSize: "18px"
+                    margin: "20px", letterSpacing: ".2em", textTransform: "uppercase", fontWeight: "500", fontSize: "17px"
                 }}> price </p>
                 <Slider
                     max="200"
@@ -78,7 +78,7 @@ function ProductCategories() {
             <Box sx={{ width: "20%", height: "25vh", margin: "1px 0 0 70px ", backgroundColor: "white" }}> */}
                 <Divider />
                 <p style={{
-                    margin: "20px", letterSpacing: ".2em", textTransform: "uppercase", fontWeight: "400", fontSize: "18px"
+                    margin: "20px", letterSpacing: ".2em", textTransform: "uppercase", fontWeight: "500", fontSize: "18px"
                 }}> Capacity </p>
 
                 <List sx={{ margin: "10px 18px 0 18px", fontSize: "12px", display: "flex", justifyContent: "space-around",
@@ -92,7 +92,7 @@ function ProductCategories() {
             <Box sx={{ width: "20%", height: "60vh", margin: "1px 0 0 70px ", backgroundColor: "white" }}> */}
                 <Divider />
                 <p style={{
-                    margin: "10px 0 0 25px", letterSpacing: ".2em", textTransform: "uppercase", fontWeight: "400", fontSize: "18px"
+                    margin: "10px 0 0 25px", letterSpacing: ".2em", textTransform: "uppercase", fontWeight: "500", fontSize: "18px"
                 }}> brand </p>
 
                 <List sx={{ margin: "10px 0 0 15px", fontSize: "15px" }}>

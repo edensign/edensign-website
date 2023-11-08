@@ -11,9 +11,10 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import image1 from "../../assets/productimage1.webp"
-import { Box, Button, Divider, MenuItem, Select } from '@mui/material';
+import { Box, Button, Divider, MenuItem, Select, Rating } from '@mui/material';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
+// import StarRating from '../../common/StarRating';
 
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
@@ -34,15 +35,15 @@ function ProductCard() {
   const [openDialog, setOpenDialog] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const itemsPerPage = 7; 
+  const itemsPerPage = 7;
   const data = Array(10).fill(null);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const DisplayedData = data.slice(startIndex, endIndex);
 
-  const handlePageChange = (event,page) => {
+  const handlePageChange = (event, page) => {
     setCurrentPage(page);
-    window.scrollTo(0,300);
+    window.scrollTo(0, 300);
   };
 
 
@@ -91,7 +92,7 @@ function ProductCard() {
           display: "block", position: "absolute", top: "30px", left: "70px", width: "90%", opacity: ".62",
           textTransform: "uppercase"
         }}>
-          <span> showing {startIndex+1}-{endIndex>data.length ? `${data.length}`:endIndex} of {data.length} result </span>
+          <span> showing {startIndex + 1}-{endIndex > data.length ? `${data.length}` : endIndex} of {data.length} result </span>
           <Select defaultValue={"menu order"} size='small' style={{ float: "right", fontSize: "12px", bottom: "9px" }} >
             <MenuItem value="menu order" selected="selected">Default Sorting</MenuItem>
             <MenuItem value="popularity">Sort By Popularity</MenuItem>
@@ -107,7 +108,7 @@ function ProductCard() {
 
         {DisplayedData.map((_, i) => (
 
-          <Card key={i} sx={{ height: "82vh", margin: "70px 0 0 70px", borderRadius: "0", position: "relative" }}
+          <Card key={i} sx={{ height: "87vh", margin: "70px 0 70px 70px", borderRadius: "0", position: "relative" }}
             onMouseEnter={(event) => handleMouseEnter(event, i)} onMouseLeave={(event) => handleMouseLeave(event, i)}>
             <div style={{ display: "flex", justifyContent: "space-between", color: "white" }}>
               {spanElement}{spanElement2}
@@ -120,7 +121,7 @@ function ProductCard() {
               <Box sx={{
                 position: "absolute", display: "grid", top: "90px", left: "60px", height: "135px",
                 gridTemplateColumns: "repeat(2, minmax(0, 1fr))", rowGap: "50px"
-              }} 
+              }}
 
               >
                 <Button className={hoveredCard === i ? 'btn-visibility' : ''} sx={{
@@ -147,40 +148,30 @@ function ProductCard() {
 
             <Divider></Divider>
             <CardContent sx={{ display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
-              <h2 style={{
-                textTransform: "uppercase", fontSize: "20px", letterSpacing: ".2em", fontWeight: "550",
+              <h2 className='productcategory' style={{
+                textTransform: "uppercase", fontSize: "18 px", letterSpacing: ".2em", fontWeight: "550",
                 textAlign: "center", width: "60%", fontFamily: "marcellus"
               }} >
                 airbrush matte
               </h2>
-              <Typography variant='span' sx={{ textAlign: "center", width: "90%", fontSize: "15.5px" }}>
+              <Typography variant='span' sx={{ textAlign: "center", width: "90%", paddingBottom: "10px", fontSize: "14px", opacity: ".5" }}>
                 skin-perfecting bronzed filter for the face
               </Typography>
-              <div className="rate">
-                <input type="radio" id="star5" name="rate" value="5" />
-                <label htmlFor="star5" title="text">5 stars</label>
-                <input type="radio" id="star4" name="rate" value="4" />
-                <label htmlFor="star4" title="text">4 stars</label>
-                <input type="radio" id="star3" name="rate" value="3" />
-                <label htmlFor="star3" title="text">3 stars</label>
-                <input type="radio" id="star2" name="rate" value="2" />
-                <label htmlFor="star2" title="text">2 stars</label>
-                <input type="radio" id="star1" name="rate" value="1" />
-                <label htmlFor="star1" title="text">1 star</label>
-              </div>
-              <Typography sx={{ textAlign: "center", width: "75%", fontSize: "16.5px", fontWeight: "520", letterSpacing: ".8px",
-               fontFamily: "inter" }}>
+              <Button size="small"> <Rating name="read-only" defaultValue={4} /> </Button>
+              <Typography sx={{
+                fontSize: "16px", fontWeight: "600", letterSpacing: ".8px", fontFamily: "inter", marginTop: "15px"
+              }}>
                 $40.00
               </Typography>
             </CardContent>
           </Card>
         ))}
-        <Stack spacing={2} sx={{ position: "absolute", bottom: "20px", width: "100%", alignItems: "center", }} >
-        <Pagination color="primary"  size="large" shape="rounded"
-          count={Math.ceil(data.length / itemsPerPage)}
-          page={currentPage}
-          onChange={handlePageChange}
-        />
+        <Stack spacing={5} sx={{ position: "absolute", bottom: "20px", width: "100%", alignItems: "center" }} >
+          <Pagination color="primary" size="large" shape="rounded"
+            count={Math.ceil(data.length / itemsPerPage)}
+            page={currentPage}
+            onChange={handlePageChange}
+          />
         </Stack>
       </Box>
     </>

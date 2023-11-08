@@ -88,7 +88,7 @@ const FilterMenu = ({
         arrowicon.style.transform = filterOpen.filterOpen ? "" : "rotate(180deg)";
     };
     console.log("Gender=>", selectedGender)
-    console.log("Skill=>", selectedSkill)
+    
 
 
     return (

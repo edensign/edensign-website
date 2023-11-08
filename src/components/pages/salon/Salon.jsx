@@ -7,8 +7,9 @@
 */
 
 import React from "react";
-import { useState } from "react";
+import { useState , useEffect } from "react";
 
+import API from '../../../apis';
 import "./style.css";
 import Brands from "../../common/Brands";
 import FilterMenu from "../../common/FilterMenu";

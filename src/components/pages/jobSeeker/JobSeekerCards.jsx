@@ -38,7 +38,8 @@ const JobSeekerCards = ({ skills, selectedSkill, selectedGender, selectedExperie
 
 
     useEffect(() => {
-        API.JobSeekerAPI.getJobSeekerDetail(ENV.VITE_JOB_SEEKER_PAGE, ENV.VITE_JOB_SEEKER_SIZE, selectedSkill, selectedGender, selectedExperience)
+        API.JobSeekerAPI.getJobSeekerDetail(ENV.VITE_JOB_SEEKER_PAGE, ENV.VITE_JOB_SEEKER_SIZE, selectedSkill, 
+            selectedGender, selectedExperience)
             .then(response => {
                 if (response.status === "Success") {
                     if (response.data) {

@@ -18,7 +18,7 @@ const ImagesCarousel = () => {
     let dateVar = new Date();
     let slideIndex = 0;
     let counter = 4;
-    const newsSectionURL = "https://edensign.blob.core.windows.net/image-storage/";
+    const newsSectionURL = "https://edensign1.blob.core.windows.net/image-storage/";
 
     function showSlides(num) {
         let slides = document.getElementsByClassName("images-sliding");
@@ -92,7 +92,7 @@ const ImagesCarousel = () => {
                 <Box style={{ display: "flex", alignItems: "center", position: "absolute", top: "30%", left: "40px", padding: "18px 12px", backdropFilter: "blur(20px)", color: "#ffffff", fontWeight: "500", fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}>
                     <span>{dateVar.toDateString()}</span>
                 </Box>
-                <img src="https://edensign.blob.core.windows.net/image-storage/header/photo2.jpg" />
+                <img src="https://edensign1.blob.core.windows.net/image-storage/header/photo2.jpg" />
                 <Box>
                     <p style={{ marginTop: "20px", fontSize: "13px", fontWeight: "500", lineHeight: "32px", letterSpacing: "2.1px", textTransform: "uppercase" }}>news & offers</p>
                     <p style={{ marginTop: "-2px", fontWeight: "400", fontSize: "20px", letterSpacing: "0.01em", textTransform: "capitalize" }}>
@@ -117,7 +117,7 @@ const ImagesCarousel = () => {
                 <Box style={{ display: "flex", alignItems: "center", position: "absolute", top: "30%", left: "40px", padding: "18px 12px", backdropFilter: "blur(20px)", color: "#ffffff", fontWeight: "500", fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}>
                     <span>{dateVar.toDateString()}</span>
                 </Box>
-                <img src="https://edensign.blob.core.windows.net/image-storage/header/photo3.jpg" />
+                <img src="https://edensign1.blob.core.windows.net/image-storage/header/photo3.jpg" />
                 <Box>
                     <p style={{ marginTop: "20px", fontSize: "13px", fontWeight: "500", lineHeight: "32px", letterSpacing: "2.1px", textTransform: "uppercase" }}>news & offers</p>
                     <p style={{ marginTop: "-2px", fontWeight: "400", fontSize: "20px", letterSpacing: "0.01em", textTransform: "capitalize" }}>

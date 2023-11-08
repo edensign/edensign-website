@@ -109,7 +109,6 @@ const SalonDetail = () => {
     return (
         <ScrollToTop>
             <DetailPageTop />
-            <FilterMenu />
             <ServicesStrip />
             <Offer />
             <AmenitiesComponent />

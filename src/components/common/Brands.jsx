@@ -12,7 +12,7 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 
 const Brands = () => {
 
-    const brandSectionUrl = "https://edensign.blob.core.windows.net/image-storage/";
+    const brandSectionUrl = "https://edensign1.blob.core.windows.net/image-storage/";
 
     return (
         <Box sx={{ height: "96vh", width: "100%", marginBottom: "8%", position: "relative" }}>

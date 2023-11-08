@@ -1,4 +1,4 @@
-import {Box} from "@mui/material";
+import { Box } from "@mui/material";
 import styles from "./NotFound.module.css";
 import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
 import InstagramIcon from '@mui/icons-material/Instagram';
@@ -15,22 +15,22 @@ const NotFoundPage = () => {
 
   return (
     <div className={styles.container}>
-      <img src={NotFound} alt="404" width="400px" />
+      <img src={NotFound} alt="404 Error, The page your are trying to access could not be found" width="400px" />
       <h1>Page your are trying to access could not be found</h1>
 
       <div >
-    <Button variant="contained" color="error" sx={{borderRadius:"1%",marginRight:"9px"}}> 
-    GO HOME
-    </Button>
-    <Button variant="outlined" color="error"  sx={{border:"1px solid black"}}> 
-    CONTACT US
-    </Button>
-    <Box sx={{display:"flex",justifyContent:"space-around"}} >
-    <p><FacebookOutlinedIcon /></p>
-<p><TwitterIcon/></p>
-<p><InstagramIcon/></p>
-<p><YouTubeIcon/></p>
-    </Box>
+        <Button variant="contained" color="error" sx={{ borderRadius: "1%", marginRight: "9px" }}>
+          GO HOME
+        </Button>
+        <Button variant="outlined" color="error" sx={{ border: "1px solid black" }}>
+          CONTACT US
+        </Button>
+        <Box sx={{ display: "flex", justifyContent: "space-around" }} >
+          <p><FacebookOutlinedIcon /></p>
+          <p><TwitterIcon /></p>
+          <p><InstagramIcon /></p>
+          <p><YouTubeIcon /></p>
+        </Box>
       </div>
     </div>
   );

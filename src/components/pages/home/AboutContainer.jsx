@@ -40,7 +40,7 @@ const AboutContainer = () => {
                 <Box
                     sx={{ height: "100%", width: isMobile ? "100%" : "80%", backgroundColor: '#E6E6FA', marginTop: "10%" }}
                 >
-                    <img src="https://edensign.blob.core.windows.net/image-storage/makeup/brushes3.jpg" className='collection-img' alt="about-us" />
+                    <img src="https://edensign1.blob.core.windows.net/image-storage/makeup/brushes3.jpg" className='collection-img' alt="about-us" />
                 </Box>
             </Grid>
         </Grid >

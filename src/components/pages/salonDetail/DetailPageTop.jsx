@@ -78,7 +78,7 @@ const DetailPageTop = () => {
                 <Box className='big-sliding' key={index} style={{
                     position: "absolute", width: "100%", height: "100%", opacity: "0", transition: "all 1s ease-in", filter: "blur(10px)"
                 }}>
-                    <img src={`https://edensign.blob.core.windows.net/image-storage/salon/${image}`} style={{ aspectRatio: "1300/715", width: "100%" }} />
+                    <img src={`https://edensign1.blob.core.windows.net/image-storage/salon/${image}`} style={{ aspectRatio: "1300/715", width: "100%" }} />
                 </Box>
             ))}
 

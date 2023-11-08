@@ -18,7 +18,7 @@ const ImageBoxes = () => {
                 <Box sx={{
                     position: "relative", width: "100%", height: "90vh", backgroundColor: '#ffffff'
                 }}>
-                    <img id="best-of-img" src="https://edensign.blob.core.windows.net/image-storage/makeup/skincare.jpg" />
+                    <img id="best-of-img" src="https://edensign1.blob.core.windows.net/image-storage/makeup/skincare.jpg" />
                     <p id="best-of"> best of </p>
                     <p id="skincare"> skincare </p>
                 </Box>
@@ -27,7 +27,7 @@ const ImageBoxes = () => {
                 <Box sx={{
                     position: "relative", width: "100%", height: "90vh", backgroundColor: '#ffffff', marginTop: "4%"
                 }}>
-                    <img id="top-brands-img" src="https://edensign.blob.core.windows.net/image-storage/makeup/product.jpg" />
+                    <img id="top-brands-img" src="https://edensign1.blob.core.windows.net/image-storage/makeup/product.jpg" />
                     <p id="top-brands"> top brands </p>
                     <p id="makeup"> makeup </p>
                 </Box>

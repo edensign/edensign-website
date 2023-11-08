@@ -23,6 +23,7 @@ import JobSeeker from "./components/pages/jobSeeker/JobSeeker";
 import NotFound from "./components/pages/404/Animated404Component";
 import Salon from "./components/pages/salon/Salon";
 import SalonDetail from "./components/pages/salonDetail/SalonDetail";
+import Product from "./components/pages/products/Product";
 // import Services from "./components/pages";
 // import PrivacyPolicy from "./components/pages";
 import Footer from './components/common/Footer';
@@ -43,7 +44,7 @@ function App() {
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
-        <CssBaseline />
+       <CssBaseline/>
         <Suspense fallback={<Loader />}>
           <div id="main-div" style={{
             backgroundColor: "#f3f3f3", background: location.pathname == "/salons" ? `radial-gradient(circle, rgba(160,177,193,1) 0%, rgba(194,192,197,1) 100%)` :
@@ -58,6 +59,7 @@ function App() {
               <Route exact path='/contact' element={<ContactUs />} />
               <Route exact path='/job-seeker' element={<JobSeeker />} />
               <Route exact path='/salons' element={<Salon />} />
+              <Route exact path='/products' element={<Product/>} />
               <Route exact path='/salon/detail/:code' element={<SalonDetail />} />
               {/* <Route path='/services' element={<Services />} />
               <Route path='/privacyPolicy' element={<PrivacyPolicy />} /> */}

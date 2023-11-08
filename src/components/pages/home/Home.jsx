@@ -17,7 +17,7 @@ import ImageContainer from "./ImageContainer";
 import Newsletter from "../../common/Newsletter";
 import ProductList from "./BodyProductList";
 import ServicesList from "./ServicesList";
-import ServiceListBottom from "../../common/ServiceListBottom";
+// import ServiceListBottom from "../../common/ServiceListBottom";
 import Testimonials from "../../common/Testimonials";
 
 const Home = () => {
@@ -38,8 +38,7 @@ const Home = () => {
       <ServicesList />
       <ImageContainer />
       <AboutContainer />
-      <Brands />
-      <ServiceListBottom />
+      <Brands />    
       <Testimonials />
       <Newsletter />
     </>

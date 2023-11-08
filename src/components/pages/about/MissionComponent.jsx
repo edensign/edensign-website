@@ -1,14 +1,20 @@
-import { Box, Container, List, ListItem, ListItemText, Typography } from '@mui/material';
+/**
+ * Copyright © 2023, Eden Sign Inc. ALL RIGHTS RESERVED.
+ *
+ * This software is the confidential information of Eden Sign Inc., and is licensed as
+ * restricted rights software. The use, reproduction, or disclosure of this software is subject to
+ * restrictions set forth in your license agreement with Eden Sign.
+*/
+
+import { Box, List, ListItem, Typography } from '@mui/material';
 import DiamondIcon from '@mui/icons-material/Diamond';
-import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import "../about/AboutUs.css";
 
 const MissionComponent = () => {
 
   return (
     <Box sx={{ position: "relative", margin: "60px 0" }}>
-      <Box sx={{
-        display: 'flex', flexDirection: "column", justifyContent: "center", alignItems: "center"
-      }}>
+      <Box sx={{ display: 'flex', flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
         <p style={{ fontFamily: "Marcellus,sans-serif", fontWeight: "400", fontSize: "20px", lineHeight: "20px", letterSpacing: "0.8em" }}> OUR </p>
         <DiamondIcon sx={{ fontSize: "10px" }} />
         <p style={{ fontSize: '40px', fontWeight: "400", lineHeight: "1.28", letterSpacing: "0.14em", marginTop: "4px" }}> MISSION </p>
@@ -42,14 +48,6 @@ const MissionComponent = () => {
     //   <FiberManualRecordIcon sx={{ fontSize: "4px", margin: "5%", marginTop: "0" }} />
     //   <Typography sx={{ color: "rgb(97,97,97)", fontWeight: "300", fontSize: "16px", lineHeight: "30px", letterSpacing: "0.015em" }}>
     //     We are committed to delivering exceptional salon experiences through skilled professionals who stay at the forefront of industry trends. Quality and customer satisfaction are our top priorities.
-    //   </Typography>
-    // </ListItem>
-
-    // <ListItem sx={{ flexDirection: "column" }}>
-    //   <ListItemText primary="Innovation and Adaptability" primaryTypographyProps={{ fontWeight: "400", fontSize: "24px", lineHeight: "30px", letterSpacing: "0.14em", marginBottom: "15px" }} />
-    //   <FiberManualRecordIcon sx={{ fontSize: "4px", margin: "5%", marginTop: "0" }} />
-    //   <Typography sx={{ color: "rgb(97,97,97)", fontWeight: "300", fontSize: "16px", lineHeight: "30px", letterSpacing: "0.015em" }}>
-    //     We continuously evolve our services and offerings to meet the diverse needs and preferences of our clients. We embrace innovation and stay flexible in our approach.
     //   </Typography>
     // </ListItem>
   )

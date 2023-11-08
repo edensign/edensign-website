@@ -26,9 +26,10 @@ export const SalonAPI = {
 
     /** Get salon list by joining 2 tables from the database
      */
-    getSalonList: async (cancel = false) => {
+    getSalonList: async (gender=null,cancel = false) => {
+        let genderParam = gender ? `gender=${gender}` : '';
         const { data: response } = await api.request({
-            url: `/get-salon-list`,
+            url: `/get-salon-list${genderParam}`,
             method: "GET",
             signal: cancel ? cancelApiObject[this.getSalonList.name].handleRequestCancellation().signal : undefined,
         });

@@ -6,55 +6,72 @@
  * restrictions set forth in your license agreement with Eden Sign.
 */
 
-import * as React from 'react';
-import { Container, List, ListItem, ListItemButton, ListItemText, Typography } from '@mui/material';
-import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import { List, ListItem, ListItemText, Typography, Box } from '@mui/material';
+// import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import SpaIcon from '@mui/icons-material/Spa';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
+import "../pages/about/AboutUs.css";
+import image2 from "../assets/TQ.jpg";
+import image1 from "../assets/NH1.jpg";
+import image3 from "../assets/CB.jpg";
 
 
 const ServiceListBottom = () => {
+
     return (
-        <Container sx={{ marginBottom: "8%", display: 'flex', alignItems: "center" }}>
-            <nav aria-label="services provided by this website">
-                <List sx={{ display: "inline-flex", padding: "0" }}>
-                    <ListItem sx={{ flexDirection: "column" }}>
-                        <SpaIcon sx={{ fontSize: "40px", lineHeight: "1", marginBottom: "6%" }} />
-                        <ListItemButton className="list">
-                            <ListItemText primary="all natural" primaryTypographyProps={{ fontWeight: "400", fontSize: "24px", lineHeight: "30px", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "15px" }} />
-                        </ListItemButton>
-                        <FiberManualRecordIcon sx={{ fontSize: "4px", margin: "5%", marginTop: "0" }} />
-                        <Typography sx={{ color: "rgb(97,97,97)", fontWeight: "300", fontSize: "16px", lineHeight: "30px", letterSpacing: "0.015em" }}>
+        <>
+            <Box sx={{ width: "100%", height: "100px", display: "flex", justifyContent: "center", backgroundColor: "#58c5d2" }}>
+                <p className='unique' style={{ fontSize: "40px", fontWeight: "400", letterSpacing: ".2em", height: "100px" }} >What Makes Us Unique ?</p>
+            </Box>
+
+            <Box sx={{ display: 'flex', backgroundColor: "#58c5d2", width: "100%", height: "500px", marginBottom: "8%" }}>
+                <List sx={{ display: "inline-flex", margin: "15px", justifyContent: "space-around", width: "100%", color: "white", alignItems: "center" }}>
+                    <ListItem className="flip-card-front" sx={{
+                        flexDirection: "column", justifyContent: "center", borderRadius: "50%", height: "390px", width: "390px",
+                        backgroundImage: `url(${image1})`, backgroundSize: "cover", backgroundRepeat: "no-repeat"
+                    }}>
+                        <SpaIcon sx={{ fontSize: "40px" }} />
+                        <ListItem sx={{ display: "flex", flexDirection: "column" }} >
+                            <ListItemText primary="all natural" primaryTypographyProps={{ fontWeight: "500", fontSize: "32px", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "0px" }} />
+                        </ListItem>
+                        <Typography className="flip-card-back" sx={{ width: "87%", margin: "0 auto", color: "white", fontWeight: "300", fontSize: "16px", letterSpacing: "0.015em", display: "none" }} >
                             All the products that we manufacture are 99% natural and tested by lab technicians. Occasional mrs interested far expression.
                         </Typography>
                     </ListItem>
 
-                    <ListItem sx={{ flexDirection: "column" }}>
-                        <AutoAwesomeIcon sx={{ fontSize: "40px", lineHeight: "1", marginBottom: "6%" }} />
-                        <ListItemButton className="list">
-                            <ListItemText primary="TOP QUALITY" primaryTypographyProps={{ fontWeight: "400", fontSize: "24px", lineHeight: "30px", letterSpacing: "0.14em", marginBottom: "15px" }} />
-                        </ListItemButton>
-                        <FiberManualRecordIcon sx={{ fontSize: "4px", margin: "5%", marginTop: "0" }} />
-                        <Typography sx={{ color: "rgb(97,97,97)", fontWeight: "300", fontSize: "16px", lineHeight: "30px", letterSpacing: "0.015em" }}>
+                    <ListItem className="flip-card-front" sx={{
+                        flexDirection: "column", justifyContent: "center", borderRadius: "50%", height: "390px", width: "390px",
+                        backgroundImage: `url(${image2})`, backgroundSize: "cover", backgroundRepeat: "no-repeat"
+                    }}>
+                        <AutoAwesomeIcon sx={{ fontSize: "40px" }} />
+                        <ListItem sx={{ display: "flex", flexDirection: "column" }} >
+                            <ListItemText primary="top quality" primaryTypographyProps={{ fontWeight: "500", fontSize: "32px", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "0px" }} />
+                        </ListItem>
+                        <Typography className="flip-card-back" sx={{ width: "87%", margin: "0 auto", color: "white", fontWeight: "300", fontSize: "16px", letterSpacing: "0.015em", display: "none" }}>
                             We provide the best quality products at cheapest rates without mixing manmade ingredients.
                         </Typography>
                     </ListItem>
 
-                    <ListItem sx={{ flexDirection: "column" }}>
-                        <CurrencyExchangeIcon sx={{ fontSize: "40px", lineHeight: "1", marginBottom: "6%" }} />
-                        <ListItemButton className="list">
-                            <ListItemText primary="10% CASHBACK" primaryTypographyProps={{ fontWeight: "400", fontSize: "24px", lineHeight: "30px", letterSpacing: "0.14em", marginBottom: "15px" }} />
-                        </ListItemButton>
-                        <FiberManualRecordIcon sx={{ fontSize: "4px", margin: "5%", marginTop: "0" }} />
-                        <Typography sx={{ color: "rgb(97,97,97)", fontWeight: "300", fontSize: "16px", lineHeight: "30px", letterSpacing: "0.015em" }}>
+                    <ListItem className="flip-card-front" sx={{
+                        flexDirection: "column", justifyContent: "center", borderRadius: "50%", height: "390px", width: "390px",
+                        backgroundImage: `url(${image3})`, backgroundSize: "cover", backgroundRepeat: "no-repeat"
+                    }}>
+                        <CurrencyExchangeIcon sx={{ fontSize: "40px" }} />
+                        <ListItem sx={{ display: "flex", flexDirection: "column" }}>
+                            <ListItemText primary="10% cashback" primaryTypographyProps={{ fontWeight: "500", fontSize: "32px", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "0px" }} />
+                        </ListItem>
+                        <Typography className="flip-card-back" sx={{ width: "87%", margin: "0 auto", color: "white", fontWeight: "300", fontSize: "16px", letterSpacing: "0.015em", display: "none" }}>
                             We provide 10% cashback in all the beauty products listed on the site and money back guarantee if defect is there in any of our item.
                         </Typography>
                     </ListItem>
                 </List>
-            </nav>
-        </Container>
+            </Box>
+
+        </>
     )
 };
 
 export default ServiceListBottom;
+
+

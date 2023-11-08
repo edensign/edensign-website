@@ -14,13 +14,13 @@ import { Box, Button, Card, CardActions, CardContent, Grid, Rating } from '@mui/
 import API from '../../../apis';
 import { setSalons } from '../../../redux/actions/SalonAction';
 
-const SalonListCards = () => {
+const SalonListCards = ({ selectedCategory, selectedGender }) => {
 
   const dispatch = useDispatch();
   const { listData } = useSelector(state => state.allSalons);
 
   const getSalons = () => {
-    API.SalonAPI.getSalonList()
+    API.SalonAPI.getSalonList(selectedGender)
       .then(res => {
         if (res.status === "Success") {
           dispatch(setSalons({ listData: res.data, loading: false }))
@@ -35,7 +35,7 @@ const SalonListCards = () => {
 
   React.useEffect(() => {
     getSalons();
-  }, []);
+  }, [selectedGender]);
 
   // Function to check if an element is in the viewport
   function isElementInViewport(el) {
@@ -106,6 +106,7 @@ const SalonListCards = () => {
               visibility: "visible", WebkitBackfaceVisibility: "hidden", transition: "all 0.3s ease-in-out"
             }}>
               <Card sx={{
+
                 maxWidth: "88%", height: 520, boxShadow: "4px 4px 9px #043927", filter: "brightness(100%)"
               }}>
 

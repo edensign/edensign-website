@@ -8,11 +8,13 @@
 
 import { combineReducers } from "redux";
 
+import { setFilterReducer } from "./FilterReducer";
 import { setProductReducer } from "./ProductReducer";
 import { setSalonReducer } from "./SalonReducer";
 import { setSalonDetailReducer } from "./SalonReducer";
 
 const reducers = combineReducers({
+    filterOpen: setFilterReducer,
     allProducts: setProductReducer,
     allSalons: setSalonReducer,
     salonDetail: setSalonDetailReducer

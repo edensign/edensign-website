@@ -20,12 +20,13 @@ import { downloadResumeFromAzure } from '../../azure/AzureStorageConnection';
 
 import "./InfiniteScroll.css";
 import customer from "../../assets/customer-resiz.jpg";
+import sadFaceImage from "../../assets/sad-face.svg";
 
 const ENV = import.meta.env;
 
-const JobSeekerCards = () => {
+const JobSeekerCards = ({ skills, selectedSkill, selectedGender, selectedExperience }) => {
 
-    const [jobSeekerList, setJobSeekerList] = useState({
+    const [jobSeekerDetail, setjobSeekerDetail] = useState({
         listData: [],
         loading: false,
         page: 0,
@@ -35,25 +36,33 @@ const JobSeekerCards = () => {
     const [states, setStates] = useState([]);
     const [cities, setCities] = useState([]);
 
+
     useEffect(() => {
-        API.JobSeekerAPI.getJobSeekerList(jobSeekerList.page, ENV.VITE_JOB_SEEKER_SIZE)
+        API.JobSeekerAPI.getJobSeekerDetail(ENV.VITE_JOB_SEEKER_PAGE, ENV.VITE_JOB_SEEKER_SIZE, selectedSkill, 
+            selectedGender, selectedExperience)
             .then(response => {
                 if (response.status === "Success") {
-                    setJobSeekerList({
-                        ...jobSeekerList,
+                    if (response.data) {
+                        response.data.forEach(resp => {
+                            resp.skills = getSkillsByName(resp.skills);
+                        })
+                    }
+                    setjobSeekerDetail({
+                        ...jobSeekerDetail,
                         listData: response.data,
                         totalResults: response.data[0].result_count
                     });
                     console.log("Job detail response=>", response.data);
                 } else {
-                    setJobSeekerList({ listData: [], loading: false });
+                    setjobSeekerDetail({ listData: [], loading: false });
                 }
             })
             .catch(error => {
-                setJobSeekerList({ listData: [], loading: false });
+                setjobSeekerDetail({ listData: [], loading: false });
                 throw error;
             });
-    }, []);
+    }, [skills, selectedSkill, selectedGender, selectedExperience]);
+
 
 
     useEffect(() => {
@@ -87,6 +96,13 @@ const JobSeekerCards = () => {
     }, []);
 
 
+    function getSkillsByName(dataObj) {
+        const objId = dataObj?.split(",");
+        if (objId) {
+            return skills.filter(skill => objId.includes(skill.id.toString()));
+        }
+    };
+
     const getCityByName = (id) => {
         let name;
         cities.filter(city => {
@@ -106,8 +122,6 @@ const JobSeekerCards = () => {
         });
         return name;
     };
-
-    console.log(jobSeekerList);
 
 
     // Function to check if an element is in the viewport
@@ -156,51 +170,54 @@ const JobSeekerCards = () => {
     // Call the onScroll function initially to handle items already in view
     // onScroll();
 
-
     //Infinite scroll involves using a combination of state management and event handling to load more data as the user scrolls down the page. 
     //& this is cleanly handled by infinite scroll library in react
     const fetchMoreData = async () => {
-        console.log("more data", jobSeekerList.loading)
-        setJobSeekerList({
-            ...jobSeekerList,
-            ...jobSeekerList.page + 1,
+        console.log("more data", jobSeekerDetail.loading)
+        setjobSeekerDetail({
+            ...jobSeekerDetail,
+            ...jobSeekerDetail.page + 1,
             loading: true
         });
 
-        API.JobSeekerAPI.getJobSeekerList(jobSeekerList.page + 1, ENV.VITE_JOB_SEEKER_SIZE)
+        API.JobSeekerAPI.getJobSeekerDetail(ENV.VITE_JOB_SEEKER_PAGE + 1, ENV.VITE_JOB_SEEKER_SIZE, selectedSkill, selectedGender, selectedExperience)
             .then(response => {
                 if (response.status === "Success") {
-                    setJobSeekerList({
-                        ...jobSeekerList,
-                        listData: jobSeekerList.listData.concat(response.data),
-                        loading: false
-                    });
-                    console.log("Job detail response=>", response.data);
+
+                    if (response?.data) {
+                        response.data.forEach(resp => {
+                            resp.skills = getSkillsByName(resp.skills);
+                        })
+                        setjobSeekerDetail({
+                            ...jobSeekerDetail,
+                            listData: jobSeekerDetail.listData.concat(response.data),
+                            loading: false
+                        });
+                    }
                 } else {
-                    setJobSeekerList({ listData: [], loading: false });
+                    setjobSeekerDetail({ listData: [], loading: false });
                 }
             })
             .catch(error => {
-                setJobSeekerList({ listData: [], loading: false });
+                setjobSeekerDetail({ listData: [], loading: false });
                 throw error;
             });
     };
-    console.log("=>", jobSeekerList.loading)
+
 
     return (
 
         <InfiniteScroll
             id="job-grid-container"
-            dataLength={jobSeekerList?.listData?.length}
+            dataLength={jobSeekerDetail?.listData?.length}
             next={fetchMoreData}
-            hasMore={jobSeekerList?.listData?.length !== jobSeekerList?.totalResults}
-            loader={jobSeekerList.loading ? <Loader /> : null}
-        // endMessage={<p style={{ textAlign: "center", fontSize: "13px", fontWeight: "600", lineHeight: "32px", letterSpacing: "1px", textTransform: "capitalize", marginBottom: "5%" }}> You Have Reached The End Of The Document..</p>}
+            hasMore={jobSeekerDetail?.listData?.length !== jobSeekerDetail?.totalResults}
+            loader={jobSeekerDetail.loading ? <Loader /> : null}
         >
             <Box margin="30px 20px">
                 <Grid container sx={{ minHeight: "100vh", width: "100%", marginLeft: "auto" }}>
                     {
-                        jobSeekerList.listData.length ? jobSeekerList.listData.map((seeker, index) => (
+                        jobSeekerDetail.listData.length ? jobSeekerDetail.listData.map((seeker, index) => (
                             <Grid item xs={12} md={6} lg={6} key={index} className={`job-grid-item`} sx={{
                                 padding: "30px", opacity: "0", transform: "translateY(30px)", visibility: "visible",
                                 WebkitBackfaceVisibility: "hidden", transition: "all 0.3s ease-in-out", height: "560px"
@@ -303,19 +320,28 @@ const JobSeekerCards = () => {
                                         </div>
 
                                         <div style={{
-                                            height: "90px", border: "1px solid black", width: "65%",
+                                            height: "103px", border: "1px solid black", width: "65%", color: "black",
                                             position: "absolute", bottom: "0"
                                         }}>
-
+                                            Skills: {seeker.skills.map((skill, index) => (
+                                                <span
+                                                    style={{ fontWeight: "300", fontSize: "12px", letterSpacing: "0.05em", textTransform: "capitalize", margin: 'auto 5px' }}
+                                                    key={index} >{skill.name}</span>
+                                            ))}
                                         </div>
                                     </Box>
                                 </Card>
                             </Grid>
                         ))
-                            : null
+                            : <Box sx={{ height: "300px", width: "310px", margin: "2% auto" }}>
+                                <img src={sadFaceImage} style={{ height: "100%", width: "100%", objectFit: "contain" }} />
+                                <p style={{
+                                    fontSize: "32px", fontWeight: "600", fontFamily: "Marcellus,sans-serif", letterSpacing: "2px", textTransform: "capitalize", color: "fuchsia", margin: "0 auto"
+                                }}>Nothing to Display</p>
+                            </Box>
                     }
                 </Grid>
-            </Box>
+            </Box >
         </InfiniteScroll >
     )
 }

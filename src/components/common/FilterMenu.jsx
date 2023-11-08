@@ -6,14 +6,20 @@
  * restrictions set forth in your license agreement with Eden Sign.
 */
 
+import { useState } from "react";
+import { useSelector, useDispatch } from 'react-redux';
 import { useLocation } from "react-router-dom";
-import { Box, Chip, Checkbox, Divider, useMediaQuery, Button, Slider } from "@mui/material";
+
+import { Box, Chip, Checkbox, Divider, useMediaQuery, Button, Slider, FormControlLabel } from "@mui/material";
+
+import { setFilterOpen } from "../../redux/actions/FilterAction";
 // import { TuneOutlined } from '@mui/icons-material';
 
 const FilterMenu = ({
     max,
     value,
     handleChange,
+    onFilter,
     showSkills,
     showCategory,
     showBrand,
@@ -22,24 +28,67 @@ const FilterMenu = ({
     showPriceRange,
     showExperienceRange }) => {
 
+    const [selectedSkill, setSelectedSkill] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState('');
+    const [selectedBrand, setSelectedBrand] = useState('');
+    const [selectedGender, setSelectedGender] = useState('');
+
+    const filterOpen = useSelector(state => state.filterOpen);
+    const dispatch = useDispatch();
     const location = useLocation();
     const checkboxLabel = { inputProps: { 'aria-label': 'Checkboxes' } };
     const isMobile = useMediaQuery("(max-width:480px)");
+    // const box = document.getElementsByClassName("filter-btn-box")[0];
+    // const filterBox = document.getElementById("filter-box");
 
 
-    const handleClick = (event) => {
-        console.log(event.target.parentElement)
+    const handleSkillClick = (event, value) => {
+        console.log(value)
+        if (value === true) {
+            console.log(event.target.parentElement.nextSibling.innerText)
+            setSelectedSkill([
+                ...selectedSkill,
+                event.target.parentElement.nextSibling.innerText
+            ]);
+        } else {
+            console.log(selectedSkill.filter(skill => skill !== event.target.parentElement.nextSibling.innerText))
+            setSelectedSkill(selectedSkill.filter(skill => skill !== event.target.parentElement.nextSibling.innerText));
+        }
+    };
+
+    const handleGenderClick = (event) => {
+        setSelectedGender(event.target.innerText.toLowerCase())
         event.target.parentElement.style.color = "#0288d1";
         event.target.parentElement.style.border = "1px solid rgba(2, 136, 209, 0.7)";
     };
 
-    const handleDelete = (event) => {
-        console.log(event.target.parentElement)
+    const handleGenderDelete = (event) => {
+        setSelectedGender('');
         event.target.parentElement.style.color = "";
         event.target.parentElement.style.border = "1px solid #bdbdbd";
     };
 
-    const handleFilter = () => { };
+    const handleFilterChange = () => {
+        const box = document.getElementsByClassName("filter-btn-box")[0];
+        const btn = document.getElementsByClassName("filter-open-btn")[0];
+        const filterBox = document.getElementById("filter-box");
+        const arrowicon = document.getElementById("arrowicon");
+
+        onFilter(selectedGender, selectedSkill);
+        console.log('filtermenu utton', filterOpen)
+        dispatch(setFilterOpen(!filterOpen.filterOpen))
+        window.scrollTo(0, 270);
+
+        box.style.right = filterOpen.filterOpen ? "0" : "27%";
+        box.style.transform = filterOpen.filterOpen ? "translateX(0)" : "matrix(1, 0, 0, 1, 0, 0)";
+        btn.style.width = filterOpen.filterOpen ? "7em" : "4em";
+        btn.style.padding = filterOpen.filterOpen ? "10px 50px" : "9px 0px 9px 4px";
+        filterBox.style.opacity = filterOpen.filterOpen ? "0" : "1";
+        filterBox.style.transform = filterOpen.filterOpen ? "translateX(100%)" : "translateX(0)";
+        arrowicon.style.transform = filterOpen.filterOpen ? "" : "rotate(180deg)";
+    };
+    console.log("Gender=>", selectedGender)
+    
 
 
     return (
@@ -57,62 +106,62 @@ const FilterMenu = ({
                 }}> Skills </p>
                 <Divider sx={{ width: "88%", margin: "auto" }} />
                 <Box width="100%" display="grid" gap="4px" gridTemplateColumns="repeat(2, minmax(0, 1fr))" justifyItems="start" padding="4px 10px 2px 10px">
-                    <Box>
-                        <Checkbox {...checkboxLabel} color="default" size="small" />
-                        <span style={{
-                            paddingTop: "8px", fontSize: "12px", fontWeight: "500", lineHeight: "1.2",
-                            letterSpacing: "0.05em", textTransform: "capitalize"
-                        }}>Hair stylist</span>
-                    </Box>
-                    <Box>
-                        <Checkbox {...checkboxLabel} color="default" size="small" />
-                        <span style={{
-                            paddingTop: "8px", fontSize: "12px", fontWeight: "500", lineHeight: "1.2",
-                            letterSpacing: "0.05em", textTransform: "capitalize"
-                        }}>Assistant hair stylist</span>
-                    </Box>
-                    <Box>
-                        <Checkbox {...checkboxLabel} color="default" size="small" />
-                        <span style={{
-                            paddingTop: "8px", fontSize: "12px", fontWeight: "500", lineHeight: "1.2",
-                            letterSpacing: "0.05em", textTransform: "capitalize"
-                        }}>Makeup artist</span>
-                    </Box>
-                    <Box>
-                        <Checkbox {...checkboxLabel} color="default" size="small" />
-                        <span style={{
-                            paddingTop: "8px", fontSize: "12px", fontWeight: "500", lineHeight: "1.2",
-                            letterSpacing: "0.05em", textTransform: "capitalize"
-                        }}>Bridal makeup artist</span>
-                    </Box>
-                    <Box>
-                        <Checkbox {...checkboxLabel} color="default" size="small" />
-                        <span style={{
-                            paddingTop: "8px", fontSize: "12px", fontWeight: "500", lineHeight: "1.2",
-                            letterSpacing: "0.05em", textTransform: "capitalize"
-                        }}>eyebrow specialist</span>
-                    </Box>
-                    <Box>
-                        <Checkbox {...checkboxLabel} color="default" size="small" />
-                        <span style={{
-                            paddingTop: "8px", fontSize: "12px", fontWeight: "500", lineHeight: "1.2",
-                            letterSpacing: "0.05em", textTransform: "capitalize"
-                        }}>manicure specialist</span>
-                    </Box>
-                    <Box>
-                        <Checkbox {...checkboxLabel} color="default" size="small" />
-                        <span style={{
-                            paddingTop: "8px", fontSize: "12px", fontWeight: "500", lineHeight: "1.2",
-                            letterSpacing: "0.05em", textTransform: "capitalize"
-                        }}>Nail technician</span>
-                    </Box>
-                    <Box>
-                        <Checkbox {...checkboxLabel} color="default" size="small" />
-                        <span style={{
-                            paddingTop: "8px", fontSize: "12px", fontWeight: "500", lineHeight: "1.2",
-                            letterSpacing: "0.05em", textTransform: "capitalize"
-                        }}>Receptionist</span>
-                    </Box>
+                    <FormControlLabel label="Hair stylist" sx={{
+                        margin: "0",
+                        '& .MuiTypography-root': { fontSize: "12px", fontWeight: "550", letterSpacing: "0.05em", textTransform: "capitalize" }
+                    }}
+                        control={
+                            <Checkbox {...checkboxLabel} color="default" size="small" onChange={(event, value) => handleSkillClick(event, value)} />
+                        } />
+                    <FormControlLabel label="Assistant hair stylist" sx={{
+                        margin: "0",
+                        '& .MuiTypography-root': { fontSize: "12px", fontWeight: "550", letterSpacing: "0.05em", textTransform: "capitalize" }
+                    }}
+                        control={
+                            <Checkbox {...checkboxLabel} color="default" size="small" onChange={(event, value) => handleSkillClick(event, value)} />
+                        } />
+                    <FormControlLabel label="Makeup artist" sx={{
+                        margin: "0",
+                        '& .MuiTypography-root': { fontSize: "12px", fontWeight: "550", letterSpacing: "0.05em", textTransform: "capitalize" }
+                    }}
+                        control={
+                            <Checkbox {...checkboxLabel} color="default" size="small" onChange={(event, value) => handleSkillClick(event, value)} />
+                        } />
+                    <FormControlLabel label="Bridal Makeup artist" sx={{
+                        margin: "0",
+                        '& .MuiTypography-root': { fontSize: "12px", fontWeight: "550", letterSpacing: "0.05em", textTransform: "capitalize" }
+                    }}
+                        control={
+                            <Checkbox {...checkboxLabel} color="default" size="small" onChange={(event, value) => handleSkillClick(event, value)} />
+                        } />
+                    <FormControlLabel label="eyebrow specialist" sx={{
+                        margin: "0",
+                        '& .MuiTypography-root': { fontSize: "12px", fontWeight: "550", letterSpacing: "0.05em", textTransform: "capitalize" }
+                    }}
+                        control={
+                            <Checkbox {...checkboxLabel} color="default" size="small" onChange={(event, value) => handleSkillClick(event, value)} />
+                        } />
+                    <FormControlLabel label="manicure specialist" sx={{
+                        margin: "0",
+                        '& .MuiTypography-root': { fontSize: "12px", fontWeight: "550", letterSpacing: "0.05em", textTransform: "capitalize" }
+                    }}
+                        control={
+                            <Checkbox {...checkboxLabel} color="default" size="small" onChange={(event, value) => handleSkillClick(event, value)} />
+                        } />
+                    <FormControlLabel label="Nail technician" sx={{
+                        margin: "0",
+                        '& .MuiTypography-root': { fontSize: "12px", fontWeight: "550", letterSpacing: "0.05em", textTransform: "capitalize" }
+                    }}
+                        control={
+                            <Checkbox {...checkboxLabel} color="default" size="small" onChange={(event, value) => handleSkillClick(event, value)} />
+                        } />
+                    <FormControlLabel label="Receptionist" sx={{
+                        margin: "0",
+                        '& .MuiTypography-root': { fontSize: "12px", fontWeight: "550", letterSpacing: "0.05em", textTransform: "capitalize" }
+                    }}
+                        control={
+                            <Checkbox {...checkboxLabel} color="default" size="small" onChange={(event, value) => handleSkillClick(event, value)} />
+                        } />
                 </Box>
             </div>}
 
@@ -207,12 +256,12 @@ const FilterMenu = ({
                 <Divider sx={{ width: "88%", margin: "auto" }} />
                 <Box width={location.pathname === '/job-seeker' ? "64%" : "auto"} display="flex" justifyContent="space-around" padding="12px 10px">
                     <Chip sx={{ fontSize: "12px", height: "20px", fontWeight: "300" }} label="Male"
-                        variant="outlined" size="small" onClick={handleClick} onDelete={handleDelete} />
+                        variant="outlined" size="small" onClick={handleGenderClick} onDelete={handleGenderDelete} />
                     <Chip sx={{ fontSize: "12px", height: "20px", fontWeight: "300" }} label="Female"
-                        variant="outlined" size="small" onClick={handleClick} onDelete={handleDelete} />
+                        variant="outlined" size="small" onClick={(event) => handleGenderClick(event, 'gender')} onDelete={handleGenderDelete} />
                     {showUnisex && <div style={{ display: "inherit" }}>
                         <Chip sx={{ fontSize: "12px", height: "20px", fontWeight: "300" }} label="Unisex"
-                            variant="outlined" size="small" onClick={handleClick} onDelete={handleDelete} />
+                            variant="outlined" size="small" onClick={(event) => handleGenderClick(event, 'gender')} onDelete={handleGenderDelete} />
                     </div>}
                 </Box>
             </div>}
@@ -262,7 +311,7 @@ const FilterMenu = ({
             </div>}
 
             <div style={{ display: "flex", alignItems: "center", padding: "2px 26px" }}>
-                <Button type="submit" color="info" variant="contained" onClick={handleFilter} sx={{
+                <Button type="submit" color="info" variant="contained" onClick={handleFilterChange} sx={{
                     fontFamily: "Inter, sans-serif", fontWeight: "500", fontSize: "12px",
                     letterSpacing: "0.05em", marginBottom: "20px", padding: "4px 19px"
                 }}>

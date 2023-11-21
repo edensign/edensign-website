@@ -20,7 +20,7 @@ import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 
 import { ColorModeContext, tokens } from "../../theme";
 
-const pages = ['About', 'Services', 'Salons', 'Products', 'contact', 'job seeker'];
+const pages = ['About', 'Salons', 'Products', 'contact', 'job seeker'];
 // const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function Topbar(props) {
@@ -39,6 +39,7 @@ function Topbar(props) {
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
+    
   };
 
   const handleCloseUserMenu = () => {
@@ -130,7 +131,7 @@ function Topbar(props) {
       <Toolbar disableGutters sx={{ justifyContent: "space-between", padding: "30px" }}>
         <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 3 }} />
         <Typography sx={{
-          display: { xs: 'none', md: "flex" }, textTransform: "uppercase", letterSpacing: "0.4rem", fontSize: "2.0em", fontFamily: "Inter, sans-serif", lineHeight: "1.6", color: "#000000",marginRight:"80px",marginLeft:"30px"
+          display: { xs: 'none', md: "flex" }, textTransform: "uppercase", letterSpacing: "0.4rem", fontSize: "2.0em", fontFamily: "Inter, sans-serif", lineHeight: "1.6", color: "#000000", marginRight: "80px", marginLeft: "30px"
         }}>
           <Link style={{ textDecoration: "none", color: "#000000" }} to="/"> edensign </Link>
         </Typography>
@@ -198,7 +199,7 @@ function Topbar(props) {
               key={page}
               // onClick={handleCloseNavMenu}
               disableRipple
-              sx={{ my: 1, display: 'block', fontSize: "14px", letterSpacing: "0.11em", lineHeight: "1.14", fontWeight: "400", textTransform: "uppercase",fontFamily:"inter" }}
+              sx={{ my: 1, display: 'block', fontSize: "14px", letterSpacing: "0.11em", lineHeight: "1.14", fontWeight: "400", textTransform: "uppercase", fontFamily: "inter" }}
             >
               <Link className="link-page" style={{ textDecoration: "none", color: "#ffffff" }}
                 to={`/${page.charAt(0).toLowerCase() + page.slice(1).replace(/\s/g, '-')}`}>

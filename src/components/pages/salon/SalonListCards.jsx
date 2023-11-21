@@ -20,7 +20,7 @@ const SalonListCards = ({ selectedCategory, selectedGender }) => {
   const { listData } = useSelector(state => state.allSalons);
 
   const getSalons = () => {
-    API.SalonAPI.getSalonList(selectedGender)
+    API.SalonAPI.getSalonList(selectedCategory, selectedGender)
       .then(res => {
         if (res.status === "Success") {
           dispatch(setSalons({ listData: res.data, loading: false }))
@@ -29,13 +29,14 @@ const SalonListCards = ({ selectedCategory, selectedGender }) => {
         }
       })
       .catch(error => {
+        console.log('ERRRRRR=>', error);
         throw error;
       });
   };
 
   React.useEffect(() => {
     getSalons();
-  }, [selectedGender]);
+  }, [selectedCategory, selectedGender]);
 
   // Function to check if an element is in the viewport
   function isElementInViewport(el) {

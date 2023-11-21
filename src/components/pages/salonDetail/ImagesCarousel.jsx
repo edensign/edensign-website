@@ -9,10 +9,10 @@
 import { useEffect } from 'react';
 import { Box, Button } from '@mui/material';
 
-import haircutImg from "../../assets/services/haircut.jpg"
-import pedicureImg from "../../assets/services/pedicure.jpg"
-import manicureImg from "../../assets/services/manicure.jpg"
-import bridalMakeupImg from "../../assets/services/bridal-makeup.jpg"
+// import haircutImg from "../../assets/services/haircut.jpg"
+// import pedicureImg from "../../assets/"
+// import manicureImg from "../../assets/services/manicure.jpg"
+// import bridalMakeupImg from "../../assets/services/bridal-makeup.jpg"
 
 const ImagesCarousel = () => {
     let dateVar = new Date();
@@ -142,7 +142,7 @@ const ImagesCarousel = () => {
                 <Box style={{ display: "flex", alignItems: "center", position: "absolute", top: "30%", left: "40px", padding: "18px 12px", backdropFilter: "blur(20px)", color: "#ffffff", fontWeight: "500", fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}>
                     <span>{dateVar.toDateString()}</span>
                 </Box>
-                <img src={haircutImg} />
+                {/* <img src={pedicureImg} /> */}
                 <Box>
                     <p style={{ marginTop: "20px", fontSize: "13px", fontWeight: "500", lineHeight: "32px", letterSpacing: "2.1px", textTransform: "uppercase" }}>news & offers</p>
                     <p style={{ marginTop: "-2px", fontWeight: "400", fontSize: "20px", letterSpacing: "0.01em", textTransform: "capitalize" }}>
@@ -192,7 +192,7 @@ const ImagesCarousel = () => {
                 <Box style={{ display: "flex", alignItems: "center", position: "absolute", top: "30%", left: "40px", padding: "18px 12px", backdropFilter: "blur(20px)", color: "#ffffff", fontWeight: "500", fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}>
                     <span>{dateVar.toDateString()}</span>
                 </Box>
-                <img src={pedicureImg} />
+                {/* <img src={pedicureImg} /> */}
                 <Box>
                     <p style={{ marginTop: "20px", fontSize: "13px", fontWeight: "500", lineHeight: "32px", letterSpacing: "2.1px", textTransform: "uppercase" }}>news & offers</p>
                     <p style={{ marginTop: "-2px", fontWeight: "400", fontSize: "20px", letterSpacing: "0.01em", textTransform: "capitalize" }}>
@@ -217,7 +217,7 @@ const ImagesCarousel = () => {
                 <Box style={{ display: "flex", alignItems: "center", position: "absolute", top: "30%", left: "40px", padding: "18px 12px", backdropFilter: "blur(20px)", color: "#ffffff", fontWeight: "500", fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}>
                     <span>{dateVar.toDateString()}</span>
                 </Box>
-                <img src={manicureImg} />
+                {/* <img src={manicureImg} /> */}
                 <Box>
                     <p style={{ marginTop: "20px", fontSize: "13px", fontWeight: "500", lineHeight: "32px", letterSpacing: "2.1px", textTransform: "uppercase" }}>news & offers</p>
                     <p style={{ marginTop: "-2px", fontWeight: "400", fontSize: "20px", letterSpacing: "0.01em", textTransform: "capitalize" }}>
@@ -242,7 +242,7 @@ const ImagesCarousel = () => {
                 <Box style={{ display: "flex", alignItems: "center", position: "absolute", top: "30%", left: "40px", padding: "18px 12px", backdropFilter: "blur(20px)", color: "#ffffff", fontWeight: "500", fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}>
                     <span>{dateVar.toDateString()}</span>
                 </Box>
-                <img src={bridalMakeupImg} />
+                {/* <img src={bridalMakeupImg} /> */}
                 <Box>
                     <p style={{ marginTop: "20px", fontSize: "13px", fontWeight: "500", lineHeight: "32px", letterSpacing: "2.1px", textTransform: "uppercase" }}>news & offers</p>
                     <p style={{ marginTop: "-2px", fontWeight: "400", fontSize: "20px", letterSpacing: "0.01em", textTransform: "capitalize" }}>

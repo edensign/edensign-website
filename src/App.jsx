@@ -38,8 +38,10 @@ function App() {
   // old gradient = linear-gradient(to right, #d9a7c7, #ffdde1)
 
   React.useEffect(() => {
-    window.history.scrollRestoration = 'manual';
-  }, []);
+    if (location.pathname ) {
+      window.scrollTo(0, 0);
+    }
+  }, [location.pathname]);
 
   return (
     <ColorModeContext.Provider value={colorMode}>

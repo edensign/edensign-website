@@ -7,7 +7,7 @@
 */
 
 import React from "react";
-import { useState , useEffect } from "react";
+import { useState, useEffect } from "react";
 
 import API from '../../../apis';
 import "./style.css";
@@ -19,22 +19,17 @@ import SalonPageTop from "./SalonPageTop";
 
 
 const Salon = () => {
+  // const [category, setCategory] = useState([]);
   //variable for showing selective filter menu fields
   const [showCategory, showGender, showUnisex] = [true, true, true];
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedGender, setSelectedGender] = useState('');
 
-
-  const handleFilterChange = (gender, filterSkills) => {
+  const handleFilterChange = (gender, skill = [], category) => {
     gender ? setSelectedGender(gender) : '';
-    if (filterSkills) {
-      console.log(skills.filter(skill => filterSkills.includes(skill.name)));
-      setSelectedSkill(skills
-        .filter(skill => filterSkills.includes(skill.name))
-        .map(skill => skill.id));
-    }
+    category ? setSelectedCategory(category) : '';
   };
-
+  console.log(selectedCategory)
 
   return (
     <>

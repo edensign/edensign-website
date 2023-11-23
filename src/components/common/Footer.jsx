@@ -58,10 +58,10 @@ function Footer() {
                         <FiberManualRecordIcon sx={{ fontSize: "4px" }} />
                     </ListItemButton>
                     <ListItemButton className="list">
-                    <Link to="/contact" style={{ textDecoration: 'none', color: 'inherit' }}>
-                        <ListItemText primary="CONTACT" primaryTypographyProps={{
-                            fontWeight: "500", fontSize: "12px", fontFamily: "Inter, sans-serif", lineHeight: "1", letterSpacing: "0.13em"
-                        }} /></Link>
+                        <Link to="/contact" style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <ListItemText primary="CONTACT" primaryTypographyProps={{
+                                fontWeight: "500", fontSize: "12px", fontFamily: "Inter, sans-serif", lineHeight: "1", letterSpacing: "0.13em"
+                            }} /></Link>
                     </ListItemButton>
                 </List>
             </Box>
@@ -129,9 +129,11 @@ function Footer() {
                 </Typography>
                 <List component='nav' sx={{ display: "inline-flex", padding: "0", marginRight: "-34px" }}>
                     <ListItemButton className="list">
-                        <ListItemText primary="PRIVACY POLICY" primaryTypographyProps={{
-                            fontSize: "11px", marginRight: "10px"
-                        }} />
+                        <Link to="/privacy-policy" style={{ textDecoration: 'none', color: 'inherit' }} >
+                            <ListItemText primary="PRIVACY POLICY" primaryTypographyProps={{
+                                fontSize: "11px", marginRight: "10px"
+                            }} /></Link>
+
                         <FiberManualRecordIcon sx={{ fontSize: "4px" }} />
                     </ListItemButton>
                     <ListItemButton className="list" sx={{ paddingLeft: "0" }}>
@@ -141,7 +143,9 @@ function Footer() {
                         <FiberManualRecordIcon sx={{ fontSize: "4px" }} />
                     </ListItemButton>
                     <ListItemButton className="list" sx={{ paddingLeft: "0" }}>
+                        <Link to="/faq" style={{textDecoration:"none",color:"inherit"}}>
                         <ListItemText primary="FAQ" primaryTypographyProps={{ fontSize: "11px" }} />
+                        </Link>
                     </ListItemButton>
                 </List>
             </Box>

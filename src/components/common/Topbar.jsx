@@ -39,7 +39,7 @@ function Topbar(props) {
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
-    
+
   };
 
   const handleCloseUserMenu = () => {
@@ -234,14 +234,16 @@ function Topbar(props) {
           </IconButton>
           <IconButton sx={{ marginRight: "2%", color: "#000000" }}>
             <Tooltip title="Wishlist">
-              <FavoriteBorderIcon sx={{
-                fontSize: "22px",
-                "&:hover": {
-                  fontSize: "28px",
-                  transition: "all 0.5s ease"
-                }
-              }}
-              />
+              <Link to="/wishlist" style={{ textDecoration: "none", color: "inherit" }}>
+                <FavoriteBorderIcon sx={{
+                  fontSize: "22px",
+                  "&:hover": {
+                    fontSize: "28px",
+                    transition: "all 0.5s ease"
+                  }
+                }}
+                />
+              </Link>
             </Tooltip>
           </IconButton>
           <Box className="media">

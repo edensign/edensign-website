@@ -5,47 +5,51 @@
  * restricted rights software. The use,reproduction, or disclosure of this software is subject to
  * restrictions set forth in your license agreement with Eden Sign.
  */
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Box, Button, Divider, MenuItem, Select, Rating } from '@mui/material';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import image1 from "../../assets/productimage1.webp"
-import { Box, Button, Divider, MenuItem, Select, Rating } from '@mui/material';
-import Pagination from '@mui/material/Pagination';
-import Stack from '@mui/material/Stack';
-// import StarRating from '../../common/StarRating';
 
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 
+import API from '../../../apis';
+import image1 from "../../assets/productimage1.webp";
+import { setProducts } from '../../../redux/actions/ProductAction';
 import ProductDialogBox from './ProductDialogBox';
 import Toast from "../../common/Toast";
+import Loader from "../../common/Loader";
+// import StarRating from '../../common/StarRating';
 import "../products/Product.css"
 
 function ProductCard() {
 
-  const [isVisible, setIsVisible] = useState("hidden");
   const [alert, setAlert] = useState(false);
   const [severity, setSeverity] = useState("");
   const [message, setMessage] = useState("");
 
   const [hoveredCard, setHoveredCard] = useState(null);
-  const [cardImage, setCardImage] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const itemsPerPage = 7;
+  const dispatch = useDispatch();
+  const { listData, loading } = useSelector(state => state.allProducts);
+
+  const itemsPerPage = 4;
   const data = Array(10).fill(null);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const DisplayedData = data.slice(startIndex, endIndex);
+
 
   const handlePageChange = (event, page) => {
     setCurrentPage(page);
     window.scrollTo(0, 300);
   };
-
 
   const handleMouseEnter = (event, cardNumber) => {
     setHoveredCard(cardNumber);
@@ -74,6 +78,26 @@ function ProductCard() {
     backgroundColor: "#e4c1b1", textTransform: "uppercase", fontSize: "12px",
     width: "70px", textAlign: "center"
   }}>featured</span>
+
+  const getProducts = () => {
+    API.ProductAPI.getAll()
+      .then(res => {
+        if (res.status === "Success") {
+          dispatch(setProducts({ listData: res.data, loading: false }))
+        } else {
+          dispatch(setProducts({ listData: [], loading: false }))
+        }
+      })
+      .catch(error => {
+        throw error;
+      });
+  };
+
+  console.log("data", listData,data.length)
+
+  React.useEffect(() => {
+    getProducts();
+  }, []);
 
 
   return (
@@ -106,8 +130,7 @@ function ProductCard() {
           </Select>
         </Box>
 
-        {DisplayedData.map((_, i) => (
-
+        {listData?.rows?.map((product, i) => (
           <Card key={i} sx={{ height: "87vh", margin: "70px 0 70px 70px", borderRadius: "0", position: "relative" }}
             onMouseEnter={(event) => handleMouseEnter(event, i)} onMouseLeave={(event) => handleMouseLeave(event, i)}>
             <div style={{ display: "flex", justifyContent: "space-between", color: "white" }}>
@@ -116,7 +139,7 @@ function ProductCard() {
 
             <CardMedia
               sx={{ height: 260, position: "relative" }}
-              image={image1}
+            // image={image1}
             >
               <Box sx={{
                 position: "absolute", display: "grid", top: "90px", left: "60px", height: "135px",
@@ -150,22 +173,35 @@ function ProductCard() {
             <CardContent sx={{ display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
               <h2 className='productcategory' style={{
                 textTransform: "uppercase", fontSize: "18 px", letterSpacing: ".2em", fontWeight: "550",
-                textAlign: "center", width: "60%", fontFamily: "marcellus"
+                textAlign: "center", width: "80%", fontFamily: "marcellus"
               }} >
-                airbrush matte
+                {product.name}
               </h2>
               <Typography variant='span' sx={{ textAlign: "center", width: "90%", paddingBottom: "10px", fontSize: "14px", opacity: ".5" }}>
-                skin-perfecting bronzed filter for the face
+                {/* {product.description} */}
               </Typography>
               <Button size="small"> <Rating name="read-only" defaultValue={4} /> </Button>
+              <div style={{width:"75%",display:"flex",justifyContent:"space-around"}}>
               <Typography sx={{
-                fontSize: "16px", fontWeight: "600", letterSpacing: ".8px", fontFamily: "inter", marginTop: "15px"
+                fontSize: "20px", fontWeight: "500", letterSpacing: ".8px", fontFamily: "inter", marginTop: "15px"
               }}>
-                $40.00
+                &#8377;{product.discounted_price}
               </Typography>
+              <Typography sx={{
+                fontSize: "15px", fontWeight: "400", letterSpacing: ".8px", fontFamily: "inter", marginTop: "15px",textDecorationLine:"line-through",opacity:".5"
+              }}>
+                &#8377;{product.price}
+              </Typography>
+              <Typography sx={{
+                fontSize: "13px", fontWeight: "600", letterSpacing: ".8px", fontFamily: "inter", marginTop: "15px",color:"#388e3c",verticalAlign:"sub"
+              }}>
+                &#8377;{product.discount_percent}%off
+              </Typography>
+              </div>
             </CardContent>
           </Card>
         ))}
+
         <Stack spacing={5} sx={{ position: "absolute", bottom: "20px", width: "100%", alignItems: "center" }} >
           <Pagination color="primary" size="large" shape="rounded"
             count={Math.ceil(data.length / itemsPerPage)}
@@ -174,9 +210,10 @@ function ProductCard() {
           />
         </Stack>
       </Box>
+      {loading ? <Loader /> : null}
     </>
 
   )
-}
+};
 
-export default ProductCard
+export default ProductCard;

@@ -9,6 +9,7 @@
 import { AmenityAPI } from "./AmenityAPI";
 import { CityAPI } from "./CityAPI";
 import { JobSeekerAPI } from "./JobSeekerAPI";
+import { ProductAPI } from "./ProductAPI";
 import { SalonAPI } from "./SalonAPI";
 import { SalonEmployeeAPI } from "./SalonEmployeeAPI";
 import { ServiceAPI } from "./ServiceAPI";
@@ -16,11 +17,11 @@ import { SkillAPI } from "./SkillAPI";
 import { StateAPI } from "./StateAPI";
 
 
-
 export default {
     AmenityAPI,
     CityAPI,
     JobSeekerAPI,
+    ProductAPI,
     SalonAPI,
     SalonEmployeeAPI,
     ServiceAPI,

@@ -58,7 +58,7 @@ function ProductCategories() {
                 <p style={{
                     fontSize: "12px", fontWeight: "500", lineHeight: "1.2", letterSpacing: "0.05em",
                     textTransform: "capitalize", margin: "4px 0px 18px 30px"
-                }}>{`Range : $${value[0]} - $${value[1]} `}</p>
+                }}>{`Range : ${value[0]} - $${value[1]} `}</p>
                 <Button type='submit' sx={{ margin: "20px 0 0 25px", border: "1px solid black", borderRadius: "0",
                  width: "75%", height: "40px", marginBottom: "30px" }}> Filter</Button>
                 <Divider />

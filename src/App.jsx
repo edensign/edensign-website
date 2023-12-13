@@ -25,6 +25,7 @@ import PrivacyPolicy from "./components/pages/privacyPolicy/PrivacyPolicy";
 import Salon from "./components/pages/salon/Salon";
 import SalonDetail from "./components/pages/salonDetail/SalonDetail";
 import Product from "./components/pages/products/Product";
+import ProductDetail from "./components/pages/products/ProductDetailPage";
 import Faq from "./components/pages/faq/Faq";
 // import Services from "./components/pages";
 // import PrivacyPolicy from "./components/pages";
@@ -67,6 +68,7 @@ function App() {
               <Route exact path='/products' element={<Product />} />
               <Route exact path='/salon/detail/:code' element={<SalonDetail />} />
               <Route exact path='/faq' element={<Faq/>} />
+              <Route exact path='/product/detail' element={<ProductDetail/>}/>
               {/* <Route path='/services' element={<Services />} /> */}
             </Routes>
             <Footer />

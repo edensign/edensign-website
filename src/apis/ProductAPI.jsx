@@ -9,7 +9,6 @@
 import { api } from "./config/axiosConfig";
 import { defineCancelApiObject } from "./config/axiosUtils";
 
-
 export const ProductAPI = {
     /** Get Products from the database that meets the specified query parameters
      */
@@ -20,6 +19,16 @@ export const ProductAPI = {
             url: `/get-products?page=${page}&size=${size}${queryParam}${searchParam}`,
             method: "GET",
             signal: cancel ? cancelApiObject[this.getAll.name].handleRequestCancellation().signal : undefined,
+        });
+        return response;
+    },
+    /** Get product list by joining 2 tables from the database
+     */
+    getProductList: async (cancel = false) => {
+        const { data: response } = await api.request({
+            url: `/get-product-list`,
+            method: "GET",
+            signal: cancel ? cancelApiObject[this.getProductList.name].handleRequestCancellation().signal : undefined,
         });
         return response;
     },

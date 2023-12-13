@@ -25,26 +25,17 @@ export const JobSeekerAPI = {
             genderParam = `${genderParam}&`;
         }
 
-        console.log("job-seeerAPI=>", page, size, skill, gender, experience, skillParam, genderParam, experienceParam);
+
+        console.log("job-seekerAPI=>", skill, gender, experience, skillParam, genderParam, experienceParam);
+        const cancelToken = cancel ? cancelApiObject.getJobSeekerDetail.handleRequestCancellation().token : undefined;
         const { data: response } = await api.request({
             url: `/get-job-seeker-detail/${page}/${size}?${skillParam}${genderParam}${experienceParam}`,
             method: "GET",
-            signal: cancel ? cancelApiObject[this.getJobSeekerDetail.name].handleRequestCancellation().signal : undefined,
+            cancelToken: cancelToken,
         });
         return response;
+        
     },
-
-    /** Get complete Job Seeker detail of a particular Job Seeker from the database
-     */
-    // getJobSeeker: async (JobSeeker_code, cancel = false) => {
-    //     const { data: response } = await api.request({
-    //         url: `/get-job-seeker-detail`,
-    //         method: "POST",
-    //         data: id,
-    //         signal: cancel ? cancelApiObject[this.getJobSeekerDetail.name].handleRequestCancellation().signal : undefined,
-    //     });
-    //     return response;
-    // }
 };
 
 // defining the cancel API object for JobSeekerAPI

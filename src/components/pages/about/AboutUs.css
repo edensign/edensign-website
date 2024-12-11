@@ -4,6 +4,7 @@
   background-size: 200px;
   /* Adjust animation duration and timing function as needed */
   animation: slideAnimation 60s linear infinite;
+  
 }
 
 @keyframes slideAnimation {

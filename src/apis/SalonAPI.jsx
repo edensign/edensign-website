@@ -26,13 +26,40 @@ export const SalonAPI = {
 
     /** Get salon list by joining 2 tables from the database
      */
-    getSalonList: async (gender=null,cancel = false) => {
+    getSalonList: async (category = [], gender = null, cancel = false) => {
         let genderParam = gender ? `gender=${gender}` : '';
+        let categoryParam = '';
+    
+        if (category.length > 0) {
+            categoryParam = category.map(item => {
+                if (item === 'Featured') {
+                    return 'is_featured=1';
+                } else if (item === 'Franchise') {
+                    return 'is_franchise=1';
+                }
+                // Handle other categories if needed
+                // For simplicity, let's assume other categories are included as is
+                return item;
+            }).join('&');
+        }
+
+        if (categoryParam && genderParam) {
+            categoryParam = `${categoryParam}&`  
+        }
+       
+
+        console.log('salon category=>', category);
+        console.log('salon categoryParam=>', categoryParam);
         const { data: response } = await api.request({
-            url: `/get-salon-list${genderParam}`,
+            url: `/get-salon-list?${categoryParam}${genderParam}`,
             method: "GET",
+            // data: {
+            //     category : category,
+            //     gender: gender
+            // },
             signal: cancel ? cancelApiObject[this.getSalonList.name].handleRequestCancellation().signal : undefined,
         });
+        console.log(response);
         return response;
     },
 

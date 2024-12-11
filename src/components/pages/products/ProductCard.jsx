@@ -5,47 +5,53 @@
  * restricted rights software. The use,reproduction, or disclosure of this software is subject to
  * restrictions set forth in your license agreement with Eden Sign.
  */
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import { Box, Button, Divider, MenuItem, Select, Rating } from '@mui/material';
+import Pagination from '@mui/material/Pagination';
+// import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import image1 from "../../assets/productimage1.webp"
-import { Box, Button, Divider, MenuItem, Select, Rating } from '@mui/material';
-import Pagination from '@mui/material/Pagination';
-import Stack from '@mui/material/Stack';
-// import StarRating from '../../common/StarRating';
+
 
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 
-import ProductDialogBox from './ProductDialogBox';
+import API from '../../../apis';
+import { setProducts } from '../../../redux/actions/ProductAction';
+import ProductDetailPage from './ProductDetailPage';
 import Toast from "../../common/Toast";
+import Loader from "../../common/Loader";
+import StarRating from '../../common/StarRating';
 import "../products/Product.css"
 
-function ProductCard() {
+const ENV = import.meta.env;
 
-  const [isVisible, setIsVisible] = useState("hidden");
+function ProductCard() {
   const [alert, setAlert] = useState(false);
   const [severity, setSeverity] = useState("");
   const [message, setMessage] = useState("");
 
   const [hoveredCard, setHoveredCard] = useState(null);
-  const [cardImage, setCardImage] = useState(null);
-  const [openDialog, setOpenDialog] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const itemsPerPage = 7;
-  const data = Array(10).fill(null);
+  const navigateTo = useNavigate();
+  const dispatch = useDispatch();
+  const { listData, loading } = useSelector(state => state.allProducts);
+  const imgURL = `${ENV.VITE_SAS_URL}/product`;
+
+  const itemsPerPage = 6;
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const DisplayedData = data.slice(startIndex, endIndex);
+  const currentProducts = listData?.slice(startIndex, endIndex);
 
   const handlePageChange = (event, page) => {
     setCurrentPage(page);
     window.scrollTo(0, 300);
   };
-
 
   const handleMouseEnter = (event, cardNumber) => {
     setHoveredCard(cardNumber);
@@ -55,9 +61,10 @@ function ProductCard() {
     setHoveredCard(null);
   };
 
-  const handleEyeClick = (event) => {
-    setOpenDialog(true);
-  };
+  const handleEyeClick = (event, product) => {
+    navigateTo("/product/detail", { state: { details: product } });
+    // navigateTo(`/salon/detail/update/${id}`, );
+  }
 
 
   function AddToCart() {
@@ -67,13 +74,27 @@ function ProductCard() {
     setTimeout(() => {
       setAlert(false);
     }, 2000);
-  }
+  };
 
-  const spanElement = <span style={{ backgroundColor: "black", fontSize: "15px" }}>-11%</span>
-  const spanElement2 = <span style={{
-    backgroundColor: "#e4c1b1", textTransform: "uppercase", fontSize: "12px",
-    width: "70px", textAlign: "center"
-  }}>featured</span>
+
+  const getProducts = () => {
+    API.ProductAPI.getProductList()
+      .then(res => {
+        if (res.status === "Success") {
+          dispatch(setProducts({ listData: res.data, loading: false }))
+        } else {
+          dispatch(setProducts({ listData: [], loading: false }))
+        }
+      })
+      .catch(error => {
+        throw error;
+      });
+  };
+
+
+  React.useEffect(() => {
+    getProducts();
+  }, []);
 
 
   return (
@@ -82,17 +103,15 @@ function ProductCard() {
         severity={severity}
         message={message}
       />
-      <ProductDialogBox openDialog={openDialog} setOpenDialog={setOpenDialog} image={image1} span={spanElement} span1={spanElement2} />
-
 
       <Box sx={{
-        display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", marginRight: "10px", width: "75%", position: "relative"
+        display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", marginRight: "5px", width: "75%", position: "relative",height:"70vh"
       }}>
         <Box sx={{
           display: "block", position: "absolute", top: "30px", left: "70px", width: "90%", opacity: ".62",
           textTransform: "uppercase"
         }}>
-          <span> showing {startIndex + 1}-{endIndex > data.length ? `${data.length}` : endIndex} of {data.length} result </span>
+          <span> showing {startIndex + 1}-{endIndex > listData.length ? `${listData.length}` : endIndex} of {listData.length} result </span>
           <Select defaultValue={"menu order"} size='small' style={{ float: "right", fontSize: "12px", bottom: "9px" }} >
             <MenuItem value="menu order" selected="selected">Default Sorting</MenuItem>
             <MenuItem value="popularity">Sort By Popularity</MenuItem>
@@ -101,26 +120,32 @@ function ProductCard() {
             <MenuItem value="price">Sort By Price: low to high</MenuItem>
             <MenuItem value="price-desc">Sort By PRICE: high to low</MenuItem>
 
-
-
           </Select>
         </Box>
 
-        {DisplayedData.map((_, i) => (
-
-          <Card key={i} sx={{ height: "87vh", margin: "70px 0 70px 70px", borderRadius: "0", position: "relative" }}
+        {currentProducts?.map((product, i) => (
+          <Card key={i} sx={{
+            height: "70vh", margin: "70px 0 20px 20px", borderRadius: "0", position: "relative", display: 'flex', alignItems: 'center',
+            justifyContent: 'center', flexDirection: 'column'
+          }}
             onMouseEnter={(event) => handleMouseEnter(event, i)} onMouseLeave={(event) => handleMouseLeave(event, i)}>
-            <div style={{ display: "flex", justifyContent: "space-between", color: "white" }}>
-              {spanElement}{spanElement2}
+            <div style={{
+              width: "100%", display: "flex", justifyContent: "flex-start", color: "white"
+            }}>
+              <span style={{
+                backgroundColor: "#e4c1b1", textTransform: "uppercase", fontSize: "12px", textAlign: "center",
+                padding: '3px', borderRadius: '4px', fontWeight: "300", lineHeight: "22px", letterSpacing: "0.1em"
+              }}>
+                {product.is_bestseller ? "Bestseller" : ""}</span>
             </div>
 
             <CardMedia
-              sx={{ height: 260, position: "relative" }}
-              image={image1}
+              sx={{ height: 250, backgroundSize: "contain" }}
+              image={`${imgURL}/${product.image_sources.split(',')[0]}`}
             >
               <Box sx={{
-                position: "absolute", display: "grid", top: "90px", left: "60px", height: "135px",
-                gridTemplateColumns: "repeat(2, minmax(0, 1fr))", rowGap: "50px"
+                display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", rowGap: "10px", alignItems: 'center',
+                justifyContent: 'center', marginTop: "100px", marginLeft: "85px"
               }}
 
               >
@@ -128,9 +153,9 @@ function ProductCard() {
                   width: "20px", visibility: 'hidden', border: "1px solid black",
                   borderRadius: "0", backgroundColor: "white"
                 }}
-                  onClick={(event) => handleEyeClick(event)}
-                >
-                  <RemoveRedEyeOutlinedIcon /></Button>
+                  onClick={(event) => handleEyeClick(event, product)} >
+
+                  <RemoveRedEyeOutlinedIcon /> </Button>
 
                 <Button className={hoveredCard === i ? 'btn-visibility' : ''} sx={{
                   width: "20px", visibility: 'hidden', border: "1px solid black",
@@ -146,37 +171,55 @@ function ProductCard() {
               </Box>
             </CardMedia>
 
-            <Divider></Divider>
-            <CardContent sx={{ display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column" }}>
-              <h2 className='productcategory' style={{
-                textTransform: "uppercase", fontSize: "18 px", letterSpacing: ".2em", fontWeight: "550",
-                textAlign: "center", width: "60%", fontFamily: "marcellus"
-              }} >
-                airbrush matte
+            {/* <Divider sx={{ height: '50px' }} /> */}
+            <CardContent sx={{
+              display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column"
+            }}>
+              <h2 className='productcategory'
+                style={{
+                  textTransform: "uppercase", fontSize: "16px", letterSpacing: ".2em", fontWeight: "550",
+                  textAlign: "center", fontFamily: "marcellus"
+                }}>
+                {product.brand} {product.name}
               </h2>
-              <Typography variant='span' sx={{ textAlign: "center", width: "90%", paddingBottom: "10px", fontSize: "14px", opacity: ".5" }}>
-                skin-perfecting bronzed filter for the face
-              </Typography>
-              <Button size="small"> <Rating name="read-only" defaultValue={4} /> </Button>
-              <Typography sx={{
-                fontSize: "16px", fontWeight: "600", letterSpacing: ".8px", fontFamily: "inter", marginTop: "15px"
+              <Typography variant='span' sx={{
+                textAlign: "center", width: "90%", paddingBottom: "10px", fontSize: "13px", opacity: ".5"
               }}>
-                $40.00
+                {/* {product.description} */}
               </Typography>
+              <Rating name="read-only" defaultValue={3.5} readOnly />
+              <Box style={{ display: "flex", alignItems: 'center' }}>
+                <span style={{ fontSize: "18px", fontWeight: "500", letterSpacing: ".8px", fontFamily: "inter", marginTop: "15px", width: "40%",
+                 marginRight:"26px" }}>
+                  &#8377;{product.discounted_price}
+                </span>
+                <span style={{ fontSize: "15px", fontWeight: "400", letterSpacing: ".8px", fontFamily: "inter", marginTop: "15px", 
+                 textDecorationLine: "line-through", opacity: ".5", width: "30%", textAlign: "center",marginRight:"26px" }}>
+                  &#8377;{product.price}
+                </span>
+                <span style={{ fontSize: "12px", fontWeight: "400", letterSpacing: ".8px", fontFamily: "inter", marginTop: "15px", color: "green",
+                 textTransform: "uppercase", width: "130%", textAlign: "center" }}>
+                  &#8377;{product.discount_percent.toFixed(0)}% off
+                </span>
+              </Box>
+
             </CardContent>
           </Card>
         ))}
-        <Stack spacing={5} sx={{ position: "absolute", bottom: "20px", width: "100%", alignItems: "center" }} >
+
+       
           <Pagination color="primary" size="large" shape="rounded"
-            count={Math.ceil(data.length / itemsPerPage)}
+            count={Math.ceil(listData.length / itemsPerPage)}
             page={currentPage}
             onChange={handlePageChange}
+            sx={{ gridColumn: "span 3", marginTop: "20px", marginBottom: "20px", display: "flex", justifyContent: "center" }}
           />
-        </Stack>
+        
       </Box>
+      {loading ? <Loader /> : null}
     </>
 
   )
-}
+};
 
-export default ProductCard
+export default ProductCard;

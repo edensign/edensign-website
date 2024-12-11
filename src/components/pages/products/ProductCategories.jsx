@@ -24,7 +24,7 @@ function ProductCategories() {
 
     return (
         <div style={{ display: "flex", backgroundColor: "rgb(236,236,236)" }}>
-            <Box sx={{ width: "19%", margin: "40px 0 0 70px", backgroundColor: "white",height:"215vh",marginBottom:"50px" }}>
+            <Box sx={{ width: "19%", margin: "40px 0 0 10px", backgroundColor: "white",height:"215vh",marginBottom:"50px" }}>
                 <h1 style={{ margin: "12px", letterSpacing: ".2em", textTransform: "uppercase", fontWeight: "500",
                  fontSize: "17px" }}>product categories</h1>
                 <List sx={{ margin: "20px", display: "flex", flexDirection: "column", fontWeight: "300", fontSize: "17px", letterSpacing: "0.05em" }}>
@@ -58,7 +58,7 @@ function ProductCategories() {
                 <p style={{
                     fontSize: "12px", fontWeight: "500", lineHeight: "1.2", letterSpacing: "0.05em",
                     textTransform: "capitalize", margin: "4px 0px 18px 30px"
-                }}>{`Range : $${value[0]} - $${value[1]} `}</p>
+                }}>{`Range : ${value[0]} - $${value[1]} `}</p>
                 <Button type='submit' sx={{ margin: "20px 0 0 25px", border: "1px solid black", borderRadius: "0",
                  width: "75%", height: "40px", marginBottom: "30px" }}> Filter</Button>
                 <Divider />

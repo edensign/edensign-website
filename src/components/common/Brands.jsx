@@ -8,12 +8,16 @@
 
 import { Box, List, ListItemButton, Typography } from "@mui/material";
 import InstagramIcon from '@mui/icons-material/Instagram';
+import { Link } from "react-router-dom";
 
 
 const Brands = () => {
 
     const brandSectionUrl = "https://edensign1.blob.core.windows.net/image-storage/";
-
+    const handleBoxClick = () => {
+       
+        window.open ('https://instagram.com/edensign.in?igshid=NzZlODBkYWE4Ng==','_blank');
+      };
     return (
         <Box sx={{ height: "96vh", width: "100%", marginBottom: "8%", position: "relative" }}>
             <Box display="flex" justifyContent="center" marginBottom="6%"
@@ -87,15 +91,24 @@ const Brands = () => {
                 }} />
             </Box>
             <Box sx={{
-                height: "50vh", width: "24%", backgroundColor: "#ffffff", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "absolute", left: "38%", top: "32%", opacity: "0.9", "&:hover": { color: "#ffdde1", cursor: "pointer" }
-            }}>
-                <InstagramIcon sx={{ height: "18px", width: "18px", fontSize: "18px", lineHeight: "1", display: "block", borderColor: "#868686" }} />
+                height: "50vh", width: "24%", backgroundColor: "#ffffff", display: "flex", flexDirection: "column", justifyContent: "center",
+                alignItems: "center", position: "absolute", left: "38%", top: "32%", opacity: "0.9",
+                "&:hover": {
+                    color: "#ffdde1", cursor: "pointer"
+                },
+                
+            }} onClick= {handleBoxClick}> 
+                <InstagramIcon sx={{
+                    height: "18px", width: "18px", fontSize: "18px", lineHeight: "1", display: "block", borderColor: "#868686"
+                }} />
                 <Typography sx={{
-                    textTransform: "uppercase", letterSpacing: "0.5em", fontSize: "16px", fontFamily: "Marcellus,sans-serif", fontWeight: "400", lineHeight: "28px", paddingTop: "10px"
+                    textTransform: "uppercase", letterSpacing: "0.5em", fontSize: "16px", fontFamily: "Marcellus,sans-serif",
+                    fontWeight: "400", lineHeight: "28px", paddingTop: "10px"
                 }}>
                     instagram </Typography>
                 <Typography sx={{
-                    textTransform: "uppercase", letterSpacing: "0.2em", fontSize: "12px", fontFamily: "Inter, sans-serif", lineHeight: "25px"
+                    textTransform: "uppercase", letterSpacing: "0.2em", fontSize: "12px", fontFamily: "Inter, sans-serif",
+                    lineHeight: "25px"
                 }}>
                     @edensign </Typography>
             </Box>

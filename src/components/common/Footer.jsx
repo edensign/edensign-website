@@ -16,6 +16,7 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import YouTubeIcon from '@mui/icons-material/YouTube';
+import { Link } from 'react-router-dom';
 
 import { tokens } from "../../theme";
 import bg from "../assets/footer_bg.jpg";
@@ -23,15 +24,19 @@ import bg from "../assets/footer_bg.jpg";
 function Footer() {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+    const handleInstagramClick = () => {
+        window.open('https://instagram.com/edensign.in?igshid=NzZlODBkYWE4Ng==', '_blank');
+    };
 
     return (
         <Box color="white" id="bottom-bar" position="relative" sx={{ backgroundImage: `url(${bg})`, backgroundPosition: "center center", backgroundRepeat: "repeat", backgroundSize: "300px auto", padding: "20px 0" }}>
             <Box display="flex" justifyContent="center">
                 <List component='nav' sx={{ display: "inline-flex", alignItems: "flex-start" }}>
                     <ListItemButton className="list">
-                        <ListItemText primary="ABOUT US" sx={{ marginRight: "30px" }} primaryTypographyProps={{
-                            fontWeight: "500", fontSize: "12px", fontFamily: "Inter, sans-serif", lineHeight: "1", letterSpacing: "0.13em"
-                        }} />
+                        <Link to="/about" style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <ListItemText primary="ABOUT " sx={{ marginRight: "30px" }} primaryTypographyProps={{
+                                fontWeight: "500", fontSize: "12px", fontFamily: "Inter, sans-serif", lineHeight: "1", letterSpacing: "0.13em"
+                            }} />  </Link>
                         <FiberManualRecordIcon sx={{ fontSize: "4px" }} />
                     </ListItemButton>
                     <ListItemButton className="list">
@@ -53,9 +58,10 @@ function Footer() {
                         <FiberManualRecordIcon sx={{ fontSize: "4px" }} />
                     </ListItemButton>
                     <ListItemButton className="list">
-                        <ListItemText primary="CONTACT" primaryTypographyProps={{
-                            fontWeight: "500", fontSize: "12px", fontFamily: "Inter, sans-serif", lineHeight: "1", letterSpacing: "0.13em"
-                        }} />
+                        <Link to="/contact" style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <ListItemText primary="CONTACT" primaryTypographyProps={{
+                                fontWeight: "500", fontSize: "12px", fontFamily: "Inter, sans-serif", lineHeight: "1", letterSpacing: "0.13em"
+                            }} /></Link>
                     </ListItemButton>
                 </List>
             </Box>
@@ -90,10 +96,10 @@ function Footer() {
                     <List component='nav' sx={{
                         display: "inline-flex", color: colors.redAccent[800], width: "90%"
                     }}>
-                        <ListItemButton className="list" sx={{ paddingRight: "7px" }}>
+                        <ListItemButton className="list" sx={{ paddingRight: "7px" }} >
                             <FacebookIcon sx={{ fontSize: "14px", "&:hover": { color: "#ffffff" } }} />
                         </ListItemButton>
-                        <ListItemButton className="list" sx={{ paddingRight: "7px" }}>
+                        <ListItemButton className="list" sx={{ paddingRight: "7px" }} onClick={handleInstagramClick} >
                             <InstagramIcon sx={{ fontSize: "14px", "&:hover": { color: "#ffffff" } }} />
                         </ListItemButton>
                         <ListItemButton className="list" sx={{ paddingRight: "7px" }}>
@@ -123,9 +129,11 @@ function Footer() {
                 </Typography>
                 <List component='nav' sx={{ display: "inline-flex", padding: "0", marginRight: "-34px" }}>
                     <ListItemButton className="list">
-                        <ListItemText primary="PRIVACY POLICY" primaryTypographyProps={{
-                            fontSize: "11px", marginRight: "10px"
-                        }} />
+                        <Link to="/privacy-policy" style={{ textDecoration: 'none', color: 'inherit' }} >
+                            <ListItemText primary="PRIVACY POLICY" primaryTypographyProps={{
+                                fontSize: "11px", marginRight: "10px"
+                            }} /></Link>
+
                         <FiberManualRecordIcon sx={{ fontSize: "4px" }} />
                     </ListItemButton>
                     <ListItemButton className="list" sx={{ paddingLeft: "0" }}>
@@ -135,7 +143,9 @@ function Footer() {
                         <FiberManualRecordIcon sx={{ fontSize: "4px" }} />
                     </ListItemButton>
                     <ListItemButton className="list" sx={{ paddingLeft: "0" }}>
+                        <Link to="/faq" style={{textDecoration:"none",color:"inherit"}}>
                         <ListItemText primary="FAQ" primaryTypographyProps={{ fontSize: "11px" }} />
+                        </Link>
                     </ListItemButton>
                 </List>
             </Box>

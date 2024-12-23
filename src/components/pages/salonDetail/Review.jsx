@@ -203,7 +203,7 @@ const Review = () => {
                             John Doe
                         </h4>
                         <p style={{ width: "78%", fontWeight: "300", fontSize: "13px", lineHeight: "26px", letterSpacing: "0.1em", textAlign: "center" }}> Lorem ipsum dolor sit amet, in nam denique suavitate repudiandae, homero dictas omnesque duo et. Novum dignissim consectetuer ei mel. Ne patrioque consequat persequeris</p>
-                        <img src="https://edensign1.blob.core.windows.net/image-storage/header/photo1.jpg" />
+                        <img src="https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/header/photo1.jpg" />
                     </Box>
 
                     <Box className='review-testimonial-sliding'>
@@ -214,7 +214,7 @@ const Review = () => {
                             Esra Bilgic
                         </h4>
                         <p style={{ width: "78%", fontWeight: "300", fontSize: "13px", lineHeight: "26px", letterSpacing: "0.1em", textAlign: "center" }}> Lorem ipsum dolor sit amet, in nam denique suavitate repudiandae, homero dictas omnesque duo et. Novum dignissim consectetuer ei mel. Ne patrioque consequat persequeris</p>
-                        <img src="https://edensign1.blob.core.windows.net/image-storage/header/photo2.jpg" />
+                        <img src="https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/header/photo2.jpg" />
                     </Box>
 
                     <Box className='review-testimonial-sliding'>
@@ -225,7 +225,7 @@ const Review = () => {
                             Tom Cruize
                         </h4>
                         <p style={{ width: "78%", fontWeight: "300", fontSize: "13px", lineHeight: "26px", letterSpacing: "0.1em", textAlign: "center" }}> Lorem ipsum dolor sit amet, in nam denique suavitate repudiandae, homero dictas omnesque duo et. Novum dignissim consectetuer ei mel. Ne patrioque consequat persequeris</p>
-                        <img src="https://edensign1.blob.core.windows.net/image-storage/header/photo3.jpg" />
+                        <img src="https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/header/photo3.jpg" />
 
                     </Box>
 

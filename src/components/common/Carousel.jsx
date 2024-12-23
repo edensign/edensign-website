@@ -59,19 +59,19 @@ const Carousel = () => {
                 <span className='header-span1'> collection</span>
                 <span className='header-span2'> forever beautiful</span>
                 <span className='header-span3'> This collection focuses on natural, plant-based ingredients to help customers achieve a radiant and healthy glow.</span>
-                <img src="https://edensign1.blob.core.windows.net/image-storage/header/photo1.jpg" />
+                <img src="https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/header/photo1.jpg" />
             </Box>
             <Box className='sliding'>
                 <span className='header-span1'> new collection</span>
                 <span className='header-span2'> jozy and marco</span>
                 <span className='header-span3'> This collection is all about making a statement with vibrant colors and bold finishes.</span>
-                <img src="https://edensign1.blob.core.windows.net/image-storage/header/photo2.jpg" />
+                <img src="https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/header/photo2.jpg" />
             </Box>
             <Box className='sliding'>
                 <span className='header-span1'> article</span>
                 <span className='header-span2'> princess story</span>
                 <span className='header-span3'> This story is perfect for customers who prefer a minimalist approach to makeup.</span>
-                <img src="https://edensign1.blob.core.windows.net/image-storage/header/photo3.jpg" />
+                <img src="https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/header/photo3.jpg" />
             </Box>
 
             <span className='arrow' style={{ left: "4%" }} onClick={() => controller(-1)}>&#10094;</span>

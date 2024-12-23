@@ -19,7 +19,7 @@ const ImageContainer = () => {
             <Grid item xs={6} md={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
                 <Box
                     sx={{ height: "100%", width: isMobile ? "100%" : "80%" }}>
-                    <img src="https://edensign1.blob.core.windows.net/image-storage/makeup/skincare-closeup.jpg" className='collection-img' alt="new-collection" />
+                    <img src="https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/makeup/skincare-closeup.jpg" className='collection-img' alt="new-collection" />
                 </Box>
             </Grid>
             <Grid item xs={6} md={6}>

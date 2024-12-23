@@ -21,23 +21,23 @@ const Brands = () => {
     return (
         <Box sx={{ height: "96vh", width: "100%", marginBottom: "8%", position: "relative" }}>
             <Box display="flex" justifyContent="center" marginBottom="6%"
-                sx={{ backgroundImage: `url(${brandSectionUrl}brands/bg2.png)`, backgroundSize: "cover", backgroundRepeat: "repeat" }}>
+                sx={{ backgroundImage: `url(https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brands/bg2.png)`, backgroundSize: "cover", backgroundRepeat: "repeat" }}>
                 <List component='nav' sx={{ display: "inline-flex", alignItems: "center" }}>
                     <ListItemButton sx={{ "&:hover": { background: "transparent" } }}>
                         <Box sx={{
-                            height: "20px", width: "108px", padding: "8px 25px", backgroundImage: `url(${brandSectionUrl}brands/loreal.jpg)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", opacity: "0.4", transition: "all 0.2s ease",
+                            height: "20px", width: "108px", padding: "8px 25px", backgroundImage: `url(https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brands/loreal.jpg)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", opacity: "0.4", transition: "all 0.2s ease",
                             "&:hover": { opacity: "1", transform: "scale(1.2)" }
                         }} />
                     </ListItemButton>
                     <ListItemButton sx={{ "&:hover": { background: "transparent" } }}>
                         <Box sx={{
-                            height: "20px", width: "100px", padding: "8px 25px", backgroundImage: `url(${brandSectionUrl}brands/aerin.jpg)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", opacity: "0.4", transition: "all 0.2s ease",
+                            height: "20px", width: "100px", padding: "8px 25px", backgroundImage: `url(https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brands/aerin.jpg)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", opacity: "0.4", transition: "all 0.2s ease",
                             "&:hover": { opacity: "1", transform: "scale(1.2)" }
                         }} />
                     </ListItemButton>
                     <ListItemButton sx={{ "&:hover": { background: "transparent" } }}>
                         <Box sx={{
-                            height: "20px", width: "140px", padding: "8px 25px", backgroundImage: `url(${brandSectionUrl}brands/mac.jpg)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", opacity: "0.4", transition: "all 0.2s ease",
+                            height: "20px", width: "140px", padding: "8px 25px", backgroundImage: `url(https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brands/mac.jpg)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", opacity: "0.4", transition: "all 0.2s ease",
                             "&:hover": { opacity: "1", transform: "scale(1.2)" }
                         }} />
                     </ListItemButton>
@@ -51,19 +51,19 @@ const Brands = () => {
 
                     <ListItemButton sx={{ "&:hover": { background: "transparent" } }}>
                         <Box sx={{
-                            height: "48px", width: "130px", padding: "8px 25px", backgroundImage: `url(${brandSectionUrl}brands/revlon.png)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", opacity: "0.4", transition: "all 0.2s ease",
+                            height: "48px", width: "130px", padding: "8px 25px", backgroundImage: `url(https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brands/revlon.png)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", opacity: "0.4", transition: "all 0.2s ease",
                             "&:hover": { opacity: "1", transform: "scale(1.2)" }
                         }} />
                     </ListItemButton>
                     <ListItemButton sx={{ "&:hover": { background: "transparent" } }}>
                         <Box sx={{
-                            height: "20px", width: "180px", padding: "8px 25px", backgroundImage: `url(${brandSectionUrl}brands/fable.jpg)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", opacity: "0.4", transition: "all 0.2s ease",
+                            height: "20px", width: "180px", padding: "8px 25px", backgroundImage: `url(https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brands/fable.jpg)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", opacity: "0.4", transition: "all 0.2s ease",
                             "&:hover": { opacity: "1", transform: "scale(1.2)" }
                         }} />
                     </ListItemButton>
                     <ListItemButton sx={{ "&:hover": { background: "transparent" } }}>
                         <Box sx={{
-                            height: "76px", width: "150px", padding: "8px 35px", backgroundImage: `url(${brandSectionUrl}brands/schwar.jpg)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", opacity: "0.4", transition: "all 0.2s ease",
+                            height: "76px", width: "150px", padding: "8px 35px", backgroundImage: `url(https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brands/schwar.jpg)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", opacity: "0.4", transition: "all 0.2s ease",
                             "&:hover": { opacity: "1", transform: "scale(1.2)" }
                         }} />
                     </ListItemButton>
@@ -72,22 +72,22 @@ const Brands = () => {
 
             <Box display="flex" justifyContent="center" alignItems="center">
                 <Box sx={{
-                    height: "40vh", width: "18%", backgroundImage: `url(${brandSectionUrl}brandImg/brandImg.jpg)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover"
+                    height: "40vh", width: "18%", backgroundImage: `url(https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brandImg/brandImg.jpg)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover"
                 }} />
                 <Box sx={{
-                    height: "40vh", width: "18%", backgroundImage: `url(${brandSectionUrl}brandImg/brandImg2.jpg)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", marginTop: "8%"
+                    height: "40vh", width: "18%", backgroundImage: `url(https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brandImg/brandImg2.jpg)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", marginTop: "8%"
                 }} />
                 <Box sx={{
-                    height: "40vh", width: "18%", backgroundImage: `url(${brandSectionUrl}brandImg/brandImg3.jpg)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", marginTop: "-8%"
+                    height: "40vh", width: "18%", backgroundImage: `url(https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brandImg/brandImg3.jpg)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", marginTop: "-8%"
                 }} />
                 <Box sx={{
-                    height: "40vh", width: "18%", backgroundImage: `url(${brandSectionUrl}brandImg/brandImg4.jpg)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", marginTop: "14%"
+                    height: "40vh", width: "18%", backgroundImage: `url(https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brandImg/brandImg4.jpg)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", marginTop: "14%"
                 }} />
                 <Box sx={{
-                    height: "40vh", width: "18%", backgroundImage: `url(${brandSectionUrl}brandImg/brandImg5.jpg)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", marginTop: "-4%"
+                    height: "40vh", width: "18%", backgroundImage: `url(https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brandImg/brandImg5.jpg)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", marginTop: "-4%"
                 }} />
                 <Box sx={{
-                    height: "40vh", width: "18%", backgroundImage: `url(${brandSectionUrl}brandImg/brandImg6.jpg)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", marginTop: "8%"
+                    height: "40vh", width: "18%", backgroundImage: `url(https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brandImg/brandImg6.jpg)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", marginTop: "8%"
                 }} />
             </Box>
             <Box sx={{

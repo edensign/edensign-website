@@ -24,53 +24,43 @@ function ProductDetailPage() {
     // const fullScreen = useMediaQuery(theme.breakpoints.down('900px'));
     const isMobile = useMediaQuery("(max-width:480px)");
     const isTab = useMediaQuery("(max-width:920px)");
-    const imgURL = `${ENV.VITE_SAS_URL}/product`;
+    const { state } = useLocation();
+    const { product, productImg } = state?.details || {};
 
     const [isInWishlist, setIsInWishlist] = useState(false);
-    const [Num, setNum] = useState(1);
-    const { state } = useLocation();
-    const [selectedImage, setSelectedImage] = useState(`${imgURL}/${state?.details?.image_sources.split(',')[0]}`);
-    const unitPrice = state?.details?.discounted_price ?? 0;
-    const totalPrice = unitPrice * Num;
-
-
-    const handleThumbnailClick = (image) => {
-        setSelectedImage(image);
-    };
-
-    console.log("AAA", state, selectedImage)
+    const [quantity, setQuantity] = useState(1);
+    const [selectedImage, setSelectedImage] = useState(productImg);
+    const unitPrice = product?.discounted_price ?? 0;
+    const totalPrice = unitPrice * quantity;
 
     const toggleWishlist = () => {
         setIsInWishlist(!isInWishlist);
     };
-    const handleIncreasingitem = () => {
-        setNum(Num + 1);
-    }
-    const handleDecreasingitem = () => {
-        if (Num > 1) {
-            setNum(Num - 1);
-        }
-    }
+
+    const handleIncreaseQuantity = () => setQuantity(quantity + 1);
+    const handleDecreaseQuantity = () => {
+        if (quantity > 1) setQuantity(quantity - 1);
+    };
 
     return (
         <Box sx={{ backgroundColor: "#f7f7f7", display: "flex", alignItems: "center", justifyContent: "center" }}>
             <div style={{ width: "75%", marginTop: "90px", height: "100%", display: "flex" }}>
                 <List sx={{ width: "10%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-start" }}>
-                    {state.details?.image_sources.split(',').map((image, index) => (
+                    {/* {state.details?.image_sources.split(',').map((image, index) => (
                         <ListItem
                             key={index}
-                            onClick={() => handleThumbnailClick(`${imgURL}/${image}`)}
+                            onClick={() => handleThumbnailClick(selectedImage)}
                         >
                             <img
-                                src={`${imgURL}/${image}`}
+                                src={selectedImage}
                                 alt={`Thumbnail ${index + 1}`}
                                 style={{ width: "70px", cursor: "pointer" }}
                             />
                         </ListItem>
-                    ))}
+                    ))} */}
                 </List>
-
-                <Box sx={{ width: "30%", marginRight: "10px", height: "100%",display:"flex",flexDirection:"column" }} >
+                {/* Image Section */}
+                <Box sx={{ width: "30%", marginRight: "10px", height: "100%", display: "flex", flexDirection: "column" }} >
                     <ReactImageMagnify
 
                         {...{
@@ -90,75 +80,79 @@ function ProductDetailPage() {
                             shouldUsePositiveSpaceLens: true,
                         }}
                     />
-                <Box sx={{width:"128%",backgroundColor:"blue",marginTop:"10px",marginLeft:"-85px",height:"180px"}}>
-                <Typography style={{padding:"10px"}}>capacity: {state.details?.capacity}</Typography>
-                <div style={{display:"flex"}}>
-                <Button variant="outlined">Outlined</Button>
-                </div>
+                    {/* <Box sx={{ width: "128%", backgroundColor: "blue", marginTop: "10px", marginLeft: "-85px", height: "180px" }}>
+                        <div style={{ display: "flex" }}>
+                            <Button variant="outlined">Outlined</Button>
+                        </div>
+                    </Box> */}
                 </Box>
-                </Box>
+                {/* Details Section */}
                 <ListItem sx={{
-                    width: "55%", height: "200vh", display: "flex", flexDirection: "column",
-                    textTransform: "uppercase", bgcolor: 'white'
+                    width: "55%", height: "81vh", display: "flex", flexDirection: "column",
+                    textTransform: "uppercase", bgcolor: 'white', marginBottom: '40px', paddingTop: '40px'
                 }}>
                     <Box sx={{ width: "90%" }}>
-                        <h2 style={{ letterSpacing: ".2em", fontFamily: "marcellus", fontWeight: "400" }}>{state.details?.brand} {state.details?.name}</h2>
-                        <p style={{ textTransform: "none", opacity: "0.6" }}>{state.details?.description}</p>
-                        <div style={{ display: "flex", width: "60%" }}>
-                            <Typography sx={{
-                                textAlign: "center", width: "75%", fontSize: "16.5px", fontWeight: "520",
-                                letterSpacing: ".8px", fontFamily: "inter"
-                            }}>
-                                &#8377; {totalPrice.toFixed(2)}
+                        <Typography
+                            variant="h4"
+                            sx={{ letterSpacing: ".2em", fontFamily: "marcellus", fontWeight: "400", marginBottom: "10px" }}
+                        >
+                            {product?.brand} {product?.name}
+                        </Typography>
+                        <Typography sx={{ textTransform: "none", opacity: "0.6", marginBottom: "20px" }}>
+                            {product?.description}
+                        </Typography>
+                        <div style={{ display: "flex", marginBottom: "20px" }}>
+                            <Typography sx={{ fontSize: "18px", fontWeight: "520", marginRight: "20px" }}>
+                                ₹{totalPrice.toFixed(2)}
                             </Typography>
-                            <Typography sx={{
-                                textAlign: "center", width: "75%", fontSize: "16.5px", fontWeight: "520",
-                                letterSpacing: ".8px", fontFamily: "inter", textDecoration: "line-through", opacity: ".6"
-                            }}>
-                                &#8377; {state?.details?.price ?? 0}
+                            <Typography
+                                sx={{ fontSize: "16px", fontWeight: "400", textDecoration: "line-through", opacity: "0.6", marginRight: "20px" }}
+                            >
+                                ₹{product?.price ?? 0}
                             </Typography>
-                            <Typography sx={{
-                                textAlign: "center", width: "75%", fontSize: "12.5px", fontWeight: "500",
-                                letterSpacing: ".8px", fontFamily: "inter", color: "green",verticalAlign:"sub"
-                            }}>
-                                &#8377; {state?.details?.discount_percent ?? 0}% off 
-                            </Typography></div>
-                        <Box sx={{
-                            backgroundColor: "white", height: "80px", width: "95%", display: "inline-flex", justifyContent: "center ", alignItems: "center", marginTop: "12px"
-                        }}>
-                            <Button className='addtocartbtn' variant='contained' sx={{ backgroundColor: "white", color: "black", margin: "7px", border: "0.4px solid black", borderRadius: "0", height: "45px", fontSize: "30px" }} onClick={handleDecreasingitem}>-</Button>
-                            {Num}
-                            <Button className='addtocartbtn' variant='contained' sx={{ backgroundColor: "white", color: "black", margin: "10px", border: "1px solid black", borderRadius: "0", height: "45px", fontSize: "30px" }} onClick={handleIncreasingitem}>+</Button>
+                            <Typography sx={{ fontSize: "14px", fontWeight: "500", color: "green" }}>
+                                {product?.discount_percent ?? 0}% off
+                            </Typography>
+                            <Typography style={{ marginLeft: "20px" }}>Capacity: {product?.capacity}</Typography>
+                        </div>
 
-                            <Button variant='contained' sx={{ borderRadius: "0", width: "135px", height: "45px", fontSize: "12px" }}>Add to cart</Button>
+                        {/* Quantity Selector */}
+                        <Box sx={{ display: "flex", alignItems: "center", marginBottom: "20px" }}>
+                            <Button variant="outlined" onClick={handleDecreaseQuantity} sx={{ marginRight: "10px" }}>
+                                -
+                            </Button>
+                            <Typography sx={{ fontSize: "18px", fontWeight: "500", marginRight: "10px" }}>{quantity}</Typography>
+                            <Button variant="outlined" onClick={handleIncreaseQuantity}>
+                                +
+                            </Button>
                         </Box>
 
-                        <Box className='hovericons' sx={{
-                            width: "75%", marginTop: "20px", display: 'flex', alignItems: 'center', justifyContent: 'center'
-                        }} onClick={toggleWishlist} >
-                            <FavoriteBorderOutlinedIcon sx={{
-                                verticalAlign: "middle", fontSize: "15px",
-                                border: '1px solid #E4C1B1'
-                            }} /> {isInWishlist ? 'Remove from Wishlist' : 'Add to Wishlist'}
-                            {/* <span style={{ fontSize: "14px", fontWeight: "400", letterSpacing: ".8px" }}> add to wishlist </span> */}
+                        {/* Add to Wishlist */}
+                        <Box onClick={toggleWishlist} sx={{ display: "flex", alignItems: "center", cursor: "pointer", marginBottom: "20px" }}>
+                            {isInWishlist ? <FavoriteIcon className='hovericons' /> : <FavoriteBorderOutlinedIcon />}
+                            <Typography sx={{ marginLeft: "10px" }} className='hovericons'>
+                                {isInWishlist ? "Remove from Wishlist" : "Add to Wishlist"}
+                            </Typography>
                         </Box>
 
-                        <Box sx={{ textTransform: "uppercase", opacity: ".6", marginTop: "14px", display: "flex", flexDirection: "column" }}>
-                            <ListItemText>Brand:{state?.details?.brand} </ListItemText>
-                            <ListItemText>tags: airbrush ,matte, skin</ListItemText></Box>
-                        <ListItem sx={{ width: "70%", display: "flex", justifyContent: "space-around", fontSize: "10px", marginLeft: "-16px" }}>
-                            <ListItemText sx={{ fontSize: "8px" }} >share</ListItemText>
-                            <ListItemText className='hovericons' ><FacebookOutlinedIcon /></ListItemText>
-                            <ListItemText className='hovericons'> <TwitterIcon /> </ListItemText>
-                            <ListItemText className='hovericons' > <WhatsAppIcon /></ListItemText>
-                            <ListItemText className='hovericons' > <InstagramIcon /></ListItemText></ListItem>
+                        {/* Share Icons */}
+                        <Box sx={{ display: "flex", alignItems: "center", marginBottom: "20px" }}>
+                            <Typography sx={{ marginRight: "10px", opacity: "0.6" }}>Share:</Typography>
+                            <FacebookOutlinedIcon className='hovericons' />
+                            <TwitterIcon sx={{ marginLeft: "10px" }} className='hovericons' />
+                            <InstagramIcon sx={{ marginLeft: "10px" }} className='hovericons' />
+                            <WhatsAppIcon sx={{ marginLeft: "10px" }} className='hovericons' />
+                        </Box>
 
-
-
+                        {/* Additional Details */}
+                        <Typography sx={{ opacity: "0.6", marginTop: "20px" }}>
+                            Brand: {product?.brand}
+                        </Typography>
+                        <Typography sx={{ opacity: "0.6", marginTop: "20px" }}>
+                            Tags: Airbrush, Matte, Skin
+                        </Typography>
                     </Box>
                 </ListItem>
-
-
             </div>
         </Box>
     )

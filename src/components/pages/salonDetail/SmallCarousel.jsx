@@ -62,7 +62,7 @@ const SmallCarousel = () => {
 
             {images?.map((image, index) => (
                 <Box className='small-sliding' key={index} >
-                    <img src={`https://edensign1.blob.core.windows.net/image-storage/salon/${image}`} />
+                    <img src={`https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/salon/normal/${image}`} />
                 </Box>
             )
             )}

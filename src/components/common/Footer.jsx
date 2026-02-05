@@ -39,22 +39,24 @@ function Footer() {
                             }} />  </Link>
                         <FiberManualRecordIcon sx={{ fontSize: "4px" }} />
                     </ListItemButton>
-                    <ListItemButton className="list">
+                    {/* <ListItemButton className="list">
                         <ListItemText primary="OUR TEAM" sx={{ marginRight: "30px" }} primaryTypographyProps={{
                             fontWeight: "500", fontSize: "12px", fontFamily: "Inter, sans-serif", lineHeight: "1", letterSpacing: "0.13em"
                         }} />
                         <FiberManualRecordIcon sx={{ fontSize: "4px" }} />
-                    </ListItemButton>
+                    </ListItemButton> */}
                     <ListItemButton className="list">
-                        <ListItemText primary="FAQ" sx={{ marginRight: "30px" }} primaryTypographyProps={{
-                            fontWeight: "500", fontSize: "12px", fontFamily: "Inter, sans-serif", lineHeight: "1", letterSpacing: "0.13em"
-                        }} />
+                        <Link to="/salons" style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <ListItemText primary="SALONS " sx={{ marginRight: "30px" }} primaryTypographyProps={{
+                                fontWeight: "500", fontSize: "12px", fontFamily: "Inter, sans-serif", lineHeight: "1", letterSpacing: "0.13em"
+                            }} />  </Link>
                         <FiberManualRecordIcon sx={{ fontSize: "4px" }} />
                     </ListItemButton>
                     <ListItemButton className="list">
-                        <ListItemText primary="MAINTENANCE MODE" sx={{ marginRight: "30px" }} primaryTypographyProps={{
-                            fontWeight: "500", fontSize: "12px", fontFamily: "Inter, sans-serif", lineHeight: "1", letterSpacing: "0.13em"
-                        }} />
+                        <Link to="/job-seeker" style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <ListItemText primary="JOB " sx={{ marginRight: "30px" }} primaryTypographyProps={{
+                                fontWeight: "500", fontSize: "12px", fontFamily: "Inter, sans-serif", lineHeight: "1", letterSpacing: "0.13em"
+                            }} />  </Link>
                         <FiberManualRecordIcon sx={{ fontSize: "4px" }} />
                     </ListItemButton>
                     <ListItemButton className="list">
@@ -77,7 +79,7 @@ function Footer() {
                         </ListItem>
                         <ListItemButton sx={{ padding: "0 10px" }}>
                             <PlaceIcon sx={{ fontSize: "0.9em", marginRight: "10px" }} />
-                            <ListItemText primary="25 West 21th Street, Miami Fl, USA" primaryTypographyProps={{ fontSize: "12px", letterSpacing: "0.55px", lineHeight: "14px", fontWeight: "400" }} />
+                            <ListItemText primary="O-44 Shastri Nagar Bareilly" primaryTypographyProps={{ fontSize: "12px", letterSpacing: "0.55px", lineHeight: "14px", fontWeight: "400" }} />
                         </ListItemButton>
                         <ListItemButton sx={{ padding: "0 10px" }}>
                             <MailIcon sx={{ fontSize: "0.9em", marginRight: "10px" }} />
@@ -114,7 +116,9 @@ function Footer() {
                     <Typography sx={{
                         fontFamily: "Inter, sans-serif", color: "#868686", textAlign: "right", fontSize: "12px", fontWeight: "400", letterSpacing: "0.6px"
                     }}>
-                        Hello there, hope you enjoy the day and keep purchasing the latest trends from our company to become...<br /><kbd style={{ float: "right", color: "white" }}>READ MORE</kbd>
+                        Hello there!
+                        We hope you're having a wonderful day. At Eden Sign, we make your life easier with seamless appointment booking services.<br />
+                        {/* <kbd style={{ float: "right", color: "white" }}>READ MORE</kbd> */}
                     </Typography>
                 </Box>
             </Box>
@@ -125,7 +129,7 @@ function Footer() {
                 <Typography sx={{
                     color: "#868686", fontSize: "11px", textAlign: "left", fontWeight: "400", letterSpacing: "0.275px", lineHeight: "1em"
                 }}>
-                    &copy; 2023 EDENSIGN Theme. All Rights Reserved.
+                    &copy; 2024 EDENSIGN. All Rights Reserved.
                 </Typography>
                 <List component='nav' sx={{ display: "inline-flex", padding: "0", marginRight: "-34px" }}>
                     <ListItemButton className="list">
@@ -143,8 +147,8 @@ function Footer() {
                         <FiberManualRecordIcon sx={{ fontSize: "4px" }} />
                     </ListItemButton>
                     <ListItemButton className="list" sx={{ paddingLeft: "0" }}>
-                        <Link to="/faq" style={{textDecoration:"none",color:"inherit"}}>
-                        <ListItemText primary="FAQ" primaryTypographyProps={{ fontSize: "11px" }} />
+                        <Link to="/faq" style={{ textDecoration: "none", color: "inherit" }}>
+                            <ListItemText primary="FAQ" primaryTypographyProps={{ fontSize: "11px" }} />
                         </Link>
                     </ListItemButton>
                 </List>

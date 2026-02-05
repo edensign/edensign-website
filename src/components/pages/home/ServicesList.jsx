@@ -22,11 +22,11 @@ const ServicesList = () => {
                     <ListItem sx={{ flexDirection: "column" }}>
                         <LocalShippingIcon sx={{ fontSize: "40px", lineHeight: "1", marginBottom: "6%" }} />
                         <ListItemButton className="list">
-                            <ListItemText primary="free shipping" primaryTypographyProps={{ fontWeight: "400", fontSize: "24px", lineHeight: "30px", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "15px" }} />
+                            <ListItemText primary="appointments" primaryTypographyProps={{ fontWeight: "400", fontSize: "24px", lineHeight: "30px", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "15px" }} />
                         </ListItemButton>
                         <FiberManualRecordIcon sx={{ fontSize: "4px", margin: "5%", marginTop: "0" }} />
                         <Typography sx={{ color: "rgb(97,97,97)", fontWeight: "300", fontSize: "16px", lineHeight: "30px", letterSpacing: "0.015em" }}>
-                            For county now sister engage had season better had waited. Occasional mrs interested far expression.
+                            Stay free, stay stylish, stay ahead, and let us take care of your beauty appointments effortlessly. Have an amazing day!
                         </Typography>
                     </ListItem>
 
@@ -47,7 +47,7 @@ const ServicesList = () => {
                     <ListItem sx={{ flexDirection: "column" }}>
                         <SettingsBackupRestoreIcon sx={{ fontSize: "40px", lineHeight: "1", marginBottom: "6%" }} />
                         <ListItemButton className="list">
-                            <ListItemText primary="MONEY BACK" primaryTypographyProps={{ fontWeight: "400", fontSize: "24px", lineHeight: "30px", letterSpacing: "0.14em", marginBottom: "15px" }} />
+                            <ListItemText primary="PRODUCTS" primaryTypographyProps={{ fontWeight: "400", fontSize: "24px", lineHeight: "30px", letterSpacing: "0.14em", marginBottom: "15px" }} />
                         </ListItemButton>
                         <FiberManualRecordIcon sx={{ fontSize: "4px", margin: "5%", marginTop: "0" }} />
                         <Typography sx={{ color: "rgb(97,97,97)", fontWeight: "300", fontSize: "16px", lineHeight: "30px", letterSpacing: "0.015em" }}>

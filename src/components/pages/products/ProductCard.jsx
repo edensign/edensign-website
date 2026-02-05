@@ -25,8 +25,23 @@ import { setProducts } from '../../../redux/actions/ProductAction';
 import ProductDetailPage from './ProductDetailPage';
 import Toast from "../../common/Toast";
 import Loader from "../../common/Loader";
-import StarRating from '../../common/StarRating';
 import "../products/Product.css"
+
+import botanicsImg from "../../assets/products/botanics.jpg"
+import cleanserImg from "../../assets/products/cleanser.jpg"
+import creamImg from "../../assets/products/cream.jpg"
+import lorealImg from "../../assets/products/loreal.jpg"
+import lotionImg from "../../assets/products/lotion.jpg"
+import perfumeImg from "../../assets/products/perfume.jpg"
+
+const productImages = {
+  "All Bright": botanicsImg,
+  "Skin Cleanser": cleanserImg,
+  "Hydrating Cream": creamImg,
+  "Bonjour Nudista": lorealImg,
+  "Rance 1795 Perfume": perfumeImg,
+  "Brown Sugar Body Lotion": lotionImg,
+};
 
 const ENV = import.meta.env;
 
@@ -61,11 +76,16 @@ function ProductCard() {
     setHoveredCard(null);
   };
 
-  const handleEyeClick = (event, product) => {
-    navigateTo("/product/detail", { state: { details: product } });
-    // navigateTo(`/salon/detail/update/${id}`, );
+  const handleEyeClick = (event, product, productImg) => {
+    navigateTo("/product/detail", {
+      state: {
+        details: {
+          product,
+          productImg,
+        },
+      },
+    });
   }
-
 
   function AddToCart() {
     setAlert(true);
@@ -74,13 +94,14 @@ function ProductCard() {
     setTimeout(() => {
       setAlert(false);
     }, 2000);
-  };
+  }
 
 
   const getProducts = () => {
     API.ProductAPI.getProductList()
       .then(res => {
         if (res.status === "Success") {
+          console.log(res.data, 'response data')
           dispatch(setProducts({ listData: res.data, loading: false }))
         } else {
           dispatch(setProducts({ listData: [], loading: false }))
@@ -90,7 +111,6 @@ function ProductCard() {
         throw error;
       });
   };
-
 
   React.useEffect(() => {
     getProducts();
@@ -105,7 +125,7 @@ function ProductCard() {
       />
 
       <Box sx={{
-        display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", marginRight: "5px", width: "75%", position: "relative",height:"70vh"
+        display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", marginRight: "5px", width: "75%", position: "relative", height: "70vh"
       }}>
         <Box sx={{
           display: "block", position: "absolute", top: "30px", left: "70px", width: "90%", opacity: ".62",
@@ -141,7 +161,7 @@ function ProductCard() {
 
             <CardMedia
               sx={{ height: 250, backgroundSize: "contain" }}
-              image={`${imgURL}/${product.image_sources.split(',')[0]}`}
+              image={productImages[product.name]}
             >
               <Box sx={{
                 display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", rowGap: "10px", alignItems: 'center',
@@ -153,7 +173,7 @@ function ProductCard() {
                   width: "20px", visibility: 'hidden', border: "1px solid black",
                   borderRadius: "0", backgroundColor: "white"
                 }}
-                  onClick={(event) => handleEyeClick(event, product)} >
+                  onClick={(event) => handleEyeClick(event, product, productImages[product.name])} >
 
                   <RemoveRedEyeOutlinedIcon /> </Button>
 
@@ -185,20 +205,26 @@ function ProductCard() {
               <Typography variant='span' sx={{
                 textAlign: "center", width: "90%", paddingBottom: "10px", fontSize: "13px", opacity: ".5"
               }}>
-                {/* {product.description} */}
+                {product.description}
               </Typography>
               <Rating name="read-only" defaultValue={3.5} readOnly />
               <Box style={{ display: "flex", alignItems: 'center' }}>
-                <span style={{ fontSize: "18px", fontWeight: "500", letterSpacing: ".8px", fontFamily: "inter", marginTop: "15px", width: "40%",
-                 marginRight:"26px" }}>
+                <span style={{
+                  fontSize: "18px", fontWeight: "500", letterSpacing: ".8px", fontFamily: "inter", marginTop: "15px", width: "40%",
+                  marginRight: "26px"
+                }}>
                   &#8377;{product.discounted_price}
                 </span>
-                <span style={{ fontSize: "15px", fontWeight: "400", letterSpacing: ".8px", fontFamily: "inter", marginTop: "15px", 
-                 textDecorationLine: "line-through", opacity: ".5", width: "30%", textAlign: "center",marginRight:"26px" }}>
+                <span style={{
+                  fontSize: "15px", fontWeight: "400", letterSpacing: ".8px", fontFamily: "inter", marginTop: "15px",
+                  textDecorationLine: "line-through", opacity: ".5", width: "30%", textAlign: "center", marginRight: "26px"
+                }}>
                   &#8377;{product.price}
                 </span>
-                <span style={{ fontSize: "12px", fontWeight: "400", letterSpacing: ".8px", fontFamily: "inter", marginTop: "15px", color: "green",
-                 textTransform: "uppercase", width: "130%", textAlign: "center" }}>
+                <span style={{
+                  fontSize: "12px", fontWeight: "400", letterSpacing: ".8px", fontFamily: "inter", marginTop: "15px", color: "green",
+                  textTransform: "uppercase", width: "130%", textAlign: "center"
+                }}>
                   &#8377;{product.discount_percent.toFixed(0)}% off
                 </span>
               </Box>
@@ -207,14 +233,14 @@ function ProductCard() {
           </Card>
         ))}
 
-       
-          <Pagination color="primary" size="large" shape="rounded"
-            count={Math.ceil(listData.length / itemsPerPage)}
-            page={currentPage}
-            onChange={handlePageChange}
-            sx={{ gridColumn: "span 3", marginTop: "20px", marginBottom: "20px", display: "flex", justifyContent: "center" }}
-          />
-        
+
+        <Pagination color="primary" size="large" shape="rounded"
+          count={Math.ceil(listData.length / itemsPerPage)}
+          page={currentPage}
+          onChange={handlePageChange}
+          sx={{ gridColumn: "span 3", marginTop: "20px", marginBottom: "20px", display: "flex", justifyContent: "center" }}
+        />
+
       </Box>
       {loading ? <Loader /> : null}
     </>

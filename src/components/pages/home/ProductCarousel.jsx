@@ -81,9 +81,9 @@ const ProductCarousel = () => {
                     </h4>
                     <Box sx={{ width: "100%", display: "flex", justifyContent: "space-around" }}>
                         <Rating name="read-only" value={ratings[0]} readOnly />
-                        <a href="" rel='noreferrer' target="_blank" style={{ textDecoration: "none" }}>
+                        {/* <a href="" rel='noreferrer' target="_blank" style={{ textDecoration: "none" }}>
                             Know More
-                        </a>
+                        </a> */}
                     </Box>
                 </Box>
             </Box>
@@ -100,9 +100,9 @@ const ProductCarousel = () => {
                     </h4>
                     <Box sx={{ width: "100%", display: "flex", justifyContent: "space-around" }}>
                         <Rating name="read-only" value={ratings[1]} readOnly />
-                        <a href="" rel='noreferrer' target="_blank" style={{ textDecoration: "none" }}>
+                        {/* <a href="" rel='noreferrer' target="_blank" style={{ textDecoration: "none" }}>
                             Know More
-                        </a>
+                        </a> */}
                     </Box>
                 </Box>
             </Box>
@@ -119,9 +119,9 @@ const ProductCarousel = () => {
                     </h4>
                     <Box sx={{ width: "100%", display: "flex", justifyContent: "space-around" }}>
                         <Rating name="read-only" value={ratings[2]} readOnly />
-                        <a href="" rel='noreferrer' target="_blank" style={{ textDecoration: "none" }}>
+                        {/* <a href="" rel='noreferrer' target="_blank" style={{ textDecoration: "none" }}>
                             Know More
-                        </a>
+                        </a> */}
                     </Box>
                 </Box>
             </Box>
@@ -138,9 +138,9 @@ const ProductCarousel = () => {
                     </h4>
                     <Box sx={{ width: "100%", display: "flex", justifyContent: "space-around" }}>
                         <Rating name="read-only" value={ratings[3]} readOnly />
-                        <a href="" rel='noreferrer' target="_blank" style={{ textDecoration: "none" }}>
+                        {/* <a href="" rel='noreferrer' target="_blank" style={{ textDecoration: "none" }}>
                             Know More
-                        </a>
+                        </a> */}
                     </Box>
                 </Box>
             </Box>
@@ -157,9 +157,9 @@ const ProductCarousel = () => {
                     </h4>
                     <Box sx={{ width: "100%", display: "flex", justifyContent: "space-around" }}>
                         <Rating name="read-only" value={ratings[4]} readOnly />
-                        <a href="" rel='noreferrer' target="_blank" style={{ textDecoration: "none" }}>
+                        {/* <a href="" rel='noreferrer' target="_blank" style={{ textDecoration: "none" }}>
                             Know More
-                        </a>
+                        </a> */}
                     </Box>
                 </Box>
             </Box>
@@ -176,9 +176,9 @@ const ProductCarousel = () => {
                     </h4>
                     <Box sx={{ width: "100%", display: "flex", justifyContent: "space-around" }}>
                         <Rating name="read-only" value={ratings[5]} readOnly />
-                        <a href="" rel='noreferrer' target="_blank" style={{ textDecoration: "none" }}>
+                        {/* <a href="" rel='noreferrer' target="_blank" style={{ textDecoration: "none" }}>
                             Know More
-                        </a>
+                        </a> */}
                     </Box>
                 </Box>
             </Box>
@@ -195,9 +195,9 @@ const ProductCarousel = () => {
                     </h4>
                     <Box sx={{ width: "100%", display: "flex", justifyContent: "space-around" }}>
                         <Rating name="read-only" value={ratings[6]} readOnly />
-                        <a href="" rel='noreferrer' target="_blank" style={{ textDecoration: "none" }}>
+                        {/* <a href="" rel='noreferrer' target="_blank" style={{ textDecoration: "none" }}>
                             Know More
-                        </a>
+                        </a> */}
                     </Box>
                 </Box>
             </Box>
@@ -214,9 +214,9 @@ const ProductCarousel = () => {
                     </h4>
                     <Box sx={{ width: "100%", display: "flex", justifyContent: "space-around" }}>
                         <Rating name="read-only" value={ratings[7]} readOnly />
-                        <a href="" rel='noreferrer' target="_blank" style={{ textDecoration: "none" }}>
+                        {/* <a href="" rel='noreferrer' target="_blank" style={{ textDecoration: "none" }}>
                             Know More
-                        </a>
+                        </a> */}
                     </Box>
                 </Box>
             </Box>

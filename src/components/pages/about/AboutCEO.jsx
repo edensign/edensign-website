@@ -37,9 +37,9 @@ const AboutCEO = () => {
                     <p style={{ fontFamily: "Marcellus,sans-serif", fontWeight: "400", fontSize: "20px", lineHeight: "20px", letterSpacing: "0.8em", textTransform: "uppercase" }}> Hello From </p>
                     <DiamondIcon sx={{ fontSize: "12px", margin: "1% 0 2% 0" }} />
                     <p style={{ fontWeight: "400", fontSize: "32px", lineHeight: "1.28", letterSpacing: "0.14em", textTransform: "uppercase", marginTop: "6px" }}> ceo </p>
-                    <p style={{ fontWeight: "300", fontSize: "14px", lineHeight: "22px", letterSpacing: "0.015em", padding: "0 40px" }}> Hello there, this is the brand new product of the company that will make you go like a lavender queen. Hope you enjoy the day and keep purchasing the latest trends from our company to become fashion icon. </p>
-                    <p style={{ fontWeight: "300", fontSize: "14px", lineHeight: "22px", letterSpacing: "0.015em", padding: "0 40px" }}> Hello there, this is the brand new product of the company that will make you go like a lavender queen. Hope you enjoy the day and keep purchasing the latest trends from our company to become fashion icon. </p>
-                    <Button variant='contained' color='primary' sx={{ borderRadius: "0", fontWeight: "400", fontSize: "12px", lineHeight: "1.2", letterSpacing: "0.265em", height: "40px" }}> Read More </Button>
+                    <p style={{ fontWeight: "300", fontSize: "14px", lineHeight: "22px", letterSpacing: "0.015em", padding: "0 40px" }}> Hello there, this is your ultimate destination for effortless salon appointment bookings! We bridge the gap between clients and salons, making beauty and grooming services accessible with just a few clicks. Whether you're looking for a haircut, spa treatment, or a complete makeover, we've got you covered. </p>
+                    <p style={{ fontWeight: "300", fontSize: "14px", lineHeight: "22px", letterSpacing: "0.015em", padding: "0 40px" }}> Our user-friendly platform helps you discover top-rated salons, view their services, check availability, and book your appointment instantly. Designed with convenience in mind, Eden Sign ensures a seamless experience for both clients and salon professionals. </p>
+                    {/* <Button variant='contained' color='primary' sx={{ borderRadius: "0", fontWeight: "400", fontSize: "12px", lineHeight: "1.2", letterSpacing: "0.265em", height: "40px" }}> Read More </Button> */}
                 </Box>
             </Grid>
         </Grid>

@@ -138,7 +138,7 @@ function ContactUsForm() {
                   helperText={touched.message && errors.message}
                 />
 
-                <Button type="submit" color='primary' variant='contained' onClick={e => e.preventDefault()}
+                <Button type="submit" color='primary' variant='contained'
                   disabled={!dirty || isSubmitting}
                   sx={{
                     fontSize: "14px", letterSpacing: "0.15em", lineHeight: "2em", fontWeight: "400",

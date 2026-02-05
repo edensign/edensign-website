@@ -29,7 +29,7 @@ export const JobSeekerAPI = {
         console.log("job-seekerAPI=>", skill, gender, experience, skillParam, genderParam, experienceParam);
         const cancelToken = cancel ? cancelApiObject.getJobSeekerDetail.handleRequestCancellation().token : undefined;
         const { data: response } = await api.request({
-            url: `/get-job-seeker-detail/${page}/${size}?${skillParam}${genderParam}${experienceParam}`,
+            url: `/get-job-seeker-list/${page}/${size}?${skillParam}${genderParam}${experienceParam}`,
             method: "GET",
             cancelToken: cancelToken,
         });

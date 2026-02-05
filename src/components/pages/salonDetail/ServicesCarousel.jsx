@@ -64,7 +64,7 @@ const ServicesCarousel = ({ handleClick }) => {
 
             {salon?.services?.map(service => (
                 <Box className='salon-sliding' key={service.id}>
-                    <Box style={{ display: "flex", alignItems: "center", position: "absolute", top: "26px", left: "26px", padding: "18px 12px", backdropFilter: "blur(13px)", color: "#ffffff", fontWeight: "500", fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}>
+                    <Box style={{ display: "flex", alignItems: "center", position: "absolute", top: "26px", left: "26px", padding: "18px 12px", backdropFilter: "blur(13px)", color: "black", fontWeight: "500", fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}>
                         <span style={{ marginRight: "8px" }}>from</span>
                         <span> &#8377;500</span>
                     </Box>

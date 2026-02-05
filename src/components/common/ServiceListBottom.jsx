@@ -46,10 +46,10 @@ const ServiceListBottom = () => {
                     }}>
                         <AutoAwesomeIcon sx={{ fontSize: "40px" }} />
                         <ListItem sx={{ display: "flex", flexDirection: "column" }} >
-                            <ListItemText primary="top quality" primaryTypographyProps={{ fontWeight: "500", fontSize: "32px", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "0px" }} />
+                            <ListItemText primary="Online Appointments" primaryTypographyProps={{ fontWeight: "500", fontSize: "32px", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "0px" }} />
                         </ListItem>
                         <Typography className="flip-card-back" sx={{ width: "87%", margin: "0 auto", color: "white", fontWeight: "300", fontSize: "16px", letterSpacing: "0.015em", display: "none" }}>
-                            We provide the best quality products at cheapest rates without mixing manmade ingredients.
+                            We make your salon booking experience hassle free and smooth.
                         </Typography>
                     </ListItem>
 
@@ -62,7 +62,7 @@ const ServiceListBottom = () => {
                             <ListItemText primary="10% cashback" primaryTypographyProps={{ fontWeight: "500", fontSize: "32px", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "0px" }} />
                         </ListItem>
                         <Typography className="flip-card-back" sx={{ width: "87%", margin: "0 auto", color: "white", fontWeight: "300", fontSize: "16px", letterSpacing: "0.015em", display: "none" }}>
-                            We provide 10% cashback in all the beauty products listed on the site and money back guarantee if defect is there in any of our item.
+                            We provide 10% cashback in all the beauty products and bookings listed on the site and money back guarantee if defect is there in any of our item.
                         </Typography>
                     </ListItem>
                 </List>

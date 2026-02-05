@@ -19,7 +19,7 @@ const Newsletter = () => {
                     <MarkEmailReadOutlinedIcon sx={{ margin: "-8%", fontSize: "100px", opacity: "0.7", fontWeight: "400" }} />
                 </Box>
                 <Box sx={{ textAlign: "left", fontSize: "18px", lineHeight: "23px", textTransform: "uppercase", letterSpacing: "0.1em", fontWeight: "400" }}>
-                    <span style={{ maxWidth: "150px", display: "inline-block" }}> subscribe  to our newsletter </span>
+                    <span style={{ maxWidth: "150px", display: "inline-block" }}> have a query? </span>
                 </Box>
             </Box>
 

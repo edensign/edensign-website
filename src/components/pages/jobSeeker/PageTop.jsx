@@ -84,7 +84,7 @@ const PageTop = () => {
             <img src={JobBg} style={{ width: "100%", height: "100%", position: "absolute", boxShadow: "4px 4px 8px #043927" }} />
             <Box display="flex" flexDirection="column" justifyContent="flex-start" alignItems="center">
                 <p style={{ textTransform: "capitalize", fontSize: "32px", fontWeight: "600", lineHeight: "1", zIndex: "1" }}  >
-                    hire people for your business  </p>
+                    hire people for your salon  </p>
                 <Search />
             </Box>
 

@@ -1,7 +1,9 @@
-import React from 'react'
+import { useState } from 'react'
 import productimage from "../../assets/productbg.webp"
 import { Box, Autocomplete, TextField, Button, useMediaQuery } from '@mui/material'
+
 function ProductPageTop() {
+  const [inputValue, setInputValue] = useState(null);
   const cities = ["Agra", "Aligarh", "Ayodhya", "Amroha", "Akbarpur"];
   const isMobile = useMediaQuery("(max-width:480px)");
   const isTab = useMediaQuery("(max-width:920px)");
@@ -9,8 +11,8 @@ function ProductPageTop() {
   const handleChange = (event, value) => {
     console.log(value)
     setInputValue(value);
-
   };
+
   return (
     <Box style={{
       width: "100%", height: "60vh", backgroundImage: `url(${productimage})`, display: "flex", justifyContent: "center",
@@ -31,9 +33,6 @@ function ProductPageTop() {
         </Button>
       </Box>
     </Box>
-
-
-
   )
 }
 

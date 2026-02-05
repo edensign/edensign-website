@@ -321,7 +321,7 @@ const JobSeekerCards = ({ skills, selectedSkill, selectedGender, selectedExperie
 
                                         <div style={{
                                             height: "103px", border: "1px solid black", width: "65%", color: "black",
-                                            position: "absolute", bottom: "0"
+                                            position: "absolute", bottom: "0", padding: "10px"
                                         }}>
                                             Skills: {seeker.skills.map((skill, index) => (
                                                 <span

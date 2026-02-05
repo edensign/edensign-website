@@ -20,7 +20,7 @@ import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 
 import { ColorModeContext, tokens } from "../../theme";
 
-const pages = ['About', 'Salons', 'Products', 'contact', 'job seeker'];
+const pages = ['Salons', 'job seeker', 'Products', 'About', 'contact'];
 // const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function Topbar(props) {

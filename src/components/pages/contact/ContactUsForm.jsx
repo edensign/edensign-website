@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { Formik } from 'formik';
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, TextField, Snackbar, Alert, CircularProgress } from "@mui/material";
 
 import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
 import InstagramIcon from '@mui/icons-material/Instagram';
@@ -9,6 +9,7 @@ import YouTubeIcon from '@mui/icons-material/YouTube';
 import TwitterIcon from '@mui/icons-material/Twitter';
 
 import flowerimage from "../../assets/flower.png";
+import { ContactAPI } from "../../../apis/ContactAPI";
 
 const initialValues = {
   name: '',
@@ -17,8 +18,30 @@ const initialValues = {
 };
 
 function ContactUsForm() {
-  const [formData, setFormData] = useState(initialValues);
-  console.log(formData)
+  const [loading, setLoading] = useState(false);
+  const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
+
+  const handleSubmit = async (values, { resetForm }) => {
+    setLoading(true);
+    try {
+      const response = await ContactAPI.submitContact(values);
+      if (response.status === 'Success') {
+        setSnackbar({ open: true, message: 'Your message has been sent successfully!', severity: 'success' });
+        resetForm();
+      } else {
+        setSnackbar({ open: true, message: response.msg || 'Something went wrong', severity: 'error' });
+      }
+    } catch (error) {
+      console.error('Error submitting contact form:', error);
+      setSnackbar({ open: true, message: 'Failed to send message. Please try again.', severity: 'error' });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbar({ ...snackbar, open: false });
+  };
 
   return (
     <Box id="parent-box">
@@ -71,11 +94,8 @@ function ContactUsForm() {
             send your question </p>
 
           <Formik
-            initialValues={formData}
-            onSubmit={(values) => {
-              setFormData(values);
-              alert(JSON.stringify("your message has been successfully sent", values));
-            }}
+            initialValues={initialValues}
+            onSubmit={handleSubmit}
           >
             {({
               touched,
@@ -110,6 +130,7 @@ function ContactUsForm() {
                   value={values.name}
                   error={!!touched.name && !!errors.name}
                   helperText={touched.name && errors.name}
+                  disabled={loading}
                 />
                 <TextField
                   type="text"
@@ -122,6 +143,7 @@ function ContactUsForm() {
                   value={values.email}
                   error={!!touched.email && !!errors.email}
                   helperText={touched.email && errors.email}
+                  disabled={loading}
                 />
                 <TextField
                   multiline
@@ -136,16 +158,17 @@ function ContactUsForm() {
                   value={values.message}
                   error={!!touched.message && !!errors.message}
                   helperText={touched.message && errors.message}
+                  disabled={loading}
                 />
 
                 <Button type="submit" color='primary' variant='contained'
-                  disabled={!dirty || isSubmitting}
+                  disabled={!dirty || loading}
                   sx={{
                     fontSize: "14px", letterSpacing: "0.15em", lineHeight: "2em", fontWeight: "400",
                     padding: "6px 10px", margin: "8px", marginBottom: "25px", gridColumn: "span 2", textTransform: "capitalize"
                   }}>
-                  send </Button>
-                {/* {loading === true ? <SignInLoader /> : "Sign In"} */}
+                  {loading ? <CircularProgress size={24} color="inherit" /> : "send"}
+                </Button>
 
               </Box>
             )}
@@ -153,8 +176,20 @@ function ContactUsForm() {
         </Box>
       </Box>
 
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert onClose={handleCloseSnackbar} severity={snackbar.severity} sx={{ width: '100%' }}>
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
+
     </Box>
   )
 }
 
 export default ContactUsForm;
+

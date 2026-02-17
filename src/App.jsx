@@ -21,7 +21,9 @@ import ContactUs from "./components/pages/contact/ContactUsForm";
 import Home from "./components/pages/home/Home";
 import JobSeeker from "./components/pages/jobSeeker/JobSeeker";
 import NotFound from "./components/pages/404/Animated404Component";
-import PrivacyPolicy from "./components/pages/privacyPolicy/PrivacyPolicy";
+import LegalInfo from "./components/pages/legal/LegalInfo";
+import Login from "./components/pages/auth/Login";
+import Register from "./components/pages/auth/Register";
 import Salon from "./components/pages/salon/Salon";
 import SalonDetail from "./components/pages/salonDetail/SalonDetail";
 import Product from "./components/pages/products/Product";
@@ -63,12 +65,14 @@ function App() {
               <Route path='/about' element={<AboutUs />} />
               <Route exact path='/contact' element={<ContactUs />} />
               <Route exact path='/job-seeker' element={<JobSeeker />} />
-              <Route path='/privacy-policy' element={<PrivacyPolicy />} />
+              <Route path='/legal-info' element={<LegalInfo />} />
+              <Route exact path='/login' element={<Login />} />
+              <Route exact path='/register' element={<Register />} />
               <Route exact path='/salons' element={<Salon />} />
               <Route exact path='/products' element={<Product />} />
               <Route exact path='/salon/detail/:code' element={<SalonDetail />} />
-              <Route exact path='/faq' element={<Faq/>} />
-              <Route exact path='/product/detail' element={<ProductDetail/>}/>
+              <Route exact path='/faq' element={<Faq />} />
+              <Route exact path='/product/detail' element={<ProductDetail />} />
               {/* <Route path='/services' element={<Services />} /> */}
             </Routes>
             <Footer />

@@ -7,18 +7,20 @@
 */
 
 import * as React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
-import { AppBar, Box, IconButton, Menu, MenuItem, Toolbar, Typography } from '@mui/material';
+import { AppBar, Avatar, Box, IconButton, Menu, MenuItem, Toolbar, Typography } from '@mui/material';
 import { Button, Tooltip, useTheme } from '@mui/material';
 import AdbIcon from '@mui/icons-material/Adb';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import LoginIcon from '@mui/icons-material/Login';
+import LogoutIcon from '@mui/icons-material/Logout';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 
 import { ColorModeContext, tokens } from "../../theme";
+import API from "../../apis";
 
 const pages = ['Salons', 'job seeker', 'Products', 'About', 'contact'];
 // const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -26,15 +28,34 @@ const pages = ['Salons', 'job seeker', 'Products', 'About', 'contact'];
 function Topbar(props) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [anchorElProfile, setAnchorElProfile] = React.useState(null);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorMode = React.useContext(ColorModeContext);
+  const navigate = useNavigate();
+
+  // Check if customer is logged in
+  const customer = API.CustomerAPI.getCustomer();
+  const isLoggedIn = API.CustomerAPI.isLoggedIn();
+
+  // Get user initials
+  const getUserInitials = () => {
+    if (!customer?.username) return "U";
+    const names = customer.username.split(' ');
+    if (names.length >= 2) {
+      return (names[0][0] + names[1][0]).toUpperCase();
+    }
+    return customer.username.substring(0, 2).toUpperCase();
+  };
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
+  };
+  const handleOpenProfileMenu = (event) => {
+    setAnchorElProfile(event.currentTarget);
   };
 
   const handleCloseNavMenu = () => {
@@ -44,6 +65,17 @@ function Topbar(props) {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const handleCloseProfileMenu = () => {
+    setAnchorElProfile(null);
+  };
+
+  const handleLogout = () => {
+    API.CustomerAPI.logout();
+    handleCloseProfileMenu();
+    navigate('/');
+    window.location.reload();
   };
 
 
@@ -220,18 +252,71 @@ function Topbar(props) {
               }} />
             </Tooltip>
           </IconButton>
-          <IconButton sx={{ marginRight: "2%", color: "#000000" }}>
-            <Tooltip title="Login">
-              <LoginIcon sx={{
-                fontSize: "22px",
-                "&:hover": {
-                  fontSize: "28px",
-                  transition: "all 0.5s ease"
-                }
-              }}
-              />
-            </Tooltip>
-          </IconButton>
+          {isLoggedIn ? (
+            <>
+              <Tooltip title={customer?.username || "Profile"}>
+                <IconButton onClick={handleOpenProfileMenu} sx={{ marginRight: "2%", padding: 0 }}>
+                  <Avatar
+                    sx={{
+                      width: 36,
+                      height: 36,
+                      bgcolor: "#800080",
+                      fontSize: "14px",
+                      fontWeight: "600",
+                      cursor: "pointer",
+                      transition: "all 0.3s ease",
+                      "&:hover": {
+                        transform: "scale(1.1)",
+                        boxShadow: "0 2px 8px rgba(128, 0, 128, 0.4)"
+                      }
+                    }}
+                  >
+                    {getUserInitials()}
+                  </Avatar>
+                </IconButton>
+              </Tooltip>
+              <Menu
+                sx={{ mt: '45px' }}
+                anchorEl={anchorElProfile}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={Boolean(anchorElProfile)}
+                onClose={handleCloseProfileMenu}
+              >
+                <MenuItem disabled sx={{ opacity: "1 !important" }}>
+                  <Typography sx={{ fontWeight: "600", color: "#333" }}>
+                    Hi, {customer?.username?.split(' ')[0] || "User"}
+                  </Typography>
+                </MenuItem>
+                <MenuItem onClick={handleLogout}>
+                  <LogoutIcon sx={{ mr: 1, fontSize: "20px" }} />
+                  Logout
+                </MenuItem>
+              </Menu>
+            </>
+          ) : (
+            <IconButton sx={{ marginRight: "2%", color: "#000000" }}>
+              <Tooltip title="Login">
+                <Link to="/login" style={{ textDecoration: "none", color: "inherit", display: "flex" }}>
+                  <LoginIcon sx={{
+                    fontSize: "22px",
+                    "&:hover": {
+                      fontSize: "28px",
+                      transition: "all 0.5s ease"
+                    }
+                  }}
+                  />
+                </Link>
+              </Tooltip>
+            </IconButton>
+          )}
           <IconButton sx={{ marginRight: "2%", color: "#000000" }}>
             <Tooltip title="Wishlist">
               <Link to="/wishlist" style={{ textDecoration: "none", color: "inherit" }}>

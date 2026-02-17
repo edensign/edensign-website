@@ -7,7 +7,10 @@
  */
 
 import { AmenityAPI } from "./AmenityAPI";
+import { AppointmentAPI } from "./AppointmentAPI";
 import { CityAPI } from "./CityAPI";
+import { ContactAPI } from "./ContactAPI";
+import { CustomerAPI } from "./CustomerAPI";
 import { JobSeekerAPI } from "./JobSeekerAPI";
 import { ProductAPI } from "./ProductAPI";
 import { SalonAPI } from "./SalonAPI";
@@ -15,13 +18,18 @@ import { SalonEmployeeAPI } from "./SalonEmployeeAPI";
 import { ServiceAPI } from "./ServiceAPI";
 import { SkillAPI } from "./SkillAPI";
 import { StateAPI } from "./StateAPI";
+import { ReviewAPI } from "./ReviewAPI";
 
 
 export default {
     AmenityAPI,
+    AppointmentAPI,
     CityAPI,
+    ContactAPI,
+    CustomerAPI,
     JobSeekerAPI,
     ProductAPI,
+    ReviewAPI,
     SalonAPI,
     SalonEmployeeAPI,
     ServiceAPI,

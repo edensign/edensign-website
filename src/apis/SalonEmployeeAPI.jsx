@@ -21,6 +21,15 @@ export const SalonEmployeeAPI = {
             signal: cancel ? cancelApiObject[this.getSalonEmployee.name].handleRequestCancellation().signal : undefined,
         });
         return response;
+    },
+    getBookedSlots: async (params, cancel = false) => {
+        const { data: response } = await api.request({
+            url: `/get-booked-slots`,
+            method: "POST",
+            data: params,
+            signal: cancel ? cancelApiObject[this.getBookedSlots.name].handleRequestCancellation().signal : undefined,
+        });
+        return response;
     }
 };
 

@@ -1,13 +1,12 @@
 /**
  * Copyright © 2023, Eden Sign Inc. ALL RIGHTS RESERVED.
- *
- * This software is the confidential information of Eden Sign Inc., and is licensed as
- * restricted rights software. The use, reproduction, or disclosure of this software is subject to
- * restrictions set forth in your license agreement with Eden Sign.
-*/
+ */
 
-import { Box, List, ListItem, ListItemButton, ListItemText, Typography, useTheme } from "@mui/material";
-import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
+import ContentCutOutlinedIcon from '@mui/icons-material/ContentCutOutlined';
 import CallIcon from '@mui/icons-material/Call';
 import PlaceIcon from '@mui/icons-material/Place';
 import MailIcon from '@mui/icons-material/Mail';
@@ -16,145 +15,351 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import YouTubeIcon from '@mui/icons-material/YouTube';
-import { Link } from 'react-router-dom';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
-import { tokens } from "../../theme";
-import bg from "../assets/footer_bg.jpg";
+const quickLinks = [
+  { label: 'Salons', href: '/salons' },
+  { label: 'Job Seeker', href: '/job-seeker' },
+  { label: 'Products', href: '/products' },
+  { label: 'About Us', href: '/about' },
+  { label: 'Contact', href: '/contact' },
+  { label: 'FAQ', href: '/faq' },
+];
+
+const legalLinks = [
+  { label: 'Privacy Policy', href: '/privacy-policy' },
+  { label: 'Terms of Service', href: '#' },
+  { label: 'Legal Info', href: '/legal-info' },
+];
+
+const socialLinks = [
+  { Icon: InstagramIcon, href: 'https://instagram.com/edensign.in?igshid=NzZlODBkYWE4Ng==', label: 'Instagram' },
+  { Icon: FacebookIcon, href: '#', label: 'Facebook' },
+  { Icon: TwitterIcon, href: '#', label: 'Twitter' },
+  { Icon: YouTubeIcon, href: '#', label: 'YouTube' },
+];
+
+const contactItems = [
+  { Icon: CallIcon, text: '123 488 6532' },
+  { Icon: PlaceIcon, text: 'O-44 Shastri Nagar, Bareilly' },
+  { Icon: MailIcon, text: 'info@edensign.com' },
+  { Icon: ScheduleIcon, text: 'Mon–Fri: 10:00–18:00' },
+];
 
 function Footer() {
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
-    const handleInstagramClick = () => {
-        window.open('https://instagram.com/edensign.in?igshid=NzZlODBkYWE4Ng==', '_blank');
-    };
+  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
 
-    return (
-        <Box color="white" id="bottom-bar" position="relative" sx={{ backgroundImage: `url(${bg})`, backgroundPosition: "center center", backgroundRepeat: "repeat", backgroundSize: "300px auto", padding: "20px 0" }}>
-            <Box display="flex" justifyContent="center">
-                <List component='nav' sx={{ display: "inline-flex", alignItems: "flex-start" }}>
-                    <ListItemButton className="list">
-                        <Link to="/about" style={{ textDecoration: 'none', color: 'inherit' }}>
-                            <ListItemText primary="ABOUT " sx={{ marginRight: "30px" }} primaryTypographyProps={{
-                                fontWeight: "500", fontSize: "12px", fontFamily: "Inter, sans-serif", lineHeight: "1", letterSpacing: "0.13em"
-                            }} />  </Link>
-                        <FiberManualRecordIcon sx={{ fontSize: "4px" }} />
-                    </ListItemButton>
-                    {/* <ListItemButton className="list">
-                        <ListItemText primary="OUR TEAM" sx={{ marginRight: "30px" }} primaryTypographyProps={{
-                            fontWeight: "500", fontSize: "12px", fontFamily: "Inter, sans-serif", lineHeight: "1", letterSpacing: "0.13em"
-                        }} />
-                        <FiberManualRecordIcon sx={{ fontSize: "4px" }} />
-                    </ListItemButton> */}
-                    <ListItemButton className="list">
-                        <Link to="/salons" style={{ textDecoration: 'none', color: 'inherit' }}>
-                            <ListItemText primary="SALONS " sx={{ marginRight: "30px" }} primaryTypographyProps={{
-                                fontWeight: "500", fontSize: "12px", fontFamily: "Inter, sans-serif", lineHeight: "1", letterSpacing: "0.13em"
-                            }} />  </Link>
-                        <FiberManualRecordIcon sx={{ fontSize: "4px" }} />
-                    </ListItemButton>
-                    <ListItemButton className="list">
-                        <Link to="/job-seeker" style={{ textDecoration: 'none', color: 'inherit' }}>
-                            <ListItemText primary="JOB " sx={{ marginRight: "30px" }} primaryTypographyProps={{
-                                fontWeight: "500", fontSize: "12px", fontFamily: "Inter, sans-serif", lineHeight: "1", letterSpacing: "0.13em"
-                            }} />  </Link>
-                        <FiberManualRecordIcon sx={{ fontSize: "4px" }} />
-                    </ListItemButton>
-                    <ListItemButton className="list">
-                        <Link to="/contact" style={{ textDecoration: 'none', color: 'inherit' }}>
-                            <ListItemText primary="CONTACT" primaryTypographyProps={{
-                                fontWeight: "500", fontSize: "12px", fontFamily: "Inter, sans-serif", lineHeight: "1", letterSpacing: "0.13em"
-                            }} /></Link>
-                    </ListItemButton>
-                </List>
-            </Box>
+  const handleInstagramClick = () => {
+    window.open('https://instagram.com/edensign.in?igshid=NzZlODBkYWE4Ng==', '_blank');
+  };
 
-            <Box display="flex" justifyContent="space-around" sx={{ paddingTop: "3%", width: "100%" }}>
-                <Box>
-                    <List component='nav'>
-                        <ListItem disablePadding>
-                            <ListItemButton sx={{ padding: "0 10px" }}>
-                                <CallIcon sx={{ fontSize: "0.9em", marginRight: "10px" }} />
-                                <ListItemText primary="123 488 6532" primaryTypographyProps={{ fontSize: "12px", letterSpacing: "0.55px", lineHeight: "14px", fontWeight: "400" }} />
-                            </ListItemButton>
-                        </ListItem>
-                        <ListItemButton sx={{ padding: "0 10px" }}>
-                            <PlaceIcon sx={{ fontSize: "0.9em", marginRight: "10px" }} />
-                            <ListItemText primary="O-44 Shastri Nagar Bareilly" primaryTypographyProps={{ fontSize: "12px", letterSpacing: "0.55px", lineHeight: "14px", fontWeight: "400" }} />
-                        </ListItemButton>
-                        <ListItemButton sx={{ padding: "0 10px" }}>
-                            <MailIcon sx={{ fontSize: "0.9em", marginRight: "10px" }} />
-                            <ListItemText primary="info@edensign.com" primaryTypographyProps={{ fontSize: "12px", letterSpacing: "0.55px", lineHeight: "14px", fontWeight: "400" }} />
-                        </ListItemButton>
-                        <ListItemButton sx={{ padding: "0 10px" }}>
-                            <ScheduleIcon sx={{ fontSize: "0.9em", marginRight: "10px" }} />
-                            <ListItemText primary="Mon-Fri: 10:00-18:00" primaryTypographyProps={{ fontSize: "12px", letterSpacing: "0.55px", lineHeight: "14px", fontWeight: "400" }} />
-                        </ListItemButton>
-                    </List>
-                </Box>
-                <Box marginTop="2%">
-                    <Typography variant="h3" sx={{
-                        textTransform: "uppercase", letterSpacing: "0.4rem", fontSize: "1.4rem", fontFamily: "Inter, sans-serif", lineHeight: "1.6"
-                    }}> edensign </Typography>
-                    <List component='nav' sx={{
-                        display: "inline-flex", color: colors.redAccent[800], width: "90%"
-                    }}>
-                        <ListItemButton className="list" sx={{ paddingRight: "7px" }} >
-                            <FacebookIcon sx={{ fontSize: "14px", "&:hover": { color: "#ffffff" } }} />
-                        </ListItemButton>
-                        <ListItemButton className="list" sx={{ paddingRight: "7px" }} onClick={handleInstagramClick} >
-                            <InstagramIcon sx={{ fontSize: "14px", "&:hover": { color: "#ffffff" } }} />
-                        </ListItemButton>
-                        <ListItemButton className="list" sx={{ paddingRight: "7px" }}>
-                            <TwitterIcon sx={{ fontSize: "14px", "&:hover": { color: "white" } }} />
-                        </ListItemButton>
-                        <ListItemButton className="list">
-                            <YouTubeIcon sx={{ fontSize: "14px", "&:hover": { color: "white" } }} />
-                        </ListItemButton>
-                    </List>
-                </Box>
-                <Box sx={{ width: "16%" }}>
-                    <Typography sx={{
-                        fontFamily: "Inter, sans-serif", color: "#868686", textAlign: "right", fontSize: "12px", fontWeight: "400", letterSpacing: "0.6px"
-                    }}>
-                        Hello there!
-                        We hope you're having a wonderful day. At Eden Sign, we make your life easier with seamless appointment booking services.<br />
-                        {/* <kbd style={{ float: "right", color: "white" }}>READ MORE</kbd> */}
-                    </Typography>
-                </Box>
-            </Box>
+  return (
+    <footer ref={ref} style={{
+      background: 'linear-gradient(180deg, #1a0a00 0%, #0d0500 100%)',
+      color: '#fff',
+      position: 'relative',
+      overflow: 'hidden',
+    }}>
+      {/* Decorative top border */}
+      <div style={{
+        height: '3px',
+        background: 'linear-gradient(90deg, transparent, #c7956c, #a8724d, transparent)',
+      }} />
 
-            <Box sx={{
-                display: "flex", justifyContent: "space-between", width: "80.5%", height: "10vh", margin: "auto", paddingTop: "3%"
+      {/* Decorative background pattern */}
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        backgroundImage: `radial-gradient(circle at 20% 20%, rgba(199,149,108,0.05) 0%, transparent 50%),
+                          radial-gradient(circle at 80% 80%, rgba(199,149,108,0.04) 0%, transparent 50%)`,
+        pointerEvents: 'none',
+      }} />
+
+      {/* Main footer content */}
+      <div style={{
+        maxWidth: '1200px',
+        margin: '0 auto',
+        padding: '72px 40px 48px',
+        position: 'relative',
+        zIndex: 1,
+      }}>
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '2fr 1fr 1fr 1.4fr',
+            gap: '48px',
+          }}
+          className="es-footer-grid"
+        >
+          {/* Brand Column */}
+          <div>
+            <Link to="/" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
+              <div style={{
+                width: 36,
+                height: 36,
+                background: 'linear-gradient(135deg, #c7956c, #a8724d)',
+                borderRadius: '10px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexShrink: 0,
+              }}>
+                <ContentCutOutlinedIcon sx={{ fontSize: 18, color: '#fff' }} />
+              </div>
+              <span style={{
+                fontFamily: 'Playfair Display, serif',
+                fontWeight: 700,
+                fontSize: '22px',
+                color: '#fff',
+                letterSpacing: '0.04em',
+              }}>edensign</span>
+            </Link>
+
+            <p style={{
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '13.5px',
+              color: 'rgba(255,255,255,0.55)',
+              lineHeight: '1.8',
+              margin: '0 0 28px 0',
+              maxWidth: '280px',
             }}>
-                <Typography sx={{
-                    color: "#868686", fontSize: "11px", textAlign: "left", fontWeight: "400", letterSpacing: "0.275px", lineHeight: "1em"
-                }}>
-                    &copy; 2024 EDENSIGN. All Rights Reserved.
-                </Typography>
-                <List component='nav' sx={{ display: "inline-flex", padding: "0", marginRight: "-34px" }}>
-                    <ListItemButton className="list">
-                        <Link to="/privacy-policy" style={{ textDecoration: 'none', color: 'inherit' }} >
-                            <ListItemText primary="PRIVACY POLICY" primaryTypographyProps={{
-                                fontSize: "11px", marginRight: "10px"
-                            }} /></Link>
+              India's premier salon platform. Book appointments, discover talent, and shop professional beauty products — all in one place.
+            </p>
 
-                        <FiberManualRecordIcon sx={{ fontSize: "4px" }} />
-                    </ListItemButton>
-                    <ListItemButton className="list" sx={{ paddingLeft: "0" }}>
-                        <ListItemText primary="TERMS" primaryTypographyProps={{
-                            fontSize: "11px", marginRight: "10px"
-                        }} />
-                        <FiberManualRecordIcon sx={{ fontSize: "4px" }} />
-                    </ListItemButton>
-                    <ListItemButton className="list" sx={{ paddingLeft: "0" }}>
-                        <Link to="/faq" style={{ textDecoration: "none", color: "inherit" }}>
-                            <ListItemText primary="FAQ" primaryTypographyProps={{ fontSize: "11px" }} />
-                        </Link>
-                    </ListItemButton>
-                </List>
-            </Box>
-        </Box >
-    )
+            {/* Social icons */}
+            <div style={{ display: 'flex', gap: '8px' }}>
+              {socialLinks.map(({ Icon, href, label }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={label}
+                  style={{
+                    width: 36,
+                    height: 36,
+                    borderRadius: '10px',
+                    border: '1px solid rgba(199,149,108,0.25)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: 'rgba(255,255,255,0.6)',
+                    textDecoration: 'none',
+                    transition: 'all 0.25s ease',
+                  }}
+                  className="es-social-icon"
+                  onClick={label === 'Instagram' ? handleInstagramClick : undefined}
+                >
+                  <Icon sx={{ fontSize: 16 }} />
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Quick Links */}
+          <div>
+            <h4 style={{
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '11px',
+              fontWeight: 600,
+              letterSpacing: '0.18em',
+              textTransform: 'uppercase',
+              color: '#c7956c',
+              margin: '0 0 20px 0',
+            }}>Navigation</h4>
+            <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              {quickLinks.map(({ label, href }) => (
+                <li key={href}>
+                  <Link
+                    to={href}
+                    style={{
+                      textDecoration: 'none',
+                      fontFamily: 'Inter, sans-serif',
+                      fontSize: '13.5px',
+                      color: 'rgba(255,255,255,0.6)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      transition: 'color 0.2s, gap 0.2s',
+                    }}
+                    className="es-footer-link"
+                  >
+                    <ArrowForwardIcon sx={{ fontSize: 12, opacity: 0, transition: 'opacity 0.2s' }} className="es-footer-link-arrow" />
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Legal */}
+          <div>
+            <h4 style={{
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '11px',
+              fontWeight: 600,
+              letterSpacing: '0.18em',
+              textTransform: 'uppercase',
+              color: '#c7956c',
+              margin: '0 0 20px 0',
+            }}>Legal</h4>
+            <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              {legalLinks.map(({ label, href }) => (
+                <li key={label}>
+                  <Link
+                    to={href}
+                    style={{
+                      textDecoration: 'none',
+                      fontFamily: 'Inter, sans-serif',
+                      fontSize: '13.5px',
+                      color: 'rgba(255,255,255,0.6)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      transition: 'color 0.2s',
+                    }}
+                    className="es-footer-link"
+                  >
+                    <ArrowForwardIcon sx={{ fontSize: 12, opacity: 0 }} className="es-footer-link-arrow" />
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+
+            {/* Platform badges */}
+            <h4 style={{
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '11px',
+              fontWeight: 600,
+              letterSpacing: '0.18em',
+              textTransform: 'uppercase',
+              color: '#c7956c',
+              margin: '32px 0 14px 0',
+            }}>Platform</h4>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              {['Appointments', 'Job Portal', 'E-commerce'].map((item) => (
+                <span key={item} style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '12px',
+                  color: 'rgba(255,255,255,0.45)',
+                }}>
+                  <span style={{
+                    width: 6,
+                    height: 6,
+                    borderRadius: '50%',
+                    background: '#c7956c',
+                    opacity: 0.5,
+                    flexShrink: 0,
+                  }} />
+                  {item}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Contact */}
+          <div>
+            <h4 style={{
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '11px',
+              fontWeight: 600,
+              letterSpacing: '0.18em',
+              textTransform: 'uppercase',
+              color: '#c7956c',
+              margin: '0 0 20px 0',
+            }}>Get In Touch</h4>
+            <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: '14px' }}>
+              {contactItems.map(({ Icon, text }) => (
+                <li key={text} style={{
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: '10px',
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '13px',
+                  color: 'rgba(255,255,255,0.55)',
+                  lineHeight: '1.5',
+                }}>
+                  <Icon sx={{ fontSize: 15, color: '#c7956c', marginTop: '2px', flexShrink: 0 }} />
+                  {text}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </motion.div>
+
+        {/* Bottom bar */}
+        <div style={{
+          marginTop: '56px',
+          paddingTop: '24px',
+          borderTop: '1px solid rgba(199,149,108,0.12)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          gap: '12px',
+        }}>
+          <p style={{
+            fontFamily: 'Inter, sans-serif',
+            fontSize: '12px',
+            color: 'rgba(255,255,255,0.3)',
+            margin: 0,
+          }}>
+            © {new Date().getFullYear()} EDENSIGN. All Rights Reserved. Made with ❤️ in India.
+          </p>
+          <p style={{
+            fontFamily: 'Inter, sans-serif',
+            fontSize: '12px',
+            color: 'rgba(255,255,255,0.25)',
+            margin: 0,
+          }}>
+            Designed &amp; Built by the Eden Sign Team
+          </p>
+        </div>
+      </div>
+
+      <style>{`
+        /* Footer responsive */
+        .es-footer-grid {
+          grid-template-columns: 2fr 1fr 1fr 1.4fr;
+        }
+        @media (max-width: 960px) {
+          .es-footer-grid {
+            grid-template-columns: 1fr 1fr !important;
+            gap: 40px !important;
+          }
+        }
+        @media (max-width: 600px) {
+          .es-footer-grid {
+            grid-template-columns: 1fr !important;
+          }
+        }
+
+        /* Footer link hover */
+        .es-footer-link:hover {
+          color: #c7956c !important;
+          gap: 10px !important;
+        }
+        .es-footer-link:hover .es-footer-link-arrow {
+          opacity: 1 !important;
+        }
+
+        /* Social icon hover */
+        .es-social-icon:hover {
+          background: rgba(199,149,108,0.15) !important;
+          border-color: rgba(199,149,108,0.5) !important;
+          color: #c7956c !important;
+          transform: translateY(-2px);
+        }
+      `}</style>
+    </footer>
+  );
 }
 
 export default Footer;

@@ -8,10 +8,10 @@
 
 import React, { lazy, Suspense } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
 
 import { ThemeProvider, useTheme } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
-// import { useIdleTimer } from 'react-idle-timer';
 
 import { ColorModeContext, useMode, tokens } from "./theme";
 import Topbar from "./components/common/Topbar";
@@ -29,18 +29,30 @@ import SalonDetail from "./components/pages/salonDetail/SalonDetail";
 import Product from "./components/pages/products/Product";
 import ProductDetail from "./components/pages/products/ProductDetailPage";
 import Faq from "./components/pages/faq/Faq";
-// import Services from "./components/pages";
-// import PrivacyPolicy from "./components/pages";
 import Footer from './components/common/Footer';
 
-function App() {
+const pageVariants = {
+  initial: { opacity: 0, y: 16 },
+  animate: { opacity: 1, y: 0, transition: { duration: 0.35, ease: "easeOut" } },
+  exit: { opacity: 0, y: -8, transition: { duration: 0.2, ease: "easeIn" } },
+};
 
+const PageWrapper = ({ children }) => (
+  <motion.div
+    variants={pageVariants}
+    initial="initial"
+    animate="animate"
+    exit="exit"
+    style={{ flex: 1, display: "flex", flexDirection: "column" }}
+  >
+    {children}
+  </motion.div>
+);
+
+function App() {
   const [theme, colorMode] = useMode();
   const themes = useTheme();
-  const colors = tokens(themes.palette.mode);
   const location = useLocation();
-
-  // old gradient = linear-gradient(to right, #d9a7c7, #ffdde1)
 
   React.useEffect(() => {
     if (location.pathname) {
@@ -53,34 +65,45 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Suspense fallback={<Loader />}>
-          <div id="main-div" style={{
-            backgroundColor: "#f3f3f3", background: location.pathname == "/salons" ? `radial-gradient(circle, rgba(160,177,193,1) 0%, rgba(194,192,197,1) 100%)` :
-              location.pathname == "/about" ? `linear-gradient(to bottom right, rgb(249,249,249), #f3f3f3, rgb(236,236,236))` : `linear-gradient(to bottom right, rgba(182,164,159,1), rgba(231,214,202,1))`,
-            color: "#000000", position: "relative", display: "flex", flexDirection: "column", minHeight: "100vh", minWidth: "320px", width: "100%", maxWidth: "100vw", transition: "background 1s ease"
-          }}>
+          <div
+            id="main-div"
+            style={{
+              backgroundColor: "#f8fafc",
+              color: "#1a0f08",
+              position: "relative",
+              display: "flex",
+              flexDirection: "column",
+              minHeight: "100vh",
+              minWidth: "320px",
+              width: "100%",
+              maxWidth: "100%",
+              overflowX: "hidden",
+            }}
+          >
             <Topbar />
-            <Routes>
-              <Route exact path='/' element={<Home />} />
-              <Route path='*' element={<NotFound />} />
-              <Route path='/about' element={<AboutUs />} />
-              <Route exact path='/contact' element={<ContactUs />} />
-              <Route exact path='/job-seeker' element={<JobSeeker />} />
-              <Route path='/legal-info' element={<LegalInfo />} />
-              <Route exact path='/login' element={<Login />} />
-              <Route exact path='/register' element={<Register />} />
-              <Route exact path='/salons' element={<Salon />} />
-              <Route exact path='/products' element={<Product />} />
-              <Route exact path='/salon/detail/:code' element={<SalonDetail />} />
-              <Route exact path='/faq' element={<Faq />} />
-              <Route exact path='/product/detail' element={<ProductDetail />} />
-              {/* <Route path='/services' element={<Services />} /> */}
-            </Routes>
+            <AnimatePresence mode="wait">
+              <Routes location={location} key={location.pathname}>
+                <Route exact path='/' element={<PageWrapper><Home /></PageWrapper>} />
+                <Route path='*' element={<PageWrapper><NotFound /></PageWrapper>} />
+                <Route path='/about' element={<PageWrapper><AboutUs /></PageWrapper>} />
+                <Route exact path='/contact' element={<PageWrapper><ContactUs /></PageWrapper>} />
+                <Route exact path='/job-seeker' element={<PageWrapper><JobSeeker /></PageWrapper>} />
+                <Route path='/legal-info' element={<PageWrapper><LegalInfo /></PageWrapper>} />
+                <Route exact path='/login' element={<PageWrapper><Login /></PageWrapper>} />
+                <Route exact path='/register' element={<PageWrapper><Register /></PageWrapper>} />
+                <Route exact path='/salons' element={<PageWrapper><Salon /></PageWrapper>} />
+                <Route exact path='/products' element={<PageWrapper><Product /></PageWrapper>} />
+                <Route exact path='/salon/detail/:code' element={<PageWrapper><SalonDetail /></PageWrapper>} />
+                <Route exact path='/faq' element={<PageWrapper><Faq /></PageWrapper>} />
+                <Route exact path='/product/detail' element={<PageWrapper><ProductDetail /></PageWrapper>} />
+              </Routes>
+            </AnimatePresence>
             <Footer />
           </div>
         </Suspense>
       </ThemeProvider>
     </ColorModeContext.Provider>
-  )
+  );
 }
 
 export default App;

@@ -59,12 +59,11 @@ const JobSeekers = () => {
 
 
     return (
-        <div style={{ backgroundColor: "#e5e5e5", color: "#ffffff" }}>
+        <div style={{ backgroundColor: "#f8fafc", color: "#1a0f08" }}>
             <PageTop />
             <FilterMenu showSkills={showSkills} showGender={showGender} showExperienceRange={showExperienceRange}
                 value={value} handleChange={handleExperienceSliderChange} max={20} onFilter={handleFilterChange} />
             <JobSeekerCards skills={skills} selectedSkill={selectedSkill} selectedGender={selectedGender} selectedExperience={value} />
-            {/* <ServicesStrip /> */}
         </div>
     )
 }

@@ -1,119 +1,94 @@
 /**
  * Copyright © 2023, Eden Sign Inc. ALL RIGHTS RESERVED.
- *
- * This software is the confidential information of Eden Sign Inc., and is licensed as
- * restricted rights software. The use, reproduction, or disclosure of this software is subject to
- * restrictions set forth in your license agreement with Eden Sign.
-*/
+ */
 
-import { Box, List, ListItemButton, Typography } from "@mui/material";
+import React from 'react';
+import { motion } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
 import InstagramIcon from '@mui/icons-material/Instagram';
-import { Link } from "react-router-dom";
 
+const brandLogos = [
+  { name: "L'Oréal", img: 'https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brands/loreal.jpg' },
+  { name: 'Aerin', img: 'https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brands/aerin.jpg' },
+  { name: 'MAC', img: 'https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brands/mac.jpg' },
+  { name: 'Revlon', img: 'https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brands/revlon.png' },
+  { name: 'Fable', img: 'https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brands/fable.jpg' },
+  { name: 'Schwarzkopf', img: 'https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brands/schwar.jpg' },
+];
+
+const galleryImages = [
+  'https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brandImg/brandImg.jpg',
+  'https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brandImg/brandImg2.jpg',
+  'https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brandImg/brandImg3.jpg',
+  'https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brandImg/brandImg4.jpg',
+  'https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brandImg/brandImg5.jpg',
+  'https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brandImg/brandImg6.jpg',
+];
 
 const Brands = () => {
+  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.15 });
 
-    const brandSectionUrl = "https://edensign1.blob.core.windows.net/image-storage/";
-    const handleBoxClick = () => {
-       
-        window.open ('https://instagram.com/edensign.in?igshid=NzZlODBkYWE4Ng==','_blank');
-      };
-    return (
-        <Box sx={{ height: "96vh", width: "100%", marginBottom: "8%", position: "relative" }}>
-            <Box display="flex" justifyContent="center" marginBottom="6%"
-                sx={{ backgroundImage: `url(https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brands/bg2.png)`, backgroundSize: "cover", backgroundRepeat: "repeat" }}>
-                <List component='nav' sx={{ display: "inline-flex", alignItems: "center" }}>
-                    <ListItemButton sx={{ "&:hover": { background: "transparent" } }}>
-                        <Box sx={{
-                            height: "20px", width: "108px", padding: "8px 25px", backgroundImage: `url(https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brands/loreal.jpg)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", opacity: "0.4", transition: "all 0.2s ease",
-                            "&:hover": { opacity: "1", transform: "scale(1.2)" }
-                        }} />
-                    </ListItemButton>
-                    <ListItemButton sx={{ "&:hover": { background: "transparent" } }}>
-                        <Box sx={{
-                            height: "20px", width: "100px", padding: "8px 25px", backgroundImage: `url(https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brands/aerin.jpg)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", opacity: "0.4", transition: "all 0.2s ease",
-                            "&:hover": { opacity: "1", transform: "scale(1.2)" }
-                        }} />
-                    </ListItemButton>
-                    <ListItemButton sx={{ "&:hover": { background: "transparent" } }}>
-                        <Box sx={{
-                            height: "20px", width: "140px", padding: "8px 25px", backgroundImage: `url(https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brands/mac.jpg)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", opacity: "0.4", transition: "all 0.2s ease",
-                            "&:hover": { opacity: "1", transform: "scale(1.2)" }
-                        }} />
-                    </ListItemButton>
+  return (
+    <section ref={ref} className="es-brands-section">
+      {/* Section header */}
+      <motion.div
+        className="es-section-header"
+        initial={{ opacity: 0, y: 30 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.6 }}
+      >
+        <span className="es-eyebrow">Trusted Partners</span>
+        <h2 className="es-section-title">Our <em>Brands</em></h2>
+        <div className="es-title-divider" />
+      </motion.div>
 
-                    <Box sx={{
-                        display: "flex", justifyContent: "center", paddingRight: "10px", opacity: "0.4", transition: "all 0.2s ease",
-                        "&:hover": { opacity: "1", transform: "scale(1.2)" }
-                    }}>
-                        <span style={{ fontWeight: "500", fontSize: "46px", fontFamily: "Dancing Script, cursive", textTransform: "capitalize" }}>&nbsp;Eden signature</span>
-                    </Box>
+      {/* Infinite marquee */}
+      <div className="es-marquee-wrapper">
+        <div className="es-marquee-track">
+          {[...brandLogos, ...brandLogos].map((brand, i) => (
+            <div key={i} className="es-marquee-item">
+              <img src={brand.img} alt={brand.name} className="es-brand-logo" />
+            </div>
+          ))}
+        </div>
+      </div>
 
-                    <ListItemButton sx={{ "&:hover": { background: "transparent" } }}>
-                        <Box sx={{
-                            height: "48px", width: "130px", padding: "8px 25px", backgroundImage: `url(https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brands/revlon.png)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", opacity: "0.4", transition: "all 0.2s ease",
-                            "&:hover": { opacity: "1", transform: "scale(1.2)" }
-                        }} />
-                    </ListItemButton>
-                    <ListItemButton sx={{ "&:hover": { background: "transparent" } }}>
-                        <Box sx={{
-                            height: "20px", width: "180px", padding: "8px 25px", backgroundImage: `url(https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brands/fable.jpg)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", opacity: "0.4", transition: "all 0.2s ease",
-                            "&:hover": { opacity: "1", transform: "scale(1.2)" }
-                        }} />
-                    </ListItemButton>
-                    <ListItemButton sx={{ "&:hover": { background: "transparent" } }}>
-                        <Box sx={{
-                            height: "76px", width: "150px", padding: "8px 35px", backgroundImage: `url(https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brands/schwar.jpg)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", opacity: "0.4", transition: "all 0.2s ease",
-                            "&:hover": { opacity: "1", transform: "scale(1.2)" }
-                        }} />
-                    </ListItemButton>
-                </List>
-            </Box>
+      {/* Instagram gallery grid */}
+      <motion.div
+        className="es-insta-grid"
+        initial={{ opacity: 0, y: 40 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.7, delay: 0.3 }}
+      >
+        {galleryImages.map((img, i) => (
+          <a
+            key={i}
+            href="https://instagram.com/edensign.in"
+            target="_blank"
+            rel="noreferrer"
+            className="es-insta-cell"
+          >
+            <img src={img} alt={`Eden Sign gallery ${i + 1}`} className="es-insta-img" />
+            <div className="es-insta-hover">
+              <InstagramIcon sx={{ fontSize: 28, color: '#fff' }} />
+            </div>
+          </a>
+        ))}
 
-            <Box display="flex" justifyContent="center" alignItems="center">
-                <Box sx={{
-                    height: "40vh", width: "18%", backgroundImage: `url(https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brandImg/brandImg.jpg)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover"
-                }} />
-                <Box sx={{
-                    height: "40vh", width: "18%", backgroundImage: `url(https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brandImg/brandImg2.jpg)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", marginTop: "8%"
-                }} />
-                <Box sx={{
-                    height: "40vh", width: "18%", backgroundImage: `url(https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brandImg/brandImg3.jpg)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", marginTop: "-8%"
-                }} />
-                <Box sx={{
-                    height: "40vh", width: "18%", backgroundImage: `url(https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brandImg/brandImg4.jpg)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", marginTop: "14%"
-                }} />
-                <Box sx={{
-                    height: "40vh", width: "18%", backgroundImage: `url(https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brandImg/brandImg5.jpg)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", marginTop: "-4%"
-                }} />
-                <Box sx={{
-                    height: "40vh", width: "18%", backgroundImage: `url(https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brandImg/brandImg6.jpg)`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", marginTop: "8%"
-                }} />
-            </Box>
-            <Box sx={{
-                height: "50vh", width: "24%", backgroundColor: "#ffffff", display: "flex", flexDirection: "column", justifyContent: "center",
-                alignItems: "center", position: "absolute", left: "38%", top: "32%", opacity: "0.9",
-                "&:hover": {
-                    color: "#ffdde1", cursor: "pointer"
-                },
-                
-            }} onClick= {handleBoxClick}> 
-                <InstagramIcon sx={{
-                    height: "18px", width: "18px", fontSize: "18px", lineHeight: "1", display: "block", borderColor: "#868686"
-                }} />
-                <Typography sx={{
-                    textTransform: "uppercase", letterSpacing: "0.5em", fontSize: "16px", fontFamily: "Marcellus,sans-serif",
-                    fontWeight: "400", lineHeight: "28px", paddingTop: "10px"
-                }}>
-                    instagram </Typography>
-                <Typography sx={{
-                    textTransform: "uppercase", letterSpacing: "0.2em", fontSize: "12px", fontFamily: "Inter, sans-serif",
-                    lineHeight: "25px"
-                }}>
-                    @edensign </Typography>
-            </Box>
-        </Box>
-    )
+        {/* Center overlay card */}
+        <a
+          href="https://instagram.com/edensign.in"
+          target="_blank"
+          rel="noreferrer"
+          className="es-insta-center-card"
+        >
+          <InstagramIcon sx={{ fontSize: 32, color: '#c7956c' }} />
+          <span className="es-insta-handle-label">Follow Us</span>
+          <span className="es-insta-handle">@edensign</span>
+        </a>
+      </motion.div>
+    </section>
+  );
 };
 
 export default Brands;

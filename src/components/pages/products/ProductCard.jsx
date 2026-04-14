@@ -1,64 +1,324 @@
 /**
  * Copyright © 2023, Eden Sign Inc. ALL RIGHTS RESERVED.
- *
- * This software is the confidential information of Eden Sign Inc., and is licensed as
- * restricted rights software. The use,reproduction, or disclosure of this software is subject to
- * restrictions set forth in your license agreement with Eden Sign.
  */
+
 import React, { useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Box, Button, Divider, MenuItem, Select, Rating } from '@mui/material';
+import { motion } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
+
 import Pagination from '@mui/material/Pagination';
-// import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-
-
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
+import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
+import StarIcon from '@mui/icons-material/Star';
+import StorefrontOutlinedIcon from '@mui/icons-material/StorefrontOutlined';
 
 import API from '../../../apis';
 import { setProducts } from '../../../redux/actions/ProductAction';
-import ProductDetailPage from './ProductDetailPage';
-import Toast from "../../common/Toast";
-import Loader from "../../common/Loader";
-import "../products/Product.css"
+import Toast from '../../common/Toast';
+import Loader from '../../common/Loader';
 
-import botanicsImg from "../../assets/products/botanics.jpg"
-import cleanserImg from "../../assets/products/cleanser.jpg"
-import creamImg from "../../assets/products/cream.jpg"
-import lorealImg from "../../assets/products/loreal.jpg"
-import lotionImg from "../../assets/products/lotion.jpg"
-import perfumeImg from "../../assets/products/perfume.jpg"
+import botanicsImg from '../../assets/products/botanics.jpg';
+import cleanserImg from '../../assets/products/cleanser.jpg';
+import creamImg from '../../assets/products/cream.jpg';
+import lorealImg from '../../assets/products/loreal.jpg';
+import lotionImg from '../../assets/products/lotion.jpg';
+import perfumeImg from '../../assets/products/perfume.jpg';
 
 const productImages = {
-  "All Bright": botanicsImg,
-  "Skin Cleanser": cleanserImg,
-  "Hydrating Cream": creamImg,
-  "Bonjour Nudista": lorealImg,
-  "Rance 1795 Perfume": perfumeImg,
-  "Brown Sugar Body Lotion": lotionImg,
+  'All Bright': botanicsImg,
+  'Skin Cleanser': cleanserImg,
+  'Hydrating Cream': creamImg,
+  'Bonjour Nudista': lorealImg,
+  'Rance 1795 Perfume': perfumeImg,
+  'Brown Sugar Body Lotion': lotionImg,
 };
 
 const ENV = import.meta.env;
 
+/* ── Skeleton card ── */
+const ProductCardSkeleton = () => (
+  <div style={{ background: '#fff', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 4px 20px rgba(26,10,0,0.05)', border: '1px solid rgba(199,149,108,0.08)' }}>
+    <div style={{ height: '240px', background: 'linear-gradient(90deg, #f0ebe6 25%, #e8e0d8 50%, #f0ebe6 75%)', backgroundSize: '200% 100%', animation: 'shimmer 1.6s infinite' }} />
+    <div style={{ padding: '20px' }}>
+      <div style={{ height: '16px', borderRadius: '5px', background: 'linear-gradient(90deg, #f0ebe6 25%, #e8e0d8 50%, #f0ebe6 75%)', backgroundSize: '200% 100%', animation: 'shimmer 1.6s infinite', marginBottom: '10px', width: '70%' }} />
+      <div style={{ height: '13px', borderRadius: '5px', background: 'linear-gradient(90deg, #f0ebe6 25%, #e8e0d8 50%, #f0ebe6 75%)', backgroundSize: '200% 100%', animation: 'shimmer 1.6s infinite', width: '45%' }} />
+    </div>
+  </div>
+);
+
+/* ── Empty state ── */
+const EmptyState = () => (
+  <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '80px 24px' }}>
+    <div style={{ width: 80, height: 80, borderRadius: '24px', background: 'rgba(199,149,108,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px' }}>
+      <StorefrontOutlinedIcon sx={{ fontSize: 36, color: '#c7956c' }} />
+    </div>
+    <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: '22px', color: '#1a0f08', margin: '0 0 8px' }}>No Products Yet</h3>
+    <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', color: '#9a8070', margin: 0 }}>Check back soon for our curated product collection.</p>
+  </div>
+);
+
+/* ── Single product card ── */
+const ProductCard_Item = ({ product, i, onEyeClick, onAddToCart }) => {
+  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.08 });
+  const [hovered, setHovered] = useState(false);
+  const [wishlisted, setWishlisted] = useState(false);
+  const productImg = productImages[product.name];
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 36 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.5, delay: (i % 3) * 0.1, ease: 'easeOut' }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        background: '#fff',
+        borderRadius: '20px',
+        overflow: 'hidden',
+        boxShadow: hovered ? '0 20px 56px rgba(26,10,0,0.12)' : '0 4px 20px rgba(26,10,0,0.05)',
+        border: '1px solid rgba(199,149,108,0.1)',
+        transition: 'box-shadow 0.35s ease, transform 0.35s ease',
+        transform: hovered ? 'translateY(-6px)' : 'translateY(0)',
+        position: 'relative',
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
+      {/* Bestseller badge */}
+      {product.is_bestseller && (
+        <div style={{
+          position: 'absolute',
+          top: 14,
+          left: 14,
+          zIndex: 2,
+          background: 'linear-gradient(135deg, #c7956c, #a8724d)',
+          color: '#fff',
+          fontFamily: 'Inter, sans-serif',
+          fontSize: '9px',
+          fontWeight: 700,
+          letterSpacing: '0.15em',
+          textTransform: 'uppercase',
+          padding: '4px 10px',
+          borderRadius: '100px',
+        }}>
+          Bestseller
+        </div>
+      )}
+
+      {/* Discount badge */}
+      {product.discount_percent > 0 && (
+        <div style={{
+          position: 'absolute',
+          top: 14,
+          right: 14,
+          zIndex: 2,
+          background: 'rgba(34,197,94,0.9)',
+          color: '#fff',
+          fontFamily: 'Inter, sans-serif',
+          fontSize: '10px',
+          fontWeight: 700,
+          padding: '4px 10px',
+          borderRadius: '100px',
+        }}>
+          {product.discount_percent.toFixed(0)}% OFF
+        </div>
+      )}
+
+      {/* Image container */}
+      <div style={{
+        position: 'relative',
+        height: '240px',
+        background: '#faf6f1',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        overflow: 'hidden',
+      }}>
+        <img
+          src={productImg}
+          alt={product.name}
+          style={{
+            maxHeight: '200px',
+            maxWidth: '80%',
+            objectFit: 'contain',
+            transition: 'transform 0.5s ease',
+            transform: hovered ? 'scale(1.06)' : 'scale(1)',
+          }}
+        />
+
+        {/* Hover action buttons */}
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          display: 'flex',
+          alignItems: 'flex-end',
+          justifyContent: 'center',
+          gap: '8px',
+          padding: '16px',
+          background: hovered ? 'rgba(26,10,0,0.08)' : 'transparent',
+          transition: 'background 0.3s',
+        }}>
+          <motion.div
+            style={{ display: 'flex', gap: '8px', alignItems: 'center' }}
+            initial={{ y: 10, opacity: 0 }}
+            animate={{ y: hovered ? 0 : 10, opacity: hovered ? 1 : 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            <button
+              onClick={() => onEyeClick(product, productImg)}
+              style={{
+                width: 38,
+                height: 38,
+                borderRadius: '12px',
+                background: '#fff',
+                border: 'none',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                boxShadow: '0 4px 12px rgba(26,10,0,0.15)',
+                transition: 'transform 0.2s',
+                color: '#3d1e0a',
+              }}
+              title="Quick view"
+            >
+              <RemoveRedEyeOutlinedIcon sx={{ fontSize: 17 }} />
+            </button>
+            <button
+              onClick={() => setWishlisted(!wishlisted)}
+              style={{
+                width: 38,
+                height: 38,
+                borderRadius: '12px',
+                background: '#fff',
+                border: 'none',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                boxShadow: '0 4px 12px rgba(26,10,0,0.15)',
+                color: wishlisted ? '#ef4444' : '#3d1e0a',
+              }}
+              title="Add to wishlist"
+            >
+              <FavoriteBorderOutlinedIcon sx={{ fontSize: 17 }} />
+            </button>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Product info */}
+      <div style={{ padding: '20px 20px 0', flex: 1 }}>
+        {/* Brand */}
+        <span style={{
+          fontFamily: 'Inter, sans-serif',
+          fontSize: '10px',
+          fontWeight: 600,
+          letterSpacing: '0.15em',
+          textTransform: 'uppercase',
+          color: '#c7956c',
+          display: 'block',
+          marginBottom: '4px',
+        }}>
+          {product.brand}
+        </span>
+
+        {/* Name */}
+        <h3 style={{
+          fontFamily: 'Inter, sans-serif',
+          fontSize: '15px',
+          fontWeight: 600,
+          color: '#1a0f08',
+          margin: '0 0 6px 0',
+          lineHeight: 1.3,
+        }}>
+          {product.name}
+        </h3>
+
+        {/* Description */}
+        <p style={{
+          fontFamily: 'Inter, sans-serif',
+          fontSize: '12px',
+          color: '#9a8070',
+          margin: '0 0 12px 0',
+          lineHeight: 1.6,
+          display: '-webkit-box',
+          WebkitLineClamp: 2,
+          WebkitBoxOrient: 'vertical',
+          overflow: 'hidden',
+        }}>
+          {product.description}
+        </p>
+
+        {/* Rating */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginBottom: '14px' }}>
+          {[1,2,3,4,5].map((s) => (
+            <StarIcon key={s} sx={{ fontSize: 12, color: s <= 3.5 ? '#F59E0B' : '#e8e0d8' }} />
+          ))}
+          <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', color: '#9a8070', marginLeft: '4px' }}>(3.5)</span>
+        </div>
+
+        {/* Price row */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+          <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '18px', fontWeight: 700, color: '#1a0f08' }}>
+            ₹{product.discounted_price}
+          </span>
+          <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '13px', color: '#9a8070', textDecoration: 'line-through' }}>
+            ₹{product.price}
+          </span>
+        </div>
+      </div>
+
+      {/* Add to cart button */}
+      <div style={{ padding: '0 20px 20px' }}>
+        <button
+          onClick={onAddToCart}
+          style={{
+            width: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '8px',
+            padding: '12px',
+            background: hovered
+              ? 'linear-gradient(135deg, #1a0a00, #3d1e0a)'
+              : 'rgba(199,149,108,0.1)',
+            border: `1.5px solid ${hovered ? 'transparent' : 'rgba(199,149,108,0.3)'}`,
+            borderRadius: '12px',
+            color: hovered ? '#fff' : '#a8724d',
+            fontFamily: 'Inter, sans-serif',
+            fontSize: '12px',
+            fontWeight: 600,
+            letterSpacing: '0.06em',
+            textTransform: 'uppercase',
+            cursor: 'pointer',
+            transition: 'all 0.3s ease',
+          }}
+        >
+          <ShoppingBagOutlinedIcon sx={{ fontSize: 16 }} />
+          Add to Cart
+        </button>
+      </div>
+    </motion.div>
+  );
+};
+
+/* ── Main component ── */
 function ProductCard() {
   const [alert, setAlert] = useState(false);
-  const [severity, setSeverity] = useState("");
-  const [message, setMessage] = useState("");
-
-  const [hoveredCard, setHoveredCard] = useState(null);
+  const [severity, setSeverity] = useState('');
+  const [message, setMessage] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
 
   const navigateTo = useNavigate();
   const dispatch = useDispatch();
   const { listData, loading } = useSelector(state => state.allProducts);
-  const imgURL = `${ENV.VITE_SAS_URL}/product`;
 
-  const itemsPerPage = 6;
+  const itemsPerPage = 9;
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const currentProducts = listData?.slice(startIndex, endIndex);
@@ -68,184 +328,92 @@ function ProductCard() {
     window.scrollTo(0, 300);
   };
 
-  const handleMouseEnter = (event, cardNumber) => {
-    setHoveredCard(cardNumber);
+  const handleEyeClick = (product, productImg) => {
+    navigateTo('/product/detail', { state: { details: { product, productImg } } });
   };
-
-  const handleMouseLeave = () => {
-    setHoveredCard(null);
-  };
-
-  const handleEyeClick = (event, product, productImg) => {
-    navigateTo("/product/detail", {
-      state: {
-        details: {
-          product,
-          productImg,
-        },
-      },
-    });
-  }
 
   function AddToCart() {
     setAlert(true);
-    setSeverity("success");
-    setMessage("Successfully Created");
-    setTimeout(() => {
-      setAlert(false);
-    }, 2000);
+    setSeverity('success');
+    setMessage('Added to cart successfully!');
+    setTimeout(() => setAlert(false), 2500);
   }
-
 
   const getProducts = () => {
     API.ProductAPI.getProductList()
       .then(res => {
-        if (res.status === "Success") {
-          console.log(res.data, 'response data')
-          dispatch(setProducts({ listData: res.data, loading: false }))
+        if (res.status === 'Success') {
+          dispatch(setProducts({ listData: res.data, loading: false }));
         } else {
-          dispatch(setProducts({ listData: [], loading: false }))
+          dispatch(setProducts({ listData: [], loading: false }));
         }
       })
-      .catch(error => {
-        throw error;
-      });
+      .catch(error => { throw error; });
   };
 
   React.useEffect(() => {
     getProducts();
   }, []);
 
-
   return (
     <>
-      <Toast alerting={alert}
-        severity={severity}
-        message={message}
-      />
+      <style>{`
+        @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+        @media (max-width:900px) { .es-product-grid { grid-template-columns: repeat(2,1fr) !important; } }
+        @media (max-width:550px) { .es-product-grid { grid-template-columns: 1fr !important; } }
+      `}</style>
 
-      <Box sx={{
-        display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", marginRight: "5px", width: "75%", position: "relative", height: "70vh"
-      }}>
-        <Box sx={{
-          display: "block", position: "absolute", top: "30px", left: "70px", width: "90%", opacity: ".62",
-          textTransform: "uppercase"
-        }}>
-          <span> showing {startIndex + 1}-{endIndex > listData.length ? `${listData.length}` : endIndex} of {listData.length} result </span>
-          <Select defaultValue={"menu order"} size='small' style={{ float: "right", fontSize: "12px", bottom: "9px" }} >
-            <MenuItem value="menu order" selected="selected">Default Sorting</MenuItem>
-            <MenuItem value="popularity">Sort By Popularity</MenuItem>
-            <MenuItem value="rating">Sort By Average Rating</MenuItem>
-            <MenuItem value="date">Sort By latest</MenuItem>
-            <MenuItem value="price">Sort By Price: low to high</MenuItem>
-            <MenuItem value="price-desc">Sort By PRICE: high to low</MenuItem>
+      <Toast alerting={alert} severity={severity} message={message} />
 
-          </Select>
-        </Box>
+      <div
+        className="es-product-grid"
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(3, 1fr)',
+          gap: '24px',
+        }}
+      >
+        {loading
+          ? Array.from({ length: 6 }, (_, i) => <ProductCardSkeleton key={i} />)
+          : currentProducts?.length > 0
+            ? currentProducts.map((product, i) => (
+              <ProductCard_Item
+                key={i}
+                product={product}
+                i={i}
+                onEyeClick={handleEyeClick}
+                onAddToCart={AddToCart}
+              />
+            ))
+            : <EmptyState />
+        }
+      </div>
 
-        {currentProducts?.map((product, i) => (
-          <Card key={i} sx={{
-            height: "70vh", margin: "70px 0 20px 20px", borderRadius: "0", position: "relative", display: 'flex', alignItems: 'center',
-            justifyContent: 'center', flexDirection: 'column'
-          }}
-            onMouseEnter={(event) => handleMouseEnter(event, i)} onMouseLeave={(event) => handleMouseLeave(event, i)}>
-            <div style={{
-              width: "100%", display: "flex", justifyContent: "flex-start", color: "white"
-            }}>
-              <span style={{
-                backgroundColor: "#e4c1b1", textTransform: "uppercase", fontSize: "12px", textAlign: "center",
-                padding: '3px', borderRadius: '4px', fontWeight: "300", lineHeight: "22px", letterSpacing: "0.1em"
-              }}>
-                {product.is_bestseller ? "Bestseller" : ""}</span>
-            </div>
+      {/* Pagination */}
+      {listData?.length > itemsPerPage && (
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '48px' }}>
+          <Pagination
+            count={Math.ceil(listData.length / itemsPerPage)}
+            page={currentPage}
+            onChange={handlePageChange}
+            sx={{
+              '& .MuiPaginationItem-root': {
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '13px',
+                borderRadius: '10px',
+              },
+              '& .Mui-selected': {
+                background: 'linear-gradient(135deg, #c7956c, #a8724d) !important',
+                color: '#fff !important',
+              },
+            }}
+          />
+        </div>
+      )}
 
-            <CardMedia
-              sx={{ height: 250, backgroundSize: "contain" }}
-              image={productImages[product.name]}
-            >
-              <Box sx={{
-                display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", rowGap: "10px", alignItems: 'center',
-                justifyContent: 'center', marginTop: "100px", marginLeft: "85px"
-              }}
-
-              >
-                <Button className={hoveredCard === i ? 'btn-visibility' : ''} sx={{
-                  width: "20px", visibility: 'hidden', border: "1px solid black",
-                  borderRadius: "0", backgroundColor: "white"
-                }}
-                  onClick={(event) => handleEyeClick(event, product, productImages[product.name])} >
-
-                  <RemoveRedEyeOutlinedIcon /> </Button>
-
-                <Button className={hoveredCard === i ? 'btn-visibility' : ''} sx={{
-                  width: "20px", visibility: 'hidden', border: "1px solid black",
-                  borderRadius: "0", right: "33px", backgroundColor: "white"
-                }}>
-                  <FavoriteBorderOutlinedIcon /></Button>
-
-                <Button className={`btn-text ${hoveredCard === i ? 'btn-visibility' : ''}`} sx={{
-                  width: "234px", visibility: 'hidden', border: "1px solid black", borderRadius: "0",
-                  gridColumn: "span 2", letterSpacing: ".2em", left: "-50px", backgroundColor: "white"
-                }}
-                  onClick={AddToCart} >+ add to cart </Button>
-              </Box>
-            </CardMedia>
-
-            {/* <Divider sx={{ height: '50px' }} /> */}
-            <CardContent sx={{
-              display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column"
-            }}>
-              <h2 className='productcategory'
-                style={{
-                  textTransform: "uppercase", fontSize: "16px", letterSpacing: ".2em", fontWeight: "550",
-                  textAlign: "center", fontFamily: "marcellus"
-                }}>
-                {product.brand} {product.name}
-              </h2>
-              <Typography variant='span' sx={{
-                textAlign: "center", width: "90%", paddingBottom: "10px", fontSize: "13px", opacity: ".5"
-              }}>
-                {product.description}
-              </Typography>
-              <Rating name="read-only" defaultValue={3.5} readOnly />
-              <Box style={{ display: "flex", alignItems: 'center' }}>
-                <span style={{
-                  fontSize: "18px", fontWeight: "500", letterSpacing: ".8px", fontFamily: "inter", marginTop: "15px", width: "40%",
-                  marginRight: "26px"
-                }}>
-                  &#8377;{product.discounted_price}
-                </span>
-                <span style={{
-                  fontSize: "15px", fontWeight: "400", letterSpacing: ".8px", fontFamily: "inter", marginTop: "15px",
-                  textDecorationLine: "line-through", opacity: ".5", width: "30%", textAlign: "center", marginRight: "26px"
-                }}>
-                  &#8377;{product.price}
-                </span>
-                <span style={{
-                  fontSize: "12px", fontWeight: "400", letterSpacing: ".8px", fontFamily: "inter", marginTop: "15px", color: "green",
-                  textTransform: "uppercase", width: "130%", textAlign: "center"
-                }}>
-                  &#8377;{product.discount_percent.toFixed(0)}% off
-                </span>
-              </Box>
-
-            </CardContent>
-          </Card>
-        ))}
-
-
-        <Pagination color="primary" size="large" shape="rounded"
-          count={Math.ceil(listData.length / itemsPerPage)}
-          page={currentPage}
-          onChange={handlePageChange}
-          sx={{ gridColumn: "span 3", marginTop: "20px", marginBottom: "20px", display: "flex", justifyContent: "center" }}
-        />
-
-      </Box>
-      {loading ? <Loader /> : null}
+      {loading && <Loader />}
     </>
-
-  )
-};
+  );
+}
 
 export default ProductCard;

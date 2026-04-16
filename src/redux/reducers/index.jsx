@@ -12,12 +12,14 @@ import { setFilterReducer } from "./FilterReducer";
 import { setProductReducer } from "./ProductReducer";
 import { setSalonReducer } from "./SalonReducer";
 import { setSalonDetailReducer } from "./SalonReducer";
+import { cartReducer } from "./CartReducer";
 
 const reducers = combineReducers({
     filterOpen: setFilterReducer,
     allProducts: setProductReducer,
     allSalons: setSalonReducer,
-    salonDetail: setSalonDetailReducer
+    salonDetail: setSalonDetailReducer,
+    cart: cartReducer,
 });
 
 export default reducers;

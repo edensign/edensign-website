@@ -1,0 +1,440 @@
+/**
+ * Copyright © 2023, Eden Sign Inc. ALL RIGHTS RESERVED.
+ */
+
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+
+import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+
+import { removeFromCart, updateCartQty, clearCart } from '../../../redux/actions/CartAction';
+
+/* ── Empty cart state ── */
+const EmptyCart = ({ onShop }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 30 }}
+    animate={{ opacity: 1, y: 0 }}
+    style={{ textAlign: 'center', padding: '100px 24px' }}
+  >
+    <div style={{
+      width: 100, height: 100, borderRadius: '28px',
+      background: 'linear-gradient(135deg, rgba(199,149,108,0.12), rgba(199,149,108,0.06))',
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      margin: '0 auto 24px',
+      boxShadow: '0 8px 32px rgba(199,149,108,0.15)',
+    }}>
+      <ShoppingBagOutlinedIcon sx={{ fontSize: 44, color: '#c7956c' }} />
+    </div>
+    <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: '28px', color: '#1a0f08', margin: '0 0 10px' }}>
+      Your Cart is Empty
+    </h2>
+    <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '15px', color: '#9a8070', margin: '0 0 32px', lineHeight: 1.6 }}>
+      Looks like you haven't added any products yet.<br />Let's find something for you!
+    </p>
+    <motion.button
+      whileHover={{ scale: 1.03 }}
+      whileTap={{ scale: 0.97 }}
+      onClick={onShop}
+      style={{
+        display: 'inline-flex', alignItems: 'center', gap: '8px',
+        padding: '14px 32px', borderRadius: '100px',
+        background: 'linear-gradient(135deg, #1a0a00, #3d1e0a)',
+        color: '#fff', border: 'none', cursor: 'pointer',
+        fontFamily: 'Inter, sans-serif', fontSize: '14px', fontWeight: 600,
+        letterSpacing: '0.05em',
+        boxShadow: '0 4px 20px rgba(26,10,0,0.2)',
+      }}
+    >
+      <ShoppingBagOutlinedIcon sx={{ fontSize: 18 }} /> Browse Products
+    </motion.button>
+  </motion.div>
+);
+
+/* ── Individual cart row ── */
+const CartRow = ({ item, onRemove, onQty }) => {
+  const price = Number(item.discounted_price || item.price || 0);
+
+  return (
+    <motion.div
+      layout
+      initial={{ opacity: 0, x: -20 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: 20, height: 0, marginBottom: 0 }}
+      transition={{ duration: 0.3 }}
+      style={{
+        display: 'flex', alignItems: 'center', gap: '20px',
+        padding: '20px', background: '#fff',
+        borderRadius: '18px', border: '1px solid rgba(199,149,108,0.1)',
+        boxShadow: '0 4px 16px rgba(26,10,0,0.04)',
+        marginBottom: '14px',
+      }}
+    >
+      {/* Product image */}
+      <div style={{
+        width: 80, height: 80, borderRadius: '14px',
+        background: '#faf6f1', flexShrink: 0,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        overflow: 'hidden',
+      }}>
+        {item.productImg
+          ? <img src={item.productImg} alt={item.name} style={{ maxWidth: '70px', maxHeight: '70px', objectFit: 'contain' }} />
+          : <ShoppingBagOutlinedIcon sx={{ fontSize: 28, color: '#c7956c' }} />
+        }
+      </div>
+
+      {/* Info */}
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <span style={{
+          fontFamily: 'Inter, sans-serif', fontSize: '9px', fontWeight: 700,
+          letterSpacing: '0.15em', textTransform: 'uppercase', color: '#c7956c',
+          display: 'block', marginBottom: '3px',
+        }}>
+          {item.brand}
+        </span>
+        <h4 style={{
+          fontFamily: 'Inter, sans-serif', fontSize: '15px', fontWeight: 600,
+          color: '#1a0f08', margin: '0 0 6px', lineHeight: 1.3,
+          whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+        }}>
+          {item.name}
+        </h4>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '16px', fontWeight: 700, color: '#1a0f08' }}>
+            ₹{price.toLocaleString('en-IN')}
+          </span>
+          {item.price && Number(item.price) !== price && (
+            <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: '#9a8070', textDecoration: 'line-through' }}>
+              ₹{Number(item.price).toLocaleString('en-IN')}
+            </span>
+          )}
+        </div>
+      </div>
+
+      {/* Qty controls */}
+      <div style={{
+        display: 'flex', alignItems: 'center', gap: '2px',
+        background: 'rgba(199,149,108,0.08)', borderRadius: '12px',
+        padding: '4px',
+        flexShrink: 0,
+      }}>
+        <button
+          onClick={() => onQty(item.id, item.qty - 1)}
+          style={{
+            width: 30, height: 30, borderRadius: '9px', border: 'none',
+            background: item.qty === 1 ? 'rgba(199,149,108,0.15)' : 'rgba(199,149,108,0.25)',
+            cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+            color: '#a8724d', transition: 'background 0.2s',
+          }}
+          aria-label="Decrease"
+        >
+          <RemoveIcon sx={{ fontSize: 14 }} />
+        </button>
+        <span style={{
+          minWidth: 32, textAlign: 'center',
+          fontFamily: 'Inter, sans-serif', fontSize: '14px', fontWeight: 700, color: '#1a0f08',
+        }}>
+          {item.qty}
+        </span>
+        <button
+          onClick={() => onQty(item.id, item.qty + 1)}
+          style={{
+            width: 30, height: 30, borderRadius: '9px', border: 'none',
+            background: 'rgba(199,149,108,0.25)', cursor: 'pointer',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            color: '#a8724d', transition: 'background 0.2s',
+          }}
+          aria-label="Increase"
+        >
+          <AddIcon sx={{ fontSize: 14 }} />
+        </button>
+      </div>
+
+      {/* Subtotal */}
+      <div style={{
+        minWidth: 80, textAlign: 'right', flexShrink: 0,
+      }}>
+        <span style={{
+          fontFamily: 'Inter, sans-serif', fontSize: '16px', fontWeight: 700, color: '#1a0f08',
+          display: 'block',
+        }}>
+          ₹{(price * item.qty).toLocaleString('en-IN')}
+        </span>
+        <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', color: '#9a8070' }}>
+          subtotal
+        </span>
+      </div>
+
+      {/* Remove */}
+      <motion.button
+        whileHover={{ scale: 1.1, color: '#ef4444' }}
+        whileTap={{ scale: 0.9 }}
+        onClick={() => onRemove(item.id)}
+        style={{
+          width: 36, height: 36, borderRadius: '10px', border: 'none',
+          background: 'rgba(239,68,68,0.07)', cursor: 'pointer',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          color: '#ef4444', transition: 'background 0.2s', flexShrink: 0,
+        }}
+        aria-label="Remove item"
+      >
+        <DeleteOutlineIcon sx={{ fontSize: 18 }} />
+      </motion.button>
+    </motion.div>
+  );
+};
+
+/* ── Main CartPage ── */
+function CartPage() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { items, totalQty, totalPrice } = useSelector(state => state.cart);
+
+  const [promoCode, setPromoCode] = React.useState('');
+  const [promoApplied, setPromoApplied] = React.useState(false);
+
+  const discount = promoApplied ? Math.round(totalPrice * 0.1) : 0;
+  const shipping = totalPrice > 999 ? 0 : 99;
+  const grandTotal = totalPrice - discount + shipping;
+
+  const handlePromo = () => {
+    if (promoCode.trim().toUpperCase() === 'EDEN10') {
+      setPromoApplied(true);
+    }
+  };
+
+  return (
+    <div style={{ minHeight: '100vh', background: '#f8f4f0', paddingTop: '96px' }}>
+      <style>{`
+        @media (max-width: 900px) {
+          .cart-layout { flex-direction: column !important; }
+          .cart-summary { width: 100% !important; }
+        }
+        @media (max-width: 600px) {
+          .cart-row-inner { flex-wrap: wrap; gap: 12px !important; }
+          .cart-row-qty { order: 3; }
+          .cart-row-subtotal { order: 4; min-width: 60px !important; }
+        }
+      `}</style>
+
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px 80px' }}>
+
+        {/* Header */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '36px' }}>
+          <motion.button
+            whileHover={{ x: -3 }}
+            onClick={() => navigate('/products')}
+            style={{
+              display: 'flex', alignItems: 'center', gap: '6px',
+              background: 'none', border: 'none', cursor: 'pointer',
+              fontFamily: 'Inter, sans-serif', fontSize: '13px', fontWeight: 500,
+              color: '#9a8070', padding: '6px 0', transition: 'color 0.2s',
+            }}
+          >
+            <ArrowBackIcon sx={{ fontSize: 18 }} /> Back to Products
+          </motion.button>
+          <div style={{ width: 1, height: 20, background: 'rgba(199,149,108,0.25)' }} />
+          <div>
+            <h1 style={{
+              fontFamily: 'Playfair Display, serif',
+              fontSize: '32px', fontWeight: 700, color: '#1a0f08',
+              margin: 0, lineHeight: 1.1,
+            }}>
+              Shopping Cart
+            </h1>
+            {items.length > 0 && (
+              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '13px', color: '#9a8070', margin: '4px 0 0' }}>
+                {totalQty} item{totalQty !== 1 ? 's' : ''} in your cart
+              </p>
+            )}
+          </div>
+        </div>
+
+        {items.length === 0 ? (
+          <EmptyCart onShop={() => navigate('/products')} />
+        ) : (
+          <div className="cart-layout" style={{ display: 'flex', gap: '28px', alignItems: 'flex-start' }}>
+
+            {/* ── Left: items list ── */}
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
+                <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#9a8070' }}>
+                  Your Items
+                </span>
+                <button
+                  onClick={() => dispatch(clearCart())}
+                  style={{
+                    background: 'none', border: 'none', cursor: 'pointer',
+                    fontFamily: 'Inter, sans-serif', fontSize: '12px', color: '#ef4444',
+                    fontWeight: 500, display: 'flex', alignItems: 'center', gap: '4px',
+                    padding: '4px 8px', borderRadius: '8px',
+                    transition: 'background 0.2s',
+                  }}
+                  className="cart-clear-btn"
+                >
+                  <DeleteOutlineIcon sx={{ fontSize: 15 }} /> Clear All
+                </button>
+              </div>
+
+              <AnimatePresence>
+                {items.map(item => (
+                  <CartRow
+                    key={item.id}
+                    item={item}
+                    onRemove={id => dispatch(removeFromCart(id))}
+                    onQty={(id, qty) => dispatch(updateCartQty(id, qty))}
+                  />
+                ))}
+              </AnimatePresence>
+            </div>
+
+            {/* ── Right: order summary ── */}
+            <div className="cart-summary" style={{ width: '360px', flexShrink: 0 }}>
+              <div style={{
+                background: '#fff', borderRadius: '22px',
+                border: '1px solid rgba(199,149,108,0.12)',
+                boxShadow: '0 8px 32px rgba(26,10,0,0.07)',
+                overflow: 'hidden',
+              }}>
+                {/* Summary header */}
+                <div style={{
+                  padding: '20px 24px',
+                  borderBottom: '1px solid rgba(199,149,108,0.1)',
+                  background: 'linear-gradient(135deg, rgba(199,149,108,0.06), rgba(199,149,108,0.02))',
+                }}>
+                  <h2 style={{
+                    fontFamily: 'Inter, sans-serif', fontSize: '16px',
+                    fontWeight: 700, color: '#1a0f08', margin: 0,
+                  }}>
+                    Order Summary
+                  </h2>
+                </div>
+
+                <div style={{ padding: '24px' }}>
+                  {/* Line items */}
+                  {[
+                    { label: `Subtotal (${totalQty} items)`, value: `₹${totalPrice.toLocaleString('en-IN')}` },
+                    ...(discount > 0 ? [{ label: 'Promo Discount (10%)', value: `−₹${discount.toLocaleString('en-IN')}`, green: true }] : []),
+                    { label: 'Shipping', value: shipping === 0 ? 'FREE' : `₹${shipping}`, green: shipping === 0 },
+                  ].map(({ label, value, green }) => (
+                    <div key={label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
+                      <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', color: '#6b5749' }}>{label}</span>
+                      <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', fontWeight: 600, color: green ? '#16a34a' : '#1a0f08' }}>
+                        {value}
+                      </span>
+                    </div>
+                  ))}
+
+                  {/* Free shipping nudge */}
+                  {shipping > 0 && (
+                    <div style={{
+                      background: 'rgba(199,149,108,0.07)',
+                      borderRadius: '10px', padding: '10px 14px',
+                      marginBottom: '18px',
+                      fontFamily: 'Inter, sans-serif', fontSize: '12px', color: '#a8724d',
+                    }}>
+                      Add ₹{(999 - totalPrice + 1).toLocaleString('en-IN')} more for <strong>free shipping</strong>!
+                    </div>
+                  )}
+
+                  {/* Promo code */}
+                  <div style={{ marginBottom: '20px' }}>
+                    <label style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', fontWeight: 600, color: '#6b5749', display: 'flex', alignItems: 'center', gap: '5px', marginBottom: '8px' }}>
+                      <LocalOfferOutlinedIcon sx={{ fontSize: 14 }} /> Promo Code
+                    </label>
+                    <div style={{ display: 'flex', gap: '8px' }}>
+                      <input
+                        value={promoCode}
+                        onChange={e => setPromoCode(e.target.value)}
+                        placeholder="EDEN10"
+                        disabled={promoApplied}
+                        style={{
+                          flex: 1, padding: '10px 14px', borderRadius: '10px',
+                          border: `1.5px solid ${promoApplied ? 'rgba(34,197,94,0.5)' : 'rgba(199,149,108,0.3)'}`,
+                          fontFamily: 'Inter, sans-serif', fontSize: '13px',
+                          color: '#1a0f08', outline: 'none',
+                          background: promoApplied ? 'rgba(34,197,94,0.05)' : '#fff',
+                        }}
+                      />
+                      <motion.button
+                        whileTap={{ scale: 0.95 }}
+                        onClick={handlePromo}
+                        disabled={promoApplied}
+                        style={{
+                          padding: '10px 16px', borderRadius: '10px', border: 'none',
+                          background: promoApplied
+                            ? 'linear-gradient(135deg, #16a34a, #22c55e)'
+                            : 'linear-gradient(135deg, #c7956c, #a8724d)',
+                          color: '#fff', cursor: promoApplied ? 'default' : 'pointer',
+                          fontFamily: 'Inter, sans-serif', fontSize: '12px', fontWeight: 700,
+                          letterSpacing: '0.05em', whiteSpace: 'nowrap',
+                        }}
+                      >
+                        {promoApplied ? '✓ Applied' : 'Apply'}
+                      </motion.button>
+                    </div>
+                  </div>
+
+                  {/* Divider */}
+                  <div style={{ borderTop: '1px solid rgba(199,149,108,0.12)', marginBottom: '18px' }} />
+
+                  {/* Grand total */}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+                    <span style={{ fontFamily: 'Playfair Display, serif', fontSize: '18px', fontWeight: 700, color: '#1a0f08' }}>
+                      Total
+                    </span>
+                    <span style={{ fontFamily: 'Playfair Display, serif', fontSize: '22px', fontWeight: 700, color: '#1a0f08' }}>
+                      ₹{grandTotal.toLocaleString('en-IN')}
+                    </span>
+                  </div>
+
+                  {/* Checkout CTA */}
+                  <motion.button
+                    id="checkout-btn"
+                    whileHover={{ scale: 1.02, boxShadow: '0 8px 28px rgba(26,10,0,0.25)' }}
+                    whileTap={{ scale: 0.97 }}
+                    onClick={() => navigate('/checkout', { state: { discount, shipping, grandTotal } })}
+                    style={{
+                      width: '100%', padding: '16px',
+                      background: 'linear-gradient(135deg, #1a0a00, #3d1e0a)',
+                      color: '#fff', border: 'none', borderRadius: '14px',
+                      cursor: 'pointer',
+                      fontFamily: 'Inter, sans-serif', fontSize: '15px', fontWeight: 700,
+                      letterSpacing: '0.04em',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+                      boxShadow: '0 4px 20px rgba(26,10,0,0.18)',
+                      transition: 'all 0.3s ease',
+                    }}
+                  >
+                    Proceed to Checkout <ArrowForwardIcon sx={{ fontSize: 18 }} />
+                  </motion.button>
+
+                  {/* Trust badges */}
+                  <div style={{
+                    marginTop: '16px', display: 'flex', justifyContent: 'center',
+                    gap: '16px', flexWrap: 'wrap',
+                  }}>
+                    {['🔒 Secure Payment', '🚚 Fast Delivery', '↩️ Easy Returns'].map(t => (
+                      <span key={t} style={{ fontFamily: 'Inter, sans-serif', fontSize: '10px', color: '#9a8070', fontWeight: 500 }}>
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export default CartPage;

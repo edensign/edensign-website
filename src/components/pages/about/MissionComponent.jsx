@@ -13,14 +13,14 @@ import "../about/AboutUs.css";
 const MissionComponent = () => {
 
   return (
-    <Box sx={{ position: "relative", margin: "60px 0" }}>
+    <Box sx={{ position: "relative", margin: "30px 0" }}>
       <Box sx={{ display: 'flex', flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
         <p style={{ fontFamily: "Marcellus,sans-serif", fontWeight: "400", fontSize: "20px", lineHeight: "20px", letterSpacing: "0.8em" }}> OUR </p>
         <DiamondIcon sx={{ fontSize: "10px" }} />
         <p style={{ fontSize: '40px', fontWeight: "400", lineHeight: "1.28", letterSpacing: "0.14em", marginTop: "4px" }}> MISSION </p>
       </Box>
 
-      <div style={{ margin: "5% auto", marginTop: "2%", display: 'flex', alignItems: "center" }}>
+      <div style={{ margin: "2% auto", marginTop: "2%", display: 'flex', alignItems: "center" }}>
         <nav aria-label="mission of eden sign website">
           <List sx={{ display: "inline-flex", padding: "0" }}>
             <ListItem sx={{ display: "initial", margin: "0 4% 0 8%" }}>

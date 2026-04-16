@@ -10,6 +10,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 
 import API from '../../../apis';
+/* style.css preserved for any remaining legacy classes */
 import "./style.css";
 import Brands from "../../common/Brands";
 import FilterMenu from "../../common/FilterMenu";

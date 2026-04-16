@@ -1,10 +1,42 @@
 /**
  * Copyright © 2023, Eden Sign Inc. ALL RIGHTS RESERVED.
- *
- * This software is the confidential information of Eden Sign Inc., and is licensed as
- * restricted rights software. The use,reproduction, or disclosure of this software is subject to
- * restrictions set forth in your license agreement with Eden Sign.
  */
+
+/* ── Google Fonts ── */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* ── Global Resets ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Custom Scrollbar ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #f8fafc; }
+::-webkit-scrollbar-thumb { background: rgba(199,149,108,0.4); border-radius: 8px; }
+::-webkit-scrollbar-thumb:hover { background: #c7956c; }
+
+/* ── Focus ring ── */
+*:focus-visible {
+  outline: 2px solid #c7956c;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ── Main padding top for fixed navbar ── */
+#main-div > div:first-of-type:not(#app-bar) {
+  padding-top: 72px;
+}
 
 .lds-ring {
   display: inline-block;
@@ -133,110 +165,7 @@
 }
 
 
-/* Homepage Carousel starts */
-.slider {
-  width: 100%;
-  height: 100vh;
-  position: relative;
-  overflow: hidden;
-  margin-bottom: 8%;
-}
-
-.sliding {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 99.5vh;
-  opacity: 0;
-  transition: all 1s ease-in;
-}
-
-.sliding img {
-  width: 100%;
-}
-
-.arrow {
-  height: 22px;
-  cursor: pointer;
-  position: absolute;
-  top: 45%;
-  font-size: 14px;
-}
-
-.arrow:hover {
-  background: rgba(32, 26, 26, 0.527);
-}
-
-/* .dots_container {
-  display: flex;
-  margin: 5px auto;
-  width: fit-content;
-}
-
-.dots {
-  height: 12px;
-  width: 12px;
-  border-radius: 50%;
-  background: #bdbdbd;
-  margin: 4px;
-}
-
-.dots:hover {
-  background: #696969 !important;
-} */
-
-@media screen and (max-width:600px) {
-  .sliding {
-    height: fit-content;
-  }
-
-  .slider {
-    height: 50vh;
-  }
-
-  .arrow {
-    top: 50%;
-  }
-}
-
-.header-span1 {
-  position: absolute;
-  top: 18%;
-  left: 16%;
-  color: #ffffff;
-  font-weight: 400;
-  font-family: 'Marcellus', sans-serif;
-  font-size: 24px;
-  line-height: 26px;
-  letter-spacing: 0.82em;
-  text-transform: uppercase;
-}
-
-.header-span2 {
-  width: 50%;
-  position: absolute;
-  top: 28%;
-  left: 16%;
-  color: #ffffff;
-  font-weight: 300;
-  font-size: 86px;
-  letter-spacing: 0.2em;
-  line-height: 1.2;
-  text-transform: uppercase;
-}
-
-.header-span3 {
-  width: 50%;
-  position: absolute;
-  top: 64%;
-  left: 16%;
-  color: #ffffff;
-  font-weight: 300;
-  font-size: 18px;
-  line-height: 30px;
-  letter-spacing: 0.1em;
-}
+/* Homepage Carousel — now managed by Swiper via carousel.css */
 
 /* --------------------------------------------------- */
 /* Testimonial Carousel Starts here */

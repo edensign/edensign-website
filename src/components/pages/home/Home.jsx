@@ -17,32 +17,24 @@ import ImageContainer from "./ImageContainer";
 import Newsletter from "../../common/Newsletter";
 import ProductList from "./BodyProductList";
 import ServicesList from "./ServicesList";
-// import ServiceListBottom from "../../common/ServiceListBottom";
+import StatsBar from "./StatsBar";
 import Testimonials from "../../common/Testimonials";
 
 const Home = () => {
-
-  // React.useEffect(() => {
-  //   //scroll to top of the page automatically, if not on top
-  //   if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-  //     document.body.scrollTop = 0;
-  //     document.documentElement.scrollTop = 0;
-  //   }
-  // }, []);
-
   return (
     <>
       <Carousel />
+      <StatsBar />
+      <ServicesList />
       <ProductList />
       <ImageBoxes />
-      <ServicesList />
       <ImageContainer />
       <AboutContainer />
       <Brands />
       <Testimonials />
       <Newsletter />
     </>
-  )
+  );
 };
 
 export default Home;

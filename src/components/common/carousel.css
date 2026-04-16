@@ -1,0 +1,384 @@
+/* =========================================
+   Eden Sign — Hero Carousel  (Premium Redesign)
+   ========================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap');
+
+/* ---------- Wrapper ---------- */
+.es-hero-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: #120700;
+}
+
+/* ---------- Swiper ---------- */
+.es-hero-swiper {
+  width: 100%;
+  height: 100%;
+}
+
+/* ---------- Slide ---------- */
+.es-slide {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ---------- Slide Image ---------- */
+.es-slide-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  transform: scale(1.06);
+  transition: transform 9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.swiper-slide-active .es-slide-img {
+  transform: scale(1);
+}
+
+/* ---------- Overlay Gradient — darker left fade for readability ---------- */
+.es-slide-overlay-gradient {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom, rgba(10, 4, 2, 0.55) 0%, transparent 18%),
+    linear-gradient(
+      100deg,
+      rgba(18, 7, 0, 0.96) 0%,
+      rgba(18, 7, 0, 0.78) 38%,
+      rgba(18, 7, 0, 0.25) 70%,
+      transparent 100%
+    );
+  z-index: 1;
+}
+
+/* ---------- Content Positioning ---------- */
+.es-slide-content {
+  position: absolute;
+  top: 50%;
+  left: 8%;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: 100%;
+  max-width: 560px;
+}
+
+/* ---------- Glass Card ---------- */
+.es-glass-card {
+  padding: 36px 40px;
+  background: rgba(255, 255, 255, 0.025);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-left: 2px solid rgba(199, 149, 108, 0.7);
+  border-radius: 16px;
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.45),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+/* ---------- Label ---------- */
+.es-slide-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: #c7956c;
+  margin-bottom: 14px;
+}
+
+.es-label-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #c7956c;
+  box-shadow: 0 0 8px rgba(199, 149, 108, 0.75);
+  flex-shrink: 0;
+}
+
+/* ---------- Heading ---------- */
+.es-slide-heading {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(40px, 6vw, 76px);
+  line-height: 1.15;
+  letter-spacing: -0.012em;
+  margin: 0 0 12px 0;
+}
+
+.es-heading-light {
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.88);
+  display: block;
+}
+
+.es-heading-bold {
+  font-weight: 700;
+  color: #ffffff;
+  display: block;
+}
+
+/* ---------- Subtext ---------- */
+.es-slide-subtext {
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.68);
+  margin: 0 0 28px 0;
+  max-width: 420px;
+}
+
+/* ---------- CTA Buttons ---------- */
+.es-slide-ctas {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.es-btn-solid {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 28px;
+  background: linear-gradient(135deg, #c7956c 0%, #b07a52 60%, #9a6540 100%);
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 100px;
+  box-shadow: 0 6px 22px rgba(199, 149, 108, 0.28);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.es-btn-solid:hover {
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 12px 32px rgba(199, 149, 108, 0.5), 0 0 15px rgba(199, 149, 108, 0.2);
+}
+
+.es-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 28px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.85);
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 100px;
+  transition: border-color 0.25s ease, background 0.25s ease, transform 0.25s ease;
+}
+
+.es-btn-outline:hover {
+  border-color: rgba(199, 149, 108, 0.7);
+  background: rgba(199, 149, 108, 0.08);
+  transform: translateY(-2px) scale(1.03);
+}
+
+/* ---------- Pagination — thin pill style ---------- */
+.es-hero-swiper .swiper-button-next,
+.es-hero-swiper .swiper-button-prev {
+  display: none !important;
+}
+
+.es-hero-swiper .swiper-pagination {
+  bottom: 36px !important;
+  left: auto !important;
+  right: 5% !important;
+  width: auto !important;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.es-hero-swiper .swiper-pagination-bullet {
+  background: transparent;
+  opacity: 1;
+  width: auto;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  margin: 0 !important;
+}
+
+.es-bullet-inner {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 2px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.es-hero-swiper .swiper-pagination-bullet-active .es-bullet-inner {
+  width: 36px;
+  background: #c7956c;
+  box-shadow: 0 0 8px rgba(199, 149, 108, 0.55);
+}
+
+/* ---------- Decorative Rings ---------- */
+.es-hero-decor {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.es-hero-ring-1 {
+  width: 560px;
+  height: 560px;
+  border: 1px solid rgba(199, 149, 108, 0.08);
+  top: -140px;
+  right: -90px;
+  animation: floatRing 22s linear infinite;
+}
+
+.es-hero-ring-2 {
+  width: 280px;
+  height: 280px;
+  border: 1px solid rgba(199, 149, 108, 0.12);
+  bottom: 10%;
+  right: 20%;
+  animation: floatRing 16s linear infinite reverse;
+}
+
+@keyframes floatRing {
+  0%   { transform: rotate(0deg)   translate(18px) rotate(0deg); }
+  100% { transform: rotate(360deg) translate(18px) rotate(-360deg); }
+}
+
+/* ---------- Scroll Hint ---------- */
+.es-hero-scroll-hint {
+  position: absolute;
+  bottom: 36px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  z-index: 10;
+}
+
+.es-scroll-mouse {
+  width: 24px;
+  height: 40px;
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.es-scroll-wheel {
+  width: 3px;
+  height: 7px;
+  background: #c7956c;
+  border-radius: 2px;
+  margin-top: 6px;
+  animation: scrollWheel 2s ease infinite;
+}
+
+@keyframes scrollWheel {
+  0%   { transform: translateY(0);    opacity: 1; }
+  100% { transform: translateY(14px); opacity: 0; }
+}
+
+.es-scroll-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 9px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1024px) {
+  .es-slide-content {
+    max-width: 500px;
+  }
+}
+
+@media (max-width: 768px) {
+  .es-hero-wrapper,
+  .es-slide {
+    height: 88vh;
+  }
+
+  .es-slide-content {
+    left: 0;
+    right: 0;
+    padding: 0 20px;
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .es-glass-card {
+    padding: 28px 24px;
+    border-left: none;
+    border-top: 2px solid rgba(199, 149, 108, 0.6);
+  }
+
+  .es-slide-label {
+    justify-content: center;
+  }
+
+  .es-slide-subtext {
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .es-slide-ctas {
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .es-btn-solid,
+  .es-btn-outline {
+    width: 100%;
+    max-width: 220px;
+  }
+
+  .es-slide-heading {
+    font-size: clamp(38px, 11vw, 52px);
+  }
+
+  .es-hero-ring-1,
+  .es-hero-ring-2 {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .es-glass-card {
+    padding: 22px 18px;
+  }
+
+  .es-slide-heading {
+    font-size: clamp(32px, 12vw, 44px);
+  }
+
+  .es-slide-subtext {
+    font-size: 14px;
+  }
+}

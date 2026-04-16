@@ -15,11 +15,11 @@ const AboutCEO = () => {
     const isTab = useMediaQuery("(max-width:920px)");
 
     return (
-        <Grid container sx={{ marginBottom: "12%", minHeight: "80vh" }}>
+        <Grid container sx={{ marginBottom: "12%", minHeight: "60vh" }}>
             <Grid item xs={6} md={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
                 <Box
-                    sx={{ height: "100%", width: isMobile ? "100%" : "80%" }}>
-                    <img src="https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/makeup/skincare-closeup.jpg" className='collection-img' alt="new-collection" />
+                    sx={{ height: "450px", width: isMobile ? "100%" : "80%", overflow: "hidden" }}>
+                    <img src="https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/makeup/skincare-closeup.jpg" style={{ width: "100%", height: "100%", objectFit: "cover" }} alt="ceo-makeup-closeup" />
                 </Box>
             </Grid>
             <Grid item xs={6} md={6}>
@@ -32,7 +32,7 @@ const AboutCEO = () => {
                         alignItems: "center",
                         height: "100%",
                         width: isMobile ? "100%" : "80%",
-                        backgroundColor: "#f5f6fa;",
+                        backgroundColor: "#f5f6fa",
                     }}>
                     <p style={{ fontFamily: "Marcellus,sans-serif", fontWeight: "400", fontSize: "20px", lineHeight: "20px", letterSpacing: "0.8em", textTransform: "uppercase" }}> Hello From </p>
                     <DiamondIcon sx={{ fontSize: "12px", margin: "1% 0 2% 0" }} />

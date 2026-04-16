@@ -1,111 +1,292 @@
 /**
  * Copyright © 2023, Eden Sign Inc. ALL RIGHTS RESERVED.
- *
- * This software is the confidential information of Eden Sign Inc., and is licensed as
- * restricted rights software. The use, reproduction, or disclosure of this software is subject to
- * restrictions set forth in your license agreement with Eden Sign.
-*/
+ */
 
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { motion } from 'framer-motion';
 
-import { Box, Button, Tooltip } from '@mui/material';
-import { TuneOutlined } from '@mui/icons-material';
-import { TrendingFlat } from '@mui/icons-material';
+import TuneIcon from '@mui/icons-material/Tune';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { setFilterOpen } from "../../../redux/actions/FilterAction";
-import SalonBg from "../../assets/salonbg.jpg";
-import Search from '../../common/Search';
+import SearchIcon from '@mui/icons-material/Search';
+
+import { setFilterOpen } from '../../../redux/actions/FilterAction';
+import SalonBg from '../../assets/salonbg.jpg';
 
 const SalonPageTop = () => {
+  const [buttonText, setButtonText] = useState('Filter');
+  const filterOpen = useSelector(state => state.filterOpen);
+  const dispatch = useDispatch();
 
-    const [buttonText, setButtonText] = useState("Filter");
-    const filterOpen = useSelector(state => state.filterOpen);
-    const dispatch = useDispatch();
+  const handleClick = () => {
+    const box = document.getElementsByClassName('filter-btn-box')[0];
+    const btn = document.getElementsByClassName('filter-open-btn')[0];
+    const filterBox = document.getElementById('filter-box');
+    const arrowIcon = document.getElementById('arrow-icon');
 
-    // Function to handle click event, it toggles the filterOpen & buttonText state accordingly to user click
-    const handleClick = () => {
+    dispatch(setFilterOpen(!filterOpen.filterOpen));
+    setButtonText(filterOpen.filterOpen ? 'Filter' : '');
 
-        const box = document.getElementsByClassName("filter-btn-box")[0];
-        const btn = document.getElementsByClassName("filter-open-btn")[0];
-        const filterBox = document.getElementById("filter-box");
-        const arrowIcon = document.getElementById("arrow-icon");
-        console.log(filterOpen)
+    box.style.right = filterOpen.filterOpen ? '0' : '21%';
+    box.style.transform = filterOpen.filterOpen ? 'translateX(0)' : 'matrix(1, 0, 0, 1, 0, 0)';
+    btn.style.width = filterOpen.filterOpen ? '7em' : '4em';
+    btn.style.padding = filterOpen.filterOpen ? '10px 50px' : '9px 0px 9px 4px';
+    filterBox.style.opacity = filterOpen.filterOpen ? '0' : '1';
+    filterBox.style.transform = filterOpen.filterOpen ? 'translateX(100%)' : 'translateX(0)';
+    if (arrowIcon) arrowIcon.style.transform = filterOpen.filterOpen ? '' : 'rotate(180deg)';
+  };
 
-        dispatch(setFilterOpen(!filterOpen.filterOpen));
-        setButtonText(filterOpen.filterOpen ? "Filter" : "");
-
-        box.style.right = filterOpen.filterOpen ? "0" : "21%";
-        box.style.transform = filterOpen.filterOpen ? "translateX(0)" : "matrix(1, 0, 0, 1, 0, 0)";
-        btn.style.width = filterOpen.filterOpen ? "7em" : "4em";
-        btn.style.padding = filterOpen.filterOpen ? "10px 50px" : "9px 0px 9px 4px";
-        filterBox.style.opacity = filterOpen.filterOpen ? "0" : "1";
-        filterBox.style.transform = filterOpen.filterOpen ? "translateX(100%)" : "translateX(0)";
-        arrowIcon.style.transform = filterOpen.filterOpen ? "" : "rotate(180deg)";
+  useEffect(() => {
+    const onScroll = () => {
+      const btn = document.getElementsByClassName('filter-open-btn')[0];
+      const scroll = window.pageYOffset;
+      if (!btn) return;
+      if (scroll > 100) {
+        btn.style.width = '4em';
+        btn.style.padding = '9px 0px 9px 4px';
+        setButtonText('');
+      } else {
+        btn.style.width = '7em';
+        btn.style.padding = '10px 50px';
+        setButtonText('Filter');
+      }
     };
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
-    // Function to handle scroll event, changes buttonText & icon states accordingly
-    function onScroll() {
+  return (
+    <>
+      <div style={{
+        position: 'relative',
+        height: '88vh',
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        overflow: 'hidden',
+        color: '#fff',
+      }}>
+        {/* Background image */}
+        <img
+          src={SalonBg}
+          alt="Salons"
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            objectPosition: 'center',
+            transform: 'scale(1.04)',
+          }}
+        />
 
-        const btn = document.getElementsByClassName("filter-open-btn")[0];
-        const scroll = window.pageYOffset;
+        {/* Gradient overlay */}
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'linear-gradient(to bottom, rgba(10,4,2,0.55) 0%, rgba(26,10,0,0.75) 60%, rgba(26,10,0,0.92) 100%)',
+        }} />
 
-        if (scroll > 100) {
-            btn.style.width = "4em";
-            btn.style.padding = "9px 0px 9px 4px";
-            // setFilterOpen(true);
-            setButtonText("");
+        {/* Decorative circles */}
+        <div style={{
+          position: 'absolute',
+          width: 500,
+          height: 500,
+          borderRadius: '50%',
+          border: '1px solid rgba(199,149,108,0.15)',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          pointerEvents: 'none',
+        }} />
+        <div style={{
+          position: 'absolute',
+          width: 320,
+          height: 320,
+          borderRadius: '50%',
+          border: '1px solid rgba(199,149,108,0.1)',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          pointerEvents: 'none',
+        }} />
 
-        } else if (scroll < 100) {
-            btn.style.width = "7em";
-            btn.style.padding = "10px 50px";
-            // setFilterOpen(false);
-            setButtonText("Filter");
-        }
-    };
-
-    // Add a scroll event listener to the window, when the component mounts
-    useEffect(() => {
-        window.addEventListener('scroll', onScroll);
-
-        // Remove the event listener when the component unmounts
-        return () => {
-            window.removeEventListener('scroll', onScroll);
-        };
-    }, []);
-    console.log(filterOpen)
-
-    return (
-        <Box sx={{
-            height: "80vh", width: "100%", display: "flex", flexDirection: "column", justifyContent: "center",
-             alignItems: "center", position: "relative", backgroundColor: "#A6B7C5", color: "#ffffff"
+        {/* Content */}
+        <div style={{
+          position: 'relative',
+          zIndex: 2,
+          textAlign: 'center',
+          padding: '0 24px',
+          maxWidth: '760px',
+          width: '100%',
         }}>
-            <img src={SalonBg} style={{ width: "100%", position: "absolute" }} />
-            <Box display="flex" flexDirection="column" justifyContent="flex-start" alignItems="center">
-                <p style={{ textTransform: "capitalize", fontSize: "32px", fontWeight: "600", lineHeight: "1", zIndex: "1" }}  >
-                    Over 10,000 Eden Sign Salons across 15 states  </p>
-                <Search />
-            </Box>
+          <motion.span
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            style={{
+              display: 'inline-block',
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '11px',
+              fontWeight: 600,
+              letterSpacing: '0.3em',
+              textTransform: 'uppercase',
+              color: '#c7956c',
+              marginBottom: '16px',
+              background: 'rgba(199,149,108,0.12)',
+              padding: '6px 16px',
+              borderRadius: '100px',
+              border: '1px solid rgba(199,149,108,0.3)',
+            }}
+          >
+            10,000+ Salons Across India
+          </motion.span>
 
-            <Box className="filter-btn-box" onClick={handleClick} sx={{ position: "fixed", top: "40%", right: "0", zIndex: "10", transform: "translateX(0)", transition: "all .5s cubic-bezier(0.77, 0, 0.175, 1)" }}>
-                <Tooltip title="Show Filters">
-                    <Button color="error" variant="contained" size="small" className="filter-open-btn" startIcon={<ArrowBackIcon id="arrow-icon" />}
-                        sx={{
-                            width: "7em", fontWeight: "500", fontSize: "12px", lineHeight: "1.2", letterSpacing: "0.1em",
-                            zIndex: "10", padding: "10px 50px", transition: "all .15s ease"
-                        }}
-                    >
-                        {buttonText}
-                    </Button>
-                </Tooltip>
-            </Box>
-        </Box >
-    )
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            style={{
+              fontFamily: 'Playfair Display, serif',
+              fontSize: 'clamp(36px, 6vw, 68px)',
+              fontWeight: 700,
+              color: '#fff',
+              margin: '0 0 16px 0',
+              lineHeight: 1.1,
+            }}
+          >
+            Find Your Perfect <em style={{ fontStyle: 'italic', color: '#c7956c' }}>Salon</em>
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            style={{
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '15px',
+              color: 'rgba(255,255,255,0.7)',
+              margin: '0 0 40px 0',
+              lineHeight: 1.7,
+            }}
+          >
+            Browse top-rated salons across 15 states and book your appointment in seconds.
+          </motion.p>
+
+          {/* Search bar */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              background: 'rgba(255,255,255,0.96)',
+              borderRadius: '100px',
+              padding: '6px 8px 6px 24px',
+              maxWidth: '520px',
+              margin: '0 auto',
+              boxShadow: '0 8px 32px rgba(0,0,0,0.25)',
+              backdropFilter: 'blur(10px)',
+            }}
+          >
+            <SearchIcon sx={{ color: '#c7956c', fontSize: 20, mr: 1 }} />
+            <input
+              type="text"
+              placeholder="Search by salon name or city..."
+              style={{
+                flex: 1,
+                border: 'none',
+                outline: 'none',
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '14px',
+                color: '#1a0f08',
+                background: 'transparent',
+                padding: '10px 0',
+              }}
+            />
+            <button style={{
+              background: 'linear-gradient(135deg, #c7956c, #a8724d)',
+              border: 'none',
+              borderRadius: '100px',
+              padding: '12px 28px',
+              color: '#fff',
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '13px',
+              fontWeight: 600,
+              cursor: 'pointer',
+              letterSpacing: '0.04em',
+              whiteSpace: 'nowrap',
+              transition: 'box-shadow 0.2s',
+            }}>
+              Search
+            </button>
+          </motion.div>
+        </div>
+
+        {/* Scroll indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1, duration: 0.6 }}
+          style={{
+            position: 'absolute',
+            bottom: '32px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '6px',
+          }}
+        >
+          <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '10px', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)' }}>scroll</span>
+          <div style={{ width: '1px', height: '32px', background: 'linear-gradient(to bottom, rgba(199,149,108,0.8), transparent)' }} />
+        </motion.div>
+      </div>
+
+      {/* Filter toggle button — keep existing DOM logic */}
+      <div className="filter-btn-box" onClick={handleClick} style={{
+        position: 'fixed',
+        top: '40%',
+        right: '0',
+        zIndex: '10',
+        transform: 'translateX(0)',
+        transition: 'all .5s cubic-bezier(0.77, 0, 0.175, 1)',
+      }}>
+        <button
+          className="filter-open-btn"
+          title="Show Filters"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            background: 'linear-gradient(135deg, #1a0a00, #3d1e0a)',
+            color: '#fff',
+            border: 'none',
+            cursor: 'pointer',
+            fontFamily: 'Inter, sans-serif',
+            fontSize: '12px',
+            fontWeight: 600,
+            letterSpacing: '0.08em',
+            textTransform: 'uppercase',
+            borderRadius: '10px 0 0 10px',
+            width: '7em',
+            padding: '10px 50px',
+            transition: 'all .15s ease',
+            boxShadow: '-4px 4px 16px rgba(26,10,0,0.3)',
+          }}
+        >
+          <ArrowBackIcon id="arrow-icon" sx={{ fontSize: 16, transition: 'transform 0.3s' }} />
+          <TuneIcon sx={{ fontSize: 16 }} />
+          {buttonText}
+        </button>
+      </div>
+    </>
+  );
 };
-
-{/* <Typography sx={{ color: "#ffffff", textTransform: "uppercase", fontWeight: "500", fontSize: "11px", lineHeight: "1.2", letterSpacing: "0.1em", marginTop: "8px" }}>
-<Link style={{ textDecoration: "none", color: "#ffffff", position: "relative", zIndex: "2" }} to="/"> HOME &gt; </Link>
-{location.pathname.slice(1)}
-</Typography> */}
 
 export default SalonPageTop;

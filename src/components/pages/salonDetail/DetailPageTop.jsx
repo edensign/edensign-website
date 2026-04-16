@@ -6,96 +6,104 @@
  * restrictions set forth in your license agreement with Eden Sign.
 */
 
-import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-
-import { Box, Button, Tooltip } from '@mui/material';
-import { TuneOutlined } from '@mui/icons-material';
-import { TrendingFlat } from '@mui/icons-material';
-
 import SmallCarousel from './SmallCarousel';
 
 const DetailPageTop = () => {
-
-    const { images } = useSelector(state => state.salonDetail);
-
-    // Function to handle click event, it toggles the filterOpen, buttonText & icon state accordingly to user click
-    // const handleClick = () => {
-
-    //     const box = document.getElementsByClassName("filter-btn-box")[0];
-    //     const btn = document.getElementsByClassName("filter-open-btn")[0];
-    //     const filterBox = document.getElementById("filter-box");
-
-    //     setFilterOpen(!filterOpen);
-    //     setButtonText(filterOpen ? "Filter" : "");
-
-    //     box.style.right = filterOpen ? "0" : "21%";
-    //     box.style.transform = filterOpen ? "translateX(0)" : "matrix(1, 0, 0, 1, 0, 0)";
-    //     btn.style.width = filterOpen ? "7em" : "4em";
-    //     btn.style.padding = filterOpen ? "10px 50px" : "9px 0px 9px 4px";
-    //     filterBox.style.opacity = filterOpen ? "0" : "1";
-    //     filterBox.style.transform = filterOpen ? "translateX(100%)" : "translateX(0)";
-
-    // };
-
-    // Function to handle scroll event, changes buttonText & icon states accordingly
-    // function onScroll() {
-
-    //     const btn = document.getElementsByClassName("filter-open-btn")[0];
-    //     const scroll = window.pageYOffset;
-
-    //     if (scroll > 100) {
-    //         btn.style.width = "4em";
-    //         btn.style.padding = "9px 0px 9px 4px";
-    //         setButtonText("");
-
-    //     } else if (scroll < 100) {
-    //         btn.style.width = "7em";
-    //         btn.style.padding = "10px 50px";
-    //         setButtonText("Filter");
-    //     }
-    // };
-
-    // Add a scroll event listener to the window, when the component mounts
-    // useEffect(() => {
-    //     window.addEventListener('scroll', onScroll);
-
-    //     // Remove the event listener when the component unmounts
-    //     return () => {
-    //         window.removeEventListener('scroll', onScroll);
-    //     };
-    // }, []);
-
+    const { salon, images } = useSelector(state => state.salonDetail);
 
     return (
-        <Box sx={{
-            height: "120vh", width: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", marginBottom: "1%",
-            position: "relative", backgroundPosition: "center", color: "#ffffff"
-        }}>
+        <header className="salon-hero-wrapper">
+            {/* Background image slides — blurred behind the carousel */}
             {images?.map((image, index) => (
-                <Box className='big-sliding' key={index} style={{
-                    position: "absolute", width: "100%", height: "100%", opacity: "0", transition: "all 1s ease-in", filter: "blur(10px)"
-                }}>
-                    <img src={`https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/salon/normal/${image}`} style={{ aspectRatio: "1300/715", width: "100%" }} />
-                </Box>
+                <div
+                    className='big-sliding'
+                    key={index}
+                    style={{
+                        position: 'absolute',
+                        width: '100%',
+                        height: '100%',
+                        opacity: 0,
+                        transition: 'all 1s ease-in',
+                        filter: 'blur(10px)',
+                        zIndex: 1,
+                    }}
+                >
+                    <img
+                        src={`https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/salon/normal/${image}`}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        alt="Salon background"
+                    />
+                </div>
             ))}
 
-            < SmallCarousel />
+            {/* Dark gradient overlay */}
+            <div className="salon-hero-overlay" />
 
-            {/* <Box className="filter-btn-box" onClick={handleClick} sx={{ position: "fixed", top: "40%", right: "0", zIndex: "10", transform: "translateX(0)", transition: "all .5s cubic-bezier(0.77, 0, 0.175, 1)" }}>
-                <Tooltip title="Show Filters">
-                    <Button color="error" variant="contained" size="small" className="filter-open-btn" startIcon={<TuneOutlined />}
-                        sx={{
-                            width: "7em", fontWeight: "500", fontSize: "12px", lineHeight: "1.2", letterSpacing: "0.1em",
-                            zIndex: "10", padding: "10px 50px", transition: "all .15s ease"
-                        }}
-                    >
-                        {buttonText}
-                    </Button>
-                </Tooltip>
-            </Box> */}
-        </Box>
-    )
+            {/* Main sharpened carousel (small slider) */}
+            <SmallCarousel />
+
+            {/* Hero text pinned to bottom-left */}
+            <div className="salon-hero-content">
+                <div className="salon-hero-badge">Premium Beauty Destination</div>
+
+                <h1 className="salon-hero-title">
+                    {salon?.name || 'Luxury Salon Experience'}
+                </h1>
+
+                <div className="salon-hero-divider" />
+
+                <div className="salon-hero-meta">
+                    {salon?.location && (
+                        <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="rgba(255,255,255,0.6)">
+                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                            </svg>
+                            {salon.location}
+                        </span>
+                    )}
+                    {salon?.rating && (
+                        <>
+                            <span style={{ color: 'rgba(255,255,255,0.25)' }}>|</span>
+                            <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="#c9a96e">
+                                    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                                </svg>
+                                {salon.rating} Rating
+                            </span>
+                        </>
+                    )}
+                </div>
+            </div>
+
+            {/* Scroll indicator */}
+            <div style={{
+                position: 'absolute',
+                bottom: '32px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                zIndex: 5,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: '8px',
+                animation: 'none',
+            }}>
+                <span style={{
+                    fontFamily: "'Inter', sans-serif",
+                    fontSize: '9px',
+                    letterSpacing: '3px',
+                    textTransform: 'uppercase',
+                    color: 'rgba(255,255,255,0.4)',
+                }}>Scroll</span>
+                <div style={{
+                    width: '1px',
+                    height: '40px',
+                    background: 'linear-gradient(to bottom, rgba(201,169,110,0.6), transparent)',
+                }} />
+            </div>
+        </header>
+    );
 };
 
 export default DetailPageTop;

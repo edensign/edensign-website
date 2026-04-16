@@ -9,57 +9,86 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import { Box, List, ListItemText } from "@mui/material";
-
 import salonImg from "../../assets/salon-detail.png";
 
 const AmenitiesComponent = () => {
-
     const { salon } = useSelector(state => state.salonDetail);
-    console.log("Amenities Selector=>", salon?.amenities);
 
+    const amenities = salon?.amenities;
+
+    // Don't render an empty dark block while data loads
+    if (!amenities || amenities.length === 0) return null;
+
+    const leftAmenities  = amenities.slice(0, 3);
+    const rightAmenities = amenities.slice(3, 6);
 
     return (
-        <Box display="flex" justifyContent="space-around" alignItems="center" sx={{ width: "100%", position: "relative", marginBottom: "11%", fontFamily: "Inter, sans-serif" }}>
-            <Box display="flex" flexDirection="column" textAlign="right" width="29%">
-                <nav aria-label="services provided by this website">
-                    <List className="facilities-list-left">
+        <section className="amenities-section">
+            {/* Section header */}
+            <div style={{ textAlign: 'center', marginBottom: '56px' }}>
+                <span className="section-label" style={{ justifyContent: 'center', color: '#c9a96e' }}>
+                    Our Facilities
+                </span>
+                <h2 className="section-heading section-heading-light">
+                    Premium Amenities
+                </h2>
+            </div>
 
-                        {salon?.amenities?.slice(0, 3).map((amenity, index) => (
-                            <React.Fragment key={index}>
-                                <ListItemText primary={amenity.name} primaryTypographyProps={{ fontWeight: "400", fontSize: "21px", lineHeight: "28px", letterSpacing: "0.14em", textTransform: "uppercase" }} />
-                                <span style={{ paddingLeft: "80px", marginTop: "4px", marginBottom: "25px", fontWeight: "300", fontSize: "13px", lineHeight: "22px", letterSpacing: "0.015em" }}>
-                                    {amenity.description}
-                                </span>
-                            </React.Fragment>
-                        ))}
+            {/* Three-column grid — CSS @keyframes handle slide-in, no JS needed */}
+            <div className="amenities-grid">
 
-                    </List>
-                </nav>
-            </Box>
+                {/* ── Left column ── */}
+                <div className="facilities-list-left">
+                    {leftAmenities.map((amenity, index) => (
+                        <div
+                            key={index}
+                            className="amenity-item"
+                            style={{
+                                textAlign: 'right',
+                                paddingRight: '8px',
+                                animationDelay: `${index * 100}ms`,
+                            }}
+                        >
+                            <div className="amenity-name">{amenity.name}</div>
+                            {amenity.description && (
+                                <div className="amenity-desc">{amenity.description}</div>
+                            )}
+                        </div>
+                    ))}
+                </div>
 
-            <Box className="facilities-img-box">
-                <img src={salonImg} alt="brand" style={{ height: "auto", width: "276px", maxWidth: "100%", border: "none", borderRadius: "0", boxShadow: "none", aspectRatio: "auto 276/641" }} />
-            </Box>
+                {/* ── Centre image ── */}
+                <div className="facilities-img-box" style={{ display: 'flex', justifyContent: 'center' }}>
+                    <img
+                        src={salonImg}
+                        alt="Salon interior"
+                        className="amenities-center-img"
+                    />
+                </div>
 
-            <Box display="flex" flexDirection="column" width="29%">
-                <nav aria-label="services provided by this website">
-                    <List className="facilities-list-right">
+                {/* ── Right column ── */}
+                <div className="facilities-list-right">
+                    {rightAmenities.map((amenity, index) => (
+                        <div
+                            key={index}
+                            className="amenity-item amenity-item-right"
+                            style={{
+                                textAlign: 'left',
+                                paddingLeft: '8px',
+                                animationDelay: `${index * 100}ms`,
+                            }}
+                        >
+                            <div className="amenity-name">{amenity.name}</div>
+                            {amenity.description && (
+                                <div className="amenity-desc">{amenity.description}</div>
+                            )}
+                        </div>
+                    ))}
+                </div>
 
-                        {salon?.amenities?.slice(3, 6).map((amenity, index) => (
-                            <React.Fragment key={index}>
-                                <ListItemText primary={amenity.name} primaryTypographyProps={{ fontWeight: "400", fontSize: "21px", lineHeight: "28px", letterSpacing: "0.14em", textTransform: "uppercase" }} />
-                                <span style={{ paddingRight: "45px", fontWeight: "300", marginTop: "4px", marginBottom: "25px", fontSize: "13px", lineHeight: "22px", letterSpacing: "0.015em" }}>
-                                    {amenity.description}
-                                </span>
-                            </React.Fragment>
-                        ))}
-
-                    </List>
-                </nav>
-            </Box>
-        </Box>
-    )
+            </div>
+        </section>
+    );
 };
 
 export default AmenitiesComponent;

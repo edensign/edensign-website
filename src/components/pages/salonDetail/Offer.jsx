@@ -7,21 +7,47 @@
 */
 
 import { useSelector } from 'react-redux';
-import { Box } from "@mui/material";
 
 const Offer = () => {
     const { salon } = useSelector(state => state.salonDetail);
 
+    // Don't render a large blank section if data isn't loaded yet
+    if (!salon || !salon.name) return null;
+
     return (
-        <Box sx={{ width: "70%", display: "flex", flexDirection: "column", alignItems: "center", margin: "auto", marginBottom: "8%", position: "relative" }}>
-            <span className="offer-line"></span>
-            <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                <span style={{ fontSize: "12px", fontWeight: "500", lineHeight: "32px", letterSpacing: "2.1px", textTransform: "uppercase" }}>Where Beauty Meets Artistry</span>
-                <p className="bigger-text">welcome to {salon.name}</p>
-                <span style={{ fontWeight: "300", fontSize: "14px", lineHeight: "22px", letterSpacing: "0.1em", padding: "0 130px", textAlign: "center" }}>{salon.description}</span>
-            </Box>
-        </Box>
-    )
+        <section className="offer-section">
+            {/* decorative top line drawn in CSS via ::before */}
+
+            <span className="section-label" style={{ justifyContent: 'center' }}>
+                Where Beauty Meets Artistry
+            </span>
+
+            <h1 className="bigger-text">
+                Welcome to {salon.name}
+            </h1>
+
+            {salon.description && (
+                <p className="offer-desc">{salon.description}</p>
+            )}
+
+            <div className="offer-stats">
+                <div>
+                    <div className="offer-stat-number">500<span style={{ fontSize: '1.4rem', color: '#c9a96e' }}>+</span></div>
+                    <div className="offer-stat-label">Happy Clients</div>
+                </div>
+                <div style={{ width: '1px', background: 'rgba(201,169,110,0.2)' }} />
+                <div>
+                    <div className="offer-stat-number">12<span style={{ fontSize: '1.4rem', color: '#c9a96e' }}>+</span></div>
+                    <div className="offer-stat-label">Expert Artists</div>
+                </div>
+                <div style={{ width: '1px', background: 'rgba(201,169,110,0.2)' }} />
+                <div>
+                    <div className="offer-stat-number">8<span style={{ fontSize: '1.4rem', color: '#c9a96e' }}>+</span></div>
+                    <div className="offer-stat-label">Years Experience</div>
+                </div>
+            </div>
+        </section>
+    );
 };
 
 export default Offer;

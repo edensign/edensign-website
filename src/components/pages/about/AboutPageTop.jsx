@@ -14,7 +14,7 @@ const AboutPageTop = () => {
 
     return (
         <Box sx={{
-            height: "84vh", width: "100%", display: "flex", justifyContent: "center", alignItems: "center"
+            height: "70vh", width: "100%", display: "flex", justifyContent: "center", alignItems: "center"
         }}>
             <img id='imgbg' src={AboutBg} style={{ width: "100%", height: "100%" }} />
         </Box >

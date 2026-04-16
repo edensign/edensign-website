@@ -5,6 +5,7 @@
 import * as React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useSelector } from 'react-redux';
 
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import ContentCutOutlinedIcon from '@mui/icons-material/ContentCutOutlined';
@@ -78,6 +79,9 @@ function Topbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+
+  /* ── cart quantity from redux ── */
+  const cartTotalQty = useSelector(state => state.cart.totalQty);
 
   /* ── keep existing auth logic ── */
   const customer = API.CustomerAPI.getCustomer();
@@ -204,7 +208,7 @@ function Topbar() {
             </button>
 
             {/* Wishlist */}
-            <Link to="/wishlist" style={{
+            {/* <Link to="/wishlist" style={{
               background: 'none',
               border: 'none',
               cursor: 'pointer',
@@ -216,20 +220,57 @@ function Topbar() {
               transition: 'all 0.3s',
             }} className="es-icon-btn">
               <FavoriteBorderIcon sx={{ fontSize: 20 }} />
-            </Link>
+            </Link> */}
 
             {/* Cart */}
-            <button style={{
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              padding: '8px',
-              borderRadius: '50%',
-              display: 'flex',
-              color: '#1a0a00',
-              transition: 'all 0.3s',
-            }} className="es-icon-btn">
+            <button
+              onClick={() => navigate('/cart')}
+              style={{
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                padding: '8px',
+                borderRadius: '50%',
+                display: 'flex',
+                alignItems: 'center',
+                color: '#1a0a00',
+                transition: 'all 0.3s',
+                position: 'relative',
+              }}
+              className="es-icon-btn"
+              aria-label="Cart"
+            >
               <ShoppingBagOutlinedIcon sx={{ fontSize: 20 }} />
+              {cartTotalQty > 0 && (
+                <motion.span
+                  key={cartTotalQty}
+                  initial={{ scale: 0.5, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ type: 'spring', stiffness: 400, damping: 18 }}
+                  style={{
+                    position: 'absolute',
+                    top: 2,
+                    right: 2,
+                    minWidth: 17,
+                    height: 17,
+                    borderRadius: '100px',
+                    background: 'linear-gradient(135deg, #c7956c, #a8724d)',
+                    color: '#fff',
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '9px',
+                    fontWeight: 700,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    pointerEvents: 'none',
+                    lineHeight: 1,
+                    padding: '0 4px',
+                    boxShadow: '0 2px 6px rgba(199,149,108,0.5)',
+                  }}
+                >
+                  {cartTotalQty > 99 ? '99+' : cartTotalQty}
+                </motion.span>
+              )}
             </button>
 
             {/* Auth */}

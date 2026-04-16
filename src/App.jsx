@@ -30,6 +30,8 @@ import Product from "./components/pages/products/Product";
 import ProductDetail from "./components/pages/products/ProductDetailPage";
 import Faq from "./components/pages/faq/Faq";
 import Footer from './components/common/Footer';
+import CartPage from './components/pages/cart/CartPage';
+import CheckoutPage from './components/pages/checkout/CheckoutPage';
 
 const pageVariants = {
   initial: { opacity: 0, y: 16 },
@@ -96,6 +98,8 @@ function App() {
                 <Route exact path='/salon/detail/:code' element={<PageWrapper><SalonDetail /></PageWrapper>} />
                 <Route exact path='/faq' element={<PageWrapper><Faq /></PageWrapper>} />
                 <Route exact path='/product/detail' element={<PageWrapper><ProductDetail /></PageWrapper>} />
+                <Route exact path='/cart' element={<PageWrapper><CartPage /></PageWrapper>} />
+                <Route exact path='/checkout' element={<PageWrapper><CheckoutPage /></PageWrapper>} />
               </Routes>
             </AnimatePresence>
             <Footer />

@@ -59,7 +59,7 @@ const Login = () => {
 
                 if (response.status === "Success") {
                     API.CustomerAPI.saveAuth(response.data.token, response.data.customer);
-                    navigate(-1); // Go back to previous page
+                    navigate("/"); // Redirect to home page
                 } else {
                     setError(response.data || "Login failed");
                 }

@@ -40,7 +40,7 @@ const productImages = {
 };
 
 const SAS_URL = import.meta.env.VITE_SAS_URL || 'https://oaqyonnkveufkkamswzv.supabase.co/storage/v1/object/public/photos';
-const PRODUCT_FOLDER = import.meta.env.VITE_PARENT_PRODUCT || 'product';
+const PRODUCT_FOLDER = 'product';
 
 
 /* ── Skeleton card ── */

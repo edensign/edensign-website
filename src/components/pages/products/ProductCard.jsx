@@ -39,7 +39,7 @@ const productImages = {
   'Brown Sugar Body Lotion': lotionImg,
 };
 
-const SAS_URL = import.meta.env.VITE_SAS_URL;
+const SAS_URL = import.meta.env.VITE_SAS_URL || 'https://oaqyonnkveufkkamswzv.supabase.co/storage/v1/object/public/photos';
 const PRODUCT_FOLDER = import.meta.env.VITE_PARENT_PRODUCT || 'product';
 
 

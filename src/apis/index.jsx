@@ -13,12 +13,14 @@ import { ContactAPI } from "./ContactAPI";
 import { CustomerAPI } from "./CustomerAPI";
 import { JobSeekerAPI } from "./JobSeekerAPI";
 import { ProductAPI } from "./ProductAPI";
+import { ProductAdAPI } from "./ProductAdAPI";
 import { SalonAPI } from "./SalonAPI";
 import { SalonEmployeeAPI } from "./SalonEmployeeAPI";
 import { ServiceAPI } from "./ServiceAPI";
 import { SkillAPI } from "./SkillAPI";
 import { StateAPI } from "./StateAPI";
 import { ReviewAPI } from "./ReviewAPI";
+import { AcademyAPI } from "./AcademyAPI";
 
 
 export default {
@@ -29,10 +31,12 @@ export default {
     CustomerAPI,
     JobSeekerAPI,
     ProductAPI,
+    ProductAdAPI,
     ReviewAPI,
     SalonAPI,
     SalonEmployeeAPI,
     ServiceAPI,
     SkillAPI,
-    StateAPI
+    StateAPI,
+    AcademyAPI
 };

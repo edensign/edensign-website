@@ -1,0 +1,222 @@
+.sponsored-banner-section {
+    padding: 60px 0;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
+    color: #fff;
+    overflow: hidden;
+    position: relative;
+}
+
+.sponsored-banner-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.sponsored-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.sponsored-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    color: #c7956c;
+    margin: 10px 0;
+}
+
+.sponsored-header p {
+    font-size: 16px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #bbbbbb;
+}
+
+.sponsored-hero-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(199, 149, 108, 0.2);
+    border-radius: 40px;
+    padding: 60px;
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    cursor: pointer;
+    transition: all 0.5s ease;
+    position: relative;
+    overflow: hidden;
+    height: 500px;
+}
+
+.sponsored-hero-card:hover {
+    border-color: rgba(199, 149, 108, 0.8);
+    transform: translateY(-10px);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+}
+
+.sponsored-hero-image {
+    flex: 1;
+    height: 100%;
+    border-radius: 30px;
+    overflow: hidden;
+    background: #1a1a1a;
+}
+
+.sponsored-hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1s ease;
+}
+
+.sponsored-hero-card:hover .sponsored-hero-image img {
+    transform: scale(1.1);
+}
+
+.sponsored-hero-content {
+    flex: 1;
+}
+
+.sponsored-badge {
+    display: inline-block;
+    padding: 8px 16px;
+    background: #c7956c;
+    color: #000;
+    font-size: 12px;
+    font-weight: 800;
+    border-radius: 50px;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+    letter-spacing: 1px;
+}
+
+.sponsored-hero-content h3 {
+    font-size: 42px;
+    font-weight: 700;
+    margin: 0 0 10px 0;
+    font-family: 'Playfair Display', serif;
+}
+
+.sponsored-hero-content h4 {
+    font-size: 20px;
+    color: #fff;
+    opacity: 0.7;
+    margin: 0 0 30px 0;
+    font-weight: 400;
+}
+
+.sponsored-hero-content .price {
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 40px;
+}
+
+.shop-now-btn {
+    padding: 18px 40px;
+    background: transparent;
+    border: 2px solid #c7956c;
+    color: #c7956c;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.sponsored-hero-card:hover .shop-now-btn {
+    background: #c7956c;
+    color: #000;
+}
+
+.sponsored-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.sponsored-small-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 25px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    height: calc(50% - 15px);
+}
+
+.sponsored-small-card:hover {
+    background: rgba(199, 149, 108, 0.1);
+    border-color: rgba(199, 149, 108, 0.4);
+    transform: translateX(10px);
+}
+
+.sponsored-small-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 15px;
+    object-fit: cover;
+}
+
+.sponsored-small-content h5 {
+    font-size: 18px;
+    margin: 0 0 5px 0;
+    color: #fff;
+}
+
+.sponsored-small-subtitle {
+    font-size: 14px;
+    color: #aaa;
+    margin: 0 0 10px 0;
+}
+
+.sponsored-small-price {
+    font-size: 16px;
+    color: #c7956c;
+    font-weight: 600;
+}
+
+@media (max-width: 1024px) {
+    .sponsored-hero-card {
+        padding: 40px;
+        gap: 30px;
+        height: auto;
+        min-height: 450px;
+    }
+    .sponsored-hero-content h3 { font-size: 32px; }
+}
+
+@media (max-width: 768px) {
+    .sponsored-banner-section { padding: 40px 0; }
+    .sponsored-hero-card {
+        flex-direction: column;
+        padding: 24px;
+        height: auto;
+        border-radius: 24px;
+        text-align: center;
+    }
+    .sponsored-hero-image {
+        width: 100%;
+        height: 250px;
+        flex: none;
+    }
+    .sponsored-hero-content { padding: 10px 0; }
+    .sponsored-hero-content h3 { font-size: 28px; }
+    .sponsored-hero-content h4 { font-size: 16px; margin-bottom: 20px; }
+    .sponsored-badge { margin-bottom: 15px; padding: 6px 12px; font-size: 10px; }
+    .sponsored-hero-content .price { font-size: 24px; margin-bottom: 25px; justify-content: center; }
+    .shop-now-btn { width: 100%; padding: 14px 20px; font-size: 14px; }
+    
+    .sponsored-sidebar { gap: 15px; margin-top: 20px; }
+    .sponsored-small-card {
+        padding: 12px;
+        gap: 15px;
+        border-radius: 16px;
+        height: auto;
+    }
+    .sponsored-small-img { width: 70px; height: 70px; border-radius: 12px; }
+    .sponsored-small-content h5 { font-size: 15px; }
+    .sponsored-small-subtitle { font-size: 12px; margin-bottom: 4px; }
+    .sponsored-small-price { font-size: 14px; }
+}

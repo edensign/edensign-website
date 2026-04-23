@@ -19,6 +19,9 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
+import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import CallOutlinedIcon from '@mui/icons-material/CallOutlined';
 
 import API from '../../apis';
 
@@ -27,17 +30,20 @@ const navLinks = [
   { label: 'Salons', href: '/salons' },
   { label: 'Job Seeker', href: '/job-seeker' },
   { label: 'Products', href: '/products' },
+  { label: 'Academy', href: '/academy' },
   { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },
 ];
 
-/* ── mobile bottom nav ── */
-const mobileNav = [
+/* ── sidebar links ── */
+const sidebarLinks = [
   { label: 'Home', href: '/', Icon: HomeOutlinedIcon },
   { label: 'Salons', href: '/salons', Icon: ContentCutOutlinedIcon },
-  { label: 'Jobs', href: '/job-seeker', Icon: WorkOutlineOutlinedIcon },
-  { label: 'Shop', href: '/products', Icon: StorefrontOutlinedIcon },
-  { label: 'Account', href: '/login', Icon: PersonOutlineOutlinedIcon },
+  { label: 'Job Seeker', href: '/job-seeker', Icon: WorkOutlineOutlinedIcon },
+  { label: 'Products', href: '/products', Icon: StorefrontOutlinedIcon },
+  { label: 'Academy', href: '/academy', Icon: SchoolOutlinedIcon },
+  { label: 'About Us', href: '/about', Icon: InfoOutlinedIcon },
+  { label: 'Contact', href: '/contact', Icon: CallOutlinedIcon },
 ];
 
 /* ── styles ── */
@@ -183,7 +189,6 @@ function Topbar() {
                     transition: 'all 0.25s ease',
                     position: 'relative',
                   }}
-                  className="es-nav-link"
                 >
                   {link.label}
                 </Link>
@@ -192,190 +197,214 @@ function Topbar() {
           </nav>
 
           {/* Right actions */}
-          <div className="es-desktop-actions">
-            {/* Search */}
-            <button style={{
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              padding: '8px',
-              borderRadius: '50%',
-              display: 'flex',
-              color: '#1a0a00',
-              transition: 'all 0.3s',
-            }} className="es-icon-btn">
-              <SearchIcon sx={{ fontSize: 20 }} />
-            </button>
-
-            {/* Wishlist */}
-            {/* <Link to="/wishlist" style={{
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              padding: '8px',
-              borderRadius: '50%',
-              display: 'flex',
-              color: '#1a0a00',
-              textDecoration: 'none',
-              transition: 'all 0.3s',
-            }} className="es-icon-btn">
-              <FavoriteBorderIcon sx={{ fontSize: 20 }} />
-            </Link> */}
-
-            {/* Cart */}
-            <button
-              onClick={() => navigate('/cart')}
-              style={{
+          <div className="es-actions-wrapper" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            {/* Desktop Actions */}
+            <div className="es-desktop-actions">
+              <button style={{
                 background: 'none',
                 border: 'none',
                 cursor: 'pointer',
                 padding: '8px',
                 borderRadius: '50%',
                 display: 'flex',
-                alignItems: 'center',
                 color: '#1a0a00',
                 transition: 'all 0.3s',
-                position: 'relative',
-              }}
-              className="es-icon-btn"
-              aria-label="Cart"
-            >
-              <ShoppingBagOutlinedIcon sx={{ fontSize: 20 }} />
-              {cartTotalQty > 0 && (
-                <motion.span
-                  key={cartTotalQty}
-                  initial={{ scale: 0.5, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ type: 'spring', stiffness: 400, damping: 18 }}
+              }} className="es-icon-btn">
+                <SearchIcon sx={{ fontSize: 20 }} />
+              </button>
+
+              <button
+                onClick={() => navigate('/cart')}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  padding: '8px',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  color: '#1a0a00',
+                  transition: 'all 0.3s',
+                  position: 'relative',
+                }}
+                className="es-icon-btn"
+                aria-label="Cart"
+              >
+                <ShoppingBagOutlinedIcon sx={{ fontSize: 20 }} />
+                {cartTotalQty > 0 && (
+                  <motion.span
+                    key={cartTotalQty}
+                    initial={{ scale: 0.5, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ type: 'spring', stiffness: 400, damping: 18 }}
+                    style={{
+                      position: 'absolute',
+                      top: 2,
+                      right: 2,
+                      minWidth: 17,
+                      height: 17,
+                      borderRadius: '100px',
+                      background: 'linear-gradient(135deg, #c7956c, #a8724d)',
+                      color: '#fff',
+                      fontFamily: 'Inter, sans-serif',
+                      fontSize: '9px',
+                      fontWeight: 700,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      pointerEvents: 'none',
+                      lineHeight: 1,
+                      padding: '0 4px',
+                      boxShadow: '0 2px 6px rgba(199,149,108,0.5)',
+                    }}
+                  >
+                    {cartTotalQty > 99 ? '99+' : cartTotalQty}
+                  </motion.span>
+                )}
+              </button>
+
+              {isLoggedIn ? (
+                <div style={{ position: 'relative' }} className="es-profile-wrap">
+                  <button
+                    style={{
+                      width: 36,
+                      height: 36,
+                      borderRadius: '50%',
+                      background: 'linear-gradient(135deg, #c7956c, #a8724d)',
+                      border: 'none',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontFamily: 'Inter, sans-serif',
+                      fontWeight: 700,
+                      fontSize: '13px',
+                      color: '#fff',
+                      marginLeft: '4px',
+                      transition: 'transform 0.2s, box-shadow 0.2s',
+                      boxShadow: '0 2px 8px rgba(199,149,108,0.4)',
+                    }}
+                    className="es-avatar-btn"
+                    title={customer?.username || 'Profile'}
+                  >
+                    {getUserInitials()}
+                  </button>
+                  <div className="es-profile-dropdown">
+                    <div className="es-profile-dropdown-inner">
+                      <p style={{ margin: '0 0 4px 0', fontWeight: 600, fontSize: '14px', color: '#1a0f08', fontFamily: 'Inter, sans-serif' }}>
+                        Hi, {customer?.username?.split(' ')[0] || 'User'} 👋
+                      </p>
+                      <p style={{ margin: '0 0 12px 0', fontSize: '12px', color: '#a8724d', fontFamily: 'Inter, sans-serif' }}>
+                        {customer?.email || ''}
+                      </p>
+                      <button onClick={handleLogout} style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        background: 'none',
+                        border: '1px solid rgba(199,149,108,0.3)',
+                        borderRadius: '8px',
+                        padding: '8px 16px',
+                        cursor: 'pointer',
+                        color: '#a8724d',
+                        fontFamily: 'Inter, sans-serif',
+                        fontSize: '13px',
+                        fontWeight: 500,
+                        width: '100%',
+                        transition: 'background 0.2s',
+                      }} className="es-logout-btn">
+                        <LogoutIcon sx={{ fontSize: 16 }} />
+                        Logout
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <Link
+                  to="/login"
                   style={{
-                    position: 'absolute',
-                    top: 2,
-                    right: 2,
-                    minWidth: 17,
-                    height: 17,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    textDecoration: 'none',
+                    padding: '9px 20px',
                     borderRadius: '100px',
                     background: 'linear-gradient(135deg, #c7956c, #a8724d)',
                     color: '#fff',
                     fontFamily: 'Inter, sans-serif',
-                    fontSize: '9px',
-                    fontWeight: 700,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    pointerEvents: 'none',
-                    lineHeight: 1,
-                    padding: '0 4px',
-                    boxShadow: '0 2px 6px rgba(199,149,108,0.5)',
-                  }}
-                >
-                  {cartTotalQty > 99 ? '99+' : cartTotalQty}
-                </motion.span>
-              )}
-            </button>
-
-            {/* Auth */}
-            {isLoggedIn ? (
-              <div style={{ position: 'relative' }} className="es-profile-wrap">
-                <button
-                  style={{
-                    width: 36,
-                    height: 36,
-                    borderRadius: '50%',
-                    background: 'linear-gradient(135deg, #c7956c, #a8724d)',
-                    border: 'none',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontFamily: 'Inter, sans-serif',
-                    fontWeight: 700,
                     fontSize: '13px',
-                    color: '#fff',
-                    marginLeft: '4px',
+                    fontWeight: 600,
+                    letterSpacing: '0.04em',
+                    marginLeft: '8px',
+                    boxShadow: '0 2px 12px rgba(199,149,108,0.35)',
                     transition: 'transform 0.2s, box-shadow 0.2s',
-                    boxShadow: '0 2px 8px rgba(199,149,108,0.4)',
                   }}
-                  className="es-avatar-btn"
-                  title={customer?.username || 'Profile'}
+                  className="es-login-btn"
                 >
-                  {getUserInitials()}
-                </button>
-                {/* Dropdown */}
-                <div className="es-profile-dropdown">
-                  <div className="es-profile-dropdown-inner">
-                    <p style={{ margin: '0 0 4px 0', fontWeight: 600, fontSize: '14px', color: '#1a0f08', fontFamily: 'Inter, sans-serif' }}>
-                      Hi, {customer?.username?.split(' ')[0] || 'User'} 👋
-                    </p>
-                    <p style={{ margin: '0 0 12px 0', fontSize: '12px', color: '#a8724d', fontFamily: 'Inter, sans-serif' }}>
-                      {customer?.email || ''}
-                    </p>
-                    <button onClick={handleLogout} style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      background: 'none',
-                      border: '1px solid rgba(199,149,108,0.3)',
-                      borderRadius: '8px',
-                      padding: '8px 16px',
-                      cursor: 'pointer',
-                      color: '#a8724d',
-                      fontFamily: 'Inter, sans-serif',
-                      fontSize: '13px',
-                      fontWeight: 500,
-                      width: '100%',
-                      transition: 'background 0.2s',
-                    }} className="es-logout-btn">
-                      <LogoutIcon sx={{ fontSize: 16 }} />
-                      Logout
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <Link
-                to="/login"
+                  <LoginIcon sx={{ fontSize: 16 }} />
+                  Sign In
+                </Link>
+              )}
+            </div>
+
+            {/* Mobile Actions (Visible on mobile) */}
+            <div className="es-mobile-actions" style={{ display: 'none', alignItems: 'center', gap: '4px' }}>
+              <button
+                onClick={() => navigate('/cart')}
                 style={{
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  padding: '8px',
+                  borderRadius: '50%',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '6px',
-                  textDecoration: 'none',
-                  padding: '9px 20px',
-                  borderRadius: '100px',
-                  background: 'linear-gradient(135deg, #c7956c, #a8724d)',
-                  color: '#fff',
-                  fontFamily: 'Inter, sans-serif',
-                  fontSize: '13px',
-                  fontWeight: 600,
-                  letterSpacing: '0.04em',
-                  marginLeft: '8px',
-                  boxShadow: '0 2px 12px rgba(199,149,108,0.35)',
-                  transition: 'transform 0.2s, box-shadow 0.2s',
+                  color: '#1a0a00',
+                  position: 'relative',
                 }}
-                className="es-login-btn"
+                aria-label="Cart"
               >
-                <LoginIcon sx={{ fontSize: 16 }} />
-                Sign In
-              </Link>
-            )}
-
-            {/* Mobile hamburger (visible only on mobile) */}
-            <button
-              onClick={() => setMobileMenuOpen(true)}
-              style={{
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                padding: '8px',
-                borderRadius: '8px',
-                display: 'none',
-                color: '#1a0a00',
-                marginLeft: '4px',
-              }}
-              className="es-hamburger"
-              aria-label="Open menu"
-            >
-              <MenuIcon sx={{ fontSize: 24 }} />
-            </button>
+                <ShoppingBagOutlinedIcon sx={{ fontSize: 22 }} />
+                {cartTotalQty > 0 && (
+                  <span
+                    style={{
+                      position: 'absolute',
+                      top: 4,
+                      right: 4,
+                      minWidth: 16,
+                      height: 16,
+                      borderRadius: '50%',
+                      background: '#c7956c',
+                      color: '#fff',
+                      fontSize: '9px',
+                      fontWeight: 700,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      padding: '0 2px',
+                    }}
+                  >
+                    {cartTotalQty > 99 ? '99+' : cartTotalQty}
+                  </span>
+                )}
+              </button>
+              
+              <button
+                onClick={() => setMobileMenuOpen(true)}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  padding: '8px',
+                  borderRadius: '8px',
+                  color: '#1a0a00',
+                }}
+                className="es-hamburger"
+                aria-label="Open menu"
+              >
+                <MenuIcon sx={{ fontSize: 26 }} />
+              </button>
+            </div>
           </div>
         </div>
       </header>
@@ -394,33 +423,35 @@ function Topbar() {
               style={{
                 position: 'fixed',
                 inset: 0,
-                background: 'rgba(26,10,0,0.5)',
-                zIndex: 1299,
-                backdropFilter: 'blur(4px)',
+                background: 'rgba(26,10,0,0.4)',
+                zIndex: 1400,
+                backdropFilter: 'blur(8px)',
+                WebkitBackdropFilter: 'blur(8px)',
               }}
             />
             {/* Drawer */}
             <motion.div
               key="drawer"
-              initial={{ y: '-100%' }}
-              animate={{ y: 0 }}
-              exit={{ y: '-100%' }}
-              transition={{ type: 'spring', damping: 28, stiffness: 300 }}
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', damping: 32, stiffness: 350 }}
               style={{
                 position: 'fixed',
                 top: 0,
-                left: 0,
                 right: 0,
+                bottom: 0,
+                width: 'min(320px, 85%)',
                 background: '#fff',
-                zIndex: 1300,
-                borderBottomLeftRadius: '24px',
-                borderBottomRightRadius: '24px',
-                padding: '24px 28px 32px',
-                boxShadow: '0 8px 40px rgba(26,10,0,0.18)',
+                zIndex: 1500,
+                padding: '32px 28px',
+                boxShadow: '-10px 0 40px rgba(26,10,0,0.15)',
+                display: 'flex',
+                flexDirection: 'column',
               }}
             >
               {/* Drawer header */}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '28px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '32px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                   <div style={{
                     width: 32,
@@ -442,41 +473,43 @@ function Topbar() {
                 </div>
                 <button
                   onClick={() => setMobileMenuOpen(false)}
-                  style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '6px', borderRadius: '50%', color: '#6b5749' }}
+                  style={{ background: '#f8f5f2', border: 'none', cursor: 'pointer', padding: '8px', borderRadius: '50%', color: '#6b5749', display: 'flex' }}
                 >
-                  <CloseIcon sx={{ fontSize: 22 }} />
+                  <CloseIcon sx={{ fontSize: 20 }} />
                 </button>
               </div>
 
               {/* Nav links */}
-              <nav style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                {navLinks.map((link, i) => {
-                  const isActive = location.pathname === link.href ||
-                    (link.href !== '/' && location.pathname.startsWith(link.href));
+              <nav style={{ display: 'flex', flexDirection: 'column', gap: '6px', flex: 1, overflowY: 'auto', margin: '0 -4px' }}>
+                {sidebarLinks.map((link, i) => {
+                  const Icon = link.Icon;
+                  const isActive = location.pathname === link.href;
                   return (
                     <motion.div
                       key={link.href}
-                      initial={{ opacity: 0, x: -20 }}
+                      initial={{ opacity: 0, x: 20 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: i * 0.06 }}
+                      transition={{ delay: i * 0.04 }}
                     >
                       <Link
                         to={link.href}
                         onClick={() => setMobileMenuOpen(false)}
                         style={{
-                          display: 'block',
-                          padding: '14px 16px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '14px',
+                          padding: '12px 16px',
                           textDecoration: 'none',
                           fontFamily: 'Inter, sans-serif',
                           fontSize: '15px',
-                          fontWeight: isActive ? 600 : 400,
+                          fontWeight: isActive ? 600 : 500,
                           color: isActive ? '#c7956c' : '#3d1e0a',
                           background: isActive ? 'rgba(199,149,108,0.08)' : 'transparent',
                           borderRadius: '12px',
-                          borderLeft: isActive ? '3px solid #c7956c' : '3px solid transparent',
                           transition: 'all 0.2s',
                         }}
                       >
+                        <Icon sx={{ fontSize: 20, opacity: isActive ? 1 : 0.6 }} />
                         {link.label}
                       </Link>
                     </motion.div>
@@ -526,23 +559,7 @@ function Topbar() {
         )}
       </AnimatePresence>
 
-      {/* ── Mobile Bottom Navigation ── */}
-      <nav className="es-mobile-bottom-nav">
-        {mobileNav.map(({ label, href, Icon }) => {
-          const isActive = location.pathname === href ||
-            (href !== '/' && location.pathname.startsWith(href));
-          return (
-            <Link
-              key={href}
-              to={href}
-              className={`es-bottom-nav-item ${isActive ? 'active' : ''}`}
-            >
-              <Icon sx={{ fontSize: 22 }} />
-              <span>{label}</span>
-            </Link>
-          );
-        })}
-      </nav>
+      {/* Mobile Bottom Navigation Removed */}
 
       {/* ── Topbar CSS ── */}
       <style>{`
@@ -611,62 +628,19 @@ function Topbar() {
         .es-profile-dropdown-inner { padding: 20px; }
         .es-logout-btn:hover { background: rgba(199,149,108,0.08) !important; }
 
-        /* Mobile bottom nav */
-        .es-mobile-bottom-nav {
-          display: none;
-          position: fixed;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          z-index: 1100;
-          background: rgba(255,255,255,0.96);
-          backdrop-filter: blur(16px);
-          -webkit-backdrop-filter: blur(16px);
-          border-top: 1px solid rgba(199,149,108,0.12);
-          padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
-          box-shadow: 0 -4px 20px rgba(26,10,0,0.06);
-          grid-template-columns: repeat(5, 1fr);
-        }
-        
-        .es-bottom-nav-item {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          gap: 3px;
-          text-decoration: none;
-          padding: 6px 4px;
-          color: #9a8070;
-          font-family: 'Inter', sans-serif;
-          font-size: 10px;
-          font-weight: 500;
-          letter-spacing: 0.02em;
-          transition: color 0.2s;
-          min-width: 0;
-          overflow: hidden;
-        }
-        .es-bottom-nav-item.active {
-          color: #c7956c;
-        }
-        .es-bottom-nav-item:hover {
-          color: #c7956c;
-        }
-
         /* Responsive breakpoints */
         @media (max-width: 900px) {
           .es-desktop-nav, .es-desktop-actions { display: none !important; }
-          .es-hamburger { display: flex !important; }
-          .es-mobile-bottom-nav { display: grid !important; }
-          /* Push page content above bottom nav */
-          #main-div { padding-bottom: 65px; }
+          .es-mobile-actions { display: flex !important; }
         }
 
         @media (max-width: 600px) {
           .es-login-btn span { display: none; }
+          .toolbar { padding: 0 16px !important; }
         }
 
         @media (min-width: 901px) {
-          .es-hamburger { display: none !important; }
+          .es-mobile-actions { display: none !important; }
         }
       `}</style>
     </>

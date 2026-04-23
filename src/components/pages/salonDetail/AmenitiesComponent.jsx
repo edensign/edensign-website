@@ -44,8 +44,6 @@ const AmenitiesComponent = () => {
                             key={index}
                             className="amenity-item"
                             style={{
-                                textAlign: 'right',
-                                paddingRight: '8px',
                                 animationDelay: `${index * 100}ms`,
                             }}
                         >
@@ -73,8 +71,6 @@ const AmenitiesComponent = () => {
                             key={index}
                             className="amenity-item amenity-item-right"
                             style={{
-                                textAlign: 'left',
-                                paddingLeft: '8px',
                                 animationDelay: `${index * 100}ms`,
                             }}
                         >

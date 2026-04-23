@@ -24,13 +24,13 @@ const SalonPageTop = () => {
     const filterBox = document.getElementById('filter-box');
     const arrowIcon = document.getElementById('arrow-icon');
 
-    dispatch(setFilterOpen(!filterOpen.filterOpen));
-    setButtonText(filterOpen.filterOpen ? 'Filter' : '');
+    const isMobile = window.innerWidth <= 768;
+    const offset = isMobile ? (filterOpen.filterOpen ? '0' : '70%') : (filterOpen.filterOpen ? '0' : '21%');
 
-    box.style.right = filterOpen.filterOpen ? '0' : '21%';
+    box.style.right = offset;
     box.style.transform = filterOpen.filterOpen ? 'translateX(0)' : 'matrix(1, 0, 0, 1, 0, 0)';
-    btn.style.width = filterOpen.filterOpen ? '7em' : '4em';
-    btn.style.padding = filterOpen.filterOpen ? '10px 50px' : '9px 0px 9px 4px';
+    btn.style.width = filterOpen.filterOpen ? (isMobile ? '5.5em' : '7em') : '4em';
+    btn.style.padding = filterOpen.filterOpen ? (isMobile ? '10px 20px' : '10px 50px') : '9px 0px 9px 4px';
     filterBox.style.opacity = filterOpen.filterOpen ? '0' : '1';
     filterBox.style.transform = filterOpen.filterOpen ? 'translateX(100%)' : 'translateX(0)';
     if (arrowIcon) arrowIcon.style.transform = filterOpen.filterOpen ? '' : 'rotate(180deg)';
@@ -181,19 +181,20 @@ const SalonPageTop = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
+            className="salon-search-bar"
             style={{
               display: 'flex',
               alignItems: 'center',
               background: 'rgba(255,255,255,0.96)',
               borderRadius: '100px',
-              padding: '6px 8px 6px 24px',
+              padding: '6px 8px 6px 20px',
               maxWidth: '520px',
               margin: '0 auto',
               boxShadow: '0 8px 32px rgba(0,0,0,0.25)',
               backdropFilter: 'blur(10px)',
             }}
           >
-            <SearchIcon sx={{ color: '#c7956c', fontSize: 20, mr: 1 }} />
+            <SearchIcon sx={{ color: '#c7956c', fontSize: { xs: 18, sm: 20 }, mr: 1 }} />
             <input
               type="text"
               placeholder="Search by salon name or city..."
@@ -206,13 +207,14 @@ const SalonPageTop = () => {
                 color: '#1a0f08',
                 background: 'transparent',
                 padding: '10px 0',
+                minWidth: 0, // fix for flex items
               }}
             />
             <button style={{
               background: 'linear-gradient(135deg, #c7956c, #a8724d)',
               border: 'none',
               borderRadius: '100px',
-              padding: '12px 28px',
+              padding: '12px 24px',
               color: '#fff',
               fontFamily: 'Inter, sans-serif',
               fontSize: '13px',
@@ -225,6 +227,21 @@ const SalonPageTop = () => {
               Search
             </button>
           </motion.div>
+          <style>{`
+            @media (max-width: 600px) {
+              .salon-search-bar {
+                padding: 4px 6px 4px 16px !important;
+                border-radius: 50px !important;
+              }
+              .salon-search-bar input {
+                font-size: 13px !important;
+              }
+              .salon-search-bar button {
+                padding: 10px 20px !important;
+                font-size: 12px !important;
+              }
+            }
+          `}</style>
         </div>
 
         {/* Scroll indicator */}

@@ -17,6 +17,7 @@ import ImageContainer from "./ImageContainer";
 import Newsletter from "../../common/Newsletter";
 import ProductList from "./BodyProductList";
 import ServicesList from "./ServicesList";
+import SponsoredProductBanner from "./SponsoredProductBanner";
 import StatsBar from "./StatsBar";
 import Testimonials from "../../common/Testimonials";
 
@@ -25,6 +26,7 @@ const Home = () => {
     <>
       <Carousel />
       <StatsBar />
+      <SponsoredProductBanner />
       <ServicesList />
       <ProductList />
       <ImageBoxes />

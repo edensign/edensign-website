@@ -838,3 +838,107 @@
   border-color: var(--gold);
   color: var(--white);
 }
+/* --- RESPONSIVENESS --- */
+@media (max-width: 992px) {
+  .amenities-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .salon-hero-content {
+    left: 20px;
+    right: 20px;
+    bottom: 8%;
+  }
+  
+  .salon-hero-title {
+    font-size: 2.8rem;
+  }
+
+  .offer-stats {
+    flex-direction: column;
+    gap: 32px;
+    align-items: center;
+  }
+
+  .amenities-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .amenities-center-img {
+    display: none;
+  }
+
+  .video-section {
+    grid-template-columns: 1fr;
+    width: 95%;
+    margin-bottom: 40px;
+  }
+
+  .video-text-panel {
+    padding: 40px 24px;
+    order: 2;
+  }
+
+  .video-media-panel {
+    height: 300px;
+    order: 1;
+  }
+
+  .services-item {
+    padding: 12px 20px;
+  }
+  
+  .services-item::before {
+    display: none;
+  }
+
+  .salon-sliding {
+    width: 100% !important;
+  }
+
+  .images-sliding {
+    width: 100% !important;
+  }
+  
+  .review-round {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .salon-hero-title {
+    font-size: 2.2rem;
+  }
+
+  .section-label {
+    font-size: 9px;
+  }
+
+  .section-heading {
+    font-size: 1.8rem;
+  }
+
+  .offer-stat-number {
+    font-size: 2rem;
+  }
+
+  .amenity-item {
+    padding: 16px 0;
+  }
+}
+
+/* --- AMENITY ALIGNMENT --- */
+.facilities-list-left .amenity-item { text-align: right; padding-right: 8px; }
+.facilities-list-right .amenity-item { text-align: left; padding-left: 8px; }
+
+@media (max-width: 768px) {
+  .facilities-list-left .amenity-item,
+  .facilities-list-right .amenity-item { 
+    text-align: left !important; 
+    padding: 16px 0 !important;
+  }
+}

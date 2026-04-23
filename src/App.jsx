@@ -32,6 +32,7 @@ import Faq from "./components/pages/faq/Faq";
 import Footer from './components/common/Footer';
 import CartPage from './components/pages/cart/CartPage';
 import CheckoutPage from './components/pages/checkout/CheckoutPage';
+import Academy from "./components/pages/academy/Academy";
 
 const pageVariants = {
   initial: { opacity: 0, y: 16 },
@@ -76,7 +77,6 @@ function App() {
               display: "flex",
               flexDirection: "column",
               minHeight: "100vh",
-              minWidth: "320px",
               width: "100%",
               maxWidth: "100%",
               overflowX: "hidden",
@@ -100,6 +100,7 @@ function App() {
                 <Route exact path='/product/detail' element={<PageWrapper><ProductDetail /></PageWrapper>} />
                 <Route exact path='/cart' element={<PageWrapper><CartPage /></PageWrapper>} />
                 <Route exact path='/checkout' element={<PageWrapper><CheckoutPage /></PageWrapper>} />
+                <Route exact path='/academy' element={<PageWrapper><Academy /></PageWrapper>} />
               </Routes>
             </AnimatePresence>
             <Footer />

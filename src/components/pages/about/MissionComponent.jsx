@@ -20,10 +20,24 @@ const MissionComponent = () => {
         <p style={{ fontSize: '40px', fontWeight: "400", lineHeight: "1.28", letterSpacing: "0.14em", marginTop: "4px" }}> MISSION </p>
       </Box>
 
-      <div style={{ margin: "2% auto", marginTop: "2%", display: 'flex', alignItems: "center" }}>
+      <Box sx={{ 
+        margin: "2% auto", 
+        marginTop: "2%", 
+        display: 'flex', 
+        flexDirection: { xs: 'column', md: 'row' },
+        alignItems: "center",
+        px: { xs: 2, md: 0 }
+      }}>
         <nav aria-label="mission of eden sign website">
-          <List sx={{ display: "inline-flex", padding: "0" }}>
-            <ListItem sx={{ display: "initial", margin: "0 4% 0 8%" }}>
+          <List sx={{ 
+            display: "flex", 
+            flexDirection: { xs: 'column', md: 'row' },
+            padding: "0" 
+          }}>
+            <ListItem sx={{ 
+              display: "initial", 
+              margin: { xs: "0 0 20px 0", md: "0 4% 0 8%" } 
+            }}>
               <Typography component="p" sx={{
                 color: "rgb(97,97,97)", fontWeight: "300", fontFamily: "Inter, sans-serif", fontSize: "14px", lineHeight: "26px", letterSpacing: "0.115em"
               }}>
@@ -31,7 +45,10 @@ const MissionComponent = () => {
               </Typography>
             </ListItem>
 
-            <ListItem sx={{ display: "initial", margin: "0 8% 0 4%" }}>
+            <ListItem sx={{ 
+              display: "initial", 
+              margin: { xs: "0", md: "0 8% 0 4%" } 
+            }}>
               <Typography component="p" sx={{
                 color: "rgb(97,97,97)", fontWeight: "300", fontFamily: "Inter, sans-serif", fontSize: "14px", lineHeight: "26px", letterSpacing: "0.115em"
               }}>
@@ -40,7 +57,7 @@ const MissionComponent = () => {
             </ListItem>
           </List>
         </nav>
-      </div>
+      </Box>
 
     </Box>
     // <ListItem sx={{ flexDirection: "column" }}>

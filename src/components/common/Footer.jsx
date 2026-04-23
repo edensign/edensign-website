@@ -21,6 +21,7 @@ const quickLinks = [
   { label: 'Salons', href: '/salons' },
   { label: 'Job Seeker', href: '/job-seeker' },
   { label: 'Products', href: '/products' },
+  { label: 'Academy', href: '/academy' },
   { label: 'About Us', href: '/about' },
   { label: 'Contact', href: '/contact' },
   { label: 'FAQ', href: '/faq' },

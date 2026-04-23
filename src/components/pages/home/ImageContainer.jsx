@@ -22,6 +22,8 @@ const ImageContainer = () => {
             src="https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/makeup/skincare-closeup.jpg"
             alt="Find your dream job"
             className="es-split-img"
+            loading="lazy"
+            decoding="async"
           />
           <div className="es-split-img-accent" />
         </div>

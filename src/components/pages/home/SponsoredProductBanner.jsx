@@ -61,7 +61,12 @@ const SponsoredProductBanner = () => {
                         onClick={() => handleAdClick(heroAd.ad_id, heroAd.product_id || heroAd.id)}
                     >
                         <div className="sponsored-hero-image">
-                            <img src={heroAd.image_src || placeholder} alt={heroAd.title} />
+                            <img 
+                                src={heroAd.image_src || placeholder} 
+                                alt={heroAd.title} 
+                                loading="lazy"
+                                decoding="async"
+                            />
                         </div>
                         <div className="sponsored-hero-content">
                             <span className="sponsored-badge">Sponsored Top Pick</span>
@@ -95,7 +100,13 @@ const SponsoredProductBanner = () => {
                                     transition={{ duration: 0.4, delay: 0.3 + (index * 0.1) }}
                                     onClick={() => handleAdClick(ad.ad_id, ad.product_id || ad.id)}
                                 >
-                                    <img src={ad.image_src || placeholder} alt={ad.title} className="sponsored-small-img" />
+                                    <img 
+                                        src={ad.image_src || placeholder} 
+                                        alt={ad.title} 
+                                        className="sponsored-small-img" 
+                                        loading="lazy"
+                                        decoding="async"
+                                    />
                                     <div className="sponsored-small-content">
                                         <h5 className="sponsored-small-title">{ad.title}</h5>
                                         <p className="sponsored-small-subtitle">{ad.subtitle || ad.brand || 'Featured'}</p>

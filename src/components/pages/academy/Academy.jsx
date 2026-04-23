@@ -201,6 +201,8 @@ const Academy = () => {
                           component="img"
                           image={video.thumbnail_url || `https://img.youtube.com/vi/${video.id}/maxresdefault.jpg`}
                           alt={video.title}
+                          loading="lazy"
+                          decoding="async"
                           sx={{
                             position: 'absolute',
                             top: 0,

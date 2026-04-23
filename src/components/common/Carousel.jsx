@@ -134,6 +134,9 @@ const Carousel = () => {
                 className="es-slide-img"
                 alt={slide.label}
                 data-swiper-parallax="20%"
+                loading={idx === 0 ? "eager" : "lazy"}
+                {...(idx === 0 ? { fetchpriority: "high" } : {})}
+                decoding={idx === 0 ? "sync" : "async"}
               />
               {activeIndex === idx && <SlideContent slide={slide} />}
             </div>

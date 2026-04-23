@@ -113,7 +113,13 @@ const ProductCarousel = () => {
                 <div className="product-card">
                   <div className="product-image-container">
                     {product.featured && <span className="product-badge">Featured</span>}
-                    <img src={product.image} alt={product.name} className="product-image" />
+                    <img 
+                      src={product.image} 
+                      alt={product.name} 
+                      className="product-image" 
+                      loading="lazy"
+                      decoding="async"
+                    />
                     <div className="quick-view-overlay">
                       <button className="btn-minimal">Quick View</button>
                     </div>

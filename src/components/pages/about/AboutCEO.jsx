@@ -19,7 +19,13 @@ const AboutCEO = () => {
             <Grid item xs={12} md={6} sx={{ display: "flex", justifyContent: { xs: 'center', md: 'flex-end' } }}>
                 <Box
                     sx={{ height: { xs: "auto", sm: "450px" }, width: { xs: "90%", md: "80%" }, overflow: "hidden" }}>
-                    <img src="https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/makeup/skincare-closeup.jpg" style={{ width: "100%", height: "100%", objectFit: "cover" }} alt="ceo-makeup-closeup" />
+                    <img 
+                        src="https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/makeup/skincare-closeup.jpg" 
+                        style={{ width: "100%", height: "100%", objectFit: "cover" }} 
+                        alt="ceo-makeup-closeup" 
+                        loading="lazy"
+                        decoding="async"
+                    />
                 </Box>
             </Grid>
             <Grid item xs={12} md={6}>

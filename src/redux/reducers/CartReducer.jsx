@@ -38,12 +38,14 @@ export const cartReducer = (state = initialState, action) => {
     case ActionTypes.CART_ADD: {
       const existing = state.items.findIndex(i => i.id === action.payload.id);
       let items;
+      const addQty = action.payload.quantity || action.payload.qty || 1;
+      
       if (existing >= 0) {
         items = state.items.map((item, idx) =>
-          idx === existing ? { ...item, qty: item.qty + 1 } : item
+          idx === existing ? { ...item, qty: item.qty + addQty } : item
         );
       } else {
-        items = [...state.items, { ...action.payload, qty: 1 }];
+        items = [...state.items, { ...action.payload, qty: addQty }];
       }
       return { ...state, items, ...recalc(items) };
     }

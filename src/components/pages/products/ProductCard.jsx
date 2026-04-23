@@ -39,6 +39,10 @@ const productImages = {
   'Brown Sugar Body Lotion': lotionImg,
 };
 
+const SAS_URL = import.meta.env.VITE_SAS_URL;
+const PRODUCT_FOLDER = import.meta.env.VITE_PARENT_PRODUCT || 'product';
+
+
 /* ── Skeleton card ── */
 const ProductCardSkeleton = () => (
   <div style={{ background: '#fff', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 4px 20px rgba(26,10,0,0.05)', border: '1px solid rgba(199,149,108,0.08)' }}>
@@ -67,7 +71,11 @@ const ProductCard_Item = ({ product, i, onEyeClick, onAddToCart, isInCart }) => 
   const [hovered, setHovered] = useState(false);
   const [wishlisted, setWishlisted] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
-  const productImg = productImages[product.name];
+  const productImg = product.product_image?.[0]?.image_src 
+    ? (product.product_image[0].image_src.startsWith('http') 
+        ? product.product_image[0].image_src 
+        : `${SAS_URL}/${PRODUCT_FOLDER}/${product.product_image[0].image_src}`)
+    : productImages[product.name];
 
   const handleAddToCart = () => {
     onAddToCart(product, productImg);
@@ -210,10 +218,14 @@ const ProductCard_Item = ({ product, i, onEyeClick, onAddToCart, isInCart }) => 
         }}>
           {product.brand}
         </span>
-        <h3 style={{
-          fontFamily: 'Inter, sans-serif', fontSize: '15px', fontWeight: 600,
-          color: '#1a0f08', margin: '0 0 6px 0', lineHeight: 1.3,
-        }}>
+        <h3
+          onClick={() => onEyeClick(product, productImg)}
+          style={{
+            fontFamily: 'Inter, sans-serif', fontSize: '15px', fontWeight: 600,
+            color: '#1a0f08', margin: '0 0 6px 0', lineHeight: 1.3,
+            cursor: 'pointer'
+          }}
+        >
           {product.name}
         </h3>
         <p style={{

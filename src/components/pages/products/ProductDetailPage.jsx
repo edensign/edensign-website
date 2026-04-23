@@ -6,6 +6,10 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../../../redux/actions/CartAction';
+import Toast from '../../common/Toast';
+
 
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
@@ -31,6 +35,11 @@ function ProductDetailPage() {
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(productImg);
   const [addedToCart, setAddedToCart] = useState(false);
+  const [alert, setAlert] = useState(false);
+  const [message, setMessage] = useState('');
+  
+  const dispatch = useDispatch();
+
 
   const unitPrice = product?.discounted_price ?? 0;
   const totalPrice = unitPrice * quantity;
@@ -40,8 +49,15 @@ function ProductDetailPage() {
   const handleDecreaseQuantity = () => { if (quantity > 1) setQuantity(quantity - 1); };
 
   const handleAddToCart = () => {
+    dispatch(addToCart({ ...product, productImg, quantity }));
     setAddedToCart(true);
-    setTimeout(() => setAddedToCart(false), 2000);
+    setAlert(true);
+    setMessage(`${product.name} added to cart!`);
+    setTimeout(() => {
+      setAddedToCart(false);
+      setAlert(false);
+      setQuantity(1);
+    }, 2200);
   };
 
   const guarantees = [
@@ -62,6 +78,8 @@ function ProductDetailPage() {
           .es-detail-info { width: 100% !important; padding: 24px !important; }
         }
       `}</style>
+
+      <Toast alerting={alert} severity="success" message={message} />
 
       <div style={{ background: '#f8fafc', minHeight: '100vh', paddingTop: '88px' }}>
         {/* Back button */}

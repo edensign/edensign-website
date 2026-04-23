@@ -16,23 +16,25 @@ import { CssBaseline } from "@mui/material";
 import { ColorModeContext, useMode, tokens } from "./theme";
 import Topbar from "./components/common/Topbar";
 import Loader from "./components/common/Loader";
-import AboutUs from "./components/pages/about/AboutUs";
-import ContactUs from "./components/pages/contact/ContactUsForm";
-import Home from "./components/pages/home/Home";
-import JobSeeker from "./components/pages/jobSeeker/JobSeeker";
-import NotFound from "./components/pages/404/Animated404Component";
-import LegalInfo from "./components/pages/legal/LegalInfo";
-import Login from "./components/pages/auth/Login";
-import Register from "./components/pages/auth/Register";
-import Salon from "./components/pages/salon/Salon";
-import SalonDetail from "./components/pages/salonDetail/SalonDetail";
-import Product from "./components/pages/products/Product";
-import ProductDetail from "./components/pages/products/ProductDetailPage";
-import Faq from "./components/pages/faq/Faq";
 import Footer from './components/common/Footer';
-import CartPage from './components/pages/cart/CartPage';
-import CheckoutPage from './components/pages/checkout/CheckoutPage';
-import Academy from "./components/pages/academy/Academy";
+
+// Lazy load page components
+const AboutUs = lazy(() => import("./components/pages/about/AboutUs"));
+const ContactUs = lazy(() => import("./components/pages/contact/ContactUsForm"));
+const Home = lazy(() => import("./components/pages/home/Home"));
+const JobSeeker = lazy(() => import("./components/pages/jobSeeker/JobSeeker"));
+const NotFound = lazy(() => import("./components/pages/404/Animated404Component"));
+const LegalInfo = lazy(() => import("./components/pages/legal/LegalInfo"));
+const Login = lazy(() => import("./components/pages/auth/Login"));
+const Register = lazy(() => import("./components/pages/auth/Register"));
+const Salon = lazy(() => import("./components/pages/salon/Salon"));
+const SalonDetail = lazy(() => import("./components/pages/salonDetail/SalonDetail"));
+const Product = lazy(() => import("./components/pages/products/Product"));
+const ProductDetail = lazy(() => import("./components/pages/products/ProductDetailPage"));
+const Faq = lazy(() => import("./components/pages/faq/Faq"));
+const CartPage = lazy(() => import("./components/pages/cart/CartPage"));
+const CheckoutPage = lazy(() => import("./components/pages/checkout/CheckoutPage"));
+const Academy = lazy(() => import("./components/pages/academy/Academy"));
 
 const pageVariants = {
   initial: { opacity: 0, y: 16 },

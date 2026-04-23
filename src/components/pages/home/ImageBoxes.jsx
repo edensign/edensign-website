@@ -39,7 +39,13 @@ const ImageBoxes = () => {
           transition={{ duration: 0.8, delay: i * 0.15, ease: 'easeOut' }}
         >
           <div className="es-promo-img-wrapper">
-            <img src={promo.img} alt={promo.headline} className="es-promo-img" />
+            <img 
+              src={promo.img} 
+              alt={promo.headline} 
+              className="es-promo-img" 
+              loading="lazy"
+              decoding="async"
+            />
             <div className="es-promo-overlay" />
           </div>
           <div className="es-promo-content">

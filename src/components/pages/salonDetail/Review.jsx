@@ -262,7 +262,11 @@ const Review = () => {
                             John Doe
                         </h4>
                         <p style={{ width: "78%", fontWeight: "300", fontSize: "13px", lineHeight: "26px", letterSpacing: "0.1em", textAlign: "center" }}> I absolutely love this platform! Booking salon appointments has never been easier. The user-friendly interface and seamless process save me so much time. Plus, the variety of salons and services available is amazing. Highly recommend it to anyone who values convenience and quality!</p>
-                        <img src="https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/header/photo1.jpg" />
+                        <img 
+                            src="https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/header/photo1.jpg" 
+                            loading="lazy"
+                            decoding="async"
+                        />
                     </Box>
 
                     <Box className='review-testimonial-sliding'>
@@ -273,7 +277,11 @@ const Review = () => {
                             Esra Bilgic
                         </h4>
                         <p style={{ width: "78%", fontWeight: "300", fontSize: "13px", lineHeight: "26px", letterSpacing: "0.1em", textAlign: "center" }}> This platform is a game-changer for both customers and salon professionals. I booked my appointment in just a few clicks, and everything went perfectly. The added features like job opportunities and access to professional products make it stand out.</p>
-                        <img src="https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/header/photo2.jpg" />
+                        <img 
+                            src="https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/header/photo2.jpg" 
+                            loading="lazy"
+                            decoding="async"
+                        />
                     </Box>
 
                     <Box className='review-testimonial-sliding'>
@@ -284,7 +292,11 @@ const Review = () => {
                             Tom Cruize
                         </h4>
                         <p style={{ width: "78%", fontWeight: "300", fontSize: "13px", lineHeight: "26px", letterSpacing: "0.1em", textAlign: "center" }}> This platform has completely transformed how I book salon appointments. It's so easy to find top-rated salons, check availability, and book instantly. The experience is smooth, reliable, and stress-free. I couldn't ask for a better way to manage my beauty needs!</p>
-                        <img src="https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/header/photo3.jpg" />
+                        <img 
+                            src="https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/header/photo3.jpg" 
+                            loading="lazy"
+                            decoding="async"
+                        />
 
                     </Box>
 

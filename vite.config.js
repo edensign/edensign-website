@@ -12,7 +12,20 @@ import react from '@vitejs/plugin-react'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  optimizeDeps: {                   //adding optimizeDeps is the solution of the below error
-    include: ['@emotion/styled'],   //Popper.js:9 Uncaught TypeError: styled_default is not a function
+  optimizeDeps: {
+    include: ['@emotion/styled'],
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor-mui': ['@mui/material', '@mui/icons-material'],
+          'vendor-framer': ['framer-motion'],
+          'vendor-react': ['react', 'react-dom', 'react-router-dom', 'react-redux', 'redux'],
+          'vendor-utils': ['axios', 'dayjs', 'swiper'],
+        },
+      },
+    },
+    chunkSizeWarningLimit: 1000,
   },
 })

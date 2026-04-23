@@ -69,7 +69,7 @@ const EmptyState = () => (
 );
 
 /* ── Single salon card ── */
-const SalonCard = ({ salon, index }) => {
+const SalonCard = React.memo(({ salon, index }) => {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
   const [hovered, setHovered] = React.useState(false);
 
@@ -98,6 +98,8 @@ const SalonCard = ({ salon, index }) => {
         <img
           src={salon.banner_image}
           alt={salon.name}
+          loading="lazy"
+          decoding="async"
           style={{
             width: '100%',
             height: '100%',
@@ -208,7 +210,7 @@ const SalonCard = ({ salon, index }) => {
       </div>
     </motion.div>
   );
-};
+});
 
 /* ── Main component ── */
 const SalonListCards = ({ selectedCategory, selectedGender }) => {

@@ -66,7 +66,7 @@ const EmptyState = () => (
 );
 
 /* ── Single product card ── */
-const ProductCard_Item = ({ product, i, onEyeClick, onAddToCart, isInCart }) => {
+const ProductCard_Item = React.memo(({ product, i, onEyeClick, onAddToCart, isInCart }) => {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.08 });
   const [hovered, setHovered] = useState(false);
   const [wishlisted, setWishlisted] = useState(false);
@@ -158,6 +158,8 @@ const ProductCard_Item = ({ product, i, onEyeClick, onAddToCart, isInCart }) => 
         <img
           src={productImg}
           alt={product.name}
+          loading="lazy"
+          decoding="async"
           style={{
             maxHeight: '200px', maxWidth: '80%', objectFit: 'contain',
             transition: 'transform 0.5s ease',
@@ -308,7 +310,7 @@ const ProductCard_Item = ({ product, i, onEyeClick, onAddToCart, isInCart }) => 
       </div>
     </motion.div>
   );
-};
+});
 
 /* ── Main component ── */
 function ProductCard() {

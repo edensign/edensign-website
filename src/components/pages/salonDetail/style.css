@@ -907,6 +907,14 @@
   .review-round {
     display: none;
   }
+
+  .small-slider {
+    width: 100%;
+    height: 100vh;
+    right: 0;
+    border: none;
+    border-radius: 0;
+  }
 }
 
 @media (max-width: 480px) {

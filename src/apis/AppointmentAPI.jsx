@@ -43,6 +43,18 @@ export const AppointmentAPI = {
             signal: cancel ? cancelApiObject[this.getBookedSlots.name].handleRequestCancellation().signal : undefined,
         });
         return response;
+    },
+
+    /** Get the logged-in customer's appointments
+     */
+    getMyAppointments: async (token, cancel = false) => {
+        const { data: response } = await api.request({
+            url: `/customer/appointments`,
+            method: "GET",
+            headers: { "x-access-token": token },
+            signal: cancel ? cancelApiObject[this.getMyAppointments.name].handleRequestCancellation().signal : undefined,
+        });
+        return response;
     }
 };
 

@@ -85,6 +85,8 @@ function Topbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const [profileOpen, setProfileOpen] = React.useState(false);
+  const profileRef = React.useRef(null);
 
   /* ── cart quantity from redux ── */
   const cartTotalQty = useSelector(state => state.cart.totalQty);
@@ -116,7 +118,19 @@ function Topbar() {
   /* ── close mobile menu on route change ── */
   React.useEffect(() => {
     setMobileMenuOpen(false);
+    setProfileOpen(false);
   }, [location.pathname]);
+
+  /* ── close profile dropdown on click outside ── */
+  React.useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
+        setProfileOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   return (
     <>
@@ -264,8 +278,9 @@ function Topbar() {
               </button>
 
               {isLoggedIn ? (
-                <div style={{ position: 'relative' }} className="es-profile-wrap">
+                <div style={{ position: 'relative' }} className="es-profile-wrap" ref={profileRef}>
                   <button
+                    onClick={() => setProfileOpen(!profileOpen)}
                     style={{
                       width: 36,
                       height: 36,
@@ -289,33 +304,66 @@ function Topbar() {
                   >
                     {getUserInitials()}
                   </button>
-                  <div className="es-profile-dropdown">
-                    <div className="es-profile-dropdown-inner">
-                      <p style={{ margin: '0 0 4px 0', fontWeight: 600, fontSize: '14px', color: '#1a0f08', fontFamily: 'Inter, sans-serif' }}>
-                        Hi, {customer?.username?.split(' ')[0] || 'User'} 👋
-                      </p>
-                      <p style={{ margin: '0 0 12px 0', fontSize: '12px', color: '#a8724d', fontFamily: 'Inter, sans-serif' }}>
-                        {customer?.email || ''}
-                      </p>
-                      <button onClick={handleLogout} style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '8px',
-                        background: 'none',
-                        border: '1px solid rgba(199,149,108,0.3)',
-                        borderRadius: '8px',
-                        padding: '8px 16px',
-                        cursor: 'pointer',
-                        color: '#a8724d',
-                        fontFamily: 'Inter, sans-serif',
-                        fontSize: '13px',
-                        fontWeight: 500,
-                        width: '100%',
-                        transition: 'background 0.2s',
-                      }} className="es-logout-btn">
-                        <LogoutIcon sx={{ fontSize: 16 }} />
-                        Logout
-                      </button>
+                  <div className={`es-profile-dropdown ${profileOpen ? 'is-open' : ''}`}>
+                    <div className="es-profile-dropdown-inner" style={{ padding: '20px' }}>
+                      <div style={{ marginBottom: '16px' }}>
+                        <p style={{ margin: '0', fontWeight: 700, fontSize: '15px', color: '#1a0f08', fontFamily: 'Inter, sans-serif' }}>
+                          Hi, {customer?.username?.split(' ')[0] || 'User'} 👋
+                        </p>
+                        <p style={{ margin: '2px 0 0 0', fontSize: '12px', color: '#6b5749', opacity: 0.7, fontFamily: 'Inter, sans-serif', wordBreak: 'break-all' }}>
+                          {customer?.email || ''}
+                        </p>
+                      </div>
+
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                        <button 
+                          onClick={() => navigate('/dashboard')}
+                          className="es-profile-menu-btn"
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '10px',
+                            background: '#fdfaf7',
+                            border: '1px solid rgba(199,149,108,0.1)',
+                            borderRadius: '12px',
+                            padding: '10px 14px',
+                            cursor: 'pointer',
+                            color: '#1a0a00',
+                            fontFamily: 'Inter, sans-serif',
+                            fontSize: '13.5px',
+                            fontWeight: 600,
+                            transition: 'all 0.2s',
+                            textAlign: 'left'
+                          }} 
+                        >
+                          <PersonOutlineOutlinedIcon sx={{ fontSize: 18, color: '#c7956c' }} />
+                          Dashboard
+                        </button>
+                        
+                        <button 
+                          onClick={handleLogout} 
+                          className="es-profile-menu-btn es-logout-btn-dropdown"
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '10px',
+                            background: 'transparent',
+                            border: '1px solid rgba(255,59,48,0.1)',
+                            borderRadius: '12px',
+                            padding: '10px 14px',
+                            cursor: 'pointer',
+                            color: '#ff3b30',
+                            fontFamily: 'Inter, sans-serif',
+                            fontSize: '13.5px',
+                            fontWeight: 600,
+                            transition: 'all 0.2s',
+                            textAlign: 'left'
+                          }}
+                        >
+                          <LogoutOutlinedIcon sx={{ fontSize: 18 }} />
+                          Logout
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -607,23 +655,32 @@ function Topbar() {
         .es-profile-wrap { position: relative; }
         .es-profile-dropdown {
           position: absolute;
-          top: calc(100% + 12px);
-          right: 0;
-          min-width: 200px;
+          top: calc(100% + 16px);
+          right: -8px;
+          min-width: 240px;
           background: #fff;
-          border-radius: 16px;
-          box-shadow: 0 12px 40px rgba(26,10,0,0.14);
+          border-radius: 20px;
+          box-shadow: 0 15px 50px rgba(26,10,0,0.18);
           border: 1px solid rgba(199,149,108,0.12);
           pointer-events: none;
           opacity: 0;
-          transform: translateY(-8px);
-          transition: opacity 0.25s ease, transform 0.25s ease;
-          z-index: 10;
+          transform: translateY(-12px);
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          z-index: 2000;
         }
-        .es-profile-wrap:hover .es-profile-dropdown {
+        .es-profile-dropdown.is-open {
           opacity: 1;
           transform: translateY(0);
           pointer-events: auto;
+        }
+        .es-profile-menu-btn:hover {
+          background: #f8f1eb !important;
+          border-color: rgba(199,149,108,0.3) !important;
+          transform: translateX(4px);
+        }
+        .es-logout-btn-dropdown:hover {
+          background: rgba(255,59,48,0.05) !important;
+          border-color: rgba(255,59,48,0.2) !important;
         }
         .es-profile-dropdown-inner { padding: 20px; }
         .es-logout-btn:hover { background: rgba(199,149,108,0.08) !important; }

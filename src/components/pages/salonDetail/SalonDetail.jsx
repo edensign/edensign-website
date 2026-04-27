@@ -17,7 +17,6 @@ import DetailPageTop from "./DetailPageTop";
 import ExclusiveOffer from "./ExclusiveOffer";
 import FilterMenu from "../../common/FilterMenu";
 import ImagesCarousel from "./ImagesCarousel";
-import LatestOffer from "./LatestOffer";
 import Newsletter from "../../common/Newsletter";
 import Offer from "./Offer";
 import Review from "./Review";
@@ -29,11 +28,13 @@ import ScrollToTop from "../../common/ScrollToTop";
 
 import API from '../../../apis';
 import { setSalonDetail } from '../../../redux/actions/SalonAction';
+import ActiveOffersSection from "../ActiveOffersSection";
 
 const SalonDetail = () => {
     const [amenities, setAmenities] = useState([]);
     const [services, setServices] = useState([]);
     const [selectedService, setSelectedService] = useState(null);   //this will contain id of service selected from services carousel
+    const [salon, setSalon] = useState(null);
 
     const URLParams = useParams();
     const dispatch = useDispatch();
@@ -63,6 +64,7 @@ const SalonDetail = () => {
                     response.data.salon.amenities = getSelectedAmenitiesByName(response.data.salon?.amenities);
                     response.data.salon.services = getSelectedServicesByName(response.data.salon?.services);
 
+                    setSalon(response.data.salon);
                     dispatch(setSalonDetail({ salon: response.data.salon, images: response.data.images }));
                     console.log("Salon detail response=>", response.data);
                 } else {
@@ -115,8 +117,7 @@ const SalonDetail = () => {
             <ExclusiveOffer />
             <ServicesCarousel handleClick={handleClick} />
             <VideoSection />
-            <LatestOffer />
-            <ImagesCarousel />
+            {salon && <ActiveOffersSection salonId={salon.id} title={`${salon.name} Exclusive Offers`} />}
             <BookAppointment appointmentRef={appointmentRef} selectedService={selectedService} />
             <Newsletter />
             <Review />

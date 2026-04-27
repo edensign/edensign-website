@@ -14,8 +14,8 @@ import locationImg from "../../assets/our_location.png"
 // style={{ position: "absolute", left: "0", top: "0", height: "100%", width: "100%", zIndex: "-1" }}>
 const TheLocations = () => {
     return (
-        <Box display="flex" justifyContent="space-around" alignItems="center" sx={{ width: "93%", height: "110vh", position: "relative", paddingLeft: "5%", margin: "2% 0 8% 0", fontFamily: "Inter, sans-serif" }}>
-            <Box sx={{ width: "35%", display: "flex", flexDirection: "column", alignItems: "flex-start", position: "relative" }}>
+        <Box display="flex" flexDirection={{ xs: "column", md: "row" }} justifyContent="space-around" alignItems="center" sx={{ width: "93%", minHeight: { xs: "auto", md: "110vh" }, position: "relative", paddingLeft: "5%", margin: { xs: "10% 0", md: "2% 0 8% 0" }, fontFamily: "Inter, sans-serif", gap: { xs: 6, md: 0 } }}>
+            <Box sx={{ width: { xs: "100%", md: "35%" }, display: "flex", flexDirection: "column", alignItems: "flex-start", position: "relative" }}>
                 <span className="offer-line"></span>
                 <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
                     <span style={{ fontSize: "12px", fontWeight: "500", lineHeight: "32px", letterSpacing: "2.1px", textTransform: "uppercase", marginTop: "20px" }}>Global salon chain</span>
@@ -32,9 +32,9 @@ const TheLocations = () => {
                 </Box>
             </Box>
 
-            <Box sx={{ maxWidth: "40%", width: "39%", height: "70vh", position: "relative", display: "flex", flexWrap: "wrap" }}>
+            <Box sx={{ maxWidth: { xs: "100%", md: "40%" }, width: { xs: "100%", md: "39%" }, height: { xs: "350px", md: "70vh" }, position: "relative", display: "flex", flexWrap: "wrap", mt: { xs: 4, md: 0 } }}>
                 <Box sx={{ position: "absolute", left: "0", top: "20px", zIndex: "1", height: "100%", width: "100%", borderRadius: "50%", boxShadow: "4px 4px 6px #800080, -4px -4px 6px #800080", overflow: "hidden", cursor: `url(https://maps.gstatic.com/mapfiles/openhand_8_8.cur), default`, touchAction: "pan-x pan-y" }}>
-                    <iframe aria-hidden="true" allowFullScreen="" frameBorder="0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" width="470" height="440"
+                    <iframe aria-hidden="true" allowFullScreen="" frameBorder="0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" style={{ width: "100%", height: "100%", border: 0 }}
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3510.079569210787!2d79.4141265744352!3d28.38666459520531!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39a007b41b1eec35%3A0xc44ff0449ba21640!2sEden%20Signature!5e0!3m2!1sen!2sin!4v1690528770409!5m2!1sen!2sin">
                     </iframe>
 
@@ -42,9 +42,9 @@ const TheLocations = () => {
 
             </Box>
 
-            <Box display="flex" flexDirection="column" width="18%" marginTop="-12%">
+            {/* <Box display="flex" flexDirection="column" width="18%" marginTop="-12%">
                 <img src={locationImg} alt="brand" style={{ height: "auto", width: "246px", maxWidth: "100%", border: "none", borderRadius: "0", boxShadow: "none", aspectRatio: "240/641" }} />
-            </Box>
+            </Box> */}
 
         </Box>
     )

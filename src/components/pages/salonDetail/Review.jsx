@@ -129,8 +129,8 @@ const Review = () => {
 
 
     return (
-        <Box sx={{ display: "flex", justifyContent: "space-between", width: "91%", margin: "auto", marginBottom: "8%", position: "relative" }}>
-            <div style={{ width: "33%", backgroundColor: "#ffffff", boxShadow: "4px 4px 6px #800080, -4px -4px 6px #800080", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+        <Box sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, justifyContent: "space-between", width: "91%", margin: "auto", marginBottom: "8%", position: "relative", gap: { xs: 4, md: 0 } }}>
+            <Box sx={{ width: { xs: "100%", md: "33%" }, backgroundColor: "#ffffff", boxShadow: "4px 4px 6px #800080, -4px -4px 6px #800080", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
                 <div style={{ borderBottom: "1px solid #000000", padding: "1rem 1.5rem", display: "flex", alignItems: "center", width: "100%" }}>
                     <CreateIcon sx={{ marginRight: "10px", fontSize: "30px" }} />
                     <p style={{ fontWeight: "400", fontSize: "22px", fontFamily: "Marcellus, sans-serif", lineHeight: "0.05em", letterSpacing: "-0.04em", textTransform: "capitalize" }}> write a review </p>
@@ -242,10 +242,10 @@ const Review = () => {
                         </div>
                     </div>
                 </form>
-            </div>
+            </Box>
 
             {/* testimonials start */}
-            <div style={{ width: "65%", background: "linear-gradient(to right, #d3cce3, #e9e4f0)", boxShadow: "4px 4px 6px #800080, -4px -4px 6px #800080" }}>
+            <Box sx={{ width: { xs: "100%", md: "65%" }, background: "linear-gradient(to right, #d3cce3, #e9e4f0)", boxShadow: "4px 4px 6px #800080, -4px -4px 6px #800080", pb: { xs: 4, md: 0 } }}>
                 <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                     <p style={{ fontSize: "62px", fontWeight: "700", fontFamily: "Marcellus, sans-serif", lineHeight: "1.2em", letterSpacing: "-0.04em", marginBottom: "-2px" }}>Testimonials</p>
                     <span style={{ fontSize: "14px", fontWeight: "500", letterSpacing: "2.1px", textTransform: "capitalize", margin: "0 0 6px 0" }}>What clients say about us</span>
@@ -304,7 +304,7 @@ const Review = () => {
                     <span className='review-testimonial-arrow' style={{ right: "4%", zIndex: "11" }} onClick={() => nextArrowClick(+1)}>&#10095;</span>
 
                 </Box>
-            </div>
+            </Box>
 
             {/* Snackbar for feedback */}
             <Snackbar

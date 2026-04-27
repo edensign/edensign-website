@@ -7,6 +7,7 @@ import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import MarkEmailReadOutlinedIcon from '@mui/icons-material/MarkEmailReadOutlined';
 import newsletterImg from '../assets/newsletter.jpg';
+import './Newsletter.css';
 
 const Newsletter = () => {
   const [email, setEmail] = useState('');

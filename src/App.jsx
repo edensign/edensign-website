@@ -35,6 +35,7 @@ const Faq = lazy(() => import("./components/pages/faq/Faq"));
 const CartPage = lazy(() => import("./components/pages/cart/CartPage"));
 const CheckoutPage = lazy(() => import("./components/pages/checkout/CheckoutPage"));
 const Academy = lazy(() => import("./components/pages/academy/Academy"));
+const Dashboard = lazy(() => import("./components/pages/dashboard/Dashboard"));
 
 const pageVariants = {
   initial: { opacity: 0, y: 16 },
@@ -55,9 +56,11 @@ const PageWrapper = ({ children }) => (
 );
 
 function App() {
-  const [theme, colorMode] = useMode();
+  const theme = useMode()[0];
+  const colorMode = useMode()[1];
   const themes = useTheme();
   const location = useLocation();
+  const isDashboard = location.pathname.startsWith('/dashboard');
 
   React.useEffect(() => {
     if (location.pathname) {
@@ -103,9 +106,10 @@ function App() {
                 <Route exact path='/cart' element={<PageWrapper><CartPage /></PageWrapper>} />
                 <Route exact path='/checkout' element={<PageWrapper><CheckoutPage /></PageWrapper>} />
                 <Route exact path='/academy' element={<PageWrapper><Academy /></PageWrapper>} />
+                <Route exact path='/dashboard' element={<PageWrapper><Dashboard /></PageWrapper>} />
               </Routes>
             </AnimatePresence>
-            <Footer />
+            {!isDashboard && <Footer />}
           </div>
         </Suspense>
       </ThemeProvider>

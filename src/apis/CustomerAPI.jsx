@@ -67,6 +67,12 @@ export const CustomerAPI = {
         return !!getToken();
     },
 
+    /** Get current token
+     */
+    getToken: () => {
+        return getToken();
+    },
+
     /** Get stored customer info
      */
     getCustomer: () => {

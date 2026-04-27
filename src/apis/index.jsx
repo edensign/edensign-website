@@ -21,6 +21,7 @@ import { SkillAPI } from "./SkillAPI";
 import { StateAPI } from "./StateAPI";
 import { ReviewAPI } from "./ReviewAPI";
 import { AcademyAPI } from "./AcademyAPI";
+import { DigitalOfferAPI } from "./DigitalOfferAPI";
 
 
 export default {
@@ -38,5 +39,6 @@ export default {
     ServiceAPI,
     SkillAPI,
     StateAPI,
-    AcademyAPI
+    AcademyAPI,
+    DigitalOfferAPI
 };

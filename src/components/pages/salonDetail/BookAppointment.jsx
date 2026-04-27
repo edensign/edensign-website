@@ -171,15 +171,15 @@ const Booking = ({ appointmentRef, selectedService }) => {
     };
 
     return (
-        <Box ref={appointmentRef} sx={{ display: "flex", justifyContent: "center", alignItems: "center", width: "90%", height: "110vh", margin: "auto", marginBottom: "10%", position: "relative" }}>
-            <Box sx={{ display: "flex", width: "75%", height: "100%", position: "relative", backgroundColor: "#ffffff", boxShadow: "4px 4px 6px #800080, -4px -4px 6px #800080" }}>
+        <Box ref={appointmentRef} sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, justifyContent: "center", alignItems: "center", width: { xs: "100%", md: "90%" }, minHeight: { xs: "auto", md: "110vh" }, margin: "auto", marginBottom: "10%", position: "relative", gap: { xs: 4, md: 0 }, py: { xs: 4, md: 0 } }}>
+            <Box sx={{ display: { xs: "none", md: "flex" }, width: { xs: "100%", md: "75%" }, height: { xs: "auto", md: "100%" }, position: "relative", backgroundColor: "#ffffff", boxShadow: "4px 4px 6px #800080, -4px -4px 6px #800080" }}>
                 <img src={appointmentImg} alt="Salon"
                     style={{
                         width: "1100px", maxWidth: "100%", aspectRatio: "1092 / 916", boxShadow: "none", border: "none", backgroundPosition: "center", backgroundSize: "cover", cursor: "pointer", display: "flex", justifyContent: "center", alignItems: "center", overflow: "clip"
                     }} />
             </Box>
             <Box sx={{
-                display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", overflowY: "auto", height: "100%", width: "37%", backgroundColor: "#ffffff", marginLeft: "2%", boxShadow: "4px 4px 6px #800080, -4px -4px 6px #800080"
+                display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", overflowY: "auto", height: { xs: "auto", md: "100%" }, width: { xs: "90%", md: "37%" }, backgroundColor: "#ffffff", marginLeft: { xs: 0, md: "2%" }, boxShadow: "4px 4px 6px #800080, -4px -4px 6px #800080", py: { xs: 4, md: 0 }
             }}>
                 <h4 style={{ width: "78%", textAlign: "center", fontWeight: "400", fontSize: "36px", fontFamily: "Marcellus, sans-serif", letterSpacing: "0.1em", lineHeight: "initial", margin: formik.values.else ? "80px 0 26px 0" : "29px 0 29px 0" }}>
                     Book Your Appointment
@@ -196,7 +196,7 @@ const Booking = ({ appointmentRef, selectedService }) => {
                     </Alert>
                 )}
 
-                <form ref={refId} style={{ width: "78%" }}>
+                <Box component="form" ref={refId} sx={{ width: { xs: "90%", md: "78%" } }}>
                     <Box display="flex" flexDirection="column" marginBottom="20px">
                         <span style={{ fontWeight: "500", fontSize: "13px", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: "10px" }}> &nbsp;Date:</span>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -423,7 +423,7 @@ const Booking = ({ appointmentRef, selectedService }) => {
                     >
                         {loading ? <CircularProgress size={24} color="inherit" /> : "Book Appointment"}
                     </Button>
-                </form>
+                </Box>
             </Box>
         </Box>
     )

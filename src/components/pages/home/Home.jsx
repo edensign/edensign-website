@@ -21,6 +21,7 @@ import ServicesList from "./ServicesList";
 import SponsoredProductBanner from "./SponsoredProductBanner";
 import StatsBar from "./StatsBar";
 import Testimonials from "../../common/Testimonials";
+import ActiveOffersSection from "../ActiveOffersSection";
 
 const LazySection = ({ children, height = "400px" }) => {
   const { ref, inView } = useInView({
@@ -45,6 +46,9 @@ const Home = () => {
       </LazySection>
       <LazySection height="400px">
         <ServicesList />
+      </LazySection>
+      <LazySection height="350px">
+        <ActiveOffersSection title="Exclusive Digital Offer Cards" />
       </LazySection>
       <LazySection height="600px">
         <ProductList />

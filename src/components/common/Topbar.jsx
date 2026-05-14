@@ -360,7 +360,7 @@ function Topbar() {
                             textAlign: 'left'
                           }}
                         >
-                          <LogoutOutlinedIcon sx={{ fontSize: 18 }} />
+                          <LogoutIcon sx={{ fontSize: 18 }} />
                           Logout
                         </button>
                       </div>

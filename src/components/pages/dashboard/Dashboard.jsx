@@ -19,9 +19,12 @@ import CloseIcon from '@mui/icons-material/Close';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PersonIcon from '@mui/icons-material/Person';
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 
 import API from "../../../apis";
+import { api } from "../../../apis/config/axiosConfig";
 import PremiumOfferCard from "../../common/PremiumOfferCard";
+import { loadRazorpayScript } from "../../utils/razorpay";
 import "./Dashboard.css";
 
 const Dashboard = () => {
@@ -31,6 +34,10 @@ const Dashboard = () => {
     const [activeView, setActiveView] = useState("appointments");
     const [appointments, setAppointments] = useState([]);
     const [cards, setCards] = useState([]);
+    const [walletBalance, setWalletBalance] = useState(0);
+    const [walletTransactions, setWalletTransactions] = useState([]);
+    const [addAmount, setAddAmount] = useState("");
+    const [processingPayment, setProcessingPayment] = useState(false);
     const [loading, setLoading] = useState(true);
     const [sidebarOpen, setSidebarOpen] = useState(!isMobile);
     
@@ -40,9 +47,11 @@ const Dashboard = () => {
     const fetchData = async () => {
         setLoading(true);
         try {
-            const [apptRes, cardRes] = await Promise.all([
+            const [apptRes, cardRes, balanceRes, txRes] = await Promise.all([
                 API.AppointmentAPI.getMyAppointments(token),
-                API.DigitalOfferAPI.getMyCards(token)
+                API.DigitalOfferAPI.getMyCards(token),
+                api.get('/wallet/balance', { headers: { Authorization: `Bearer ${token}` } }),
+                api.get('/wallet/transactions', { headers: { Authorization: `Bearer ${token}` } })
             ]);
 
             if (apptRes.status === "Success") {
@@ -50,6 +59,12 @@ const Dashboard = () => {
             }
             if (cardRes.status === "Success") {
                 setCards(cardRes.data.rows || []);
+            }
+            if (balanceRes.data?.data) {
+                setWalletBalance(balanceRes.data.data.balance || 0);
+            }
+            if (txRes.data?.data?.rows) {
+                setWalletTransactions(txRes.data.data.rows || []);
             }
         } catch (error) {
             console.error("Dashboard fetch error:", error);
@@ -67,9 +82,76 @@ const Dashboard = () => {
         window.location.href = "/";
     };
 
+    const handleAddMoney = async () => {
+        const amount = parseFloat(addAmount);
+        if (isNaN(amount) || amount <= 0) {
+            alert("Please enter a valid amount");
+            return;
+        }
+
+        setProcessingPayment(true);
+        try {
+            const res = await loadRazorpayScript();
+            if (!res) {
+                alert("Razorpay SDK failed to load.");
+                return;
+            }
+
+            const orderRes = await api.post('/wallet/add-money', { amount }, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            const orderData = orderRes.data?.data;
+
+            if (!orderData || !orderData.id) {
+                throw new Error("Failed to create order");
+            }
+
+            const options = {
+                key: import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_xxxxxx',
+                amount: orderData.amount,
+                currency: 'INR',
+                name: 'Eden Sign',
+                description: 'Add Money to Wallet',
+                order_id: orderData.id,
+                handler: async function (response) {
+                    try {
+                        await api.post('/wallet/verify-add-money', {
+                            razorpay_order_id: response.razorpay_order_id,
+                            razorpay_payment_id: response.razorpay_payment_id,
+                            razorpay_signature: response.razorpay_signature
+                        }, { headers: { Authorization: `Bearer ${token}` } });
+                        
+                        alert("Money added successfully!");
+                        setAddAmount("");
+                        fetchData();
+                    } catch (err) {
+                        alert("Payment verification failed.");
+                    }
+                },
+                prefill: {
+                    name: customer?.username,
+                    email: customer?.email,
+                    contact: customer?.contact_no
+                },
+                theme: {
+                    color: '#c9a84c'
+                }
+            };
+
+            const paymentObject = new window.Razorpay(options);
+            paymentObject.open();
+        } catch (err) {
+            console.error(err);
+            alert("Failed to initiate payment.");
+        } finally {
+            setProcessingPayment(false);
+        }
+    };
+
     const menuItems = [
         { id: "appointments", label: "Appointments", icon: <CalendarMonthIcon />, count: appointments.length },
         { id: "cards", label: "Offer Cards", icon: <ConfirmationNumberIcon />, count: cards.length },
+        { id: "wallet", label: "My Wallet", icon: <AccountBalanceWalletIcon /> },
         { id: "profile", label: "My Profile", icon: <PersonIcon /> },
     ];
 
@@ -241,6 +323,171 @@ const Dashboard = () => {
                                                 <ConfirmationNumberIcon sx={{ fontSize: 60, opacity: 0.1, mb: 2 }} />
                                                 <Typography variant="h6">No digital cards claimed.</Typography>
                                                 <Typography color="rgba(255,255,255,0.4)">Exclusive offers are waiting for you.</Typography>
+                                            </Box>
+                                        )}
+                                    </Box>
+                                )}
+
+                                {activeView === "wallet" && (
+                                    <Box sx={{ animation: 'fadeIn 0.5s ease' }}>
+                                        {/* Wallet Balance Card */}
+                                        <Card sx={{ 
+                                            mb: 5, 
+                                            borderRadius: '24px', 
+                                            background: 'linear-gradient(135deg, #1a0a00 0%, #3d1e0a 100%)',
+                                            boxShadow: '0 20px 40px rgba(26,10,0,0.15)',
+                                            position: 'relative',
+                                            overflow: 'hidden',
+                                            border: '1px solid rgba(199,149,108,0.2)'
+                                        }}>
+                                            {/* Decorative Background Elements */}
+                                            <Box sx={{
+                                                position: 'absolute', top: -50, right: -50, width: 200, height: 200,
+                                                background: 'radial-gradient(circle, rgba(199,149,108,0.15) 0%, rgba(0,0,0,0) 70%)',
+                                                borderRadius: '50%'
+                                            }} />
+                                            <Box sx={{
+                                                position: 'absolute', bottom: -50, left: -50, width: 150, height: 150,
+                                                background: 'radial-gradient(circle, rgba(199,149,108,0.1) 0%, rgba(0,0,0,0) 70%)',
+                                                borderRadius: '50%'
+                                            }} />
+
+                                            <CardContent sx={{ position: 'relative', zIndex: 1, p: { xs: 4, md: 6 }, textAlign: 'center' }}>
+                                                <Typography sx={{ fontFamily: 'Inter, sans-serif', fontSize: '15px', color: '#c7956c', letterSpacing: '0.05em', textTransform: 'uppercase', mb: 1 }}>
+                                                    Available Balance
+                                                </Typography>
+                                                <Typography sx={{ fontFamily: 'Playfair Display, serif', fontSize: { xs: '42px', md: '56px' }, fontWeight: 700, color: '#fff', mb: 4, textShadow: '0 2px 10px rgba(0,0,0,0.3)' }}>
+                                                    ₹{parseFloat(walletBalance).toFixed(2)}
+                                                </Typography>
+                                                
+                                                <Box sx={{ 
+                                                    display: 'flex', 
+                                                    justifyContent: 'center', 
+                                                    alignItems: 'center', 
+                                                    gap: 2,
+                                                    flexDirection: { xs: 'column', sm: 'row' },
+                                                    maxWidth: '500px',
+                                                    mx: 'auto'
+                                                }}>
+                                                    <Box sx={{ position: 'relative', width: { xs: '100%', sm: 'auto' } }}>
+                                                        <span style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', color: '#a8724d', fontSize: '18px', fontWeight: 600 }}>₹</span>
+                                                        <input 
+                                                            type="number" 
+                                                            placeholder="Amount to add" 
+                                                            value={addAmount} 
+                                                            onChange={(e) => setAddAmount(e.target.value)}
+                                                            style={{ 
+                                                                padding: '16px 20px 16px 40px', 
+                                                                borderRadius: '14px', 
+                                                                background: 'rgba(255,255,255,0.08)', 
+                                                                border: '1px solid rgba(199,149,108,0.4)',
+                                                                color: '#fff',
+                                                                fontFamily: 'Inter, sans-serif',
+                                                                fontSize: '16px',
+                                                                outline: 'none',
+                                                                width: '100%',
+                                                                boxSizing: 'border-box',
+                                                                transition: 'all 0.3s ease'
+                                                            }} 
+                                                            onFocus={(e) => e.target.style.background = 'rgba(255,255,255,0.12)'}
+                                                            onBlur={(e) => e.target.style.background = 'rgba(255,255,255,0.08)'}
+                                                        />
+                                                    </Box>
+                                                    <motion.button 
+                                                        whileHover={{ scale: processingPayment ? 1 : 1.05 }}
+                                                        whileTap={{ scale: processingPayment ? 1 : 0.95 }}
+                                                        onClick={handleAddMoney}
+                                                        disabled={processingPayment}
+                                                        style={{ 
+                                                            background: 'linear-gradient(135deg, #c7956c, #a8724d)', 
+                                                            color: '#fff', 
+                                                            border: 'none',
+                                                            borderRadius: '14px',
+                                                            padding: '16px 32px',
+                                                            fontFamily: 'Inter, sans-serif',
+                                                            fontSize: '16px',
+                                                            fontWeight: 600,
+                                                            cursor: processingPayment ? 'not-allowed' : 'pointer',
+                                                            opacity: processingPayment ? 0.7 : 1,
+                                                            boxShadow: '0 8px 20px rgba(199,149,108,0.4)',
+                                                            width: '100%',
+                                                            maxWidth: '200px'
+                                                        }}
+                                                    >
+                                                        {processingPayment ? "Processing..." : "Add Money"}
+                                                    </motion.button>
+                                                </Box>
+                                            </CardContent>
+                                        </Card>
+
+                                        {/* Transactions Section */}
+                                        <Typography sx={{ fontFamily: 'Playfair Display, serif', fontSize: '24px', fontWeight: 700, color: '#1a0f08', mb: 3 }}>
+                                            Recent Transactions
+                                        </Typography>
+                                        
+                                        {walletTransactions.length > 0 ? (
+                                            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                                                {walletTransactions.map((tx) => (
+                                                    <motion.div key={tx.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
+                                                        <Card sx={{ 
+                                                            background: '#fff', 
+                                                            border: 'none', 
+                                                            borderRadius: '16px',
+                                                            boxShadow: '0 4px 15px rgba(26,10,0,0.03)',
+                                                            transition: 'transform 0.2s',
+                                                            '&:hover': { transform: 'translateY(-2px)', boxShadow: '0 8px 25px rgba(26,10,0,0.06)' }
+                                                        }}>
+                                                            <CardContent sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: '20px !important' }}>
+                                                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                                                                    <Box sx={{
+                                                                        width: 48, height: 48, borderRadius: '12px',
+                                                                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                                                        background: tx.type === 'credit' ? 'rgba(76,217,100,0.1)' : 'rgba(255,59,48,0.1)',
+                                                                        color: tx.type === 'credit' ? '#34c759' : '#ff3b30'
+                                                                    }}>
+                                                                        {tx.type === 'credit' ? <AccountBalanceWalletIcon /> : <ShoppingBagOutlinedIcon />}
+                                                                    </Box>
+                                                                    <Box>
+                                                                        <Typography sx={{ fontFamily: 'Inter, sans-serif', fontSize: '16px', fontWeight: 600, color: '#1a0f08' }}>
+                                                                            {tx.source.replace(/_/g, ' ')}
+                                                                        </Typography>
+                                                                        <Typography sx={{ fontFamily: 'Inter, sans-serif', fontSize: '13px', color: '#9a8070' }}>
+                                                                            {new Date(tx.created_at).toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                                                                        </Typography>
+                                                                    </Box>
+                                                                </Box>
+                                                                <Box textAlign="right">
+                                                                    <Typography sx={{ 
+                                                                        fontFamily: 'Inter, sans-serif', fontSize: '18px', fontWeight: 700,
+                                                                        color: tx.type === 'credit' ? '#34c759' : '#1a0f08' 
+                                                                    }}>
+                                                                        {tx.type === 'credit' ? '+' : '-'} ₹{parseFloat(tx.amount).toFixed(2)}
+                                                                    </Typography>
+                                                                    <Box sx={{ 
+                                                                        display: 'inline-block', mt: 0.5, px: 1.5, py: 0.5, borderRadius: '6px',
+                                                                        background: tx.status === 'success' ? 'rgba(76,217,100,0.1)' : tx.status === 'pending' ? 'rgba(255,204,0,0.1)' : 'rgba(255,59,48,0.1)',
+                                                                    }}>
+                                                                        <Typography sx={{ 
+                                                                            fontFamily: 'Inter, sans-serif', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase',
+                                                                            color: tx.status === 'success' ? '#34c759' : tx.status === 'pending' ? '#d4a000' : '#ff3b30'
+                                                                        }}>
+                                                                            {tx.status}
+                                                                        </Typography>
+                                                                    </Box>
+                                                                </Box>
+                                                            </CardContent>
+                                                        </Card>
+                                                    </motion.div>
+                                                ))}
+                                            </Box>
+                                        ) : (
+                                            <Box sx={{ 
+                                                textAlign: 'center', py: 8, background: '#fff', borderRadius: '20px', 
+                                                boxShadow: '0 4px 15px rgba(26,10,0,0.03)', border: '1px dashed rgba(199,149,108,0.3)' 
+                                            }}>
+                                                <AccountBalanceWalletIcon sx={{ fontSize: 64, color: '#c7956c', opacity: 0.2, mb: 2 }} />
+                                                <Typography sx={{ fontFamily: 'Inter, sans-serif', fontSize: '18px', fontWeight: 600, color: '#1a0f08' }}>No transactions yet.</Typography>
+                                                <Typography sx={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', color: '#9a8070', mt: 1 }}>Your wallet activity will appear here.</Typography>
                                             </Box>
                                         )}
                                     </Box>

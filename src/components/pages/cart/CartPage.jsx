@@ -16,6 +16,10 @@ import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 import { removeFromCart, updateCartQty, clearCart } from '../../../redux/actions/CartAction';
+import API from '../../../apis';
+import { api } from '../../../apis/config/axiosConfig';
+import { loadRazorpayScript } from '../../utils/razorpay';
+
 
 /* ── Empty cart state ── */
 const EmptyCart = ({ onShop }) => (
@@ -199,14 +203,142 @@ function CartPage() {
 
   const [promoCode, setPromoCode] = React.useState('');
   const [promoApplied, setPromoApplied] = React.useState(false);
+  const [discount, setDiscount] = React.useState(0);
+  const [orderError, setOrderError] = React.useState('');
+  const [isProcessing, setIsProcessing] = React.useState(false);
 
-  const discount = promoApplied ? Math.round(totalPrice * 0.1) : 0;
-  const shipping = totalPrice > 999 ? 0 : 99;
-  const grandTotal = totalPrice - discount + shipping;
+  const shipping = 99; // flat rate for now
+  const grandTotal = totalPrice - discount + (totalPrice > 0 ? shipping : 0);
 
   const handlePromo = () => {
     if (promoCode.trim().toUpperCase() === 'EDEN10') {
+      setDiscount(Math.floor(totalPrice * 0.10));
       setPromoApplied(true);
+    }
+  };
+
+  const handlePayNow = async () => {
+    setOrderError('');
+
+    if (!API.CustomerAPI.isLoggedIn()) {
+      setOrderError('Please login to place an order. Redirecting...');
+      setTimeout(() => navigate('/login'), 1500);
+      return;
+    }
+
+    setIsProcessing(true);
+    try {
+      await loadRazorpayScript();
+      const customerToken = API.CustomerAPI.getToken();
+      const customer = API.CustomerAPI.getCustomer() || {};
+
+      const orderPayload = {
+        total_amount: grandTotal,
+        payment_method: 'card', 
+        useWallet: false, 
+        items: items.map(item => ({
+            product_id: item.id,
+            quantity: item.qty,
+            price: Number(item.discounted_price || item.price || 0)
+        })),
+        shipping_address: {
+            name: customer.username || 'Customer',
+            email: customer.email || '',
+            phone: customer.phone || '',
+            address: 'Default Address',
+            city: 'Default City',
+            pincode: '000000'
+        }
+      };
+
+      const response = await api.post('/orders', orderPayload, {
+        headers: { Authorization: `Bearer ${customerToken}` }
+      });
+
+      const responseOk = (response.data && response.data.status === 'Success') || response.status === 200;
+
+      if (responseOk) {
+          const data = response.data?.data || response.data;
+
+          if (data?.payment?.status === 'payment_pending') {
+              const rpOrder = data.payment.razorpay_order;
+
+              if (!window.Razorpay) {
+                  setOrderError('Razorpay SDK failed to load.');
+                  setIsProcessing(false);
+                  return;
+              }
+
+              const options = {
+                  description: 'Order Payment - Eden Sign',
+                  image: 'https://i.imgur.com/3g7nmJC.png',
+                  currency: 'INR',
+                  key: import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_xxxxxx',
+                  amount: rpOrder.amount,
+                  name: 'Eden Sign',
+                  order_id: rpOrder.id,
+                  prefill: {
+                    name: customer.username || '',
+                    email: customer.email || '',
+                    contact: customer.phone || ''
+                  },
+                  notes: { orderId: data.order?.id },
+                  theme: { color: '#c7956c' },
+                  config: {
+                    display: {
+                      blocks: {
+                        upi: {
+                          name: 'Pay via UPI',
+                          instruments: [{ method: 'upi' }]
+                        },
+                        other: {
+                          name: 'Other Payment Modes',
+                          instruments: [{ method: 'card' }, { method: 'netbanking' }, { method: 'wallet' }]
+                        }
+                      },
+                      sequence: ['block.upi', 'block.other'],
+                      preferences: { show_default_blocks: true }
+                    }
+                  },
+                  handler: async function (rpData) {
+                    try {
+                        await api.post('/wallet/verify-payment', {
+                            razorpay_order_id: rpData.razorpay_order_id,
+                            razorpay_payment_id: rpData.razorpay_payment_id,
+                            razorpay_signature: rpData.razorpay_signature,
+                            type: 'order',
+                            reference_id: data.order?.id
+                        }, { headers: { Authorization: `Bearer ${customerToken}` } });
+                        
+                        dispatch(clearCart());
+                        navigate('/dashboard');
+                    } catch (err) {
+                        setOrderError('Payment was received but verification failed. Please contact support.');
+                        setIsProcessing(false);
+                    }
+                  },
+                  modal: {
+                    ondismiss: function () {
+                      setOrderError('Payment was cancelled. Your cart is saved.');
+                      setIsProcessing(false);
+                    }
+                  }
+              };
+
+              const paymentObject = new window.Razorpay(options);
+              paymentObject.open();
+          } else {
+              dispatch(clearCart());
+              navigate('/dashboard');
+          }
+      } else {
+        setOrderError(response.data?.data || 'Failed to place order.');
+        setIsProcessing(false);
+      }
+    } catch (error) {
+      console.error('Order error:', error);
+      setOrderError(error.response?.data?.data || 'Failed to process order.');
+      setIsProcessing(false);
     }
   };
 
@@ -395,17 +527,28 @@ function CartPage() {
                     </span>
                   </div>
 
+                  {orderError && (
+                    <div style={{
+                      background: 'rgba(239,68,68,0.07)', border: '1px solid rgba(239,68,68,0.25)',
+                      borderRadius: '12px', padding: '12px 16px', marginBottom: '16px',
+                      fontFamily: 'Inter, sans-serif', fontSize: '13px', color: '#b91c1c', lineHeight: 1.5
+                    }}>
+                      ⚠️ {orderError}
+                    </div>
+                  )}
+
                   {/* Checkout CTA */}
                   <motion.button
                     id="checkout-btn"
-                    whileHover={{ scale: 1.02, boxShadow: '0 8px 28px rgba(26,10,0,0.25)' }}
-                    whileTap={{ scale: 0.97 }}
-                    onClick={() => navigate('/checkout', { state: { discount, shipping, grandTotal } })}
+                    disabled={isProcessing}
+                    whileHover={{ scale: isProcessing ? 1 : 1.02, boxShadow: isProcessing ? 'none' : '0 8px 28px rgba(26,10,0,0.25)' }}
+                    whileTap={{ scale: isProcessing ? 1 : 0.97 }}
+                    onClick={handlePayNow}
                     style={{
                       width: '100%', padding: '16px',
                       background: 'linear-gradient(135deg, #1a0a00, #3d1e0a)',
                       color: '#fff', border: 'none', borderRadius: '14px',
-                      cursor: 'pointer',
+                      cursor: isProcessing ? 'wait' : 'pointer', opacity: isProcessing ? 0.8 : 1,
                       fontFamily: 'Inter, sans-serif', fontSize: '15px', fontWeight: 700,
                       letterSpacing: '0.04em',
                       display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
@@ -413,7 +556,7 @@ function CartPage() {
                       transition: 'all 0.3s ease',
                     }}
                   >
-                    Proceed to Checkout <ArrowForwardIcon sx={{ fontSize: 18 }} />
+                    {isProcessing ? 'Processing...' : 'Pay Now'} <ArrowForwardIcon sx={{ fontSize: 18 }} />
                   </motion.button>
 
                   {/* Trust badges */}

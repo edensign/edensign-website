@@ -11,7 +11,8 @@ import { useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 
 import { useFormik } from "formik";
-import { Box, Button, Checkbox, FormControl, InputLabel, Select, MenuItem, Alert, CircularProgress } from "@mui/material";
+import { Box, Button, Checkbox, FormControl, InputLabel, Select, MenuItem, Alert, CircularProgress, Switch, Typography } from "@mui/material";
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 
 import dayjs from "dayjs";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -19,8 +20,9 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from "@mui/x-date-pickers";
 
 import API from "../../../apis";
+import { api } from "../../../apis/config/axiosConfig";
+import { loadRazorpayScript } from "../../utils/razorpay";
 import appointmentImg from "../../assets/appointment.jpg"
-
 
 const Booking = ({ appointmentRef, selectedService }) => {
     const navigate = useNavigate();
@@ -29,6 +31,8 @@ const Booking = ({ appointmentRef, selectedService }) => {
     const [bookedSlots, setBookedSlots] = React.useState([]);
     const [loading, setLoading] = React.useState(false);
     const [bookingStatus, setBookingStatus] = React.useState({ type: '', message: '' });
+    const [useWallet, setUseWallet] = React.useState(false);
+    const [walletBalance, setWalletBalance] = React.useState(0);
     const { salon } = useSelector(state => state.salonDetail);
     const URLParams = useParams();
 
@@ -37,6 +41,21 @@ const Booking = ({ appointmentRef, selectedService }) => {
 
     // Check if customer is logged in
     const isLoggedIn = API.CustomerAPI.isLoggedIn();
+    const customerToken = API.CustomerAPI.getToken();
+
+    useEffect(() => {
+        const fetchBalance = async () => {
+            try {
+                if (customerToken) {
+                    const res = await api.get('/wallet/balance', { headers: { Authorization: `Bearer ${customerToken}` } });
+                    if (res.data?.data) {
+                        setWalletBalance(res.data.data.balance || 0);
+                    }
+                }
+            } catch (e) {}
+        };
+        fetchBalance();
+    }, [customerToken]);
 
     const initialValues = {
         date: checkIn,
@@ -107,7 +126,7 @@ const Booking = ({ appointmentRef, selectedService }) => {
         formik.setFieldValue("services", selectedService);
     }, [selectedService]);
 
-    // Handle booking submission
+    // Handle booking submission — NEW FLOW: initiate payment → on success → book appointment
     const handleBookAppointment = async (e) => {
         e.preventDefault();
         setBookingStatus({ type: '', message: '' });
@@ -126,43 +145,147 @@ const Booking = ({ appointmentRef, selectedService }) => {
             return;
         }
 
-        const employee = salonEmployee.find(e => e.name.toLowerCase() === formik.values.stylist);
+        const employee = salonEmployee.find(emp => emp.name.toLowerCase() === formik.values.stylist);
         if (!employee) {
             setBookingStatus({ type: 'error', message: 'Invalid stylist selected' });
             return;
         }
 
-        // Check if customer is logged in
         if (!isLoggedIn) {
             setBookingStatus({ type: 'warning', message: 'Please login to book an appointment' });
-            setTimeout(() => {
-                navigate('/login');
-            }, 1500);
+            setTimeout(() => navigate('/login'), 1500);
             return;
         }
+
+        // Appointment payload (used after payment)
+        const appointmentPayload = {
+            date: checkIn.format('YYYY-MM-DD'),
+            time_slot: formik.values.slots,
+            services: formik.values.services.toString(),
+            salon_employee: employee.id,
+            booked_for: formik.values.else ? formik.values.persons : 'self',
+        };
+
+        // Booking fee — use salon's fee if available, else default 100
+        const bookingFee = salon?.booking_fee ? parseFloat(salon.booking_fee) : 100;
 
         setLoading(true);
 
         try {
-            const response = await API.AppointmentAPI.createAppointment({
-                date: checkIn.format('YYYY-MM-DD'),
-                time_slot: formik.values.slots,
-                services: formik.values.services.toString(),
-                salon_employee: employee.id,
-                booked_for: formik.values.else ? formik.values.persons : 'self'
-            });
+            // Step 1: Initiate payment (creates Razorpay order on server)
+            const initRes = await api.post('/wallet/initiate-appointment-payment', {
+                amount: bookingFee,
+                useWallet: useWallet,
+            }, { headers: { Authorization: `Bearer ${customerToken}` } });
 
-            if (response.status === "Success") {
-                setBookingStatus({ type: 'success', message: 'Appointment booked successfully!' });
-                // Add the booked slot to the list
-                setBookedSlots(prev => [...prev, formik.values.slots]);
-                // Reset the slot selection
-                formik.setFieldValue("slots", "");
-            } else {
-                setBookingStatus({ type: 'error', message: response.data || 'Failed to book appointment' });
+            const initData = initRes.data?.data;
+
+            if (!initData) {
+                setBookingStatus({ type: 'error', message: 'Failed to initiate payment.' });
+                return;
             }
+
+            // Wallet-only path (no Razorpay needed)
+            if (initData.payment?.status === 'wallet_only') {
+                const bookRes = await api.post('/wallet/verify-appointment', {
+                    ...appointmentPayload,
+                    walletDeduction: initData.payment.walletDeduction,
+                    razorpay_order_id: null,
+                    razorpay_payment_id: null,
+                    razorpay_signature: null,
+                }, { headers: { Authorization: `Bearer ${customerToken}` } });
+
+                if (bookRes.data?.status === 'Success' || bookRes.status === 200) {
+                    setBookingStatus({ type: 'success', message: 'Appointment booked successfully! Redirecting...' });
+                    setBookedSlots(prev => [...prev, formik.values.slots]);
+                    formik.setFieldValue('slots', '');
+                    setTimeout(() => navigate('/dashboard'), 1500);
+                } else {
+                    setBookingStatus({ type: 'error', message: bookRes.data?.data || 'Failed to book appointment.' });
+                }
+                return;
+            }
+
+            // Razorpay payment path
+            if (initData.payment?.status === 'payment_pending') {
+                const rpOrder = initData.payment.razorpay_order;
+                const walletDeduction = initData.payment.walletDeduction || 0;
+
+                const sdkLoaded = await loadRazorpayScript();
+                if (!sdkLoaded) {
+                    setBookingStatus({ type: 'error', message: 'Razorpay SDK failed to load.' });
+                    return;
+                }
+
+                const options = {
+                    description: 'Appointment Booking - Eden Sign',
+                    image: 'https://i.imgur.com/3g7nmJC.png',
+                    currency: 'INR',
+                    key: import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_xxxxxx',
+                    amount: rpOrder.amount,
+                    name: 'Eden Sign',
+                    order_id: rpOrder.id,
+                    prefill: { name: '', email: '', contact: '' },
+                    theme: { color: '#c7956c' },
+                    config: {
+                      display: {
+                        blocks: {
+                          upi: {
+                            name: 'Pay via UPI',
+                            instruments: [{ method: 'upi' }]
+                          },
+                          other: {
+                            name: 'Other Payment Modes',
+                            instruments: [{ method: 'card' }, { method: 'netbanking' }, { method: 'wallet' }]
+                          }
+                        },
+                        sequence: ['block.upi', 'block.other'],
+                        preferences: { show_default_blocks: true }
+                      }
+                    },
+                    handler: async function (rpData) {
+                        // Step 2: Payment successful → now book the appointment
+                        try {
+                            const bookRes = await api.post('/wallet/verify-appointment', {
+                                ...appointmentPayload,
+                                walletDeduction,
+                                razorpay_order_id: rpData.razorpay_order_id,
+                                razorpay_payment_id: rpData.razorpay_payment_id,
+                                razorpay_signature: rpData.razorpay_signature,
+                            }, { headers: { Authorization: `Bearer ${customerToken}` } });
+
+                            if (bookRes.data?.status === 'Success' || bookRes.status === 200) {
+                                setBookingStatus({ type: 'success', message: 'Payment successful! Appointment booked. Redirecting...' });
+                                setBookedSlots(prev => [...prev, formik.values.slots]);
+                                formik.setFieldValue('slots', '');
+                                setTimeout(() => navigate('/dashboard'), 1500);
+                            } else {
+                                setBookingStatus({ type: 'error', message: 'Payment done but booking failed. Contact support.' });
+                            }
+                        } catch (bookErr) {
+                            console.error('Booking after payment error:', bookErr);
+                            setBookingStatus({ type: 'error', message: 'Payment done but booking failed. Contact support.' });
+                        } finally {
+                            setLoading(false);
+                        }
+                    },
+                    modal: {
+                        ondismiss: function () {
+                            setBookingStatus({ type: 'warning', message: 'Payment cancelled. Appointment not booked.' });
+                            setLoading(false);
+                        }
+                    }
+                };
+
+                const paymentObject = new window.Razorpay(options);
+                paymentObject.open();
+                // loading will be set false inside handler/ondismiss
+                return;
+            }
+
+            setBookingStatus({ type: 'error', message: 'Unexpected payment status. Try again.' });
         } catch (error) {
-            console.error("Booking error:", error);
+            console.error('Booking error:', error);
             const errorMessage = error.response?.data?.data || 'Failed to book appointment. Please try again.';
             setBookingStatus({ type: 'error', message: errorMessage });
         } finally {
@@ -408,6 +531,23 @@ const Booking = ({ appointmentRef, selectedService }) => {
                             </Select>
                         </FormControl>
                     </Box>}
+
+                    {walletBalance > 0 && (
+                        <Box display="flex" alignItems="center" justifyContent="space-between" marginBottom="20px" sx={{ background: 'rgba(199,149,108,0.1)', padding: '10px 16px', borderRadius: '8px', border: '1px solid rgba(199,149,108,0.3)' }}>
+                            <Box display="flex" alignItems="center">
+                                <AccountBalanceWalletIcon sx={{ color: '#c7956c', mr: 1 }} />
+                                <Box>
+                                    <Typography variant="body2" fontWeight="600" color="#1a0f08">Use Wallet Balance</Typography>
+                                    <Typography variant="caption" color="#6b5749">Available: ₹{walletBalance}</Typography>
+                                </Box>
+                            </Box>
+                            <Switch
+                                checked={useWallet}
+                                onChange={(e) => setUseWallet(e.target.checked)}
+                                color="default"
+                            />
+                        </Box>
+                    )}
 
                     <Button
                         fullWidth

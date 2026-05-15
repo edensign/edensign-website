@@ -6,13 +6,20 @@
  * restrictions set forth in your license agreement with Eden Sign.
 */
 
-import { Box } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import PlaceIcon from '@mui/icons-material/Place';
 import MailIcon from '@mui/icons-material/Mail';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import YouTubeIcon from '@mui/icons-material/YouTube';
+import LanguageIcon from '@mui/icons-material/Language';
+import { useSelector } from "react-redux";
 
 import locationImg from "../../assets/our_location.png"
 // style={{ position: "absolute", left: "0", top: "0", height: "100%", width: "100%", zIndex: "-1" }}>
 const TheLocations = () => {
+    const { salon } = useSelector(state => state.salonDetail);
+
     return (
         <Box display="flex" flexDirection={{ xs: "column", md: "row" }} justifyContent="space-around" alignItems="center" sx={{ width: "93%", minHeight: { xs: "auto", md: "110vh" }, position: "relative", paddingLeft: "5%", margin: { xs: "10% 0", md: "2% 0 8% 0" }, fontFamily: "Inter, sans-serif", gap: { xs: 6, md: 0 } }}>
             <Box sx={{ width: { xs: "100%", md: "35%" }, display: "flex", flexDirection: "column", alignItems: "flex-start", position: "relative" }}>
@@ -20,15 +27,85 @@ const TheLocations = () => {
                 <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
                     <span style={{ fontSize: "12px", fontWeight: "500", lineHeight: "32px", letterSpacing: "2.1px", textTransform: "uppercase", marginTop: "20px" }}>Global salon chain</span>
                     <p style={{ fontWeight: "400", fontSize: "42px", fontFamily: "Marcellus, sans-serif", lineHeight: "0.05em", letterSpacing: "-0.04em", textTransform: "capitalize" }}>our locations</p>
-                    <p style={{ fontWeight: "300", fontSize: "14px", lineHeight: "28px", letterSpacing: "0.05em" }}> Lorem ipsum dolor sit amet, in nam denique suavitate repudiandae, homero dictas omnesque duo et. Novum dignissim consectetuer ei mel. Ne patrioque consequat persequeris</p>
-                    <span>
-                        <PlaceIcon sx={{ fontSize: "32px", margin: "50px 0 10px 0" }} />
-                        <p style={{ fontSize: "14px", letterSpacing: "0.05em", lineHeight: "28px", fontWeight: "400" }}> 25 West 21th Street, Miami Fl, USA </p>
-                    </span>
-                    <span>
-                        <MailIcon sx={{ fontSize: "32px", margin: "20px 0 10px 0" }} />
-                        <p style={{ fontSize: "14px", letterSpacing: "0.05em", lineHeight: "28px", fontWeight: "400" }}>info@edensign.com </p>
-                    </span>
+                    <p style={{ fontWeight: "300", fontSize: "14px", lineHeight: "28px", letterSpacing: "0.05em" }}> {salon?.description || "Experience premium beauty services at our flagship location. We offer a wide range of services tailored to your needs."}</p>
+                    {/* Address Section */}
+                    <Box sx={{ display: "flex", alignItems: "flex-start", mt: 4, gap: 2.5 }}>
+                        <Box sx={{ 
+                            width: 48, height: 48, borderRadius: "50%", 
+                            display: "flex", alignItems: "center", justifyContent: "center",
+                            bgcolor: "rgba(199,149,108,0.1)", color: "#c7956c", flexShrink: 0 
+                        }}>
+                            <PlaceIcon sx={{ fontSize: "24px" }} />
+                        </Box>
+                        <Box>
+                            <p style={{ fontSize: "12px", fontWeight: "600", textTransform: "uppercase", letterSpacing: "1px", color: "#c7956c", margin: "0 0 4px 0" }}>Visit Us</p>
+                            <p style={{ fontSize: "15px", color: "#1a0f08", lineHeight: "1.6", margin: 0 }}> 
+                                {salon?.landmark ? `${salon.landmark}, ` : ''}
+                                {salon?.street ? `${salon.street}, ` : ''}
+                                {salon?.area ? `${salon.area}, ` : ''}
+                                {salon?.city ? `${salon.city}, ` : ''}
+                                {salon?.state ? `${salon.state}` : ''}
+                                {salon?.pincode ? ` - ${salon.pincode}` : ''}
+                            </p>
+                        </Box>
+                    </Box>
+
+                    {/* Email Section */}
+                    <Box sx={{ display: "flex", alignItems: "flex-start", mt: 3, gap: 2.5 }}>
+                        <Box sx={{ 
+                            width: 48, height: 48, borderRadius: "50%", 
+                            display: "flex", alignItems: "center", justifyContent: "center",
+                            bgcolor: "rgba(199,149,108,0.1)", color: "#c7956c", flexShrink: 0 
+                        }}>
+                            <MailIcon sx={{ fontSize: "22px" }} />
+                        </Box>
+                        <Box>
+                            <p style={{ fontSize: "12px", fontWeight: "600", textTransform: "uppercase", letterSpacing: "1px", color: "#c7956c", margin: "0 0 4px 0" }}>Email Us</p>
+                            <p style={{ fontSize: "15px", color: "#1a0f08", margin: 0 }}>
+                                {salon?.email || "info@edensign.com"}
+                            </p>
+                        </Box>
+                    </Box>
+
+                    {/* Social Links Section */}
+                    <Box sx={{ display: "flex", gap: 1.5, mt: 5 }}>
+                        {salon?.instagram_link && (
+                            <IconButton href={salon.instagram_link} target="_blank" 
+                                sx={{ 
+                                    width: 40, height: 40, border: "1px solid rgba(199,149,108,0.2)",
+                                    color: "#E1306C", "&:hover": { bgcolor: "rgba(225, 48, 108, 0.05)", borderColor: "#E1306C" } 
+                                }}>
+                                <InstagramIcon sx={{ fontSize: "18px" }} />
+                            </IconButton>
+                        )}
+                        {salon?.facebook_link && (
+                            <IconButton href={salon.facebook_link} target="_blank" 
+                                sx={{ 
+                                    width: 40, height: 40, border: "1px solid rgba(199,149,108,0.2)",
+                                    color: "#1877F2", "&:hover": { bgcolor: "rgba(24, 119, 242, 0.05)", borderColor: "#1877F2" } 
+                                }}>
+                                <FacebookIcon sx={{ fontSize: "18px" }} />
+                            </IconButton>
+                        )}
+                        {salon?.youtube_link && (
+                            <IconButton href={salon.youtube_link} target="_blank" 
+                                sx={{ 
+                                    width: 40, height: 40, border: "1px solid rgba(199,149,108,0.2)",
+                                    color: "#FF0000", "&:hover": { bgcolor: "rgba(255, 0, 0, 0.05)", borderColor: "#FF0000" } 
+                                }}>
+                                <YouTubeIcon sx={{ fontSize: "18px" }} />
+                            </IconButton>
+                        )}
+                        {salon?.website_link && (
+                            <IconButton href={salon.website_link} target="_blank" 
+                                sx={{ 
+                                    width: 40, height: 40, border: "1px solid rgba(199,149,108,0.2)",
+                                    color: "#c7956c", "&:hover": { bgcolor: "rgba(199, 149, 108, 0.05)", borderColor: "#c7956c" } 
+                                }}>
+                                <LanguageIcon sx={{ fontSize: "18px" }} />
+                            </IconButton>
+                        )}
+                    </Box>
                 </Box>
             </Box>
 

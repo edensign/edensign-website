@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 
-import FilterMenu from "../../common/FilterMenu";
 import JobSeekerCards from "./JobSeekerCards";
 import PageTop from "./PageTop";
 import ServicesStrip from "./ServicesStrip";
@@ -14,10 +13,16 @@ const JobSeekers = () => {
     const [skills, setSkills] = useState([]);
     const [selectedSkill, setSelectedSkill] = useState('');
     const [selectedGender, setSelectedGender] = useState('');
+    const [searchQuery, setSearchQuery] = useState('');
+    const [refreshTrigger, setRefreshTrigger] = useState(0);
 
     //variables for showing selective filter menu fields
     const [showSkills, showGender, showExperienceRange] = [true, true, true];
     const minDistance = 1;
+
+    const triggerRefresh = () => {
+        setRefreshTrigger(prev => prev + 1);
+    };
 
     //function for calling jobseeker api
 
@@ -60,10 +65,8 @@ const JobSeekers = () => {
 
     return (
         <div style={{ backgroundColor: "#f8fafc", color: "#1a0f08" }}>
-            <PageTop />
-            <FilterMenu showSkills={showSkills} showGender={showGender} showExperienceRange={showExperienceRange}
-                value={value} handleChange={handleExperienceSliderChange} max={20} onFilter={handleFilterChange} />
-            <JobSeekerCards skills={skills} selectedSkill={selectedSkill} selectedGender={selectedGender} selectedExperience={value} />
+            <PageTop onSearch={(q) => setSearchQuery(q)} skills={skills} onProfileAdded={triggerRefresh} />
+            <JobSeekerCards skills={skills} selectedSkill={selectedSkill} selectedGender={selectedGender} selectedExperience={value} searchQuery={searchQuery} refreshTrigger={refreshTrigger} />
         </div>
     )
 }

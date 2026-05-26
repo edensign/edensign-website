@@ -3,7 +3,7 @@
  */
 
 import { useSelector, useDispatch } from 'react-redux';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -12,13 +12,17 @@ import WorkOutlineOutlinedIcon from '@mui/icons-material/WorkOutlineOutlined';
 import SearchIcon from '@mui/icons-material/Search';
 
 import { setFilterOpen } from '../../../redux/actions/FilterAction';
+import AddJobSeekerModal from './AddJobSeekerModal';
 
 const jobCategories = [
   'Hair Stylist', 'Makeup Artist', 'Nail Tech', 'Receptionist', 'Bridal Artist',
 ];
 
-const PageTop = () => {
+const PageTop = ({ onSearch, skills = [], onProfileAdded }) => {
   const [buttonText, setButtonText] = useState('Filter');
+  const [searchValue, setSearchValue] = useState('');
+  const [modalOpen, setModalOpen] = useState(false);
+  const inputRef = useRef(null);
   const filterOpen = useSelector(state => state.filterOpen);
   const dispatch = useDispatch();
 
@@ -164,12 +168,43 @@ const PageTop = () => {
               fontFamily: 'Inter, sans-serif',
               fontSize: '15px',
               color: 'rgba(255,255,255,0.6)',
-              margin: '0 0 40px 0',
+              margin: '0 0 24px 0',
               lineHeight: 1.7,
             }}
           >
             Connect with top salons across India. Browse talent profiles and take the next step in your beauty career.
           </motion.p>
+
+          {/* Add Profile CTA Button */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.25 }}
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              marginBottom: '32px',
+            }}
+          >
+            <button
+              onClick={() => setModalOpen(true)}
+              style={{
+                background: 'rgba(255, 255, 255, 0.05)',
+                border: '1px solid rgba(199, 149, 108, 0.35)',
+                borderRadius: '100px',
+                padding: '12px 32px',
+                color: '#fff',
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '13px',
+                fontWeight: 600,
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+              }}
+              className="es-add-profile-btn"
+            >
+              Add Your Profile
+            </button>
+          </motion.div>
 
           {/* Search bar */}
           <motion.div
@@ -190,7 +225,15 @@ const PageTop = () => {
           >
             <SearchIcon sx={{ color: '#c7956c', fontSize: 20, mr: 1 }} />
             <input
+              ref={inputRef}
               type="text"
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  onSearch && onSearch(searchValue.trim());
+                }
+              }}
               placeholder="Search by skill, role, or location..."
               style={{
                 flex: 1,
@@ -203,18 +246,36 @@ const PageTop = () => {
                 padding: '10px 0',
               }}
             />
-            <button style={{
-              background: 'linear-gradient(135deg, #c7956c, #a8724d)',
-              border: 'none',
-              borderRadius: '100px',
-              padding: '12px 28px',
-              color: '#fff',
-              fontFamily: 'Inter, sans-serif',
-              fontSize: '13px',
-              fontWeight: 600,
-              cursor: 'pointer',
-              whiteSpace: 'nowrap',
-            }}>
+            {searchValue && (
+              <button
+                onClick={() => { setSearchValue(''); onSearch && onSearch(''); }}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: 'rgba(255,255,255,0.4)',
+                  cursor: 'pointer',
+                  fontSize: '18px',
+                  lineHeight: 1,
+                  padding: '0 8px 0 0',
+                }}
+                aria-label="Clear search"
+              >✕</button>
+            )}
+            <button
+              onClick={() => onSearch && onSearch(searchValue.trim())}
+              style={{
+                background: 'linear-gradient(135deg, #c7956c, #a8724d)',
+                border: 'none',
+                borderRadius: '100px',
+                padding: '12px 28px',
+                color: '#fff',
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '13px',
+                fontWeight: 600,
+                cursor: 'pointer',
+                whiteSpace: 'nowrap',
+              }}
+            >
               Search
             </button>
           </motion.div>
@@ -237,12 +298,16 @@ const PageTop = () => {
                 initial={{ opacity: 0, scale: 0.85 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.5 + i * 0.07 }}
+                onClick={() => {
+                  setSearchValue(cat);
+                  onSearch && onSearch(cat);
+                }}
                 style={{
-                  background: 'rgba(255,255,255,0.06)',
-                  border: '1px solid rgba(199,149,108,0.25)',
+                  background: searchValue === cat ? 'rgba(199,149,108,0.2)' : 'rgba(255,255,255,0.06)',
+                  border: searchValue === cat ? '1px solid rgba(199,149,108,0.6)' : '1px solid rgba(199,149,108,0.25)',
                   borderRadius: '100px',
                   padding: '8px 18px',
-                  color: 'rgba(255,255,255,0.7)',
+                  color: searchValue === cat ? '#c7956c' : 'rgba(255,255,255,0.7)',
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '12px',
                   fontWeight: 500,
@@ -259,52 +324,24 @@ const PageTop = () => {
         </div>
       </div>
 
-      {/* Filter toggle — keep original DOM logic */}
-      <div
-        className="filter-btn-box"
-        onClick={handleClick}
-        style={{
-          position: 'fixed',
-          top: '40%',
-          right: '0',
-          zIndex: 10,
-          transform: 'translateX(0)',
-          transition: 'all .5s cubic-bezier(0.77, 0, 0.175, 1)',
-        }}
-      >
-        <button
-          className="filter-open-btn"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-            background: 'linear-gradient(135deg, #1a0a00, #3d1e0a)',
-            color: '#fff',
-            border: 'none',
-            cursor: 'pointer',
-            fontFamily: 'Inter, sans-serif',
-            fontSize: '12px',
-            fontWeight: 600,
-            letterSpacing: '0.08em',
-            textTransform: 'uppercase',
-            borderRadius: '10px 0 0 10px',
-            width: '7em',
-            padding: '10px 50px',
-            transition: 'all .15s ease',
-            boxShadow: '-4px 4px 16px rgba(26,10,0,0.3)',
-          }}
-        >
-          <ArrowBackIcon id="arrowicon" sx={{ fontSize: 16, transition: 'transform 0.3s' }} />
-          <TuneIcon sx={{ fontSize: 16 }} />
-          {buttonText}
-        </button>
-      </div>
+      <AddJobSeekerModal
+        open={modalOpen}
+        handleClose={() => setModalOpen(false)}
+        skills={skills}
+        onSuccess={onProfileAdded}
+      />
 
       <style>{`
         .es-job-cat-pill:hover {
           background: rgba(199,149,108,0.15) !important;
           border-color: rgba(199,149,108,0.5) !important;
           color: #c7956c !important;
+        }
+        .es-add-profile-btn:hover {
+          background: linear-gradient(135deg, #c7956c, #a8724d) !important;
+          border-color: transparent !important;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 20px rgba(199, 149, 108, 0.4);
         }
       `}</style>
     </>

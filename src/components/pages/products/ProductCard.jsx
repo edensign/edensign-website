@@ -55,13 +55,44 @@ const ProductCardSkeleton = () => (
 );
 
 /* ── Empty state ── */
-const EmptyState = () => (
+const EmptyState = ({ isFiltered, onReset }) => (
   <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '80px 24px' }}>
     <div style={{ width: 80, height: 80, borderRadius: '24px', background: 'rgba(199,149,108,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px' }}>
       <StorefrontOutlinedIcon sx={{ fontSize: 36, color: '#c7956c' }} />
     </div>
-    <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: '22px', color: '#1a0f08', margin: '0 0 8px' }}>No Products Yet</h3>
-    <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', color: '#9a8070', margin: 0 }}>Check back soon for our curated product collection.</p>
+    {isFiltered ? (
+      <>
+        <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: '22px', color: '#1a0f08', margin: '0 0 8px' }}>No Matching Products</h3>
+        <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', color: '#9a8070', margin: '0 0 24px' }}>No products match your current filters. Try adjusting or clearing them.</p>
+        <button
+          onClick={onReset}
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+            background: 'linear-gradient(135deg, #c7956c, #a8724d)',
+            border: 'none',
+            borderRadius: '100px',
+            padding: '12px 28px',
+            fontFamily: 'Inter, sans-serif',
+            fontSize: '13px',
+            fontWeight: 600,
+            color: '#fff',
+            cursor: 'pointer',
+            letterSpacing: '0.06em',
+            boxShadow: '0 6px 20px rgba(199,149,108,0.35)',
+            transition: 'all 0.2s',
+          }}
+        >
+          Reset Filters
+        </button>
+      </>
+    ) : (
+      <>
+        <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: '22px', color: '#1a0f08', margin: '0 0 8px' }}>No Products Yet</h3>
+        <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', color: '#9a8070', margin: 0 }}>Check back soon for our curated product collection.</p>
+      </>
+    )}
   </div>
 );
 
@@ -313,7 +344,16 @@ const ProductCard_Item = React.memo(({ product, i, onEyeClick, onAddToCart, isIn
 });
 
 /* ── Main component ── */
-function ProductCard() {
+function ProductCard({
+  searchQuery = '',
+  activeCategory = '',
+  priceRange = [10, 500],
+  activeCapacities = [],
+  activeBrands = [],
+  sortBy = 'menu order',
+  onResetFilters = null,
+}) {
+  const isFiltered = searchQuery !== '' || activeCategory !== '' || activeCapacities.length > 0 || activeBrands.length > 0 || sortBy !== 'menu order';
   const [alert, setAlert] = useState(false);
   const [severity, setSeverity] = useState('');
   const [message, setMessage] = useState('');
@@ -325,9 +365,104 @@ function ProductCard() {
   const cartItems = useSelector(state => state.cart.items);
 
   const itemsPerPage = 9;
+
+  const getProducts = () => {
+    API.ProductAPI.getProductList()
+      .then(res => {
+        if (res.status === 'Success') {
+          dispatch(setProducts({ listData: res.data, loading: false }));
+        } else {
+          dispatch(setProducts({ listData: [], loading: false }));
+        }
+      })
+      .catch(error => { throw error; });
+  };
+
+  React.useEffect(() => {
+    getProducts();
+  }, []);
+
+  // Reset pagination to page 1 whenever any filter changes
+  React.useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, activeCategory, priceRange, activeCapacities, activeBrands, sortBy]);
+
+  // Optimized client-side filtering and sorting pipeline
+  const filteredProducts = React.useMemo(() => {
+    if (!listData) return [];
+
+    return listData.filter(product => {
+      // 1. Search query (matches name or brand)
+      if (searchQuery) {
+        const query = searchQuery.toLowerCase().trim();
+        const name = (product.name || '').toLowerCase();
+        const brand = (product.brand || '').toLowerCase();
+        if (!name.includes(query) && !brand.includes(query)) {
+          return false;
+        }
+      }
+
+      // 2. Category
+      if (activeCategory) {
+        const category = (product.category || '').toLowerCase();
+        if (category !== activeCategory.toLowerCase()) {
+          return false;
+        }
+      }
+
+      // 3. Price Range (uses discounted_price if available, else price)
+      if (priceRange && priceRange.length === 2) {
+        const minPrice = priceRange[0];
+        const maxPrice = priceRange[1];
+        const price = product.discounted_price !== undefined ? product.discounted_price : product.price;
+        if (price < minPrice || price > maxPrice) {
+          return false;
+        }
+      }
+
+      // 4. Capacity
+      if (activeCapacities && activeCapacities.length > 0) {
+        const capacity = (product.capacity || '').trim();
+        if (!activeCapacities.includes(capacity)) {
+          return false;
+        }
+      }
+
+      // 5. Brand
+      if (activeBrands && activeBrands.length > 0) {
+        const brand = (product.brand || '').toLowerCase().trim();
+        const brandMatch = activeBrands.some(b => b.toLowerCase().trim() === brand);
+        if (!brandMatch) {
+          return false;
+        }
+      }
+
+      return true;
+    }).sort((a, b) => {
+      // 6. Sorting
+      const priceA = a.discounted_price !== undefined ? a.discounted_price : a.price;
+      const priceB = b.discounted_price !== undefined ? b.discounted_price : b.price;
+
+      if (sortBy === 'price') {
+        return priceA - priceB;
+      } else if (sortBy === 'price-desc') {
+        return priceB - priceA;
+      } else if (sortBy === 'rating') {
+        return (b.rating || 3.5) - (a.rating || 3.5);
+      } else if (sortBy === 'popularity') {
+        const scoreA = (a.is_bestseller ? 2 : 0) + (a.discount_percent ? a.discount_percent / 100 : 0);
+        const scoreB = (b.is_bestseller ? 2 : 0) + (b.discount_percent ? b.discount_percent / 100 : 0);
+        return scoreB - scoreA;
+      } else if (sortBy === 'date') {
+        return (b.id || 0) - (a.id || 0);
+      }
+      return 0; // Default sorting (menu order)
+    });
+  }, [listData, searchQuery, activeCategory, priceRange, activeCapacities, activeBrands, sortBy]);
+
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentProducts = listData?.slice(startIndex, endIndex);
+  const currentProducts = filteredProducts?.slice(startIndex, endIndex);
 
   const handlePageChange = (event, page) => {
     setCurrentPage(page);
@@ -345,22 +480,6 @@ function ProductCard() {
     setMessage(`${product.name} added to cart!`);
     setTimeout(() => setAlert(false), 2500);
   };
-
-  const getProducts = () => {
-    API.ProductAPI.getProductList()
-      .then(res => {
-        if (res.status === 'Success') {
-          dispatch(setProducts({ listData: res.data, loading: false }));
-        } else {
-          dispatch(setProducts({ listData: [], loading: false }));
-        }
-      })
-      .catch(error => { throw error; });
-  };
-
-  React.useEffect(() => {
-    getProducts();
-  }, []);
 
   return (
     <>
@@ -393,15 +512,15 @@ function ProductCard() {
                 isInCart={cartItems.some(c => c.id === product.id)}
               />
             ))
-            : <EmptyState />
+            : <EmptyState isFiltered={isFiltered} onReset={onResetFilters} />
         }
       </div>
 
       {/* Pagination */}
-      {listData?.length > itemsPerPage && (
+      {filteredProducts?.length > itemsPerPage && (
         <div style={{ display: 'flex', justifyContent: 'center', marginTop: '48px' }}>
           <Pagination
-            count={Math.ceil(listData.length / itemsPerPage)}
+            count={Math.ceil(filteredProducts.length / itemsPerPage)}
             page={currentPage}
             onChange={handlePageChange}
             sx={{

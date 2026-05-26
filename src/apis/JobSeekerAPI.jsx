@@ -13,28 +13,49 @@ import { defineCancelApiObject } from "./config/axiosUtils";
 export const JobSeekerAPI = {
     /** Get Job Seeker list by joining 2 tables from the database
      */
-    getJobSeekerDetail: async (page, size, skill, gender = null, experience = [], cancel = false) => {
-        let skillParam = skill.length ? `skills=${skill}` : '';
-        let genderParam = gender ? `gender=${gender}` : '';
-        const experienceParam = experience.toString() === '0,0' ? '' : `experience=${experience}`;
+    getJobSeekerDetail: async (page, size, skill, gender = null, experience = [], search = '', cancel = false) => {
+        const params = [];
+        if (skill && skill.length) params.push(`skills=${skill}`);
+        if (gender) params.push(`gender=${gender}`);
+        if (experience && experience.toString() !== '0,0') params.push(`experience=${experience}`);
+        if (search) params.push(`search=${encodeURIComponent(search)}`);
 
-        if (skillParam && (genderParam || experienceParam)) {
-            skillParam = `${skillParam}&`;
-        }
-        if (genderParam && experienceParam) {
-            genderParam = `${genderParam}&`;
-        }
+        const queryString = params.join('&');
+        const url = `/get-job-seeker-list/${page}/${size}${queryString ? '?' + queryString : ''}`;
 
-
-        console.log("job-seekerAPI=>", skill, gender, experience, skillParam, genderParam, experienceParam);
+        console.log("job-seekerAPI=> url:", url);
         const cancelToken = cancel ? cancelApiObject.getJobSeekerDetail.handleRequestCancellation().token : undefined;
         const { data: response } = await api.request({
-            url: `/get-job-seeker-list/${page}/${size}?${skillParam}${genderParam}${experienceParam}`,
+            url: url,
             method: "GET",
             cancelToken: cancelToken,
         });
         return response;
-        
+    },
+
+    /** Create a new Job Seeker profile
+     */
+    createJobSeeker: async (jobSeeker) => {
+        let token = null;
+        try {
+            const auth = JSON.parse(localStorage.getItem("customer_auth") || "{}");
+            token = auth.token || null;
+        } catch (e) {
+            console.error("Failed to parse customer token:", e);
+        }
+
+        const headers = {};
+        if (token) {
+            headers["x-access-token"] = token;
+        }
+
+        const { data: response } = await api.request({
+            url: `/create-job-seeker`,
+            method: "POST",
+            data: jobSeeker,
+            headers
+        });
+        return response;
     },
 };
 

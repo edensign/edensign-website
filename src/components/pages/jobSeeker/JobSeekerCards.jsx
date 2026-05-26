@@ -296,7 +296,7 @@ const SeekerCard = ({ seeker, index, getCityByName, getStateByName }) => {
 };
 
 /* ── Main component ── */
-const JobSeekerCards = ({ skills, selectedSkill, selectedGender, selectedExperience }) => {
+const JobSeekerCards = ({ skills, selectedSkill, selectedGender, selectedExperience, searchQuery, refreshTrigger }) => {
   const [jobSeekerDetail, setjobSeekerDetail] = useState({
     listData: [],
     loading: false,
@@ -309,8 +309,14 @@ const JobSeekerCards = ({ skills, selectedSkill, selectedGender, selectedExperie
 
   useEffect(() => {
     setInitialLoading(true);
-    API.JobSeekerAPI.getJobSeekerDetail(ENV.VITE_JOB_SEEKER_PAGE, ENV.VITE_JOB_SEEKER_SIZE, selectedSkill,
-      selectedGender, selectedExperience)
+    API.JobSeekerAPI.getJobSeekerDetail(
+      ENV.VITE_JOB_SEEKER_PAGE,
+      ENV.VITE_JOB_SEEKER_SIZE,
+      selectedSkill,
+      selectedGender,
+      selectedExperience,
+      searchQuery
+    )
       .then(response => {
         if (response.status === 'Success') {
           if (response.data) {
@@ -333,7 +339,7 @@ const JobSeekerCards = ({ skills, selectedSkill, selectedGender, selectedExperie
         setInitialLoading(false);
         throw error;
       });
-  }, [skills, selectedSkill, selectedGender, selectedExperience]);
+  }, [skills, selectedSkill, selectedGender, selectedExperience, searchQuery, refreshTrigger]);
 
   useEffect(() => {
     API.StateAPI.getStates()
@@ -361,8 +367,16 @@ const JobSeekerCards = ({ skills, selectedSkill, selectedGender, selectedExperie
   };
 
   const fetchMoreData = async () => {
-    setjobSeekerDetail({ ...jobSeekerDetail, page: jobSeekerDetail.page + 1, loading: true });
-    API.JobSeekerAPI.getJobSeekerDetail(ENV.VITE_JOB_SEEKER_PAGE + 1, ENV.VITE_JOB_SEEKER_SIZE, selectedSkill, selectedGender, selectedExperience)
+    const nextPage = jobSeekerDetail.page + 1;
+    setjobSeekerDetail({ ...jobSeekerDetail, page: nextPage, loading: true });
+    API.JobSeekerAPI.getJobSeekerDetail(
+      nextPage,
+      ENV.VITE_JOB_SEEKER_SIZE,
+      selectedSkill,
+      selectedGender,
+      selectedExperience,
+      searchQuery
+    )
       .then(response => {
         if (response.status === 'Success' && response?.data) {
           response.data.forEach(resp => { resp.skills = getSkillsByName(resp.skills); });

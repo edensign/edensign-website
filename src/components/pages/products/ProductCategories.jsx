@@ -2,32 +2,16 @@
  * Copyright © 2023, Eden Sign Inc. ALL RIGHTS RESERVED.
  */
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
 import { Slider, Checkbox } from '@mui/material';
 import StorefrontOutlinedIcon from '@mui/icons-material/StorefrontOutlined';
 import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
-import ColorLensOutlinedIcon from '@mui/icons-material/ColorLensOutlined';
 import StraightenOutlinedIcon from '@mui/icons-material/StraightenOutlined';
+import FilterListOffIcon from '@mui/icons-material/FilterListOff';
 
 import ProductCard from './ProductCard';
-
-const categories = [
-  { name: 'Fragrance', sub: [] },
-  { name: 'Makeup', sub: ['Eye Palettes', 'Hair Health', 'Lips Gloss'] },
-  { name: 'Skincare', sub: [] },
-  { name: 'Hair Care', sub: [] },
-];
-
-const colors = [
-  { name: 'Black', hex: '#1a1a1a' },
-  { name: 'Brown', hex: '#8e5c36' },
-  { name: 'Rose', hex: '#dd1c1c' },
-];
-
-const capacities = ['30mL', '40mL', '50mL', '100mL'];
-
-const brands = ['Aerin', 'Fable & Mane', 'L\'Oréal', 'MAC', 'Schwarzkopf', 'Eden Signature'];
 
 const FilterSection = ({ title, icon: Icon, children }) => (
   <div style={{ marginBottom: '28px' }}>
@@ -41,14 +25,71 @@ const FilterSection = ({ title, icon: Icon, children }) => (
   </div>
 );
 
-function ProductCategories() {
-  const [value, setValue] = useState([10, 150]);
+function ProductCategories({ searchQuery }) {
+  const { listData } = useSelector(state => state.allProducts);
+
+  // ── Derive filter options dynamically from the DB data ──────────────
+  const dynamicCategories = useMemo(() => {
+    if (!listData || listData.length === 0) return [];
+    const seen = new Set();
+    return listData
+      .map(p => (p.category || '').trim())
+      .filter(c => c && !seen.has(c.toLowerCase()) && seen.add(c.toLowerCase()))
+      .sort();
+  }, [listData]);
+
+  const dynamicCapacities = useMemo(() => {
+    if (!listData || listData.length === 0) return [];
+    const seen = new Set();
+    return listData
+      .map(p => (p.capacity || '').trim())
+      .filter(c => c && !seen.has(c) && seen.add(c))
+      .sort();
+  }, [listData]);
+
+  const dynamicBrands = useMemo(() => {
+    if (!listData || listData.length === 0) return [];
+    const seen = new Set();
+    return listData
+      .map(p => (p.brand || '').trim())
+      .filter(b => b && !seen.has(b.toLowerCase()) && seen.add(b.toLowerCase()))
+      .sort();
+  }, [listData]);
+
+  // Compute min and max price dynamically for the slider
+  const priceRange = useMemo(() => {
+    if (!listData || listData.length === 0) return [0, 500];
+    const prices = listData.map(p =>
+      p.discounted_price !== undefined ? p.discounted_price : (p.price || 0)
+    );
+    return [Math.floor(Math.min(...prices)), Math.ceil(Math.max(...prices))];
+  }, [listData]);
+
+  // ── Filter state ────────────────────────────────────────────────────
+  const [value, setValue] = useState([0, 9999]); // will be clamped by slider max
   const [activeCategory, setActiveCategory] = useState('');
   const [activeCapacities, setActiveCapacities] = useState([]);
   const [activeBrands, setActiveBrands] = useState([]);
+  const [sortBy, setSortBy] = useState('menu order');
   const minDistance = 1;
 
-  const handleChange = (event, newValue, activeThumb) => {
+  const isFiltered =
+    activeCategory !== '' ||
+    activeCapacities.length > 0 ||
+    activeBrands.length > 0 ||
+    sortBy !== 'menu order' ||
+    value[0] > priceRange[0] ||
+    value[1] < priceRange[1];
+
+  const handleResetFilters = () => {
+    setActiveCategory('');
+    setActiveCapacities([]);
+    setActiveBrands([]);
+    setValue([priceRange[0], priceRange[1]]);
+    setSortBy('menu order');
+  };
+
+  const handlePriceChange = (event, newValue, activeThumb) => {
     if (!Array.isArray(newValue)) return;
     if (activeThumb === 0) {
       setValue([Math.min(newValue[0], value[1] - minDistance), value[1]]);
@@ -62,6 +103,10 @@ function ProductCategories() {
       prev.includes(cap) ? prev.filter(c => c !== cap) : [...prev, cap]
     );
   };
+
+  const effectivePriceRange = value[1] === 9999
+    ? [priceRange[0], priceRange[1]]
+    : value;
 
   return (
     <div style={{ display: 'flex', gap: '0', background: '#f8fafc', minHeight: '100vh' }}>
@@ -84,24 +129,53 @@ function ProductCategories() {
         }}
         className="es-product-sidebar"
       >
-        <h2 style={{
-          fontFamily: 'Playfair Display, serif',
-          fontSize: '18px',
-          fontWeight: 700,
-          color: '#1a0f08',
-          margin: '0 0 28px 0',
-          paddingBottom: '16px',
-          borderBottom: '2px solid rgba(199,149,108,0.2)',
-        }}>
-          Filter Products
-        </h2>
+        {/* Header + Reset */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '28px', paddingBottom: '16px', borderBottom: '2px solid rgba(199,149,108,0.2)' }}>
+          <h2 style={{
+            fontFamily: 'Playfair Display, serif',
+            fontSize: '18px',
+            fontWeight: 700,
+            color: '#1a0f08',
+            margin: 0,
+          }}>
+            Filter Products
+          </h2>
+          {isFiltered && (
+            <motion.button
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              onClick={handleResetFilters}
+              title="Reset all filters"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px',
+                background: 'rgba(199,149,108,0.1)',
+                border: '1px solid rgba(199,149,108,0.3)',
+                borderRadius: '20px',
+                padding: '4px 10px',
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '10px',
+                fontWeight: 600,
+                color: '#c7956c',
+                cursor: 'pointer',
+                letterSpacing: '0.04em',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              <FilterListOffIcon sx={{ fontSize: 13 }} />
+              Reset
+            </motion.button>
+          )}
+        </div>
 
-        {/* Categories */}
-        <FilterSection title="Category" icon={StorefrontOutlinedIcon}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-            {categories.map(({ name, sub }) => (
-              <div key={name}>
+        {/* Categories — from DB */}
+        {dynamicCategories.length > 0 && (
+          <FilterSection title="Category" icon={StorefrontOutlinedIcon}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+              {dynamicCategories.map(name => (
                 <button
+                  key={name}
                   onClick={() => setActiveCategory(activeCategory === name ? '' : name)}
                   style={{
                     display: 'block',
@@ -121,39 +195,20 @@ function ProductCategories() {
                 >
                   {name}
                 </button>
-                {sub.length > 0 && activeCategory === name && (
-                  <div style={{ paddingLeft: '12px' }}>
-                    {sub.map(s => (
-                      <button key={s} style={{
-                        display: 'block',
-                        width: '100%',
-                        textAlign: 'left',
-                        background: 'none',
-                        border: 'none',
-                        padding: '6px 12px',
-                        fontFamily: 'Inter, sans-serif',
-                        fontSize: '12px',
-                        color: '#9a8070',
-                        cursor: 'pointer',
-                      }}>
-                        {s}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </FilterSection>
+              ))}
+            </div>
+          </FilterSection>
+        )}
 
-        {/* Price */}
+        {/* Price Range */}
         <FilterSection title="Price Range" icon={LocalOfferOutlinedIcon}>
           <Slider
-            max={500}
+            min={priceRange[0]}
+            max={priceRange[1]}
             disableSwap
             size="small"
-            value={value}
-            onChange={handleChange}
+            value={value[1] === 9999 ? [priceRange[0], priceRange[1]] : value}
+            onChange={handlePriceChange}
             valueLabelDisplay="auto"
             getAriaLabel={() => 'Price range'}
             sx={{
@@ -163,80 +218,67 @@ function ProductCategories() {
             }}
           />
           <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: '#9a8070', margin: '8px 0 0' }}>
-            ₹{value[0]} – ₹{value[1]}
+            ₹{effectivePriceRange[0]} – ₹{effectivePriceRange[1]}
           </p>
         </FilterSection>
 
-        {/* Color */}
-        <FilterSection title="Colour" icon={ColorLensOutlinedIcon}>
-          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-            {colors.map(({ name, hex }) => (
-              <button key={name} title={name} style={{
-                width: 28,
-                height: 28,
-                borderRadius: '50%',
-                background: hex,
-                border: '2px solid rgba(199,149,108,0.3)',
-                cursor: 'pointer',
-                transition: 'transform 0.2s, box-shadow 0.2s',
-              }} className="es-color-swatch" />
-            ))}
-          </div>
-        </FilterSection>
+        {/* Capacity — from DB */}
+        {dynamicCapacities.length > 0 && (
+          <FilterSection title="Capacity" icon={StraightenOutlinedIcon}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+              {dynamicCapacities.map(cap => (
+                <button
+                  key={cap}
+                  onClick={() => toggleCapacity(cap)}
+                  style={{
+                    padding: '6px 14px',
+                    borderRadius: '8px',
+                    border: `1.5px solid ${activeCapacities.includes(cap) ? '#c7956c' : 'rgba(199,149,108,0.25)'}`,
+                    background: activeCapacities.includes(cap) ? 'rgba(199,149,108,0.1)' : 'none',
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '11px',
+                    fontWeight: activeCapacities.includes(cap) ? 600 : 400,
+                    color: activeCapacities.includes(cap) ? '#c7956c' : '#6b5749',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s',
+                  }}
+                >
+                  {cap}
+                </button>
+              ))}
+            </div>
+          </FilterSection>
+        )}
 
-        {/* Capacity */}
-        <FilterSection title="Capacity" icon={StraightenOutlinedIcon}>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-            {capacities.map(cap => (
-              <button
-                key={cap}
-                onClick={() => toggleCapacity(cap)}
-                style={{
-                  padding: '6px 14px',
-                  borderRadius: '8px',
-                  border: `1.5px solid ${activeCapacities.includes(cap) ? '#c7956c' : 'rgba(199,149,108,0.25)'}`,
-                  background: activeCapacities.includes(cap) ? 'rgba(199,149,108,0.1)' : 'none',
+        {/* Brand — from DB */}
+        {dynamicBrands.length > 0 && (
+          <FilterSection title="Brand" icon={StorefrontOutlinedIcon}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+              {dynamicBrands.map(brand => (
+                <label key={brand} style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
                   fontFamily: 'Inter, sans-serif',
-                  fontSize: '11px',
-                  fontWeight: activeCapacities.includes(cap) ? 600 : 400,
-                  color: activeCapacities.includes(cap) ? '#c7956c' : '#6b5749',
+                  fontSize: '12.5px',
+                  color: '#3d1e0a',
                   cursor: 'pointer',
-                  transition: 'all 0.2s',
-                }}
-              >
-                {cap}
-              </button>
-            ))}
-          </div>
-        </FilterSection>
-
-        {/* Brand */}
-        <FilterSection title="Brand" icon={StorefrontOutlinedIcon}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-            {brands.map(brand => (
-              <label key={brand} style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                fontFamily: 'Inter, sans-serif',
-                fontSize: '12.5px',
-                color: '#3d1e0a',
-                cursor: 'pointer',
-                padding: '4px 0',
-              }}>
-                <Checkbox
-                  size="small"
-                  sx={{ padding: '2px', color: 'rgba(199,149,108,0.5)', '&.Mui-checked': { color: '#c7956c' } }}
-                  checked={activeBrands.includes(brand)}
-                  onChange={() => setActiveBrands(prev =>
-                    prev.includes(brand) ? prev.filter(b => b !== brand) : [...prev, brand]
-                  )}
-                />
-                {brand}
-              </label>
-            ))}
-          </div>
-        </FilterSection>
+                  padding: '4px 0',
+                }}>
+                  <Checkbox
+                    size="small"
+                    sx={{ padding: '2px', color: 'rgba(199,149,108,0.5)', '&.Mui-checked': { color: '#c7956c' } }}
+                    checked={activeBrands.includes(brand)}
+                    onChange={() => setActiveBrands(prev =>
+                      prev.includes(brand) ? prev.filter(b => b !== brand) : [...prev, brand]
+                    )}
+                  />
+                  {brand}
+                </label>
+              ))}
+            </div>
+          </FilterSection>
+        )}
       </motion.aside>
 
       {/* Products main area */}
@@ -258,19 +300,23 @@ function ProductCategories() {
           </div>
 
           {/* Sort */}
-          <select style={{
-            fontFamily: 'Inter, sans-serif',
-            fontSize: '13px',
-            color: '#3d1e0a',
-            border: '1.5px solid rgba(199,149,108,0.25)',
-            borderRadius: '10px',
-            padding: '10px 16px',
-            background: '#fff',
-            cursor: 'pointer',
-            outline: 'none',
-            appearance: 'none',
-            paddingRight: '36px',
-          }}>
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+            style={{
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '13px',
+              color: '#3d1e0a',
+              border: '1.5px solid rgba(199,149,108,0.25)',
+              borderRadius: '10px',
+              padding: '10px 16px',
+              background: '#fff',
+              cursor: 'pointer',
+              outline: 'none',
+              appearance: 'none',
+              paddingRight: '36px',
+            }}
+          >
             <option value="menu order">Default Sorting</option>
             <option value="popularity">Sort by Popularity</option>
             <option value="rating">Sort by Rating</option>
@@ -280,11 +326,18 @@ function ProductCategories() {
           </select>
         </motion.div>
 
-        <ProductCard />
+        <ProductCard
+          searchQuery={searchQuery}
+          activeCategory={activeCategory}
+          priceRange={effectivePriceRange}
+          activeCapacities={activeCapacities}
+          activeBrands={activeBrands}
+          sortBy={sortBy}
+          onResetFilters={handleResetFilters}
+        />
       </main>
 
       <style>{`
-        .es-color-swatch:hover { transform: scale(1.15); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
         @media (max-width: 768px) { .es-product-sidebar { display: none !important; } }
       `}</style>
     </div>

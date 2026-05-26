@@ -5,16 +5,18 @@
  * restricted rights software. The use,reproduction, or disclosure of this software is subject to
  * restrictions set forth in your license agreement with Eden Sign.
  */
-import React from 'react'
+import React, { useState } from 'react'
 import ProductPageTop from './ProductPageTop'
 import ProductCategoriesAndCard from './ProductCategories';
 
 
 function Product() {
+  const [searchQuery, setSearchQuery] = useState('');
+
   return (
     <>
-      <ProductPageTop />
-      <ProductCategoriesAndCard />
+      <ProductPageTop searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+      <ProductCategoriesAndCard searchQuery={searchQuery} />
     </>
   )
 }

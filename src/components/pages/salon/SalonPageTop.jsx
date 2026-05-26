@@ -5,18 +5,77 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 import TuneIcon from '@mui/icons-material/Tune';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SearchIcon from '@mui/icons-material/Search';
+import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 
 import { setFilterOpen } from '../../../redux/actions/FilterAction';
 import SalonBg from '../../assets/salonbg.jpg';
+import API from '../../../apis';
 
 const SalonPageTop = () => {
   const [buttonText, setButtonText] = useState('Filter');
   const filterOpen = useSelector(state => state.filterOpen);
   const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+  const [allSalons, setAllSalons] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  useEffect(() => {
+    API.SalonAPI.getSalonList()
+      .then(res => {
+        if (res.status === 'Success') {
+          setAllSalons(res.data || []);
+        }
+      })
+      .catch(err => {
+        console.error("Error fetching salons for search:", err);
+      });
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      const searchBar = document.querySelector('.salon-search-bar');
+      if (searchBar && !searchBar.contains(e.target)) {
+        setShowDropdown(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const filteredSalons = searchQuery.trim() === '' ? [] : allSalons.filter(salon => {
+    const query = searchQuery.toLowerCase().trim();
+    const normalizedQuery = query
+      .replace(/barei+ly/g, 'bareilly')
+      .replace(/bareily/g, 'bareilly');
+
+    const name = (salon.name || '').toLowerCase();
+    const street = (salon.street || '').toLowerCase();
+    const landmark = (salon.landmark || '').toLowerCase();
+
+    return name.includes(query) || name.includes(normalizedQuery) ||
+           street.includes(query) || street.includes(normalizedQuery) ||
+           landmark.includes(query) || landmark.includes(normalizedQuery);
+  });
+
+  const handleSelectSalon = (salon) => {
+    setShowDropdown(false);
+    setSearchQuery(salon.name);
+    navigate(`/salon/detail/${salon.salon_code}`);
+  };
+
+  const handleSearchSubmit = (e) => {
+    if (e) e.preventDefault();
+    if (filteredSalons.length > 0) {
+      handleSelectSalon(filteredSalons[0]);
+    }
+  };
 
   const handleClick = () => {
     const box = document.getElementsByClassName('filter-btn-box')[0];
@@ -192,12 +251,24 @@ const SalonPageTop = () => {
               margin: '0 auto',
               boxShadow: '0 8px 32px rgba(0,0,0,0.25)',
               backdropFilter: 'blur(10px)',
+              position: 'relative', // Relative position is critical to anchor suggestion dropdown!
             }}
           >
             <SearchIcon sx={{ color: '#c7956c', fontSize: { xs: 18, sm: 20 }, mr: 1 }} />
             <input
               type="text"
               placeholder="Search by salon name or city..."
+              value={searchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                setShowDropdown(true);
+              }}
+              onFocus={() => setShowDropdown(true)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  handleSearchSubmit();
+                }
+              }}
               style={{
                 flex: 1,
                 border: 'none',
@@ -210,24 +281,104 @@ const SalonPageTop = () => {
                 minWidth: 0, // fix for flex items
               }}
             />
-            <button style={{
-              background: 'linear-gradient(135deg, #c7956c, #a8724d)',
-              border: 'none',
-              borderRadius: '100px',
-              padding: '12px 24px',
-              color: '#fff',
-              fontFamily: 'Inter, sans-serif',
-              fontSize: '13px',
-              fontWeight: 600,
-              cursor: 'pointer',
-              letterSpacing: '0.04em',
-              whiteSpace: 'nowrap',
-              transition: 'box-shadow 0.2s',
-            }}>
+            <button 
+              onClick={handleSearchSubmit}
+              style={{
+                background: 'linear-gradient(135deg, #c7956c, #a8724d)',
+                border: 'none',
+                borderRadius: '100px',
+                padding: '12px 24px',
+                color: '#fff',
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '13px',
+                fontWeight: 600,
+                cursor: 'pointer',
+                letterSpacing: '0.04em',
+                whiteSpace: 'nowrap',
+                transition: 'box-shadow 0.2s',
+              }}
+            >
               Search
             </button>
+
+            {/* Suggestions dropdown list */}
+            {showDropdown && filteredSalons.length > 0 && (
+              <div 
+                style={{
+                  position: 'absolute',
+                  top: '105%',
+                  left: '0',
+                  right: '0',
+                  background: 'rgba(255, 255, 255, 0.98)',
+                  borderRadius: '20px',
+                  boxShadow: '0 12px 40px rgba(26,10,0,0.18)',
+                  border: '1px solid rgba(199,149,108,0.2)',
+                  maxHeight: '260px',
+                  overflowY: 'auto',
+                  zIndex: 9999,
+                  padding: '8px 0',
+                  marginTop: '6px',
+                  textAlign: 'left',
+                  backdropFilter: 'blur(20px)',
+                }}
+              >
+                {filteredSalons.map((salon) => (
+                  <div
+                    key={salon.id || salon.salon_code}
+                    onClick={() => handleSelectSalon(salon)}
+                    style={{
+                      padding: '12px 20px',
+                      cursor: 'pointer',
+                      borderBottom: '1px solid rgba(199,149,108,0.06)',
+                      transition: 'background-color 0.2s, padding-left 0.2s',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '3px',
+                    }}
+                    className="search-suggestion-item"
+                  >
+                    <span 
+                      style={{
+                        fontFamily: 'Inter, sans-serif',
+                        fontSize: '14px',
+                        fontWeight: 600,
+                        color: '#1a0f08',
+                        textTransform: 'capitalize',
+                      }}
+                    >
+                      {salon.name}
+                    </span>
+                    <span 
+                      style={{
+                        fontFamily: 'Inter, sans-serif',
+                        fontSize: '11px',
+                        color: '#9a8070',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                        maxWidth: '100%',
+                        overflow: 'hidden',
+                      }}
+                    >
+                      <LocationOnOutlinedIcon sx={{ fontSize: 13, color: '#c7956c', flexShrink: 0 }} />
+                      <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        {salon.landmark ? `${salon.landmark}, ` : ''}
+                        {salon.street || ''}
+                      </span>
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
           </motion.div>
           <style>{`
+            .search-suggestion-item:hover {
+              background-color: rgba(199, 149, 108, 0.08) !important;
+              padding-left: 26px !important;
+            }
+            .search-suggestion-item:last-child {
+              border-bottom: none !important;
+            }
             @media (max-width: 600px) {
               .salon-search-bar {
                 padding: 4px 6px 4px 16px !important;
@@ -265,43 +416,7 @@ const SalonPageTop = () => {
         </motion.div>
       </div>
 
-      {/* Filter toggle button — keep existing DOM logic */}
-      <div className="filter-btn-box" onClick={handleClick} style={{
-        position: 'fixed',
-        top: '40%',
-        right: '0',
-        zIndex: '10',
-        transform: 'translateX(0)',
-        transition: 'all .5s cubic-bezier(0.77, 0, 0.175, 1)',
-      }}>
-        <button
-          className="filter-open-btn"
-          title="Show Filters"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-            background: 'linear-gradient(135deg, #1a0a00, #3d1e0a)',
-            color: '#fff',
-            border: 'none',
-            cursor: 'pointer',
-            fontFamily: 'Inter, sans-serif',
-            fontSize: '12px',
-            fontWeight: 600,
-            letterSpacing: '0.08em',
-            textTransform: 'uppercase',
-            borderRadius: '10px 0 0 10px',
-            width: '7em',
-            padding: '10px 50px',
-            transition: 'all .15s ease',
-            boxShadow: '-4px 4px 16px rgba(26,10,0,0.3)',
-          }}
-        >
-          <ArrowBackIcon id="arrow-icon" sx={{ fontSize: 16, transition: 'transform 0.3s' }} />
-          <TuneIcon sx={{ fontSize: 16 }} />
-          {buttonText}
-        </button>
-      </div>
+
     </>
   );
 };

@@ -2,20 +2,33 @@
  * Copyright © 2023, Eden Sign Inc. ALL RIGHTS RESERVED.
  */
 
-import { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
 import { Autocomplete, TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import StorefrontOutlinedIcon from '@mui/icons-material/StorefrontOutlined';
 import productimage from '../../assets/productbg.webp';
 
-const cities = ['Agra', 'Aligarh', 'Ayodhya', 'Amroha', 'Akbarpur'];
+function ProductPageTop({ searchQuery, setSearchQuery }) {
+  const { listData } = useSelector(state => state.allProducts);
 
-function ProductPageTop() {
-  const [inputValue, setInputValue] = useState(null);
+  const searchOptions = useMemo(() => {
+    if (!listData || listData.length === 0) return [];
+    const names = listData.map(p => p.name).filter(Boolean);
+    const brands = listData.map(p => p.brand).filter(Boolean);
+    return Array.from(new Set([...names, ...brands])).sort();
+  }, [listData]);
 
-  const handleChange = (event, value) => {
-    setInputValue(value);
+  const [inputValue, setInputValue] = useState(searchQuery || '');
+
+  // Sync input value if searchQuery changes from outside (e.g. cleared)
+  useEffect(() => {
+    setInputValue(searchQuery || '');
+  }, [searchQuery]);
+
+  const handleSearchSubmit = () => {
+    setSearchQuery(inputValue);
   };
 
   return (
@@ -145,8 +158,17 @@ function ProductPageTop() {
         >
           <SearchIcon sx={{ color: '#c7956c', fontSize: 18, mr: 1 }} />
           <Autocomplete
-            onChange={handleChange}
-            options={cities}
+            freeSolo
+            value={searchQuery}
+            onChange={(event, newValue) => {
+              setSearchQuery(newValue || '');
+            }}
+            inputValue={inputValue}
+            onInputChange={(event, newInputValue) => {
+              setInputValue(newInputValue);
+              setSearchQuery(newInputValue);
+            }}
+            options={searchOptions}
             sx={{
               flex: 1,
               '& .MuiOutlinedInput-notchedOutline': { border: 'none' },
@@ -159,22 +181,35 @@ function ProductPageTop() {
               '& .MuiInputLabel-root': { display: 'none' },
             }}
             renderInput={(params) => (
-              <TextField {...params} placeholder="Search products, brands..." variant="outlined" label="" />
+              <TextField 
+                {...params} 
+                placeholder="Search products, brands..." 
+                variant="outlined" 
+                label="" 
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handleSearchSubmit();
+                  }
+                }}
+              />
             )}
           />
-          <button style={{
-            background: 'linear-gradient(135deg, #c7956c, #a8724d)',
-            border: 'none',
-            borderRadius: '100px',
-            padding: '12px 24px',
-            color: '#fff',
-            fontFamily: 'Inter, sans-serif',
-            fontSize: '13px',
-            fontWeight: 600,
-            cursor: 'pointer',
-            whiteSpace: 'nowrap',
-            letterSpacing: '0.04em',
-          }}>
+          <button 
+            onClick={handleSearchSubmit}
+            style={{
+              background: 'linear-gradient(135deg, #c7956c, #a8724d)',
+              border: 'none',
+              borderRadius: '100px',
+              padding: '12px 24px',
+              color: '#fff',
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '13px',
+              fontWeight: 600,
+              cursor: 'pointer',
+              whiteSpace: 'nowrap',
+              letterSpacing: '0.04em',
+            }}
+          >
             Search
           </button>
         </motion.div>

@@ -12,29 +12,42 @@ import SmallCarousel from './SmallCarousel';
 const DetailPageTop = () => {
     const { salon, images } = useSelector(state => state.salonDetail);
 
+    const S3_BASE = import.meta.env.VITE_S3_BASE_URL || 'https://salon-s3.s3.us-east-1.amazonaws.com';
+
+    // Use "last_full_salon" for hero background; fall back to front → any
+    const fullSalonImages = images?.filter(img => img && img.image_src && img.type === 'last_full_salon');
+    const frontFallback = images?.filter(img => img && img.image_src && img.type === 'front');
+    const bgImages = fullSalonImages?.length > 0
+        ? fullSalonImages
+        : frontFallback?.length > 0
+            ? frontFallback
+            : (images?.filter(img => img && img.image_src)?.length > 0
+                ? images?.filter(img => img && img.image_src)
+                : [{ type: 'front', image_src: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80', isFallback: true }]);
+
     return (
         <header className="salon-hero-wrapper">
             {/* Background image slides — blurred behind the carousel */}
-            {images?.map((image, index) => (
+            {bgImages?.map((image, index) => (
                 <div
-                    className='big-sliding'
-                    key={index}
-                    style={{
-                        position: 'absolute',
-                        width: '100%',
-                        height: '100%',
-                        opacity: 0,
-                        transition: 'all 1s ease-in',
-                        filter: 'blur(10px)',
-                        zIndex: 1,
-                    }}
-                >
-                    <img
-                        src={`https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/salon/normal/${image}`}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                        alt="Salon background"
-                    />
-                </div>
+                     className='big-sliding'
+                     key={index}
+                     style={{
+                         position: 'absolute',
+                         width: '100%',
+                         height: '100%',
+                         opacity: 0,
+                         transition: 'all 1s ease-in',
+                         filter: 'blur(10px)',
+                         zIndex: 1,
+                     }}
+                 >
+                     <img
+                         src={image.isFallback ? image.image_src : `${S3_BASE}/eden-sign/salon/${image.type || 'front'}/${image.image_src}`}
+                         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                         alt="Salon background"
+                     />
+                 </div>
             ))}
 
             {/* Dark gradient overlay */}

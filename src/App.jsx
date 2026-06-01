@@ -56,8 +56,7 @@ const PageWrapper = ({ children }) => (
 );
 
 function App() {
-  const theme = useMode()[0];
-  const colorMode = useMode()[1];
+  const [theme, colorMode] = useMode();
   const themes = useTheme();
   const location = useLocation();
   const isDashboard = location.pathname.startsWith('/dashboard');

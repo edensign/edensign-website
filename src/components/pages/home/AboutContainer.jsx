@@ -49,6 +49,8 @@ const AboutContainer = () => {
             src="https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/services/keratin.jpg"
             alt="About Eden Sign"
             className="es-split-img"
+            loading="lazy"
+            decoding="async"
           />
           <div className="es-split-img-accent es-about-accent" />
         </div>

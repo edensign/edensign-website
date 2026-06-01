@@ -29,6 +29,8 @@ import ScrollToTop from "../../common/ScrollToTop";
 import API from '../../../apis';
 import { setSalonDetail } from '../../../redux/actions/SalonAction';
 import ActiveOffersSection from "../ActiveOffersSection";
+import SalonGallery from "./SalonGallery";
+
 
 const SalonDetail = () => {
     const [amenities, setAmenities] = useState([]);
@@ -114,9 +116,12 @@ const SalonDetail = () => {
             <ServicesStrip />
             <Offer />
             <AmenitiesComponent />
+            <SalonGallery />
             <ExclusiveOffer />
             <ServicesCarousel handleClick={handleClick} />
-            <VideoSection />
+            {salon && (salon.video_url || salon.videoUrl || salon.video || salon.work_video_url) && (
+                <VideoSection salon={salon} />
+            )}
             {salon && <ActiveOffersSection salonId={salon.id} title={`${salon.name} Exclusive Offers`} />}
             <BookAppointment appointmentRef={appointmentRef} selectedService={selectedService} />
             <Newsletter />

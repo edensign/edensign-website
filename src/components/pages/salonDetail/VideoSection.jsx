@@ -4,12 +4,23 @@
  * This software is the confidential information of Eden Sign Inc., and is licensed as
  * restricted rights software. The use, reproduction, or disclosure of this software is subject to
  * restrictions set forth in your license agreement with Eden Sign.
-*/
+ */
 
-import videoImg from "../../assets/video.png";
-import video from "../../assets/salon_working.mp4";
+import React from 'react';
 
-const VideoSection = () => {
+const VideoSection = ({ salon }) => {
+    // Dynamically retrieve the video URL uploaded by the salon
+    const videoUrl = salon?.video_url || salon?.videoUrl || salon?.video || salon?.work_video_url;
+
+    // Use a lightweight default poster (video.jpg, 141 KB) or one uploaded by the salon
+    const defaultPosterUrl = new URL('../../assets/video.jpg', import.meta.url).href;
+    const videoPosterUrl = salon?.video_poster_url || salon?.videoPosterUrl || salon?.thumbnail || salon?.poster || defaultPosterUrl;
+
+    // If no video URL is present, don't render this section
+    if (!videoUrl) {
+        return null;
+    }
+
     return (
         <div className="video-section">
             {/* Left text panel */}
@@ -29,7 +40,7 @@ const VideoSection = () => {
                 </p>
 
                 <a
-                    href={video}
+                    href={videoUrl}
                     target="_blank"
                     rel="noreferrer"
                     className="video-discover-btn"
@@ -60,10 +71,10 @@ const VideoSection = () => {
 
             {/* Right video / image panel */}
             <div className="video-media-panel">
-                <img src={videoImg} alt="Salon interior preview" />
+                <img src={videoPosterUrl} alt="Salon interior preview" loading="lazy" decoding="async" />
 
                 <a
-                    href={video}
+                    href={videoUrl}
                     target="_blank"
                     rel="noreferrer"
                     className="video-play-overlay"
@@ -81,3 +92,4 @@ const VideoSection = () => {
 };
 
 export default VideoSection;
+

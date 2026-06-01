@@ -13,7 +13,9 @@ import { useLocation } from "react-router-dom";
 import { Box, Chip, Checkbox, Divider, useMediaQuery, Button, Slider, FormControlLabel } from "@mui/material";
 
 import { setFilterOpen } from "../../redux/actions/FilterAction";
-// import { TuneOutlined } from '@mui/icons-material';
+
+// Stable constant — defined once at module level, not recreated on every render
+const checkboxLabel = { inputProps: { 'aria-label': 'Checkboxes' } };
 
 const FilterMenu = ({
     max,
@@ -38,7 +40,6 @@ const FilterMenu = ({
     const filterOpen = useSelector(state => state.filterOpen);
     const dispatch = useDispatch();
     const location = useLocation();
-    const checkboxLabel = { inputProps: { 'aria-label': 'Checkboxes' } };
     const isMobile = useMediaQuery("(max-width:480px)");
     // const box = document.getElementsByClassName("filter-btn-box")[0];
     // const filterBox = document.getElementById("filter-box");
@@ -51,7 +52,6 @@ const FilterMenu = ({
                 event.target.parentElement.nextSibling.innerText
             ]);
         } else {
-            console.log(selectedSkill.filter(skill => skill !== event.target.parentElement.nextSibling.innerText));
             setSelectedSkill(selectedSkill.filter(skill => skill !== event.target.parentElement.nextSibling.innerText));
         }
     };

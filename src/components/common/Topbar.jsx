@@ -91,22 +91,22 @@ function Topbar() {
   /* ── cart quantity from redux ── */
   const cartTotalQty = useSelector(state => state.cart.totalQty);
 
-  /* ── keep existing auth logic ── */
-  const customer = API.CustomerAPI.getCustomer();
-  const isLoggedIn = API.CustomerAPI.isLoggedIn();
+  /* ── keep existing auth logic — memoized to avoid re-running on every cart update ── */
+  const customer = React.useMemo(() => API.CustomerAPI.getCustomer(), []);
+  const isLoggedIn = React.useMemo(() => API.CustomerAPI.isLoggedIn(), []);
 
-  const getUserInitials = () => {
+  const getUserInitials = React.useCallback(() => {
     if (!customer?.username) return 'U';
     const names = customer.username.split(' ');
     if (names.length >= 2) return (names[0][0] + names[1][0]).toUpperCase();
     return customer.username.substring(0, 2).toUpperCase();
-  };
+  }, [customer?.username]);
 
-  const handleLogout = () => {
+  const handleLogout = React.useCallback(() => {
     API.CustomerAPI.logout();
     navigate('/');
     window.location.reload();
-  };
+  }, [navigate]);
 
   /* ── scroll handler ── */
   React.useEffect(() => {

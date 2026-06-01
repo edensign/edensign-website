@@ -16,16 +16,35 @@ export default defineConfig({
     include: ['@emotion/styled'],
   },
   build: {
+    // Use esbuild for fast, aggressive minification (dead-code elimination)
+    minify: 'esbuild',
+    // Modern target — smaller output, less polyfill overhead
+    target: 'es2020',
+    // Each page chunk gets its own CSS file — only loaded when needed
+    cssCodeSplit: true,
+    // Skip reporting compressed size to speed up the build output step
+    reportCompressedSize: false,
+    // Don't inline assets as base64 — keep them as separate cacheable files
+    assetsInlineLimit: 0,
     rollupOptions: {
       output: {
         manualChunks: {
-          'vendor-mui': ['@mui/material', '@mui/icons-material'],
+          // Core React runtime — loaded on every page
+          'vendor-react': ['react', 'react-dom', 'react-router-dom', 'react-redux', 'redux', 'redux-thunk'],
+          // MUI split — icons are large and only needed selectively
+          'vendor-mui-core': ['@mui/material', '@emotion/react', '@emotion/styled'],
+          'vendor-mui-icons': ['@mui/icons-material'],
+          // Framer Motion — animation lib only needed on animated pages
           'vendor-framer': ['framer-motion'],
-          'vendor-react': ['react', 'react-dom', 'react-router-dom', 'react-redux', 'redux'],
-          'vendor-utils': ['axios', 'dayjs', 'swiper'],
+          // General utilities
+          'vendor-utils': ['axios', 'dayjs', 'formik', 'yup'],
+          // Swiper — carousel, only used on Home
+          'vendor-swiper': ['swiper'],
+          // Azure SDK is very large — isolate so it only loads for upload/dashboard
+          'vendor-azure': ['@azure/storage-blob'],
         },
       },
     },
-    chunkSizeWarningLimit: 1000,
+    chunkSizeWarningLimit: 800,
   },
 })

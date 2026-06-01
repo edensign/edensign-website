@@ -96,7 +96,7 @@ const SalonCard = React.memo(({ salon, index }) => {
       {/* Image */}
       <div style={{ position: 'relative', height: '260px', overflow: 'hidden' }}>
         <img
-          src={salon.banner_image}
+          src={salon.front_image || salon.banner_image || 'https://images.unsplash.com/photo-1560066984-138dadb4c035?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'}
           alt={salon.name}
           loading="lazy"
           decoding="async"

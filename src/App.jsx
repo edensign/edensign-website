@@ -23,6 +23,7 @@ const AboutUs = lazy(() => import("./components/pages/about/AboutUs"));
 const ContactUs = lazy(() => import("./components/pages/contact/ContactUsForm"));
 const Home = lazy(() => import("./components/pages/home/Home"));
 const JobSeeker = lazy(() => import("./components/pages/jobSeeker/JobSeeker"));
+const JobSeekerDetail = lazy(() => import("./components/pages/jobSeeker/JobSeekerDetail"));
 const NotFound = lazy(() => import("./components/pages/404/Animated404Component"));
 const LegalInfo = lazy(() => import("./components/pages/legal/LegalInfo"));
 const Login = lazy(() => import("./components/pages/auth/Login"));
@@ -94,6 +95,7 @@ function App() {
                 <Route path='/about' element={<PageWrapper><AboutUs /></PageWrapper>} />
                 <Route exact path='/contact' element={<PageWrapper><ContactUs /></PageWrapper>} />
                 <Route exact path='/job-seeker' element={<PageWrapper><JobSeeker /></PageWrapper>} />
+                <Route exact path='/job-seeker/:id' element={<PageWrapper><JobSeekerDetail /></PageWrapper>} />
                 <Route path='/legal-info' element={<PageWrapper><LegalInfo /></PageWrapper>} />
                 <Route exact path='/login' element={<PageWrapper><Login /></PageWrapper>} />
                 <Route exact path='/register' element={<PageWrapper><Register /></PageWrapper>} />

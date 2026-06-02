@@ -13,12 +13,13 @@ import { defineCancelApiObject } from "./config/axiosUtils";
 export const JobSeekerAPI = {
     /** Get Job Seeker list by joining 2 tables from the database
      */
-    getJobSeekerDetail: async (page, size, skill, gender = null, experience = [], search = '', cancel = false) => {
+    getJobSeekerDetail: async (page, size, skill, gender = null, experience = [], search = '', seekerType = null, cancel = false) => {
         const params = [];
         if (skill && skill.length) params.push(`skills=${skill}`);
-        if (gender) params.push(`gender=${gender}`);
+        if (gender && gender !== 'all') params.push(`gender=${gender}`);
         if (experience && experience.toString() !== '0,0') params.push(`experience=${experience}`);
         if (search) params.push(`search=${encodeURIComponent(search)}`);
+        if (seekerType && seekerType !== 'all') params.push(`seeker_type=${seekerType}`);
 
         const queryString = params.join('&');
         const url = `/get-job-seeker-list/${page}/${size}${queryString ? '?' + queryString : ''}`;
@@ -57,6 +58,52 @@ export const JobSeekerAPI = {
         });
         return response;
     },
+
+    /** Upload resume file to S3 bucket */
+    uploadResume: async (file, formattedName) => {
+        const formData = new FormData();
+        formData.append('folder', `job-seeker/${formattedName}`);
+        formData.append('document', file);
+
+        let token = null;
+        try {
+            const auth = JSON.parse(localStorage.getItem("customer_auth") || "{}");
+            token = auth.token || null;
+        } catch (e) {
+            console.error("Failed to parse token:", e);
+        }
+
+        const headers = {};
+        if (token) {
+            headers["x-access-token"] = token;
+        }
+
+        const { data: response } = await api.request({
+            url: `/upload-image`,
+            method: "POST",
+            data: formData,
+            headers
+        });
+        return response;
+    },
+
+    /** Get Job Seeker by ID */
+    getById: async (id) => {
+        const { data: response } = await api.request({
+            url: `/get-by-pk/job_seeker/${id}`,
+            method: "GET",
+        });
+        return response;
+    },
+
+    /** Get Job Seeker address by ID */
+    getAddress: async (id) => {
+        const { data: response } = await api.request({
+            url: `/get-address/job_seeker/${id}`,
+            method: "GET",
+        });
+        return response;
+    }
 };
 
 // defining the cancel API object for JobSeekerAPI

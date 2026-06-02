@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { useNavigate } from 'react-router-dom';
 
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import PermContactCalendarOutlinedIcon from '@mui/icons-material/PermContactCalendarOutlined';
@@ -74,6 +75,85 @@ const EmptyState = () => (
 /* ── Single seeker card ── */
 const SeekerCard = ({ seeker, index, getCityByName, getStateByName }) => {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.08 });
+  const navigate = useNavigate();
+
+  const handleViewCV = (resume) => {
+    if (!resume) {
+      alert("No CV uploaded for this profile.");
+      return;
+    }
+    // Check if it's already a full URL
+    if (resume.startsWith('http://') || resume.startsWith('https://')) {
+      window.open(resume, '_blank');
+    } else {
+      // Construct S3 URL
+      const s3Url = `https://salon-s3.s3.us-east-1.amazonaws.com/job-seeker/${resume}`;
+      window.open(s3Url, '_blank');
+    }
+  };
+
+  const renderExperienceBadge = () => {
+    const exp = (seeker.experience || '').trim();
+    if (!exp || exp === 'fresher' || exp === '0') {
+      return (
+        <span style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '4px',
+          background: 'rgba(74, 222, 128, 0.08)',
+          border: '1px solid rgba(74, 222, 128, 0.2)',
+          borderRadius: '100px',
+          padding: '4px 12px',
+          fontFamily: 'Inter, sans-serif',
+          fontSize: '11px',
+          color: '#16a34a',
+          fontWeight: 600,
+          whiteSpace: 'nowrap',
+        }}>
+          Fresher
+        </span>
+      );
+    } else if (exp.startsWith('trainer:')) {
+      const timeToTrain = exp.substring(8);
+      return (
+        <span style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '4px',
+          background: 'rgba(147, 51, 234, 0.08)',
+          border: '1px solid rgba(147, 51, 234, 0.2)',
+          borderRadius: '100px',
+          padding: '4px 12px',
+          fontFamily: 'Inter, sans-serif',
+          fontSize: '11px',
+          color: '#7c3aed',
+          fontWeight: 600,
+          whiteSpace: 'nowrap',
+        }}>
+          Trainer ({timeToTrain})
+        </span>
+      );
+    } else {
+      return (
+        <span style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '4px',
+          background: 'rgba(59, 130, 246, 0.08)',
+          border: '1px solid rgba(59, 130, 246, 0.2)',
+          borderRadius: '100px',
+          padding: '4px 12px',
+          fontFamily: 'Inter, sans-serif',
+          fontSize: '11px',
+          color: '#2563eb',
+          fontWeight: 600,
+          whiteSpace: 'nowrap',
+        }}>
+          {exp} Years Exp
+        </span>
+      );
+    }
+  };
 
   return (
     <motion.div
@@ -88,7 +168,9 @@ const SeekerCard = ({ seeker, index, getCityByName, getStateByName }) => {
         boxShadow: '0 4px 20px rgba(26,10,0,0.06)',
         border: '1px solid rgba(199,149,108,0.1)',
         transition: 'box-shadow 0.3s ease, transform 0.3s ease',
+        cursor: 'pointer',
       }}
+      onClick={() => navigate(`/job-seeker/${seeker.id}`)}
       className="es-seeker-card"
     >
       {/* Card top accent */}
@@ -179,25 +261,29 @@ const SeekerCard = ({ seeker, index, getCityByName, getStateByName }) => {
                   {seeker.name}
                 </h3>
               </div>
-              {/* Age | Gender badge */}
-              <span style={{
-                flexShrink: 0,
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '4px',
-                background: 'rgba(199,149,108,0.08)',
-                border: '1px solid rgba(199,149,108,0.2)',
-                borderRadius: '100px',
-                padding: '4px 12px',
-                fontFamily: 'Inter, sans-serif',
-                fontSize: '11px',
-                color: '#a8724d',
-                fontWeight: 500,
-                whiteSpace: 'nowrap',
-              }}>
-                <PersonOutlineOutlinedIcon sx={{ fontSize: 12 }} />
-                {seeker.age}y · {seeker.gender?.charAt(0).toUpperCase() + seeker.gender?.slice(1)}
-              </span>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '6px' }}>
+                {/* Age | Gender badge */}
+                <span style={{
+                  flexShrink: 0,
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                  background: 'rgba(199,149,108,0.08)',
+                  border: '1px solid rgba(199,149,108,0.2)',
+                  borderRadius: '100px',
+                  padding: '4px 12px',
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '11px',
+                  color: '#a8724d',
+                  fontWeight: 500,
+                  whiteSpace: 'nowrap',
+                }}>
+                  <PersonOutlineOutlinedIcon sx={{ fontSize: 12 }} />
+                  {seeker.age}y · {seeker.gender?.charAt(0).toUpperCase() + seeker.gender?.slice(1)}
+                </span>
+                {/* Profile Type / Experience badge */}
+                {renderExperienceBadge()}
+              </div>
             </div>
 
             {/* Description */}
@@ -252,7 +338,10 @@ const SeekerCard = ({ seeker, index, getCityByName, getStateByName }) => {
           {/* Actions */}
           <div style={{ paddingTop: '16px', borderTop: '1px solid rgba(199,149,108,0.1)', display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
             <button
-              onClick={() => downloadResumeFromAzure(seeker.resume)}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleViewCV(seeker.resume);
+              }}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -277,6 +366,32 @@ const SeekerCard = ({ seeker, index, getCityByName, getStateByName }) => {
               <FileDownloadIcon sx={{ fontSize: 13, opacity: 0.7 }} />
             </button>
 
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate(`/job-seeker/${seeker.id}`);
+              }}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                background: 'rgba(199, 149, 108, 0.1)',
+                color: '#a8724d',
+                border: '1px solid rgba(199, 149, 108, 0.3)',
+                borderRadius: '10px',
+                padding: '11px 20px',
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '12px',
+                fontWeight: 600,
+                cursor: 'pointer',
+                letterSpacing: '0.05em',
+                transition: 'all 0.2s ease',
+              }}
+              className="es-profile-btn"
+            >
+              View Profile
+            </button>
+
             <span style={{
               fontFamily: 'Inter, sans-serif',
               fontSize: '11px',
@@ -284,6 +399,7 @@ const SeekerCard = ({ seeker, index, getCityByName, getStateByName }) => {
               display: 'flex',
               alignItems: 'center',
               gap: '4px',
+              marginLeft: 'auto'
             }}>
               <WorkOutlineOutlinedIcon sx={{ fontSize: 14 }} />
               Available for hire
@@ -306,6 +422,8 @@ const JobSeekerCards = ({ skills, selectedSkill, selectedGender, selectedExperie
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
   const [initialLoading, setInitialLoading] = useState(true);
+  const [selectedType, setSelectedType] = useState('all');
+  const [selectedGenderState, setSelectedGenderState] = useState('all');
 
   useEffect(() => {
     setInitialLoading(true);
@@ -313,9 +431,10 @@ const JobSeekerCards = ({ skills, selectedSkill, selectedGender, selectedExperie
       ENV.VITE_JOB_SEEKER_PAGE,
       ENV.VITE_JOB_SEEKER_SIZE,
       selectedSkill,
-      selectedGender,
+      selectedGenderState !== 'all' ? selectedGenderState : selectedGender,
       selectedExperience,
-      searchQuery
+      searchQuery,
+      selectedType
     )
       .then(response => {
         if (response.status === 'Success') {
@@ -339,7 +458,7 @@ const JobSeekerCards = ({ skills, selectedSkill, selectedGender, selectedExperie
         setInitialLoading(false);
         throw error;
       });
-  }, [skills, selectedSkill, selectedGender, selectedExperience, searchQuery, refreshTrigger]);
+  }, [skills, selectedSkill, selectedGender, selectedExperience, searchQuery, refreshTrigger, selectedType, selectedGenderState]);
 
   useEffect(() => {
     API.StateAPI.getStates()
@@ -373,9 +492,10 @@ const JobSeekerCards = ({ skills, selectedSkill, selectedGender, selectedExperie
       nextPage,
       ENV.VITE_JOB_SEEKER_SIZE,
       selectedSkill,
-      selectedGender,
+      selectedGenderState !== 'all' ? selectedGenderState : selectedGender,
       selectedExperience,
-      searchQuery
+      searchQuery,
+      selectedType
     )
       .then(response => {
         if (response.status === 'Success' && response?.data) {
@@ -401,6 +521,7 @@ const JobSeekerCards = ({ skills, selectedSkill, selectedGender, selectedExperie
         @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
         .es-seeker-card:hover { box-shadow: 0 16px 48px rgba(26,10,0,0.12) !important; transform: translateY(-4px) !important; }
         .es-cv-btn:hover { transform: translateY(-1px) !important; box-shadow: 0 6px 20px rgba(26,10,0,0.3) !important; }
+        .es-profile-btn:hover { background: rgba(199, 149, 108, 0.2) !important; transform: translateY(-1px) !important; }
         @media (max-width: 640px) {
           .es-seeker-sidebar { width: 120px !important; padding: 16px 12px !important; }
           .es-seeker-card { flex-direction: column !important; }
@@ -427,6 +548,132 @@ const JobSeekerCards = ({ skills, selectedSkill, selectedGender, selectedExperie
             <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '13px', color: '#9a8070', background: '#fff', border: '1px solid rgba(199,149,108,0.2)', padding: '8px 20px', borderRadius: '100px' }}>
               {jobSeekerDetail.totalResults} profiles found
             </span>
+          )}
+        </motion.div>
+
+        {/* Modern Premium Filter Bar */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          style={{
+            background: 'rgba(255, 255, 255, 0.8)',
+            backdropFilter: 'blur(12px)',
+            border: '1px solid rgba(199, 149, 108, 0.15)',
+            borderRadius: '24px',
+            padding: '20px 24px',
+            marginBottom: '32px',
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: '24px',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            boxShadow: '0 8px 30px rgba(26, 10, 0, 0.04)',
+          }}
+        >
+          {/* Left: Filter groups */}
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '24px', alignItems: 'center' }}>
+            {/* Filter by Profile Type */}
+            <div>
+              <span style={{
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '11px',
+                fontWeight: 600,
+                textTransform: 'uppercase',
+                letterSpacing: '0.1em',
+                color: '#9a8070',
+                display: 'block',
+                marginBottom: '8px'
+              }}>Profile Type</span>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                {['all', 'fresher', 'experience', 'trainer'].map((type) => (
+                  <button
+                    key={type}
+                    onClick={() => setSelectedType(type)}
+                    style={{
+                      fontFamily: 'Inter, sans-serif',
+                      fontSize: '12px',
+                      fontWeight: 500,
+                      textTransform: 'capitalize',
+                      padding: '8px 16px',
+                      borderRadius: '100px',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease',
+                      border: selectedType === type ? '1px solid #c7956c' : '1px solid rgba(199, 149, 108, 0.2)',
+                      background: selectedType === type ? 'linear-gradient(135deg, #c7956c, #a8724d)' : '#fff',
+                      color: selectedType === type ? '#fff' : '#6b5749',
+                      boxShadow: selectedType === type ? '0 4px 12px rgba(199, 149, 108, 0.25)' : 'none',
+                    }}
+                  >
+                    {type === 'all' ? 'All Types' : type === 'experience' ? 'Experienced' : type}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Filter by Gender */}
+            <div>
+              <span style={{
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '11px',
+                fontWeight: 600,
+                textTransform: 'uppercase',
+                letterSpacing: '0.1em',
+                color: '#9a8070',
+                display: 'block',
+                marginBottom: '8px'
+              }}>Gender</span>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                {['all', 'male', 'female', 'other'].map((gen) => (
+                  <button
+                    key={gen}
+                    onClick={() => setSelectedGenderState(gen)}
+                    style={{
+                      fontFamily: 'Inter, sans-serif',
+                      fontSize: '12px',
+                      fontWeight: 500,
+                      textTransform: 'capitalize',
+                      padding: '8px 16px',
+                      borderRadius: '100px',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease',
+                      border: selectedGenderState === gen ? '1px solid #c7956c' : '1px solid rgba(199, 149, 108, 0.2)',
+                      background: selectedGenderState === gen ? 'linear-gradient(135deg, #c7956c, #a8724d)' : '#fff',
+                      color: selectedGenderState === gen ? '#fff' : '#6b5749',
+                      boxShadow: selectedGenderState === gen ? '0 4px 12px rgba(199, 149, 108, 0.25)' : 'none',
+                    }}
+                  >
+                    {gen === 'all' ? 'All Genders' : gen}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Right: Reset Button */}
+          {(selectedType !== 'all' || selectedGenderState !== 'all') && (
+            <button
+              onClick={() => {
+                setSelectedType('all');
+                setSelectedGenderState('all');
+              }}
+              style={{
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '12px',
+                fontWeight: 600,
+                color: '#ff4d4d',
+                background: 'rgba(255, 77, 77, 0.08)',
+                border: '1px solid rgba(255, 77, 77, 0.2)',
+                borderRadius: '100px',
+                padding: '10px 20px',
+                cursor: 'pointer',
+                transition: 'all 0.2s',
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255, 77, 77, 0.15)' }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255, 77, 77, 0.08)' }}
+            >
+              Clear Filters
+            </button>
           )}
         </motion.div>
 

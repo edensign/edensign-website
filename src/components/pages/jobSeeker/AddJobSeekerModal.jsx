@@ -40,17 +40,24 @@ const validationSchema = Yup.object({
         .required("Phone number is required"),
     designation: Yup.string()
         .required("Designation is required"),
-    experience: Yup.number()
-        .typeError("Experience must be a number")
-        .min(0, "Experience cannot be negative")
-        .required("Experience is required"),
     age: Yup.number()
         .typeError("Age must be a number")
         .integer("Age must be an integer")
         .min(18, "Must be at least 18 years old")
         .max(100, "Invalid age"),
     gender: Yup.string().required("Gender is required"),
-    qualification: Yup.string().required("Qualification is required")
+    qualification: Yup.string().required("Qualification is required"),
+    seeker_type: Yup.string().required("Profile Type is required"),
+    experienceYears: Yup.number().when("seeker_type", {
+        is: "experience",
+        then: (schema) => schema.typeError("Experience must be a number").min(0, "Experience cannot be negative").required("Experience is required"),
+        otherwise: (schema) => schema.notRequired()
+    }),
+    trainingTime: Yup.string().when("seeker_type", {
+        is: "trainer",
+        then: (schema) => schema.required("Time to train is required"),
+        otherwise: (schema) => schema.notRequired()
+    })
 });
 
 const initialValues = {
@@ -61,7 +68,9 @@ const initialValues = {
     gender: "",
     qualification: "",
     designation: "",
-    experience: "",
+    seeker_type: "fresher",
+    experienceYears: "",
+    trainingTime: "",
     skills: [],
     hobbies: "",
     previous_employer: "",
@@ -106,6 +115,15 @@ const AddJobSeekerModal = ({ open, handleClose, skills = [], onSuccess }) => {
                 let resumeFormatted = "";
                 if (values.resume instanceof File && filename) {
                     resumeFormatted = formatResumeName(values.name, filename);
+                    console.log("Uploading CV to S3...");
+                    await API.JobSeekerAPI.uploadResume(values.resume, resumeFormatted);
+                }
+
+                let expValue = "fresher";
+                if (values.seeker_type === "experience") {
+                    expValue = values.experienceYears ? values.experienceYears.toString() : "0";
+                } else if (values.seeker_type === "trainer") {
+                    expValue = `trainer:${values.trainingTime || ''}`;
                 }
 
                 const payload = {
@@ -116,7 +134,7 @@ const AddJobSeekerModal = ({ open, handleClose, skills = [], onSuccess }) => {
                     gender: values.gender,
                     qualification: values.qualification,
                     designation: values.designation,
-                    experience: values.experience.toString(),
+                    experience: expValue,
                     skills: skillIds,
                     hobbies: values.hobbies,
                     previous_employer: values.previous_employer,
@@ -265,18 +283,70 @@ const AddJobSeekerModal = ({ open, handleClose, skills = [], onSuccess }) => {
                             />
                         </Grid>
                         <Grid item xs={12} sm={4}>
-                            <TextField
-                                fullWidth
-                                label="Experience* (Years)"
-                                name="experience"
-                                value={formik.values.experience}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                error={formik.touched.experience && Boolean(formik.errors.experience)}
-                                helperText={formik.touched.experience && formik.errors.experience}
-                                sx={fieldStyle}
-                            />
+                            <FormControl fullWidth sx={fieldStyle} error={formik.touched.seeker_type && Boolean(formik.errors.seeker_type)}>
+                                <InputLabel id="seeker-type-select-label">Profile Type*</InputLabel>
+                                <Select
+                                    labelId="seeker-type-select-label"
+                                    name="seeker_type"
+                                    value={formik.values.seeker_type}
+                                    onChange={(e) => {
+                                        formik.handleChange(e);
+                                        formik.setFieldValue("experienceYears", "");
+                                        formik.setFieldValue("trainingTime", "");
+                                    }}
+                                    onBlur={formik.handleBlur}
+                                    label="Profile Type*"
+                                    MenuProps={{
+                                        PaperProps: {
+                                            style: {
+                                                backgroundColor: "#1a0a00",
+                                                color: "#fff",
+                                                border: "1px solid rgba(199, 149, 108, 0.25)"
+                                            }
+                                        }
+                                    }}
+                                >
+                                    <MenuItem value="fresher">Fresher</MenuItem>
+                                    <MenuItem value="experience">Experienced</MenuItem>
+                                    <MenuItem value="trainer">Trainer</MenuItem>
+                                </Select>
+                                {formik.touched.seeker_type && formik.errors.seeker_type && (
+                                    <FormHelperText>{formik.errors.seeker_type}</FormHelperText>
+                                )}
+                            </FormControl>
                         </Grid>
+
+                        {formik.values.seeker_type === "experience" && (
+                            <Grid item xs={12} sm={4}>
+                                <TextField
+                                    fullWidth
+                                    label="Experience* (Years)"
+                                    name="experienceYears"
+                                    value={formik.values.experienceYears}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    error={formik.touched.experienceYears && Boolean(formik.errors.experienceYears)}
+                                    helperText={formik.touched.experienceYears && formik.errors.experienceYears}
+                                    sx={fieldStyle}
+                                />
+                            </Grid>
+                        )}
+
+                        {formik.values.seeker_type === "trainer" && (
+                            <Grid item xs={12} sm={4}>
+                                <TextField
+                                    fullWidth
+                                    label="Time to Train* (e.g. 2 Years)"
+                                    name="trainingTime"
+                                    value={formik.values.trainingTime}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    error={formik.touched.trainingTime && Boolean(formik.errors.trainingTime)}
+                                    helperText={formik.touched.trainingTime && formik.errors.trainingTime}
+                                    sx={fieldStyle}
+                                />
+                            </Grid>
+                        )}
                         <Grid item xs={12} sm={4}>
                             <TextField
                                 fullWidth

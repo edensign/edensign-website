@@ -2,7 +2,7 @@
  * Copyright © 2023, Eden Sign Inc. ALL RIGHTS RESERVED.
  */
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -12,40 +12,77 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import StarIcon from '@mui/icons-material/Star';
 import FormatQuoteIcon from '@mui/icons-material/FormatQuote';
-
-const testimonials = [
-  {
-    name: 'John Doe',
-    role: 'Regular Client',
-    rating: 5,
-    text: "I absolutely love this platform! Booking salon appointments has never been easier. The user-friendly interface and seamless process save me so much time. Plus, the variety of salons and services available is amazing. Highly recommend it to anyone who values convenience and quality!",
-    img: 'https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/header/photo1.jpg',
-  },
-  {
-    name: 'Esra Bilgic',
-    role: 'Beauty Enthusiast',
-    rating: 5,
-    text: "This platform is a game-changer for both customers and salon professionals. I booked my appointment in just a few clicks, and everything went perfectly. The added features like job opportunities and access to professional products make it stand out. Truly an all-in-one solution!",
-    img: 'https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/header/photo2.jpg',
-  },
-  {
-    name: 'Davis Morey',
-    role: 'Salon Owner',
-    rating: 5,
-    text: "This platform has completely transformed how I manage my salon's bookings. It's so easy for clients to find us, check availability, and book instantly. The experience is smooth, reliable, and stress-free. I couldn't ask for a better way to run my business!",
-    img: 'https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/header/photo3.jpg',
-  },
-  {
-    name: 'Sofia Ramirez',
-    role: 'Stylist',
-    rating: 5,
-    text: "As a stylist, Eden Sign has helped me reach more clients than ever. The platform is beautifully designed and incredibly easy to use. My bookings have increased significantly since joining, and clients always come in happy and prepared.",
-    img: 'https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/header/photo1.jpg',
-  },
-];
+import API from '../../apis';
 
 const Testimonials = () => {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.15 });
+  const [dbReviews, setDbReviews] = useState([]);
+
+  useEffect(() => {
+    let isMounted = true;
+    const loadDynamicReviews = async () => {
+      try {
+        const response = await API.ReviewAPI.getWebsiteReviews();
+        if (!isMounted) return;
+        if (response.status === 'Success' && response.data && Array.isArray(response.data.rows)) {
+          setDbReviews(response.data.rows);
+        }
+      } catch (err) {
+        console.error("Failed to load dynamic website reviews:", err);
+      }
+    };
+
+    loadDynamicReviews();
+    return () => { isMounted = false; };
+  }, []);
+
+  // Map database reviews to Swiper carousel card objects
+  const carouselItems = dbReviews.map(review => {
+    const scores = [
+      review.ease_of_use,
+      review.design_aesthetics,
+      review.speed_performance,
+      review.booking_process,
+      review.overall_experience
+    ].filter(val => val !== undefined && val !== null && val > 0);
+
+    const avgRating = scores.length > 0
+      ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length)
+      : 5;
+
+    return {
+      id: review.id,
+      name: review.customer?.username || 'Verified Client',
+      role: 'User',
+      rating: avgRating,
+      text: review.comments || review.reason || 'Excellent service and experience!',
+      img: `https://avatar.iran.liara.run/public/username?username=${encodeURIComponent(review.customer?.username || 'Client')}`
+    };
+  });
+
+  // Default item if no reviews exist in database yet
+  const displayCarouselItems = carouselItems.length > 0 ? carouselItems : [
+    {
+      id: 0,
+      name: 'Eden Sign Guest',
+      role: 'Website Experience',
+      rating: 5,
+      text: "We are currently gathering experience reviews to improve our booking portal. Submit your website feedback below to see it featured here dynamically!",
+      img: 'https://avatar.iran.liara.run/public/username?username=Guest'
+    }
+  ];
+
+  const getInitials = (name) => {
+    if (!name) return '??';
+    const parts = name.trim().split(/\s+/);
+    if (parts.length >= 2) {
+      return (parts[0][0] + parts[1][0]).toUpperCase();
+    }
+    if (parts[0].length >= 2) {
+      return parts[0].substring(0, 2).toUpperCase();
+    }
+    return parts[0].substring(0, 1).toUpperCase();
+  };
 
   return (
     <section ref={ref} className="es-testimonials-section">
@@ -71,7 +108,7 @@ const Testimonials = () => {
           autoplay={{ delay: 5000, disableOnInteraction: false }}
           navigation
           pagination={{ clickable: true }}
-          loop
+          loop={displayCarouselItems.length > 1}
           breakpoints={{
             0: { slidesPerView: 1, spaceBetween: 24 },
             768: { slidesPerView: 2, spaceBetween: 32 },
@@ -79,8 +116,8 @@ const Testimonials = () => {
           }}
           className="es-testimonials-swiper"
         >
-          {testimonials.map((t, i) => (
-            <SwiperSlide key={i}>
+          {displayCarouselItems.map((t) => (
+            <SwiperSlide key={t.id}>
               <div className="es-testimonial-card">
                 <FormatQuoteIcon className="es-quote-icon" />
                 <div className="es-testimonial-stars">
@@ -90,7 +127,18 @@ const Testimonials = () => {
                 </div>
                 <p className="es-testimonial-text">{t.text}</p>
                 <div className="es-testimonial-author">
-                  <img src={t.img} alt={t.name} className="es-testimonial-avatar" />
+                  <div className="es-testimonial-avatar" style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    background: 'linear-gradient(135deg, #1a0a00, #3d1e0a)',
+                    color: '#c7956c',
+                    fontFamily: 'Playfair Display, serif',
+                    fontSize: '16px',
+                    fontWeight: '700',
+                  }}>
+                    {getInitials(t.name)}
+                  </div>
                   <div>
                     <span className="es-testimonial-name">{t.name}</span>
                     <span className="es-testimonial-role">{t.role}</span>
@@ -106,3 +154,5 @@ const Testimonials = () => {
 };
 
 export default Testimonials;
+
+

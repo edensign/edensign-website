@@ -535,8 +535,6 @@ function ProductCard({
           />
         </div>
       )}
-
-      {loading && <Loader />}
     </>
   );
 }

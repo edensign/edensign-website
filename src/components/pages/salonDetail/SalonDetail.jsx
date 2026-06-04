@@ -31,12 +31,100 @@ import { setSalonDetail } from '../../../redux/actions/SalonAction';
 import ActiveOffersSection from "../ActiveOffersSection";
 import SalonGallery from "./SalonGallery";
 
+import {
+  SkeletonStyles,
+  SalonDetailHeroSkeleton,
+  ServicesStripSkeleton,
+  AmenitiesSkeleton,
+  GallerySkeleton,
+  SectionHeaderSkeleton,
+  ReviewSkeleton,
+  NewsletterSkeleton,
+} from "../../common/PageSkeletons";
+
+/* ── Offer section skeleton ── */
+const OfferSkeleton = () => (
+  <div style={{ padding: '40px 5%', background: '#fff', display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
+    {[1, 2].map(i => (
+      <div key={i} style={{ flex: '0 0 calc(50% - 10px)', background: '#f8f4f0', borderRadius: '20px', padding: '28px', display: 'flex', gap: '16px', alignItems: 'center' }}>
+        <div className="es-sk" style={{ width: '80px', height: '80px', borderRadius: '16px', flexShrink: 0 }} />
+        <div style={{ flex: 1 }}>
+          <div className="es-sk" style={{ height: '18px', width: '70%', marginBottom: '10px' }} />
+          <div className="es-sk" style={{ height: '13px', width: '90%', marginBottom: '6px' }} />
+          <div className="es-sk" style={{ height: '13px', width: '60%' }} />
+        </div>
+      </div>
+    ))}
+  </div>
+);
+
+/* ── Services carousel skeleton ── */
+const ServicesCarouselSkeleton = () => (
+  <div style={{ padding: '60px 5%', background: '#f8fafc' }}>
+    <SectionHeaderSkeleton />
+    <div style={{ display: 'flex', gap: '24px', overflowX: 'auto' }}>
+      {[1, 2, 3].map(i => (
+        <div key={i} style={{ flexShrink: 0, width: '280px', background: '#fff', borderRadius: '20px', overflow: 'hidden' }}>
+          <div className="es-sk" style={{ height: '200px', borderRadius: 0 }} />
+          <div style={{ padding: '20px' }}>
+            <div className="es-sk" style={{ height: '20px', width: '70%', marginBottom: '10px' }} />
+            <div className="es-sk" style={{ height: '13px', width: '90%', marginBottom: '6px' }} />
+            <div className="es-sk" style={{ height: '36px', width: '140px', borderRadius: '4px', marginTop: '14px' }} />
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+/* ── Book appointment skeleton ── */
+const BookAppointmentSkeleton = () => (
+  <div style={{ padding: '60px 5%', background: '#fff' }}>
+    <SectionHeaderSkeleton />
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '40px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        {[1, 2, 3, 4].map(i => (
+          <div key={i} className="es-sk" style={{ height: '56px', borderRadius: '10px' }} />
+        ))}
+        <div className="es-sk" style={{ height: '52px', borderRadius: '30px', marginTop: '8px' }} />
+      </div>
+      <div className="es-sk" style={{ height: '360px', borderRadius: '20px' }} />
+    </div>
+  </div>
+);
+
+/* ── Locations skeleton ── */
+const LocationsSkeleton = () => (
+  <div style={{ padding: '60px 5%', background: '#f8fafc' }}>
+    <SectionHeaderSkeleton />
+    <div className="es-sk" style={{ height: '400px', borderRadius: '20px' }} />
+  </div>
+);
+
+/* ── Full page skeleton for salon detail ── */
+const SalonDetailSkeleton = () => (
+  <>
+    <SkeletonStyles />
+    <SalonDetailHeroSkeleton />
+    <ServicesStripSkeleton />
+    <OfferSkeleton />
+    <AmenitiesSkeleton />
+    <GallerySkeleton />
+    <ServicesCarouselSkeleton />
+    <BookAppointmentSkeleton />
+    <NewsletterSkeleton />
+    <ReviewSkeleton />
+    <LocationsSkeleton />
+  </>
+);
+
 
 const SalonDetail = () => {
     const [amenities, setAmenities] = useState([]);
     const [services, setServices] = useState([]);
     const [selectedService, setSelectedService] = useState(null);   //this will contain id of service selected from services carousel
     const [salon, setSalon] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     const URLParams = useParams();
     const dispatch = useDispatch();
@@ -72,9 +160,11 @@ const SalonDetail = () => {
                 } else {
                     dispatch(setSalonDetail({ salon: {}, images: [] }))
                 }
+                setLoading(false);
             })
             .catch(error => {
                 dispatch(setSalonDetail({ salon: {}, images: [] }))
+                setLoading(false);
                 throw error;
             });
     }, [amenities, services]);
@@ -109,9 +199,14 @@ const SalonDetail = () => {
             });
     }, []);
 
+    /* Show skeleton until the main salon data is fetched */
+    if (loading) {
+        return <SalonDetailSkeleton />;
+    }
 
     return (
         <ScrollToTop>
+            <SkeletonStyles />
             <DetailPageTop />
             <ServicesStrip />
             <Offer />

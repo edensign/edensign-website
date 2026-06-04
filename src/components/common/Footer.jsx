@@ -16,6 +16,9 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
+import WorkOutlineOutlinedIcon from '@mui/icons-material/WorkOutlineOutlined';
+import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 
 const quickLinks = [
   { label: 'Salons', href: '/salons' },
@@ -241,28 +244,33 @@ function Footer() {
               color: '#c7956c',
               margin: '32px 0 14px 0',
             }}>Platform</h4>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              {['Appointments', 'Job Portal', 'E-commerce'].map((item) => (
-                <span key={item} style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  fontFamily: 'Inter, sans-serif',
-                  fontSize: '12px',
-                  color: 'rgba(255,255,255,0.45)',
-                }}>
-                  <span style={{
-                    width: 6,
-                    height: 6,
-                    borderRadius: '50%',
-                    background: '#c7956c',
-                    opacity: 0.5,
-                    flexShrink: 0,
-                  }} />
-                  {item}
-                </span>
+            <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              {[
+                { label: 'Appointments', href: '/salons', Icon: CalendarTodayOutlinedIcon },
+                { label: 'Job Portal', href: '/job-seeker', Icon: WorkOutlineOutlinedIcon },
+                { label: 'E-commerce', href: '/products', Icon: ShoppingBagOutlinedIcon },
+              ].map(({ label, href, Icon }) => (
+                <li key={label}>
+                  <Link
+                    to={href}
+                    style={{
+                      textDecoration: 'none',
+                      fontFamily: 'Inter, sans-serif',
+                      fontSize: '13.5px',
+                      color: 'rgba(255,255,255,0.6)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      transition: 'color 0.2s',
+                    }}
+                    className="es-footer-link"
+                  >
+                    <ArrowForwardIcon sx={{ fontSize: 12, opacity: 0, transition: 'opacity 0.2s' }} className="es-footer-link-arrow" />
+                    {label}
+                  </Link>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
 
           {/* Contact */}
@@ -320,7 +328,7 @@ function Footer() {
             color: 'rgba(255,255,255,0.25)',
             margin: 0,
           }}>
-            Designed &amp; Built by the Eden Sign Team
+            Designed &amp; Built by  — Codevamp Technologies
           </p>
         </div>
       </div>

@@ -13,6 +13,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay, EffectCoverflow } from 'swiper/modules';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { useNavigate } from 'react-router-dom';
 
 // Swiper styles
 import 'swiper/css';
@@ -34,17 +35,114 @@ import moisturiserImg from "../../assets/products/moisturiser.jpg"
 import perfumeImg from "../../assets/products/perfume.jpg"
 
 const products = [
-  { id: 1, name: "Bonjour Nudista", category: "L'Oreal Paris", image: lorealImg, rating: 4.5, featured: true },
-  { id: 2, name: "Rance 1795 perfume", category: "Fragrance", image: perfumeImg, rating: 4.5, featured: true },
-  { id: 3, name: "Brown Sugar", category: "Farmasi", image: lotionImg, rating: 4.5, featured: false },
-  { id: 4, name: "All Bright", category: "Botanics", image: botanicsImg, rating: 4, featured: true },
-  { id: 5, name: "Hydrating Cream", category: "Skincare", image: creamImg, rating: 4, featured: false },
-  { id: 6, name: "Skin Cleanser", category: "Holy Grail", image: cleanserImg, rating: 4.5, featured: true },
-  { id: 7, name: "Misolo Cosmetics", category: "Moisturiser", image: moisturiserImg, rating: 4, featured: false },
-  { id: 8, name: "Foundation", category: "Cosmetics", image: foundationImg, rating: 4.5, featured: true },
+  { 
+    id: 1, 
+    name: "Bonjour Nudista", 
+    category: "L'Oreal Paris", 
+    image: lorealImg, 
+    rating: 4.5, 
+    featured: true,
+    discounted_price: 1299,
+    original_price: 1899,
+    discount_percent: 31,
+    description: "L'Oreal Paris Bonjour Nudista skin tint hydrates and illuminates skin for a fresh, natural glow.",
+    specification: "Volume: 30ml, Skin Type: Normal, Texture: Tinted Cream"
+  },
+  { 
+    id: 2, 
+    name: "Rance 1795 perfume", 
+    category: "Fragrance", 
+    image: perfumeImg, 
+    rating: 4.5, 
+    featured: true,
+    discounted_price: 6499,
+    original_price: 8500,
+    discount_percent: 23,
+    description: "Rance 1795 perfume is a luxurious, highly refined classic fragrance with notes of jasmine, patchouli, and vanilla.",
+    specification: "Volume: 100ml, Fragrance Type: Eau de Parfum, Origin: Italy"
+  },
+  { 
+    id: 3, 
+    name: "Brown Sugar", 
+    category: "Farmasi", 
+    image: lotionImg, 
+    rating: 4.5, 
+    featured: false,
+    discounted_price: 799,
+    original_price: 1199,
+    discount_percent: 33,
+    description: "Farmasi Brown Sugar lotion deeply nourishes and leaves a comforting warm fragrance on your skin.",
+    specification: "Volume: 200ml, Formulation: Body Lotion, Brand: Farmasi"
+  },
+  { 
+    id: 4, 
+    name: "All Bright", 
+    category: "Botanics", 
+    image: botanicsImg, 
+    rating: 4, 
+    featured: true,
+    discounted_price: 999,
+    original_price: 1499,
+    discount_percent: 33,
+    description: "Botanics All Bright cleanser gently exfoliates to reveal a brighter, smoother, and radiant skin complexion.",
+    specification: "Volume: 150ml, Ingredients: Hibiscus Extract, Cruelty Free: Yes"
+  },
+  { 
+    id: 5, 
+    name: "Hydrating Cream", 
+    category: "Skincare", 
+    image: creamImg, 
+    rating: 4, 
+    featured: false,
+    discounted_price: 1599,
+    original_price: 2199,
+    discount_percent: 27,
+    description: "An intensive hydrating cream that locks in moisture for 24 hours, perfect for dry or sensitive skin.",
+    specification: "Volume: 50ml, Skin Concern: Dryness, Category: Skincare Cream"
+  },
+  { 
+    id: 6, 
+    name: "Skin Cleanser", 
+    category: "Holy Grail", 
+    image: cleanserImg, 
+    rating: 4.5, 
+    featured: true,
+    discounted_price: 1199,
+    original_price: 1699,
+    discount_percent: 29,
+    description: "Holy Grail Skin Cleanser removes makeup, dirt, and excess oil without stripping your natural moisture barrier.",
+    specification: "Volume: 250ml, pH Balanced: Yes, Form: Foaming Wash"
+  },
+  { 
+    id: 7, 
+    name: "Misolo Cosmetics", 
+    category: "Moisturiser", 
+    image: moisturiserImg, 
+    rating: 4, 
+    featured: false,
+    discounted_price: 1899,
+    original_price: 2499,
+    discount_percent: 24,
+    description: "Misolo Cosmetics Premium Moisturiser restores firmness and minimizes fine lines with advanced hyaluronic acid.",
+    specification: "Volume: 60ml, Active Ingredients: Hyaluronic Acid, Brand: Misolo"
+  },
+  { 
+    id: 8, 
+    name: "Foundation", 
+    category: "Cosmetics", 
+    image: foundationImg, 
+    rating: 4.5, 
+    featured: true,
+    discounted_price: 2499,
+    original_price: 3299,
+    discount_percent: 24,
+    description: "A flawless, full-coverage matte foundation that blends seamlessly and lasts all day without creasing.",
+    specification: "Shade: Natural Beige, Coverage: Full, Finish: Matte"
+  }
 ];
 
 const ProductCarousel = () => {
+  const navigate = useNavigate();
   return (
     <Box component="section" className="product-section">
       <Box className="product-container">
@@ -121,7 +219,15 @@ const ProductCarousel = () => {
                       decoding="async"
                     />
                     <div className="quick-view-overlay">
-                      <button className="btn-minimal">Quick View</button>
+                      <button 
+                        className="btn-minimal"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate('/product/detail', { state: { details: { product, productImg: product.image } } });
+                        }}
+                      >
+                        Quick View
+                      </button>
                     </div>
                   </div>
                   
@@ -143,6 +249,10 @@ const ProductCarousel = () => {
                       <motion.div
                         whileHover={{ scale: 1.05 }}
                         className="product-link"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate('/product/detail', { state: { details: { product, productImg: product.image } } });
+                        }}
                         style={{ 
                           color: '#c7956c', 
                           fontSize: '12px', 

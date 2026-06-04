@@ -66,9 +66,9 @@ export default function StarRating({ value: propValue, onChange, name = "hover-f
                 }}
                 emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
             />
-            {value !== null && (
-                <Box sx={{ ml: 2 }}>{labels[hover !== -1 ? hover : value]}</Box>
-            )}
+            {/* {value !== null && (
+                // <Box sx={{ ml: 2 }}>{[hover !== -1 ? hover : value]}</Box>
+            )} */}
         </Box>
     );
 }

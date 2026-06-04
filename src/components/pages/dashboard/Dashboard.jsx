@@ -25,6 +25,7 @@ import API from "../../../apis";
 import { api } from "../../../apis/config/axiosConfig";
 import PremiumOfferCard from "../../common/PremiumOfferCard";
 import { loadRazorpayScript } from "../../utils/razorpay";
+import { useToast } from "../../common/Toast";
 import "./Dashboard.css";
 
 const Dashboard = () => {
@@ -77,6 +78,8 @@ const Dashboard = () => {
         if (token) fetchData();
     }, [token]);
 
+    const { showToast } = useToast();
+
     const handleLogout = () => {
         API.CustomerAPI.logout();
         window.location.href = "/";
@@ -85,7 +88,7 @@ const Dashboard = () => {
     const handleAddMoney = async () => {
         const amount = parseFloat(addAmount);
         if (isNaN(amount) || amount <= 0) {
-            alert("Please enter a valid amount");
+            showToast("Please enter a valid amount", "warning");
             return;
         }
 
@@ -93,7 +96,7 @@ const Dashboard = () => {
         try {
             const res = await loadRazorpayScript();
             if (!res) {
-                alert("Razorpay SDK failed to load.");
+                showToast("Razorpay SDK failed to load.", "error");
                 return;
             }
 
@@ -121,11 +124,11 @@ const Dashboard = () => {
                             razorpay_signature: response.razorpay_signature
                         }, { headers: { Authorization: `Bearer ${token}` } });
                         
-                        alert("Money added successfully!");
+                        showToast("Money added successfully!", "success");
                         setAddAmount("");
                         fetchData();
                     } catch (err) {
-                        alert("Payment verification failed.");
+                        showToast("Payment verification failed.", "error");
                     }
                 },
                 prefill: {
@@ -142,7 +145,7 @@ const Dashboard = () => {
             paymentObject.open();
         } catch (err) {
             console.error(err);
-            alert("Failed to initiate payment.");
+            showToast("Failed to initiate payment.", "error");
         } finally {
             setProcessingPayment(false);
         }

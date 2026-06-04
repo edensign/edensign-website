@@ -18,8 +18,8 @@ import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined
 import ContentCutOutlinedIcon from '@mui/icons-material/ContentCutOutlined';
 
 import API from '../../../apis';
-import Loader from '../../common/Loader';
 import { downloadResumeFromAzure } from '../../azure/AzureStorageConnection';
+import { useToast } from '../../common/Toast';
 
 import './InfiniteScroll.css';
 import customer from '../../assets/customer-resiz.jpg';
@@ -76,10 +76,11 @@ const EmptyState = () => (
 const SeekerCard = ({ seeker, index, getCityByName, getStateByName }) => {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.08 });
   const navigate = useNavigate();
+  const { showToast } = useToast();
 
   const handleViewCV = (resume) => {
     if (!resume) {
-      alert("No CV uploaded for this profile.");
+      showToast("No CV uploaded for this profile.", "warning");
       return;
     }
     // Check if it's already a full URL
@@ -689,8 +690,7 @@ const JobSeekerCards = ({ skills, selectedSkill, selectedGender, selectedExperie
             id="job-grid-container"
             dataLength={jobSeekerDetail?.listData?.length}
             next={fetchMoreData}
-            hasMore={jobSeekerDetail?.listData?.length !== jobSeekerDetail?.totalResults}
-            loader={jobSeekerDetail.loading ? <Loader /> : null}
+            loader={jobSeekerDetail.loading ? <SeekCard_Skeleton /> : null}
           >
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(540px, 1fr))', gap: '20px' }} className="es-seeker-grid">
               {jobSeekerDetail.listData.map((seeker, index) => (

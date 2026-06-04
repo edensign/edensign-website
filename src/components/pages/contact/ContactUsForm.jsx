@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Formik } from 'formik';
 import { Box, Button, TextField, Snackbar, Alert, CircularProgress } from "@mui/material";
 
@@ -11,6 +11,8 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import flowerimage from "../../assets/flower.png";
 import { ContactAPI } from "../../../apis/ContactAPI";
 
+import { SkeletonStyles, ContactPageSkeleton } from "../../common/PageSkeletons";
+
 const initialValues = {
   name: '',
   email: '',
@@ -20,6 +22,12 @@ const initialValues = {
 function ContactUsForm() {
   const [loading, setLoading] = useState(false);
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
+  const [pageLoaded, setPageLoaded] = useState(false);
+
+  useEffect(() => {
+    const t = setTimeout(() => setPageLoaded(true), 300);
+    return () => clearTimeout(t);
+  }, []);
 
   const handleSubmit = async (values, { resetForm }) => {
     setLoading(true);
@@ -43,8 +51,18 @@ function ContactUsForm() {
     setSnackbar({ ...snackbar, open: false });
   };
 
+  if (!pageLoaded) {
+    return (
+      <>
+        <SkeletonStyles />
+        <ContactPageSkeleton />
+      </>
+    );
+  }
+
   return (
     <Box id="parent-box">
+      <SkeletonStyles />
 
       <Box sx={{
         display: "flex", 
@@ -71,7 +89,7 @@ function ContactUsForm() {
 
           <Box>
             <p style={{ fontWeight: "600", fontSize: "11px", letterSpacing: "0.1em", color: "#c7956c", marginBottom: "4px" }}>PHONE</p>
-            <p style={{ fontWeight: "300", fontSize: "15px", letterSpacing: "0.02em" }}>9560648715</p>
+            <p style={{ fontWeight: "300", fontSize: "15px", letterSpacing: "0.02em" }}>9897331083</p>
           </Box>
           <Box>
             <p style={{ fontWeight: "600", fontSize: "11px", letterSpacing: "0.1em", color: "#c7956c", marginBottom: "4px" }}>ADDRESS</p>

@@ -9,6 +9,7 @@ import { motion } from 'framer-motion';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../../../redux/actions/CartAction';
 import Toast from '../../common/Toast';
+import { SkeletonStyles, ProductDetailSkeleton } from '../../common/PageSkeletons';
 
 
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -37,9 +38,14 @@ function ProductDetailPage() {
   const [addedToCart, setAddedToCart] = useState(false);
   const [alert, setAlert] = useState(false);
   const [message, setMessage] = useState('');
+  const [pageReady, setPageReady] = useState(false);
   
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    const t = setTimeout(() => setPageReady(true), 250);
+    return () => clearTimeout(t);
+  }, []);
 
   const unitPrice = product?.discounted_price ?? 0;
   const totalPrice = unitPrice * quantity;
@@ -65,6 +71,15 @@ function ProductDetailPage() {
     { Icon: VerifiedOutlinedIcon, text: '100% authentic products' },
     { Icon: RefreshOutlinedIcon, text: '7-day easy returns' },
   ];
+
+  if (!pageReady) {
+    return (
+      <>
+        <SkeletonStyles />
+        <ProductDetailSkeleton />
+      </>
+    );
+  }
 
   return (
     <>

@@ -26,40 +26,29 @@ export const SalonAPI = {
 
     /** Get salon list by joining 2 tables from the database
      */
-    getSalonList: async (category = [], gender = null, cancel = false) => {
-        let genderParam = gender ? `gender=${gender}` : '';
-        let categoryParam = '';
-    
-        if (category.length > 0) {
-            categoryParam = category.map(item => {
+    getSalonList: async (category = [], gender = null, cityId = null, minRating = null, latitude = null, longitude = null, cancel = false) => {
+        const params = new URLSearchParams();
+        if (gender) params.append('gender', gender);
+        if (cityId) params.append('city_id', cityId);
+        if (minRating) params.append('min_rating', minRating);
+        if (latitude !== null && latitude !== undefined) params.append('latitude', latitude);
+        if (longitude !== null && longitude !== undefined) params.append('longitude', longitude);
+
+        if (category && category.length > 0) {
+            category.forEach(item => {
                 if (item === 'Featured') {
-                    return 'is_featured=1';
+                    params.append('is_featured', 'true');
                 } else if (item === 'Franchise') {
-                    return 'is_franchise=1';
+                    params.append('is_franchise', 'true');
                 }
-                // Handle other categories if needed
-                // For simplicity, let's assume other categories are included as is
-                return item;
-            }).join('&');
+            });
         }
 
-        if (categoryParam && genderParam) {
-            categoryParam = `${categoryParam}&`  
-        }
-       
-
-        console.log('salon category=>', category);
-        console.log('salon categoryParam=>', categoryParam);
         const { data: response } = await api.request({
-            url: `/get-salon-list?${categoryParam}${genderParam}`,
+            url: `/get-salon-list?${params.toString()}`,
             method: "GET",
-            // data: {
-            //     category : category,
-            //     gender: gender
-            // },
             signal: cancel ? cancelApiObject[this.getSalonList.name].handleRequestCancellation().signal : undefined,
         });
-        console.log(response);
         return response;
     },
 

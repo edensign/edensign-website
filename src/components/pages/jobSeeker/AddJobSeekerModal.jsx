@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
@@ -57,6 +57,17 @@ const validationSchema = Yup.object({
         is: "trainer",
         then: (schema) => schema.required("Time to train is required"),
         otherwise: (schema) => schema.notRequired()
+    }),
+    job_location_preference: Yup.string().required("Job location preference is required"),
+    pref_state_id: Yup.number().when("job_location_preference", {
+        is: (val) => val === "specific_state" || val === "specific_city",
+        then: (schema) => schema.typeError("Please select a state").required("State is required"),
+        otherwise: (schema) => schema.notRequired()
+    }),
+    pref_city_id: Yup.number().when("job_location_preference", {
+        is: "specific_city",
+        then: (schema) => schema.typeError("Please select a city").required("City is required"),
+        otherwise: (schema) => schema.notRequired()
     })
 });
 
@@ -75,13 +86,28 @@ const initialValues = {
     hobbies: "",
     previous_employer: "",
     description: "",
-    resume: null
+    resume: null,
+    job_location_preference: "anywhere",
+    pref_state_id: "",
+    pref_city_id: ""
 };
 
 const AddJobSeekerModal = ({ open, handleClose, skills = [], onSuccess }) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [filename, setFilename] = useState("");
+    const [states, setStates] = useState([]);
+    const [cities, setCities] = useState([]);
+    const [selectedStateId, setSelectedStateId] = useState(null);
+
+    useEffect(() => {
+        API.StateAPI.getStates()
+            .then(res => { if (res.status === 'Success') setStates(res.data.rows); })
+            .catch(console.error);
+        API.CityAPI.getCities()
+            .then(res => { if (res.status === 'Success') setCities(res.data.rows); })
+            .catch(console.error);
+    }, []);
 
     const formatResumeName = (name, file) => {
         if (!name || !file) return "";
@@ -126,6 +152,15 @@ const AddJobSeekerModal = ({ open, handleClose, skills = [], onSuccess }) => {
                     expValue = `trainer:${values.trainingTime || ''}`;
                 }
 
+                let prefCityId = null;
+                let prefStateId = null;
+                if (values.job_location_preference === "specific_state") {
+                    prefStateId = values.pref_state_id ? parseInt(values.pref_state_id) : null;
+                } else if (values.job_location_preference === "specific_city") {
+                    prefStateId = values.pref_state_id ? parseInt(values.pref_state_id) : null;
+                    prefCityId = values.pref_city_id ? parseInt(values.pref_city_id) : null;
+                }
+
                 const payload = {
                     name: values.name,
                     email: values.email,
@@ -141,7 +176,10 @@ const AddJobSeekerModal = ({ open, handleClose, skills = [], onSuccess }) => {
                     description: values.description,
                     resume: resumeFormatted,
                     status: "active",
-                    paid: "no"
+                    paid: "no",
+                    job_location_preference: values.job_location_preference,
+                    pref_city_id: prefCityId,
+                    pref_state_id: prefStateId
                 };
 
                 const response = await API.JobSeekerAPI.createJobSeeker(payload);
@@ -430,6 +468,115 @@ const AddJobSeekerModal = ({ open, handleClose, skills = [], onSuccess }) => {
                                 sx={fieldStyle}
                             />
                         </Grid>
+
+                        <Grid item xs={12} sm={6}>
+                            <FormControl fullWidth sx={fieldStyle} error={formik.touched.job_location_preference && Boolean(formik.errors.job_location_preference)}>
+                                <InputLabel id="job-loc-pref-select-label">Job Location Preference*</InputLabel>
+                                <Select
+                                    labelId="job-loc-pref-select-label"
+                                    name="job_location_preference"
+                                    value={formik.values.job_location_preference}
+                                    onChange={(e) => {
+                                        formik.handleChange(e);
+                                        formik.setFieldValue("pref_state_id", "");
+                                        formik.setFieldValue("pref_city_id", "");
+                                        setSelectedStateId(null);
+                                    }}
+                                    onBlur={formik.handleBlur}
+                                    label="Job Location Preference*"
+                                    MenuProps={{
+                                        PaperProps: {
+                                            style: {
+                                                backgroundColor: "#1a0a00",
+                                                color: "#fff",
+                                                border: "1px solid rgba(199, 149, 108, 0.25)"
+                                            }
+                                        }
+                                    }}
+                                >
+                                    <MenuItem value="anywhere">Anywhere</MenuItem>
+                                    <MenuItem value="specific_state">Specific State</MenuItem>
+                                    <MenuItem value="specific_city">Specific City</MenuItem>
+                                </Select>
+                                {formik.touched.job_location_preference && formik.errors.job_location_preference && (
+                                    <FormHelperText>{formik.errors.job_location_preference}</FormHelperText>
+                                )}
+                            </FormControl>
+                        </Grid>
+
+                        {(formik.values.job_location_preference === "specific_state" || formik.values.job_location_preference === "specific_city") && (
+                            <Grid item xs={12} sm={6}>
+                                <FormControl fullWidth sx={fieldStyle} error={formik.touched.pref_state_id && Boolean(formik.errors.pref_state_id)}>
+                                    <InputLabel id="pref-state-select-label">Preferred State*</InputLabel>
+                                    <Select
+                                        labelId="pref-state-select-label"
+                                        name="pref_state_id"
+                                        value={formik.values.pref_state_id}
+                                        onChange={(e) => {
+                                            formik.handleChange(e);
+                                            formik.setFieldValue("pref_city_id", "");
+                                            setSelectedStateId(e.target.value);
+                                        }}
+                                        onBlur={formik.handleBlur}
+                                        label="Preferred State*"
+                                        MenuProps={{
+                                            PaperProps: {
+                                                style: {
+                                                    backgroundColor: "#1a0a00",
+                                                    color: "#fff",
+                                                    border: "1px solid rgba(199, 149, 108, 0.25)"
+                                                }
+                                            }
+                                        }}
+                                    >
+                                        <MenuItem value=""><em>None</em></MenuItem>
+                                        {states.map((item) => (
+                                            <MenuItem value={item.id} key={item.id}>
+                                                {item.name}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                    {formik.touched.pref_state_id && formik.errors.pref_state_id && (
+                                        <FormHelperText>{formik.errors.pref_state_id}</FormHelperText>
+                                    )}
+                                </FormControl>
+                            </Grid>
+                        )}
+
+                        {formik.values.job_location_preference === "specific_city" && (
+                            <Grid item xs={12} sm={6}>
+                                <FormControl fullWidth sx={fieldStyle} error={formik.touched.pref_city_id && Boolean(formik.errors.pref_city_id)}>
+                                    <InputLabel id="pref-city-select-label">Preferred City*</InputLabel>
+                                    <Select
+                                        labelId="pref-city-select-label"
+                                        name="pref_city_id"
+                                        value={formik.values.pref_city_id}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        label="Preferred City*"
+                                        MenuProps={{
+                                            PaperProps: {
+                                                style: {
+                                                    backgroundColor: "#1a0a00",
+                                                    color: "#fff",
+                                                    border: "1px solid rgba(199, 149, 108, 0.25)"
+                                                }
+                                            }
+                                        }}
+                                    >
+                                        <MenuItem value=""><em>None</em></MenuItem>
+                                        {cities.filter(c => c.state_id === selectedStateId?.toString()).map((item) => (
+                                            <MenuItem value={item.id} key={item.id}>
+                                                {item.name}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                    {formik.touched.pref_city_id && formik.errors.pref_city_id && (
+                                        <FormHelperText>{formik.errors.pref_city_id}</FormHelperText>
+                                    )}
+                                </FormControl>
+                            </Grid>
+                        )}
 
                         <Grid item xs={12}>
                             <Autocomplete

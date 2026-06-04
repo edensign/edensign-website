@@ -326,3 +326,64 @@ body {
 .testimonial-arrow:active {
   transform: translateY(8px);
 }
+
+/* ── Selection highlights ── */
+::selection {
+  background-color: rgba(199, 149, 108, 0.25);
+  color: #1a0f08;
+}
+
+/* ── Modern Glassmorphism ── */
+.es-glass {
+  background: rgba(255, 255, 255, 0.75) !important;
+  backdrop-filter: blur(16px) saturate(120%) !important;
+  WebkitBackdropFilter: blur(16px) saturate(120%) !important;
+  border: 1px solid rgba(199, 149, 108, 0.15) !important;
+}
+
+.es-glass-dark {
+  background: rgba(26, 18, 14, 0.75) !important;
+  backdrop-filter: blur(16px) saturate(110%) !important;
+  WebkitBackdropFilter: blur(16px) saturate(110%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+/* ── Luxury Details & Glows ── */
+.es-glow {
+  box-shadow: 0 8px 30px rgba(199, 149, 108, 0.15) !important;
+  transition: box-shadow 0.3s ease, transform 0.3s ease !important;
+}
+.es-glow:hover {
+  box-shadow: 0 12px 40px rgba(199, 149, 108, 0.25) !important;
+  transform: translateY(-2px);
+}
+
+/* ── Premium Underline Hover Transition ── */
+.es-hover-underline {
+  position: relative;
+  display: inline-block;
+}
+.es-hover-underline::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 1.5px;
+  bottom: -4px;
+  left: 0;
+  background-color: #c7956c;
+  transform-origin: bottom right;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.es-hover-underline:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+/* ── Micro-animations ── */
+.es-hover-scale {
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+.es-hover-scale:hover {
+  transform: scale(1.02) translateY(-2px);
+}

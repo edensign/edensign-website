@@ -17,6 +17,68 @@ import { ColorModeContext, useMode, tokens } from "./theme";
 import Topbar from "./components/common/Topbar";
 import Loader from "./components/common/Loader";
 import Footer from './components/common/Footer';
+import { ToastProvider } from "./components/common/Toast";
+import {
+  SkeletonStyles,
+  HomePageSkeleton,
+  AboutPageSkeleton,
+  ContactPageSkeleton,
+  SalonGridSkeleton,
+  SalonDetailHeroSkeleton,
+  ProductPageSkeleton,
+  ProductDetailSkeleton,
+  JobSeekerPageSkeleton,
+  JobSeekerDetailSkeleton,
+} from "./components/common/PageSkeletons";
+
+const PageSuspenseFallback = () => {
+  const location = useLocation();
+  const path = location.pathname;
+
+  if (path === "/" || path === "") {
+    return <HomePageSkeleton />;
+  }
+  if (path === "/about") {
+    return <AboutPageSkeleton />;
+  }
+  if (path === "/contact") {
+    return <ContactPageSkeleton />;
+  }
+  if (path.startsWith("/salon/detail")) {
+    return <SalonDetailHeroSkeleton />;
+  }
+  if (path === "/salons") {
+    return <SalonGridSkeleton count={6} />;
+  }
+  if (path === "/products") {
+    return <ProductPageSkeleton />;
+  }
+  if (path.startsWith("/product/detail")) {
+    return <ProductDetailSkeleton />;
+  }
+  if (path === "/job-seeker") {
+    return <JobSeekerPageSkeleton />;
+  }
+  if (path.startsWith("/job-seeker/")) {
+    return <JobSeekerDetailSkeleton />;
+  }
+
+  // Fallback for auth pages or other pages (simple generic skeleton)
+  return (
+    <div style={{ padding: "80px 5%", background: "#f8fafc" }}>
+      <SkeletonStyles />
+      <div className="es-sk" style={{ height: "40px", width: "220px", marginBottom: "30px" }} />
+      <div className="es-sk" style={{ height: "13px", width: "100%", marginBottom: "12px" }} />
+      <div className="es-sk" style={{ height: "13px", width: "90%", marginBottom: "12px" }} />
+      <div className="es-sk" style={{ height: "13px", width: "95%", marginBottom: "30px" }} />
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "20px" }}>
+        {[1, 2, 3].map(i => (
+          <div key={i} className="es-sk" style={{ height: "180px", borderRadius: "12px" }} />
+        ))}
+      </div>
+    </div>
+  );
+};
 
 // Lazy load page components
 const AboutUs = lazy(() => import("./components/pages/about/AboutUs"));
@@ -72,7 +134,7 @@ function App() {
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Suspense fallback={<Loader />}>
+        <ToastProvider>
           <div
             id="main-div"
             style={{
@@ -88,31 +150,33 @@ function App() {
             }}
           >
             <Topbar />
-            <AnimatePresence mode="wait">
-              <Routes location={location} key={location.pathname}>
-                <Route exact path='/' element={<PageWrapper><Home /></PageWrapper>} />
-                <Route path='*' element={<PageWrapper><NotFound /></PageWrapper>} />
-                <Route path='/about' element={<PageWrapper><AboutUs /></PageWrapper>} />
-                <Route exact path='/contact' element={<PageWrapper><ContactUs /></PageWrapper>} />
-                <Route exact path='/job-seeker' element={<PageWrapper><JobSeeker /></PageWrapper>} />
-                <Route exact path='/job-seeker/:id' element={<PageWrapper><JobSeekerDetail /></PageWrapper>} />
-                <Route path='/legal-info' element={<PageWrapper><LegalInfo /></PageWrapper>} />
-                <Route exact path='/login' element={<PageWrapper><Login /></PageWrapper>} />
-                <Route exact path='/register' element={<PageWrapper><Register /></PageWrapper>} />
-                <Route exact path='/salons' element={<PageWrapper><Salon /></PageWrapper>} />
-                <Route exact path='/products' element={<PageWrapper><Product /></PageWrapper>} />
-                <Route exact path='/salon/detail/:code' element={<PageWrapper><SalonDetail /></PageWrapper>} />
-                <Route exact path='/faq' element={<PageWrapper><Faq /></PageWrapper>} />
-                <Route exact path='/product/detail' element={<PageWrapper><ProductDetail /></PageWrapper>} />
-                <Route exact path='/cart' element={<PageWrapper><CartPage /></PageWrapper>} />
-                <Route exact path='/checkout' element={<PageWrapper><CheckoutPage /></PageWrapper>} />
-                <Route exact path='/academy' element={<PageWrapper><Academy /></PageWrapper>} />
-                <Route exact path='/dashboard' element={<PageWrapper><Dashboard /></PageWrapper>} />
-              </Routes>
-            </AnimatePresence>
+            <Suspense fallback={<PageSuspenseFallback />}>
+              <AnimatePresence mode="wait">
+                <Routes location={location} key={location.pathname}>
+                  <Route exact path='/' element={<PageWrapper><Home /></PageWrapper>} />
+                  <Route path='*' element={<PageWrapper><NotFound /></PageWrapper>} />
+                  <Route path='/about' element={<PageWrapper><AboutUs /></PageWrapper>} />
+                  <Route exact path='/contact' element={<PageWrapper><ContactUs /></PageWrapper>} />
+                  <Route exact path='/job-seeker' element={<PageWrapper><JobSeeker /></PageWrapper>} />
+                  <Route exact path='/job-seeker/:id' element={<PageWrapper><JobSeekerDetail /></PageWrapper>} />
+                  <Route path='/legal-info' element={<PageWrapper><LegalInfo /></PageWrapper>} />
+                  <Route exact path='/login' element={<PageWrapper><Login /></PageWrapper>} />
+                  <Route exact path='/register' element={<PageWrapper><Register /></PageWrapper>} />
+                  <Route exact path='/salons' element={<PageWrapper><Salon /></PageWrapper>} />
+                  <Route exact path='/products' element={<PageWrapper><Product /></PageWrapper>} />
+                  <Route exact path='/salon/detail/:code' element={<PageWrapper><SalonDetail /></PageWrapper>} />
+                  <Route exact path='/faq' element={<PageWrapper><Faq /></PageWrapper>} />
+                  <Route exact path='/product/detail' element={<PageWrapper><ProductDetail /></PageWrapper>} />
+                  <Route exact path='/cart' element={<PageWrapper><CartPage /></PageWrapper>} />
+                  <Route exact path='/checkout' element={<PageWrapper><CheckoutPage /></PageWrapper>} />
+                  <Route exact path='/academy' element={<PageWrapper><Academy /></PageWrapper>} />
+                  <Route exact path='/dashboard' element={<PageWrapper><Dashboard /></PageWrapper>} />
+                </Routes>
+              </AnimatePresence>
+            </Suspense>
             {!isDashboard && <Footer />}
           </div>
-        </Suspense>
+        </ToastProvider>
       </ThemeProvider>
     </ColorModeContext.Provider>
   );

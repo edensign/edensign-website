@@ -5,6 +5,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import salonJobImg from "../../assets/salon_job.png";
 
 const ImageContainer = () => {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.2 });
@@ -19,7 +20,7 @@ const ImageContainer = () => {
       >
         <div className="es-split-img-frame">
           <img
-            src="https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/makeup/skincare-closeup.jpg"
+            src={salonJobImg}
             alt="Find your dream job"
             className="es-split-img"
             loading="lazy"

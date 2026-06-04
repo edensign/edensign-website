@@ -95,16 +95,16 @@ const Register = () => {
     const inputStyles = {
         marginBottom: "18px",
         "& .MuiOutlinedInput-root": {
-            borderRadius: "10px",
+            borderRadius: "12px",
             "&:hover fieldset": {
-                borderColor: "#800080"
+                borderColor: "#c7956c"
             },
             "&.Mui-focused fieldset": {
-                borderColor: "#800080"
+                borderColor: "#c7956c"
             }
         },
         "& .MuiInputLabel-root.Mui-focused": {
-            color: "#800080"
+            color: "#c7956c"
         }
     };
 
@@ -121,14 +121,14 @@ const Register = () => {
         >
             <Box
                 sx={{
-                    background: "rgba(255, 255, 255, 0.95)",
-                    backdropFilter: "blur(10px)",
+                    background: "rgba(253, 251, 250, 0.95)",
+                    backdropFilter: "blur(16px)",
                     padding: { xs: "30px", sm: "40px" },
                     maxWidth: "450px",
                     width: "100%",
-                    borderRadius: "16px",
-                    boxShadow: "0 8px 32px rgba(0, 0, 0, 0.12)",
-                    border: "1px solid rgba(255, 255, 255, 0.2)"
+                    borderRadius: "24px",
+                    boxShadow: "0 12px 40px rgba(26, 10, 0, 0.08)",
+                    border: "1px solid rgba(199, 149, 108, 0.15)"
                 }}
             >
                 {/* Logo */}
@@ -136,14 +136,14 @@ const Register = () => {
                     <Typography
                         sx={{
                             fontSize: "24px",
-                            fontFamily: "Inter, sans-serif",
-                            letterSpacing: "0.3em",
-                            textTransform: "uppercase",
-                            color: "#333",
-                            fontWeight: "300"
+                            fontFamily: "Playfair Display, serif",
+                            letterSpacing: "0.2em",
+                            textTransform: "lowercase",
+                            color: "#1a0f08",
+                            fontWeight: "700"
                         }}
                     >
-                        EDENSIGN
+                        edensign
                     </Typography>
                 </Box>
 
@@ -153,10 +153,10 @@ const Register = () => {
                     sx={{
                         textAlign: "center",
                         marginBottom: "8px",
-                        fontFamily: "Marcellus, serif",
-                        fontSize: "22px",
-                        color: "#333",
-                        fontWeight: "500"
+                        fontFamily: "Playfair Display, serif",
+                        fontSize: "24px",
+                        color: "#1a0f08",
+                        fontWeight: "600"
                     }}
                 >
                     Create Account
@@ -166,21 +166,22 @@ const Register = () => {
                     sx={{
                         textAlign: "center",
                         marginBottom: "25px",
-                        color: "#666",
-                        fontSize: "14px"
+                        color: "#6b5749",
+                        fontSize: "13.5px",
+                        fontFamily: "Inter, sans-serif"
                     }}
                 >
                     Register to book appointments
                 </Typography>
 
                 {error && (
-                    <Alert severity="error" sx={{ marginBottom: "18px", borderRadius: "8px" }}>
+                    <Alert severity="error" sx={{ marginBottom: "18px", borderRadius: "10px" }}>
                         {error}
                     </Alert>
                 )}
 
                 {success && (
-                    <Alert severity="success" sx={{ marginBottom: "18px", borderRadius: "8px" }}>
+                    <Alert severity="success" sx={{ marginBottom: "18px", borderRadius: "10px" }}>
                         {success}
                     </Alert>
                 )}
@@ -201,7 +202,7 @@ const Register = () => {
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <PersonIcon sx={{ color: "#888", fontSize: "20px" }} />
+                                    <PersonIcon sx={{ color: "#c7956c", fontSize: "20px" }} />
                                 </InputAdornment>
                             ),
                         }}
@@ -224,7 +225,7 @@ const Register = () => {
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <PhoneIcon sx={{ color: "#888", fontSize: "20px" }} />
+                                    <PhoneIcon sx={{ color: "#c7956c", fontSize: "20px" }} />
                                 </InputAdornment>
                             ),
                         }}
@@ -247,7 +248,7 @@ const Register = () => {
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <EmailIcon sx={{ color: "#888", fontSize: "20px" }} />
+                                    <EmailIcon sx={{ color: "#c7956c", fontSize: "20px" }} />
                                 </InputAdornment>
                             ),
                         }}
@@ -270,7 +271,7 @@ const Register = () => {
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <LockIcon sx={{ color: "#888", fontSize: "20px" }} />
+                                    <LockIcon sx={{ color: "#c7956c", fontSize: "20px" }} />
                                 </InputAdornment>
                             ),
                             endAdornment: (
@@ -279,7 +280,7 @@ const Register = () => {
                                         onClick={() => setShowPassword(!showPassword)}
                                         edge="end"
                                         size="small"
-                                        sx={{ color: "#888" }}
+                                        sx={{ color: "#c7956c" }}
                                     >
                                         {showPassword ? <VisibilityOffIcon fontSize="small" /> : <VisibilityIcon fontSize="small" />}
                                     </IconButton>
@@ -305,7 +306,7 @@ const Register = () => {
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <LockIcon sx={{ color: "#888", fontSize: "20px" }} />
+                                    <LockIcon sx={{ color: "#c7956c", fontSize: "20px" }} />
                                 </InputAdornment>
                             ),
                             endAdornment: (
@@ -314,7 +315,7 @@ const Register = () => {
                                         onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                                         edge="end"
                                         size="small"
-                                        sx={{ color: "#888" }}
+                                        sx={{ color: "#c7956c" }}
                                     >
                                         {showConfirmPassword ? <VisibilityOffIcon fontSize="small" /> : <VisibilityIcon fontSize="small" />}
                                     </IconButton>
@@ -331,17 +332,17 @@ const Register = () => {
                         disabled={loading}
                         sx={{
                             padding: "12px",
-                            fontSize: "15px",
+                            fontSize: "14px",
                             fontWeight: "600",
-                            letterSpacing: "0.1em",
-                            borderRadius: "10px",
-                            background: "linear-gradient(135deg, #800080 0%, #a855f7 100%)",
-                            boxShadow: "0 4px 15px rgba(128, 0, 128, 0.3)",
-                            transition: "all 0.3s ease",
+                            letterSpacing: "0.08em",
+                            borderRadius: "30px",
+                            background: "linear-gradient(135deg, #1a0a00 0%, #3d1e0a 100%)",
+                            boxShadow: "0 6px 20px rgba(26, 10, 0, 0.15)",
+                            transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
                             "&:hover": {
-                                background: "linear-gradient(135deg, #600060 0%, #9333ea 100%)",
-                                transform: "translateY(-2px)",
-                                boxShadow: "0 6px 20px rgba(128, 0, 128, 0.4)"
+                                background: "linear-gradient(135deg, #c7956c, #a8724d)",
+                                transform: "translateY(-1px)",
+                                boxShadow: "0 8px 24px rgba(199, 149, 108, 0.3)"
                             },
                             "&:disabled": {
                                 background: "#ccc"
@@ -357,14 +358,15 @@ const Register = () => {
                         textAlign: "center",
                         marginTop: "20px",
                         fontSize: "14px",
-                        color: "#666"
+                        color: "#6b5749",
+                        fontFamily: "Inter, sans-serif"
                     }}
                 >
                     Already have an account?{" "}
                     <Link
                         to="/login"
                         style={{
-                            color: "#800080",
+                            color: "#c7956c",
                             textDecoration: "none",
                             fontWeight: "600"
                         }}

@@ -6,10 +6,12 @@
  * restrictions set forth in your license agreement with Eden Sign.
 */
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-import { TextField, Snackbar, Alert, CircularProgress } from "@mui/material";
+import { TextField, CircularProgress } from "@mui/material";
+import { useToast } from "../../common/Toast";
 import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt';
 import ExtensionIcon from '@mui/icons-material/Extension';
 import GroupIcon from '@mui/icons-material/Group';
@@ -18,31 +20,6 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 
 import StarRating from "../../common/StarRating";
 import API from '../../../apis';
-
-/* ── Static testimonials ── */
-const TESTIMONIALS = [
-  {
-    name: "Priya Sharma",
-    role: "Regular Client",
-    text: "I absolutely love this platform! Booking salon appointments has never been easier. The user-friendly interface and seamless process save me so much time. Plus, the variety of salons and services available is amazing.",
-    avatar: "https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/header/photo1.jpg",
-    rating: 5,
-  },
-  {
-    name: "Esra Bilgic",
-    role: "Loyal Customer",
-    text: "This platform is a game-changer for both customers and salon professionals. I booked my appointment in just a few clicks, and everything went perfectly. The added features make it stand out.",
-    avatar: "https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/header/photo2.jpg",
-    rating: 5,
-  },
-  {
-    name: "Tom Cruize",
-    role: "Satisfied Client",
-    text: "This platform has completely transformed how I book salon appointments. It's so easy to find top-rated salons, check availability, and book instantly. The experience is smooth, reliable, and stress-free.",
-    avatar: "https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/header/photo3.jpg",
-    rating: 5,
-  },
-];
 
 /* ── Gold star renderer ── */
 const StarRow = ({ count = 5 }) => (
@@ -78,6 +55,9 @@ const RatingRow = ({ icon, label, value, onChange }) => (
 );
 
 const Review = () => {
+  const navigate = useNavigate();
+  const { showToast } = useToast();
+
   const [qualityOfService, setQualityOfService] = useState(0);
   const [facilities, setFacilities] = useState(0);
   const [staff, setStaff] = useState(0);
@@ -86,21 +66,79 @@ const Review = () => {
   const [reason, setReason] = useState("");
   const [comments, setComments] = useState("");
   const [loading, setLoading] = useState(false);
-  const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "success" });
   const [activeSlide, setActiveSlide] = useState(0);
+  const [testimonials, setTestimonials] = useState([]);
+  const [hasDbReviews, setHasDbReviews] = useState(false);
+  const [loadingReviews, setLoadingReviews] = useState(true);
 
   const salonDetail = useSelector(state => state.salonDetail);
   const salonId = salonDetail?.salon?.id;
 
+  const fetchReviews = async () => {
+    if (!salonId) {
+      setLoadingReviews(false);
+      return;
+    }
+    setLoadingReviews(true);
+    try {
+      const response = await API.ReviewAPI.getReviewsBySalon(salonId);
+      if (response && response.status === "Success" && response.data?.rows) {
+        const rows = response.data.rows;
+        if (rows.length > 0) {
+          setHasDbReviews(true);
+          const dynamicTestimonials = rows.map((r, index) => {
+            const avgRating = Math.round(
+              ((r.quality_of_service || 0) +
+               (r.facilities || 0) +
+               (r.staff || 0) +
+               (r.flexibility || 0) +
+               (r.value_of_money || 0)) / 5
+            ) || 5;
+
+            return {
+              name: r.customer?.username || "Valued Client",
+              role: "Verified Client",
+              text: r.comments || r.reason || "Loved the luxury experience and premium service!",
+              avatar: `https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/header/photo${(index % 3) + 1}.jpg`,
+              rating: avgRating,
+            };
+          });
+          setTestimonials(dynamicTestimonials);
+        } else {
+          setHasDbReviews(false);
+          setTestimonials([]);
+        }
+      }
+    } catch (err) {
+      console.error("Error fetching reviews:", err);
+    } finally {
+      setLoadingReviews(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchReviews();
+  }, [salonId]);
+
+  useEffect(() => {
+    setActiveSlide(0);
+  }, [testimonials]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const customer = API.CustomerAPI.getCustomer();
+    if (!customer) {
+      showToast("Please login to submit a review.", "warning", "Login", () => navigate("/login"));
+      return;
+    }
+
     if (qualityOfService === 0 && facilities === 0 && staff === 0 && flexibility === 0 && valueOfMoney === 0) {
-      setSnackbar({ open: true, message: "Please provide at least one rating", severity: "warning" });
+      showToast("Please provide at least one rating", "warning");
       return;
     }
     if (!salonId) {
-      setSnackbar({ open: true, message: "Unable to identify salon. Please try again.", severity: "error" });
+      showToast("Unable to identify salon. Please try again.", "error");
       return;
     }
 
@@ -108,6 +146,7 @@ const Review = () => {
     try {
       const payload = {
         salon_id: salonId,
+        customer_id: customer.id,
         quality_of_service: qualityOfService,
         facilities,
         staff,
@@ -120,24 +159,25 @@ const Review = () => {
       const response = await API.ReviewAPI.submitReview(payload);
 
       if (response.status === "Success") {
-        setSnackbar({ open: true, message: "Thank you for your review!", severity: "success" });
+        showToast("Thank you for your review!", "success");
         setQualityOfService(0); setFacilities(0); setStaff(0);
         setFlexibility(0); setValueOfMoney(0);
         setReason(""); setComments("");
+        fetchReviews();
       } else {
-        setSnackbar({ open: true, message: response.msg || "Failed to submit review", severity: "error" });
+        showToast(response.msg || "Failed to submit review", "error");
       }
     } catch (error) {
-      setSnackbar({ open: true, message: "An error occurred. Please try again.", severity: "error" });
+      showToast("An error occurred. Please try again.", "error");
     } finally {
       setLoading(false);
     }
   };
 
-  const prev = () => setActiveSlide(i => (i === 0 ? TESTIMONIALS.length - 1 : i - 1));
-  const next = () => setActiveSlide(i => (i === TESTIMONIALS.length - 1 ? 0 : i + 1));
+  const prev = () => setActiveSlide(i => (i === 0 ? testimonials.length - 1 : i - 1));
+  const next = () => setActiveSlide(i => (i === testimonials.length - 1 ? 0 : i + 1));
 
-  const t = TESTIMONIALS[activeSlide];
+  const t = testimonials[activeSlide] || {};
 
   const inputSx = {
     '& .MuiFilledInput-root': {
@@ -329,147 +369,204 @@ const Review = () => {
             </h3>
           </div>
 
-          {/* Quote mark */}
-          <div style={{
-            fontSize: '80px', lineHeight: 1,
-            fontFamily: "'Cormorant Garamond', serif",
-            color: 'rgba(201,169,110,0.25)',
-            marginTop: '24px',
-            userSelect: 'none',
-          }}>
-            "
-          </div>
-
-          {/* Testimonial content */}
-          <div style={{ flex: 1, marginTop: '-24px' }}>
-            <p style={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontSize: 'clamp(1.05rem, 2vw, 1.25rem)',
-              fontWeight: 300, lineHeight: 1.8,
-              color: 'rgba(255,255,255,0.85)',
-              letterSpacing: '0.01em',
-              margin: '0 0 28px 0',
-              fontStyle: 'italic',
-              transition: 'opacity 0.3s ease',
+          {loadingReviews ? (
+            <div style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              flex: 1,
             }}>
-              {t.text}
-            </p>
-
-            {/* Author row */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-              <img
-                src={t.avatar}
-                alt={t.name}
-                loading="lazy"
-                style={{
-                  width: 52, height: 52,
-                  borderRadius: '50%',
-                  objectFit: 'cover',
-                  border: '2px solid rgba(201,169,110,0.5)',
-                  boxShadow: '0 4px 16px rgba(0,0,0,0.3)',
-                  flexShrink: 0,
-                }}
-              />
+              <CircularProgress size={30} sx={{ color: '#c9a96e' }} />
+            </div>
+          ) : !hasDbReviews ? (
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              textAlign: 'center',
+              flex: 1,
+              padding: '20px 10px',
+              gap: '24px'
+            }}>
+              <div style={{
+                width: 80, height: 80, borderRadius: '50%',
+                background: 'rgba(201,169,110,0.1)',
+                border: '1px solid rgba(201,169,110,0.3)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                boxShadow: '0 8px 32px rgba(201,169,110,0.15)',
+              }}>
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#c9a96e" strokeWidth="1.5">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                </svg>
+              </div>
               <div>
-                <div style={{
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: '14px', fontWeight: 600,
-                  color: '#ffffff', letterSpacing: '0.02em',
+                <h3 style={{
+                  fontFamily: "'Cormorant Garamond', serif",
+                  fontSize: 'clamp(1.6rem, 2.5vw, 2.2rem)',
+                  fontWeight: 400, color: '#ffffff',
+                  lineHeight: 1.2, margin: '0 0 12px 0',
                 }}>
-                  {t.name}
-                </div>
-                <div style={{
+                  Be the First to Review
+                </h3>
+                <p style={{
                   fontFamily: "'Inter', sans-serif",
-                  fontSize: '11px', fontWeight: 400,
-                  color: 'rgba(255,255,255,0.5)', letterSpacing: '0.04em',
-                  marginTop: '2px',
+                  fontSize: '14px', fontWeight: 300,
+                  color: 'rgba(255,255,255,0.7)',
+                  lineHeight: 1.6, margin: 0,
                 }}>
-                  {t.role}
-                </div>
-                <div style={{ marginTop: '4px' }}>
-                  <StarRow count={t.rating} />
-                </div>
+                  No ratings or reviews have been submitted for this salon yet. Share your experience and be the first user to submit a review and rating!
+                </p>
+              </div>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                color: '#c9a96e',
+                fontSize: '12px',
+                fontWeight: 600,
+                letterSpacing: '1px',
+                textTransform: 'uppercase',
+                fontFamily: "'Inter', sans-serif",
+                marginTop: '12px'
+              }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9a96e" strokeWidth="2" style={{ transform: 'rotate(180deg)' }}>
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+                Use the form on the left
               </div>
             </div>
-          </div>
+          ) : (
+            <>
+              {/* Quote mark */}
+              <div style={{
+                fontSize: '80px', lineHeight: 1,
+                fontFamily: "'Cormorant Garamond', serif",
+                color: 'rgba(201,169,110,0.25)',
+                marginTop: '24px',
+                userSelect: 'none',
+              }}>
+                "
+              </div>
 
-          {/* Navigation */}
-          <div style={{
-            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-            marginTop: '32px',
-          }}>
-            {/* Dots */}
-            <div style={{ display: 'flex', gap: '8px' }}>
-              {TESTIMONIALS.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setActiveSlide(i)}
-                  style={{
-                    width: i === activeSlide ? 24 : 8,
-                    height: 8,
-                    borderRadius: 4,
-                    background: i === activeSlide ? '#c9a96e' : 'rgba(255,255,255,0.2)',
-                    border: 'none',
-                    cursor: 'pointer',
-                    padding: 0,
-                    transition: 'all 0.3s ease',
-                  }}
-                  aria-label={`Go to testimonial ${i + 1}`}
-                />
-              ))}
-            </div>
+              {/* Testimonial content */}
+              <div style={{ flex: 1, marginTop: '-24px' }}>
+                <p style={{
+                  fontFamily: "'Cormorant Garamond', serif",
+                  fontSize: 'clamp(1.05rem, 2vw, 1.25rem)',
+                  fontWeight: 300, lineHeight: 1.8,
+                  color: 'rgba(255,255,255,0.85)',
+                  letterSpacing: '0.01em',
+                  margin: '0 0 28px 0',
+                  fontStyle: 'italic',
+                  transition: 'opacity 0.3s ease',
+                }}>
+                  {t?.text}
+                </p>
 
-            {/* Arrows */}
-            <div style={{ display: 'flex', gap: '10px' }}>
-              {[{ action: prev, label: '←' }, { action: next, label: '→' }].map(({ action, label }) => (
-                <button
-                  key={label}
-                  onClick={action}
-                  aria-label={label === '←' ? 'Previous testimonial' : 'Next testimonial'}
-                  style={{
-                    width: 42, height: 42,
-                    borderRadius: '50%',
-                    background: 'rgba(255,255,255,0.08)',
-                    border: '1px solid rgba(255,255,255,0.15)',
-                    color: '#fff',
-                    fontSize: '18px',
-                    cursor: 'pointer',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    transition: 'all 0.25s ease',
-                    backdropFilter: 'blur(8px)',
-                  }}
-                  onMouseEnter={e => {
-                    e.currentTarget.style.background = 'rgba(201,169,110,0.25)';
-                    e.currentTarget.style.borderColor = '#c9a96e';
-                  }}
-                  onMouseLeave={e => {
-                    e.currentTarget.style.background = 'rgba(255,255,255,0.08)';
-                    e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)';
-                  }}
-                >
-                  {label}
-                </button>
-              ))}
-            </div>
-          </div>
+                {/* Author row */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                  <img
+                    src={t?.avatar}
+                    alt={t?.name}
+                    loading="lazy"
+                    style={{
+                      width: 52, height: 52,
+                      borderRadius: '50%',
+                      objectFit: 'cover',
+                      border: '2px solid rgba(201,169,110,0.5)',
+                      boxShadow: '0 4px 16px rgba(0,0,0,0.3)',
+                      flexShrink: 0,
+                    }}
+                  />
+                  <div>
+                    <div style={{
+                      fontFamily: "'Inter', sans-serif",
+                      fontSize: '14px', fontWeight: 600,
+                      color: '#ffffff', letterSpacing: '0.02em',
+                    }}>
+                      {t?.name}
+                    </div>
+                    <div style={{
+                      fontFamily: "'Inter', sans-serif",
+                      fontSize: '11px', fontWeight: 400,
+                      color: 'rgba(255,255,255,0.5)', letterSpacing: '0.04em',
+                      marginTop: '2px',
+                    }}>
+                      {t?.role}
+                    </div>
+                    <div style={{ marginTop: '4px' }}>
+                      <StarRow count={t?.rating} />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Navigation */}
+              <div style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                marginTop: '32px',
+              }}>
+                {/* Dots */}
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  {testimonials.map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setActiveSlide(i)}
+                      style={{
+                        width: i === activeSlide ? 24 : 8,
+                        height: 8,
+                        borderRadius: 4,
+                        background: i === activeSlide ? '#c9a96e' : 'rgba(255,255,255,0.2)',
+                        border: 'none',
+                        cursor: 'pointer',
+                        padding: 0,
+                        transition: 'all 0.3s ease',
+                      }}
+                      aria-label={`Go to testimonial ${i + 1}`}
+                    />
+                  ))}
+                </div>
+
+                {/* Arrows */}
+                <div style={{ display: 'flex', gap: '10px' }}>
+                  {[{ action: prev, label: '←' }, { action: next, label: '→' }].map(({ action, label }) => (
+                    <button
+                      key={label}
+                      onClick={action}
+                      aria-label={label === '←' ? 'Previous testimonial' : 'Next testimonial'}
+                      style={{
+                        width: 42, height: 42,
+                        borderRadius: '50%',
+                        background: 'rgba(255,255,255,0.08)',
+                        border: '1px solid rgba(255,255,255,0.15)',
+                        color: '#fff',
+                        fontSize: '18px',
+                        cursor: 'pointer',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        transition: 'all 0.25s ease',
+                        backdropFilter: 'blur(8px)',
+                      }}
+                      onMouseEnter={e => {
+                        e.currentTarget.style.background = 'rgba(201,169,110,0.25)';
+                        e.currentTarget.style.borderColor = '#c9a96e';
+                      }}
+                      onMouseLeave={e => {
+                        e.currentTarget.style.background = 'rgba(255,255,255,0.08)';
+                        e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)';
+                      }}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
 
-      {/* Snackbar */}
-      <Snackbar
-        open={snackbar.open}
-        autoHideDuration={6000}
-        onClose={() => setSnackbar(s => ({ ...s, open: false }))}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-      >
-        <Alert
-          onClose={() => setSnackbar(s => ({ ...s, open: false }))}
-          severity={snackbar.severity}
-          sx={{ width: '100%', borderRadius: '10px' }}
-        >
-          {snackbar.message}
-        </Alert>
-      </Snackbar>
+
     </section>
   );
 };

@@ -24,7 +24,7 @@ const AboutCEO = () => {
                         border: "1px solid rgba(199, 149, 108, 0.15)"
                     }}>
                     <img 
-                        src="https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/makeup/skincare-closeup.jpg" 
+                        src="https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/makeup/skincare-closeup.jpg" 
                         style={{ width: "100%", height: "100%", objectFit: "cover", transition: 'transform 0.5s ease' }} 
                         alt="ceo-makeup-closeup" 
                         loading="lazy"

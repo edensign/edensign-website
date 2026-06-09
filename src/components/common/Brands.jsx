@@ -8,21 +8,21 @@ import { useInView } from 'react-intersection-observer';
 import InstagramIcon from '@mui/icons-material/Instagram';
 
 const brandLogos = [
-  { name: "L'Oréal", img: 'https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brands/loreal.jpg' },
-  { name: 'Aerin', img: 'https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brands/aerin.jpg' },
-  { name: 'MAC', img: 'https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brands/mac.jpg' },
-  { name: 'Revlon', img: 'https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brands/revlon.png' },
-  { name: 'Fable', img: 'https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brands/fable.jpg' },
-  { name: 'Schwarzkopf', img: 'https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brands/schwar.jpg' },
+  { name: "L'Oréal", img: 'https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/brands/loreal.jpg' },
+  { name: 'Aerin', img: 'https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/brands/aerin.jpg' },
+  { name: 'MAC', img: 'https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/brands/mac.jpg' },
+  { name: 'Revlon', img: 'https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/brands/revlon.png' },
+  { name: 'Fable', img: 'https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/brands/fable.jpg' },
+  { name: 'Schwarzkopf', img: 'https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/brands/schwar.jpg' },
 ];
 
 const galleryImages = [
-  'https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brandImg/brandImg.jpg',
-  'https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brandImg/brandImg2.jpg',
-  'https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brandImg/brandImg3.jpg',
-  'https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brandImg/brandImg4.jpg',
-  'https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brandImg/brandImg5.jpg',
-  'https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/brandImg/brandImg6.jpg',
+  'https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/brandImg/brandImg.jpg',
+  'https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/brandImg/brandImg2.jpg',
+  'https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/brandImg/brandImg3.jpg',
+  'https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/brandImg/brandImg4.jpg',
+  'https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/brandImg/brandImg5.jpg',
+  'https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/brandImg/brandImg6.jpg',
 ];
 
 const Brands = () => {

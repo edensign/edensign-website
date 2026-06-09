@@ -10,12 +10,19 @@ import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 const TYPE_LABELS = {
-    front:            'Salon Exterior',
-    last_full_salon:  'Full Salon View',
-    service_chair:    'Service Chairs',
-    reception:        'Reception',
-    product_display:  'Products & Display',
-    work_video:       'Work Video',
+    front:                  'Salon Exterior',
+    last_full_salon:        'Full Salon View',
+    service_chair:          'Service Chairs',
+    reception:              'Reception',
+    shampoo_chair:          'Shampoo Chairs',
+    pedi_chair:             'Pedi Chairs',
+    nail_art:               'Nail Art',
+    facial_bed:             'Facial Bed',
+    product_display:        'Products & Display',
+    selfie_point:           'Selfie Point',
+    other_service_customer: 'Other Pics',
+    videos:                 'Videos',
+    work_video:             'Work Video',
 };
 
 const S3_BASE = 'https://salon-s3.s3.us-east-1.amazonaws.com';

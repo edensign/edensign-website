@@ -46,7 +46,7 @@ const AboutContainer = () => {
       >
         <div className="es-split-img-frame es-about-frame">
           <img
-            src="https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/services/keratin.jpg"
+            src="https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/service/keratin.jpg"
             alt="About Eden Sign"
             className="es-split-img"
             loading="lazy"

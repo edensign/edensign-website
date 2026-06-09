@@ -18,7 +18,7 @@ const ImagesCarousel = () => {
     let dateVar = new Date();
     let slideIndex = 0;
     let counter = 4;
-    const newsSectionURL = "https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/";
+    const newsSectionURL = "https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/";
 
     function showSlides(num) {
         let slides = document.getElementsByClassName("images-sliding");
@@ -67,7 +67,7 @@ const ImagesCarousel = () => {
                 <Box style={{ display: "flex", alignItems: "center", position: "absolute", top: "30%", left: "40px", padding: "18px 12px", backdropFilter: "blur(20px)", color: "#ffffff", fontWeight: "500", fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}>
                     <span>{dateVar.toDateString()}</span>
                 </Box>
-                <img src={`${newsSectionURL}services/bridal-makeup.jpg`} />
+                <img src={`${newsSectionURL}service/bridal-makeup.jpg`} />
                 <Box>
                     <p style={{ marginTop: "20px", fontSize: "13px", fontWeight: "500", lineHeight: "32px", letterSpacing: "2.1px", textTransform: "uppercase" }}>news & offers</p>
                     <p style={{ marginTop: "-2px", fontWeight: "400", fontSize: "20px", letterSpacing: "0.01em", textTransform: "capitalize" }}>
@@ -142,7 +142,7 @@ const ImagesCarousel = () => {
                 <Box style={{ display: "flex", alignItems: "center", position: "absolute", top: "30%", left: "40px", padding: "18px 12px", backdropFilter: "blur(20px)", color: "#ffffff", fontWeight: "500", fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}>
                     <span>{dateVar.toDateString()}</span>
                 </Box>
-                <img src={`${newsSectionURL}services/pedicure.jpg`} />
+                <img src={`${newsSectionURL}service/pedicure.jpg`} />
                 <Box>
                     <p style={{ marginTop: "20px", fontSize: "13px", fontWeight: "500", lineHeight: "32px", letterSpacing: "2.1px", textTransform: "uppercase" }}>news & offers</p>
                     <p style={{ marginTop: "-2px", fontWeight: "400", fontSize: "20px", letterSpacing: "0.01em", textTransform: "capitalize" }}>
@@ -167,7 +167,7 @@ const ImagesCarousel = () => {
                 <Box style={{ display: "flex", alignItems: "center", position: "absolute", top: "30%", left: "40px", padding: "18px 12px", backdropFilter: "blur(20px)", color: "#ffffff", fontWeight: "500", fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}>
                     <span>{dateVar.toDateString()}</span>
                 </Box>
-                <img src={`${newsSectionURL}services/airbrush-makeup.jpg`} />
+                <img src={`${newsSectionURL}service/airbrush-makeup.jpg`} />
                 <Box>
                     <p style={{ marginTop: "20px", fontSize: "13px", fontWeight: "500", lineHeight: "32px", letterSpacing: "2.1px", textTransform: "uppercase" }}>news & offers</p>
                     <p style={{ marginTop: "-2px", fontWeight: "400", fontSize: "20px", letterSpacing: "0.01em", textTransform: "capitalize" }}>

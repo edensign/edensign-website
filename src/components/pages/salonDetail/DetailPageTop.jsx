@@ -30,24 +30,24 @@ const DetailPageTop = () => {
             {/* Background image slides — blurred behind the carousel */}
             {bgImages?.map((image, index) => (
                 <div
-                     className='big-sliding'
-                     key={index}
-                     style={{
-                         position: 'absolute',
-                         width: '100%',
-                         height: '100%',
-                         opacity: 0,
-                         transition: 'all 1s ease-in',
-                         filter: 'blur(10px)',
-                         zIndex: 1,
-                     }}
-                 >
-                     <img
-                         src={image.isFallback ? image.image_src : `${S3_BASE}/eden-sign/salon/${image.type || 'front'}/${image.image_src}`}
-                         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                         alt="Salon background"
-                     />
-                 </div>
+                    className='big-sliding'
+                    key={index}
+                    style={{
+                        position: 'absolute',
+                        width: '100%',
+                        height: '100%',
+                        opacity: 0,
+                        transition: 'all 1s ease-in',
+                        filter: 'blur(1.5px)',
+                        zIndex: 1,
+                    }}
+                >
+                    <img
+                        src={image.isFallback ? image.image_src : `${S3_BASE}/eden-sign/salon/${image.type || 'front'}/${image.image_src}`}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        alt="Salon background"
+                    />
+                </div>
             ))}
 
             {/* Dark gradient overlay */}
@@ -70,7 +70,7 @@ const DetailPageTop = () => {
                     {salon?.location && (
                         <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                             <svg width="13" height="13" viewBox="0 0 24 24" fill="rgba(255,255,255,0.6)">
-                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
                             </svg>
                             {salon.location}
                         </span>
@@ -80,7 +80,7 @@ const DetailPageTop = () => {
                             <span style={{ color: 'rgba(255,255,255,0.25)' }}>|</span>
                             <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
                                 <svg width="13" height="13" viewBox="0 0 24 24" fill="#c9a96e">
-                                    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                                    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
                                 </svg>
                                 {salon.rating} Rating
                             </span>

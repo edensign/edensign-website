@@ -2,7 +2,7 @@
  * Copyright © 2023, Eden Sign Inc. ALL RIGHTS RESERVED.
  */
 
-import React from 'react';
+import React, { useRef, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -15,6 +15,8 @@ import ContentCutOutlinedIcon from '@mui/icons-material/ContentCutOutlined';
 
 import API from '../../../apis';
 import { setSalons } from '../../../redux/actions/SalonAction';
+
+const PAGE_SIZE = 9; // salons per batch
 
 /* ── Skeleton card ── */
 const SalonCardSkeleton = () => (
@@ -68,7 +70,7 @@ const EmptyState = () => (
   </motion.div>
 );
 
-/* ── Single salon card ── */
+/* ── Single salon card — entire card is a Link ── */
 const SalonCard = React.memo(({ salon, index }) => {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
   const [hovered, setHovered] = React.useState(false);
@@ -79,172 +81,263 @@ const SalonCard = React.memo(({ salon, index }) => {
       initial={{ opacity: 0, y: 40 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.5, delay: (index % 3) * 0.1, ease: 'easeOut' }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{
-        background: '#fff',
-        borderRadius: '20px',
-        overflow: 'hidden',
-        boxShadow: hovered
-          ? '0 20px 60px rgba(26,10,0,0.14)'
-          : '0 4px 20px rgba(26,10,0,0.06)',
-        transition: 'box-shadow 0.35s ease, transform 0.35s ease',
-        transform: hovered ? 'translateY(-6px)' : 'translateY(0)',
-        border: '1px solid rgba(199,149,108,0.1)',
-      }}
     >
-      {/* Image */}
-      <div style={{ position: 'relative', height: '260px', overflow: 'hidden' }}>
-        <img
-          src={salon.front_image || salon.banner_image || 'https://images.unsplash.com/photo-1560066984-138dadb4c035?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'}
-          alt={salon.name}
-          loading="lazy"
-          decoding="async"
+      <Link
+        to={`/salon/detail/${salon.salon_code}`}
+        style={{ textDecoration: 'none', display: 'block' }}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+      >
+        <div
           style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            transition: 'transform 0.6s ease',
-            transform: hovered ? 'scale(1.07)' : 'scale(1)',
-            display: 'block',
+            background: '#fff',
+            borderRadius: '20px',
+            overflow: 'hidden',
+            boxShadow: hovered
+              ? '0 20px 60px rgba(26,10,0,0.14)'
+              : '0 4px 20px rgba(26,10,0,0.06)',
+            transition: 'box-shadow 0.35s ease, transform 0.35s ease',
+            transform: hovered ? 'translateY(-6px)' : 'translateY(0)',
+            border: '1px solid rgba(199,149,108,0.1)',
           }}
-        />
-        {/* Gradient overlay */}
-        <div style={{
-          position: 'absolute',
-          inset: 0,
-          background: 'linear-gradient(to top, rgba(26,10,0,0.6) 0%, transparent 50%)',
-        }} />
-
-        {/* Type badge */}
-        {salon.type && (
-          <span style={{
-            position: 'absolute',
-            top: '16px',
-            left: '16px',
-            background: 'rgba(199,149,108,0.92)',
-            backdropFilter: 'blur(8px)',
-            color: '#fff',
-            fontFamily: 'Inter, sans-serif',
-            fontSize: '10px',
-            fontWeight: 600,
-            letterSpacing: '0.12em',
-            textTransform: 'uppercase',
-            padding: '5px 12px',
-            borderRadius: '100px',
-          }}>
-            {salon.type}
-          </span>
-        )}
-
-        {/* Rating badge */}
-        <div style={{
-          position: 'absolute',
-          bottom: '14px',
-          right: '16px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '4px',
-          background: 'rgba(255,255,255,0.95)',
-          borderRadius: '100px',
-          padding: '4px 10px',
-          backdropFilter: 'blur(10px)',
-        }}>
-          <StarIcon sx={{ fontSize: 13, color: '#F59E0B' }} />
-          <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', fontWeight: 700, color: '#1a0f08' }}>5.0</span>
-        </div>
-      </div>
-
-      {/* Content */}
-      <div style={{ padding: '20px 24px 24px' }}>
-        <h3 style={{
-          fontFamily: 'Playfair Display, serif',
-          fontSize: '20px',
-          fontWeight: 600,
-          color: '#1a0f08',
-          margin: '0 0 8px 0',
-          lineHeight: 1.2,
-          textTransform: 'capitalize',
-        }}>
-          {salon.name}
-        </h3>
-
-        {(salon.landmark || salon.street) && (
-          <p style={{
-            display: 'flex',
-            alignItems: 'flex-start',
-            gap: '6px',
-            fontFamily: 'Inter, sans-serif',
-            fontSize: '13px',
-            color: '#9a8070',
-            margin: '0 0 20px 0',
-            lineHeight: 1.5,
-          }}>
-            <LocationOnOutlinedIcon sx={{ fontSize: 15, color: '#c7956c', marginTop: '2px', flexShrink: 0 }} />
-            {salon.landmark} {salon.street}
-          </p>
-        )}
-
-        <Link
-          to={`/salon/detail/${salon.salon_code}`}
-          rel="noreferrer"
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '8px',
-            textDecoration: 'none',
-            fontFamily: 'Inter, sans-serif',
-            fontSize: '13px',
-            fontWeight: 600,
-            color: '#c7956c',
-            letterSpacing: '0.04em',
-            padding: '10px 0',
-            borderBottom: '1.5px solid rgba(199,149,108,0.3)',
-            transition: 'gap 0.2s, border-color 0.2s',
-          }}
-          className="es-salon-cta"
         >
-          View Salon
-          <ArrowForwardIcon sx={{ fontSize: 15, transition: 'transform 0.2s' }} className="es-salon-cta-arrow" />
-        </Link>
-      </div>
+          {/* Image */}
+          <div style={{ position: 'relative', height: '260px', overflow: 'hidden' }}>
+            <img
+              src={salon.front_image || salon.banner_image || 'https://images.unsplash.com/photo-1560066984-138dadb4c035?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'}
+              alt={salon.name}
+              loading="lazy"
+              decoding="async"
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                transition: 'transform 0.6s ease',
+                transform: hovered ? 'scale(1.07)' : 'scale(1)',
+                display: 'block',
+              }}
+            />
+            {/* Gradient overlay */}
+            <div style={{
+              position: 'absolute',
+              inset: 0,
+              background: 'linear-gradient(to top, rgba(26,10,0,0.6) 0%, transparent 50%)',
+            }} />
+
+            {/* Type badge */}
+            {salon.type && (
+              <span style={{
+                position: 'absolute',
+                top: '16px',
+                left: '16px',
+                background: 'rgba(199,149,108,0.92)',
+                backdropFilter: 'blur(8px)',
+                color: '#fff',
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '10px',
+                fontWeight: 600,
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase',
+                padding: '5px 12px',
+                borderRadius: '100px',
+              }}>
+                {salon.type}
+              </span>
+            )}
+
+            {/* Rating badge */}
+            <div style={{
+              position: 'absolute',
+              bottom: '14px',
+              right: '16px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              background: 'rgba(255,255,255,0.95)',
+              borderRadius: '100px',
+              padding: '4px 10px',
+              backdropFilter: 'blur(10px)',
+            }}>
+              <StarIcon sx={{ fontSize: 13, color: '#F59E0B' }} />
+              <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', fontWeight: 700, color: '#1a0f08' }}>
+                {salon.rating ? parseFloat(salon.rating).toFixed(1) : '4.5'}
+              </span>
+            </div>
+          </div>
+
+          {/* Content */}
+          <div style={{ padding: '20px 24px 24px' }}>
+            <h3 style={{
+              fontFamily: 'Playfair Display, serif',
+              fontSize: '20px',
+              fontWeight: 600,
+              color: '#1a0f08',
+              margin: '0 0 8px 0',
+              lineHeight: 1.2,
+              textTransform: 'capitalize',
+            }}>
+              {salon.name}
+            </h3>
+
+            {(salon.landmark || salon.street || salon.distance !== undefined) && (
+              <p style={{
+                display: 'flex',
+                alignItems: 'flex-start',
+                gap: '6px',
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '13px',
+                color: '#9a8070',
+                margin: '0 0 20px 0',
+                lineHeight: 1.5,
+              }}>
+                <LocationOnOutlinedIcon sx={{ fontSize: 15, color: '#c7956c', marginTop: '2px', flexShrink: 0 }} />
+                <span>
+                  {salon.landmark} {salon.street}
+                  {salon.distance !== null && salon.distance !== undefined && (
+                    <strong style={{ color: '#c7956c', marginLeft: '8px' }}>
+                      ({parseFloat(salon.distance).toFixed(1)} km away)
+                    </strong>
+                  )}
+                </span>
+              </p>
+            )}
+
+            <span
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '13px',
+                fontWeight: 600,
+                color: '#c7956c',
+                letterSpacing: '0.04em',
+                padding: '10px 0',
+                borderBottom: `1.5px solid ${hovered ? '#c7956c' : 'rgba(199,149,108,0.3)'}`,
+                transition: 'gap 0.2s, border-color 0.2s',
+              }}
+            >
+              View Salon
+              <ArrowForwardIcon sx={{ fontSize: 15, transition: 'transform 0.2s', transform: hovered ? 'translateX(4px)' : 'none' }} />
+            </span>
+          </div>
+        </div>
+      </Link>
     </motion.div>
   );
 });
 
 /* ── Main component ── */
-const SalonListCards = ({ selectedCategory, selectedGender }) => {
+const SalonListCards = ({ 
+  selectedCategory, 
+  selectedGender, 
+  selectedCity, 
+  selectedRating, 
+  latitude, 
+  longitude, 
+  onCityDetected 
+}) => {
   const dispatch = useDispatch();
   const { listData } = useSelector(state => state.allSalons);
+  const [allSalonsRaw, setAllSalonsRaw] = React.useState([]);
+  const [allSalons, setAllSalons] = React.useState([]);
+  const [visibleCount, setVisibleCount] = React.useState(PAGE_SIZE);
   const [loading, setLoading] = React.useState(true);
+  const [loadingMore, setLoadingMore] = React.useState(false);
+
+  // IntersectionObserver sentinel ref for infinite scroll
+  const sentinelRef = useRef(null);
 
   const getSalons = () => {
     setLoading(true);
-    API.SalonAPI.getSalonList(selectedCategory, selectedGender)
+    setVisibleCount(PAGE_SIZE);
+    API.SalonAPI.getSalonList(
+      selectedCategory, 
+      selectedGender, 
+      selectedCity, 
+      selectedRating, 
+      latitude, 
+      longitude
+    )
       .then(res => {
         if (res.status === 'Success') {
-          dispatch(setSalons({ listData: res.data, loading: false }));
+          const rawData = Array.isArray(res.data) ? res.data : [];
+          setAllSalonsRaw(rawData);
+
+          // Client-side strict gender filter: Male→only male, Female→only female, All→all (incl. unisex)
+          const filtered = selectedGender
+            ? rawData.filter(s => s.type === selectedGender)
+            : rawData;
+
+          dispatch(setSalons({ listData: filtered, loading: false }));
+          setAllSalons(filtered);
+
+          // Auto-detect city from first result when no city manually selected
+          if (!selectedCity && latitude && longitude && filtered.length > 0) {
+            const firstSalon = filtered[0];
+            if (firstSalon.city_id && firstSalon.city_name) {
+              onCityDetected && onCityDetected({ id: firstSalon.city_id, name: firstSalon.city_name });
+            }
+          }
         } else {
           dispatch(setSalons({ listData: [], loading: false }));
+          setAllSalonsRaw([]);
+          setAllSalons([]);
         }
         setLoading(false);
       })
       .catch(error => {
         dispatch(setSalons({ listData: [], loading: false }));
+        setAllSalonsRaw([]);
+        setAllSalons([]);
         setLoading(false);
         throw error;
       });
   };
 
+  // Re-apply client-side gender filter whenever selectedGender changes without re-fetching
+  React.useEffect(() => {
+    if (allSalonsRaw.length > 0) {
+      const filtered = selectedGender
+        ? allSalonsRaw.filter(s => s.type === selectedGender)
+        : allSalonsRaw;
+      setAllSalons(filtered);
+      setVisibleCount(PAGE_SIZE);
+    }
+  }, [selectedGender]);
+
   React.useEffect(() => {
     getSalons();
-  }, [selectedCategory, selectedGender]);
+  }, [selectedCategory, selectedCity, selectedRating, latitude, longitude]);
+
+  // Infinite scroll observer
+  const handleSentinel = useCallback((entries) => {
+    const [entry] = entries;
+    if (entry.isIntersecting && !loadingMore && !loading) {
+      if (visibleCount < allSalons.length) {
+        setLoadingMore(true);
+        // Simulate a small delay for a smooth loader appearance
+        setTimeout(() => {
+          setVisibleCount(prev => Math.min(prev + PAGE_SIZE, allSalons.length));
+          setLoadingMore(false);
+        }, 600);
+      }
+    }
+  }, [loadingMore, loading, visibleCount, allSalons.length]);
+
+  React.useEffect(() => {
+    const observer = new IntersectionObserver(handleSentinel, { threshold: 0.1 });
+    const el = sentinelRef.current;
+    if (el) observer.observe(el);
+    return () => { if (el) observer.unobserve(el); };
+  }, [handleSentinel]);
+
+  const visibleSalons = allSalons.slice(0, visibleCount);
+  const hasMore = visibleCount < allSalons.length;
 
   return (
     <>
       <style>{`
-        .es-salon-cta:hover { gap: 14px !important; border-color: #c7956c !important; }
-        .es-salon-cta:hover .es-salon-cta-arrow { transform: translateX(4px); }
         @keyframes shimmer {
           0% { background-position: 200% 0; }
           100% { background-position: -200% 0; }
@@ -285,7 +378,7 @@ const SalonListCards = ({ selectedCategory, selectedGender }) => {
               Featured <em style={{ fontStyle: 'italic', color: '#c7956c' }}>Salons</em>
             </h2>
           </div>
-          {!loading && listData?.length > 0 && (
+          {!loading && allSalons.length > 0 && (
             <span style={{
               fontFamily: 'Inter, sans-serif',
               fontSize: '13px',
@@ -295,7 +388,9 @@ const SalonListCards = ({ selectedCategory, selectedGender }) => {
               padding: '8px 20px',
               borderRadius: '100px',
             }}>
-              {listData.length} salons found
+              {visibleCount < allSalons.length
+                ? `Showing ${visibleCount} of ${allSalons.length} salons`
+                : `${allSalons.length} salons found`}
             </span>
           )}
         </motion.div>
@@ -311,13 +406,50 @@ const SalonListCards = ({ selectedCategory, selectedGender }) => {
         >
           {loading
             ? Array.from({ length: 6 }, (_, i) => <SalonCardSkeleton key={i} />)
-            : listData?.length > 0
-              ? listData.map((salon, index) => (
-                <SalonCard key={index} salon={salon} index={index} />
+            : visibleSalons.length > 0
+              ? visibleSalons.map((salon, index) => (
+                <SalonCard key={salon.salon_code || index} salon={salon} index={index} />
               ))
               : <EmptyState />
           }
+
+          {/* Inline skeleton batch loader when loading more */}
+          {loadingMore && Array.from({ length: 3 }, (_, i) => (
+            <SalonCardSkeleton key={`more-${i}`} />
+          ))}
         </div>
+
+        {/* Sentinel element — triggers infinite scroll */}
+        {!loading && hasMore && (
+          <div ref={sentinelRef} style={{ height: '80px', marginTop: '24px' }} />
+        )}
+
+        {/* End of list indicator */}
+        {!loading && !hasMore && allSalons.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            style={{
+              textAlign: 'center',
+              marginTop: '48px',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '8px',
+            }}
+          >
+            <div style={{ width: '48px', height: '2px', background: 'linear-gradient(90deg, transparent, #c7956c, transparent)' }} />
+            <p style={{
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '13px',
+              color: '#9a8070',
+              margin: 0,
+            }}>
+              You've seen all {allSalons.length} salons
+            </p>
+          </motion.div>
+        )}
       </section>
     </>
   );

@@ -15,7 +15,7 @@ const slides = [
     subtext: 'Discover top-tier salon services tailored to your style and comfort.',
     cta: { text: 'Book Now', href: '/salons' },
     cta2: { text: 'Explore Salons', href: '/salons' },
-    img: 'https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/header/photo1.jpg',
+    img: 'https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/header/photo1.jpg',
   },
   {
     label: 'Careers',
@@ -24,7 +24,7 @@ const slides = [
     subtext: 'Connect with leading salons and unlock new career opportunities.',
     cta: { text: 'Find Jobs', href: '/job-seeker' },
     cta2: { text: 'Learn More', href: '/about' },
-    img: 'https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/header/photo2.jpg',
+    img: 'https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/header/photo2.jpg',
   },
   {
     label: 'Products',
@@ -33,7 +33,7 @@ const slides = [
     subtext: 'Explore professional-grade salon products for exceptional results.',
     cta: { text: 'Shop Now', href: '/products' },
     cta2: { text: 'View All', href: '/products' },
-    img: 'https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/header/photo3.jpg',
+    img: 'https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/header/photo3.jpg',
   },
 ];
 

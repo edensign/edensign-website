@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import MuiAccordion from '@mui/material/Accordion';
@@ -10,14 +10,10 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import productimage from "../../assets/productbg.webp";
 
 const Accordion = styled((props) => (
-    <MuiAccordion disableGutters elevation={0} square {...props} />
+    <MuiAccordion disableGutters elevation={0} {...props} />
 ))(({ theme }) => ({
-    margin: "9px",
-    transition: 'all 2.3s linear',
-    marginTop: "0",
-    '&:not(:last-child)': {
-        borderBottom: 0,
-    },
+    margin: "12px 0",
+    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
     '&:before': {
         display: 'none',
     },
@@ -25,28 +21,27 @@ const Accordion = styled((props) => (
 
 const AccordionSummary = styled((props) => (
     <MuiAccordionSummary
+        expandIcon={<ExpandMoreIcon sx={{ color: '#c7956c', fontSize: 24 }} />}
         {...props}
     />
 ))(({ theme }) => ({
-    backgroundColor:
-        theme.palette.mode === 'dark',
-    height: "105px",
-    flexDirection: 'row-reverse',
+    backgroundColor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.02)' : 'rgba(199, 149, 108, 0.04)',
+    minHeight: "72px",
+    borderRadius: "16px",
+    flexDirection: 'row',
     '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
-        transformOrigin: 'center center',
         transform: 'rotate(180deg)',
-        transition: 'transform .3s linear',
     },
     '& .MuiAccordionSummary-content': {
         marginLeft: theme.spacing(1),
-        fontSize: '25px',
     },
 }));
 
-const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
-    padding: theme.spacing(2),
-    transition: 'height 2s ease-in-out',
-}));
+const AccordionDetails = styled(MuiAccordionDetails)((({ theme }) => ({
+    padding: theme.spacing(3),
+    backgroundColor: 'transparent',
+    borderTop: theme.palette.mode === 'dark' ? '1px solid rgba(255, 255, 255, 0.05)' : '1px solid rgba(199, 149, 108, 0.08)',
+})));
 
 export default function Faq() {
     const [expanded, setExpanded] = React.useState('');
@@ -56,37 +51,77 @@ export default function Faq() {
     };
 
     return (
-        <>
+        <Box sx={{ background: (theme) => theme.palette.mode === 'dark' ? '#0f0a07' : '#FAF8F5', minHeight: '100vh', pb: 8 }}>
             <Box sx={{
-                width: "100%", height: "55vh", backgroundImage: `url(${productimage})`, display: "flex", justifyContent: "center",
-                alignItems: "center", flexDirection: "column"
+                width: "100%", 
+                height: "45vh", 
+                backgroundImage: `url(${productimage})`, 
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                position: 'relative',
+                display: "flex", 
+                justifyContent: "center",
+                alignItems: "center", 
+                flexDirection: "column",
+                '&::after': {
+                    content: '""',
+                    position: 'absolute',
+                    inset: 0,
+                    background: 'linear-gradient(to bottom, rgba(26,10,0,0.3) 0%, rgba(26,10,0,0.7) 100%)',
+                    zIndex: 1
+                }
             }}>
-                <p style={{
-                    textTransform: "uppercase", fontSize: "60px", letterSpacing: ".2em", color: "white", fontWeight: "250"
-                }} >faq</p>
+                <Box sx={{ zIndex: 2, textAlign: 'center' }}>
+                    <Typography sx={{
+                        textTransform: "uppercase", 
+                        fontSize: { xs: "36px", sm: "48px" }, 
+                        letterSpacing: ".25em", 
+                        color: "white", 
+                        fontWeight: "700",
+                        fontFamily: "'Playfair Display', serif",
+                        mb: 1
+                    }}>FAQ</Typography>
+                    <div style={{ width: '48px', height: '2px', background: '#c7956c', margin: '0 auto' }} />
+                </Box>
             </Box>
 
             <Box sx={{
-                display: "flex", flexDirection: "column", width: "100%", justifyContent: "center", alignItems: "center"
+                display: "flex", 
+                flexDirection: "column", 
+                width: "100%", 
+                justifyContent: "center", 
+                alignItems: "center",
+                mt: 6
             }}>
-                <div style={{
-                    width: "80%", display: "flex", flexDirection: "column", height: "90vh", marginTop: "50px",
-
+                <Box sx={{
+                    width: { xs: "90%", sm: "80%", md: "70%" }, 
+                    maxWidth: "900px",
+                    display: "flex", 
+                    flexDirection: "column"
                 }}>
-                    <Accordion style={{ overflow: 'none' }} expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+                    <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
                         <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}
                             aria-controls="panel1a-content"
                             id="panel1a-header"
                         >
                             <Typography sx={{
-                                textTransform: "uppercase", fontSize: "20px", fontWeight: "400", letterSpacing: "0.19rem"
+                                textTransform: "uppercase", 
+                                fontSize: "15px", 
+                                fontWeight: "600", 
+                                letterSpacing: "0.15em",
+                                color: (theme) => theme.palette.mode === 'dark' ? '#fdfbfa' : '#1a0f08',
+                                fontFamily: "'Inter', sans-serif"
                             }}>
-                                payment methods</Typography>
+                                payment methods
+                            </Typography>
                         </AccordionSummary>
-                        <AccordionDetails >
+                        <AccordionDetails>
                             <Typography sx={{
-                                fontSize: "16px", opacity: "0.9", fontWeight: "200", lineHeight: "1.876"
+                                fontSize: "14px", 
+                                color: (theme) => theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.7)' : '#6b5749', 
+                                fontWeight: "400", 
+                                lineHeight: "1.8",
+                                fontFamily: "'Inter', sans-serif"
                             }}>
                                 Nulla in faucibus praesent scelerisque neque ut tellus dolor. Auctor lorem convallis vulputate tincidunt tellus quis molestie pulvinar. Viverra ut pellentesque pulvinar erat ipsum amet pellentesque semper nunc. Vitae massa quisque gravida pellentesque ultrices nibh semper elit in. Ut velit vitae purus, ornare odio gravida nulla. Viverra et morbi sapien sapien mauris lacus adipiscing. Mi, tincidunt tortor sed purus. Urna dictumst mauris malesuada aliquam sit nullam volutpat. Tristique mattis vitae leo libero dui scelerisque quis.
                             </Typography>
@@ -95,18 +130,27 @@ export default function Faq() {
 
                     <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
                         <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}
                             aria-controls="panel2a-content"
                             id="panel2a-header"
                         >
                             <Typography sx={{
-                                textTransform: "uppercase", fontSize: "20px", fontWeight: "400", letterSpacing: "0.19rem"
+                                textTransform: "uppercase", 
+                                fontSize: "15px", 
+                                fontWeight: "600", 
+                                letterSpacing: "0.15em",
+                                color: (theme) => theme.palette.mode === 'dark' ? '#fdfbfa' : '#1a0f08',
+                                fontFamily: "'Inter', sans-serif"
                             }}>
-                                international shipping</Typography>
+                                international shipping
+                            </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
                             <Typography sx={{
-                                fontSize: "16px", opacity: "0.9", fontWeight: "200", lineHeight: "1.876"
+                                fontSize: "14px", 
+                                color: (theme) => theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.7)' : '#6b5749', 
+                                fontWeight: "400", 
+                                lineHeight: "1.8",
+                                fontFamily: "'Inter', sans-serif"
                             }}>
                                 Nulla in faucibus praesent scelerisque neque ut tellus dolor. Auctor lorem convallis vulputate tincidunt tellus quis molestie pulvinar. Viverra ut pellentesque pulvinar erat ipsum amet pellentesque semper nunc. Vitae massa quisque gravida pellentesque ultrices nibh semper elit in. Ut velit vitae purus, ornare odio gravida nulla. Viverra et morbi sapien sapien mauris lacus adipiscing. Mi, tincidunt tortor sed purus. Urna dictumst mauris malesuada aliquam sit nullam volutpat. Tristique mattis vitae leo libero dui scelerisque quis.
                             </Typography>
@@ -115,48 +159,63 @@ export default function Faq() {
 
                     <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
                         <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}
                             aria-controls="panel3a-content"
                             id="panel3a-header"
                         >
                             <Typography sx={{
-                                textTransform: "uppercase", fontSize: "20px", fontWeight: "400", letterSpacing: "0.19rem"
+                                textTransform: "uppercase", 
+                                fontSize: "15px", 
+                                fontWeight: "600", 
+                                letterSpacing: "0.15em",
+                                color: (theme) => theme.palette.mode === 'dark' ? '#fdfbfa' : '#1a0f08',
+                                fontFamily: "'Inter', sans-serif"
                             }}>
-                                cashback program </Typography>
+                                cashback program
+                            </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
                             <Typography sx={{
-                                fontSize: "16px", opacity: "0.9", fontWeight: "200", lineHeight: "1.876"
+                                fontSize: "14px", 
+                                color: (theme) => theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.7)' : '#6b5749', 
+                                fontWeight: "400", 
+                                lineHeight: "1.8",
+                                fontFamily: "'Inter', sans-serif"
                             }}>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                                malesuada lacus ex, sit amet blandit leo lobortis eget.
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.
                             </Typography>
                         </AccordionDetails>
                     </Accordion>
 
                     <Accordion expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
                         <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}
                             aria-controls="panel4a-content"
                             id="panel4a-header"
                         >
                             <Typography sx={{
-                                textTransform: "uppercase", fontSize: "20px", fontWeight: "400", letterSpacing: "0.19rem"
+                                textTransform: "uppercase", 
+                                fontSize: "15px", 
+                                fontWeight: "600", 
+                                letterSpacing: "0.15em",
+                                color: (theme) => theme.palette.mode === 'dark' ? '#fdfbfa' : '#1a0f08',
+                                fontFamily: "'Inter', sans-serif"
                             }}>
-                                money back warranty</Typography>
+                                money back warranty
+                            </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
                             <Typography sx={{
-                                fontSize: "16px", opacity: "0.9", fontWeight: "200", lineHeight: "1.876"
+                                fontSize: "14px", 
+                                color: (theme) => theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.7)' : '#6b5749', 
+                                fontWeight: "400", 
+                                lineHeight: "1.8",
+                                fontFamily: "'Inter', sans-serif"
                             }}>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                                malesuada lacus ex, sit amet blandit leo lobortis eget.
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex, sit amet blandit leo lobortis eget.
                             </Typography>
                         </AccordionDetails>
                     </Accordion>
-                </div>
+                </Box>
             </Box>
-        </>
+        </Box>
     );
-};
-
+}

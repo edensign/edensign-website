@@ -8,7 +8,7 @@ import { useInView } from 'react-intersection-observer';
 
 const promos = [
   {
-    img: 'https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/makeup/skincare.jpg',
+    img: 'https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/makeup/skincare.jpg',
     eyebrow: 'Best Of',
     headline: 'Salons',
     desc: 'Discover the finest salons in your city — curated, verified, and ready to book.',
@@ -16,7 +16,7 @@ const promos = [
     href: '/salons',
   },
   {
-    img: 'https://f2fintech-hrms.s3.eu-north-1.amazonaws.com/eden-sign/edensign-website_images/makeup/product.jpg',
+    img: 'https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/makeup/product.jpg',
     eyebrow: 'Book Your',
     headline: 'Appointment',
     desc: 'Premium beauty experiences at your fingertips — bookable in under 60 seconds.',

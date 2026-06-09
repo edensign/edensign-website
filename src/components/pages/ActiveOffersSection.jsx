@@ -10,6 +10,8 @@ import "./ActiveOffersSection.css";
 import PremiumOfferCard from "../common/PremiumOfferCard";
 import ClaimOfferModal from "../common/ClaimOfferModal";
 import API from "../../apis";
+import { useToast } from "../common/Toast";
+import { useNavigate } from "react-router-dom";
 
 const OfferCardSkeleton = () => (
     <div className="aos-skeleton">
@@ -51,10 +53,13 @@ const ActiveOffersSection = ({ salonId = null, title = "Exclusive Digital Offers
 
     useEffect(() => { fetchOffers(); }, [fetchOffers]);
 
+    const navigate = useNavigate();
+    const { showToast } = useToast();
+
     const handleClaim = (offer) => {
         const token = API.CustomerAPI.getToken();
         if (!token) {
-            alert("Please log in to claim an offer card.");
+            showToast("Please log in to claim an offer card.", "warning", "Login", () => navigate("/login"));
             return;
         }
         setClaimTarget(offer);
@@ -64,6 +69,7 @@ const ActiveOffersSection = ({ salonId = null, title = "Exclusive Digital Offers
         setClaimTarget(null);
         setClaimedCard(cardData);
         setShowSuccess(true);
+        showToast("Offer card claimed successfully!", "success");
     };
 
     if (!loading && offers.length === 0) return null;

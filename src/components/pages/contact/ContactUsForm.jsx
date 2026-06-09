@@ -1,7 +1,8 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Formik } from 'formik';
-import { Box, Button, TextField, Snackbar, Alert, CircularProgress } from "@mui/material";
+import { Box, Button, TextField, CircularProgress } from "@mui/material";
+import { useToast } from "../../common/Toast";
 
 import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
 import InstagramIcon from '@mui/icons-material/Instagram';
@@ -11,6 +12,8 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import flowerimage from "../../assets/flower.png";
 import { ContactAPI } from "../../../apis/ContactAPI";
 
+import { SkeletonStyles, ContactPageSkeleton } from "../../common/PageSkeletons";
+
 const initialValues = {
   name: '',
   email: '',
@@ -18,33 +21,45 @@ const initialValues = {
 };
 
 function ContactUsForm() {
+  const { showToast } = useToast();
   const [loading, setLoading] = useState(false);
-  const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
+  const [pageLoaded, setPageLoaded] = useState(false);
+
+  useEffect(() => {
+    const t = setTimeout(() => setPageLoaded(true), 300);
+    return () => clearTimeout(t);
+  }, []);
 
   const handleSubmit = async (values, { resetForm }) => {
     setLoading(true);
     try {
       const response = await ContactAPI.submitContact(values);
       if (response.status === 'Success') {
-        setSnackbar({ open: true, message: 'Your message has been sent successfully!', severity: 'success' });
+        showToast('Your message has been sent successfully!', 'success');
         resetForm();
       } else {
-        setSnackbar({ open: true, message: response.msg || 'Something went wrong', severity: 'error' });
+        showToast(response.msg || 'Something went wrong', 'error');
       }
     } catch (error) {
       console.error('Error submitting contact form:', error);
-      setSnackbar({ open: true, message: 'Failed to send message. Please try again.', severity: 'error' });
+      showToast('Failed to send message. Please try again.', 'error');
     } finally {
       setLoading(false);
     }
   };
 
-  const handleCloseSnackbar = () => {
-    setSnackbar({ ...snackbar, open: false });
-  };
+  if (!pageLoaded) {
+    return (
+      <>
+        <SkeletonStyles />
+        <ContactPageSkeleton />
+      </>
+    );
+  }
 
   return (
     <Box id="parent-box">
+      <SkeletonStyles />
 
       <Box sx={{
         display: "flex", 
@@ -71,7 +86,7 @@ function ContactUsForm() {
 
           <Box>
             <p style={{ fontWeight: "600", fontSize: "11px", letterSpacing: "0.1em", color: "#c7956c", marginBottom: "4px" }}>PHONE</p>
-            <p style={{ fontWeight: "300", fontSize: "15px", letterSpacing: "0.02em" }}>9560648715</p>
+            <p style={{ fontWeight: "300", fontSize: "15px", letterSpacing: "0.02em" }}>9897331083</p>
           </Box>
           <Box>
             <p style={{ fontWeight: "600", fontSize: "11px", letterSpacing: "0.1em", color: "#c7956c", marginBottom: "4px" }}>ADDRESS</p>
@@ -205,16 +220,7 @@ function ContactUsForm() {
         </Box>
       </Box>
 
-      <Snackbar
-        open={snackbar.open}
-        autoHideDuration={6000}
-        onClose={handleCloseSnackbar}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-      >
-        <Alert onClose={handleCloseSnackbar} severity={snackbar.severity} sx={{ width: '100%' }}>
-          {snackbar.message}
-        </Alert>
-      </Snackbar>
+
 
     </Box>
   )

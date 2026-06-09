@@ -18,7 +18,7 @@ import SportsEsportsOutlinedIcon from '@mui/icons-material/SportsEsportsOutlined
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 
 import API from '../../../apis';
-import Loader from '../../common/Loader';
+import { JobSeekerDetailSkeleton } from '../../common/PageSkeletons';
 import customer from '../../assets/customer-resiz.jpg';
 
 const JobSeekerDetail = () => {
@@ -92,7 +92,7 @@ const JobSeekerDetail = () => {
   };
 
   if (loading) {
-    return <Loader />;
+    return <JobSeekerDetailSkeleton />;
   }
 
   if (!seeker) {
@@ -466,6 +466,26 @@ const JobSeekerDetail = () => {
                       {seeker.city ? getCityName(seeker.city) : ''}
                       {seeker.state ? `, ${getStateName(seeker.state)}` : ''}
                       {address && address.postal_code && ` - ${address.postal_code}`}
+                    </span>
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '14px' }}>
+                  <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'rgba(199,149,108,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <WorkOutlineOutlinedIcon sx={{ color: '#a8724d', fontSize: 20 }} />
+                  </div>
+                  <div>
+                    <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', color: '#9a8070', display: 'block', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Preferred Job Location</span>
+                    <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', color: '#1a0f08', fontWeight: 600, lineHeight: 1.5 }}>
+                      {!seeker.job_location_preference || seeker.job_location_preference === 'anywhere'
+                        ? 'Anywhere'
+                        : seeker.job_location_preference === 'his_city'
+                          ? `Only His City (${seeker.city ? getCityName(seeker.city) : 'Not Specified'})`
+                          : seeker.job_location_preference === 'specific_state'
+                            ? `Specific State (${seeker.pref_state_id ? getStateName(seeker.pref_state_id) : 'Not Specified'})`
+                            : seeker.job_location_preference === 'specific_city'
+                              ? `Specific City (${seeker.pref_city_id ? getCityName(seeker.pref_city_id) : 'Not Specified'}, ${seeker.pref_state_id ? getStateName(seeker.pref_state_id) : 'Not Specified'})`
+                              : seeker.job_location_preference}
                     </span>
                   </div>
                 </div>

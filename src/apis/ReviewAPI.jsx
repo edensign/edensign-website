@@ -32,6 +32,29 @@ export const ReviewAPI = {
             signal: cancel ? cancelApiObject[this.getReviewsBySalon.name].handleRequestCancellation().signal : undefined,
         });
         return response;
+    },
+
+    /** Submit a website experience review
+     */
+    submitWebsiteReview: async (params, cancel = false) => {
+        const { data: response } = await api.request({
+            url: `/create-website-review`,
+            method: "POST",
+            data: params,
+            signal: cancel ? cancelApiObject[this.submitWebsiteReview.name].handleRequestCancellation().signal : undefined,
+        });
+        return response;
+    },
+
+    /** Get all website experience reviews
+     */
+    getWebsiteReviews: async (cancel = false) => {
+        const { data: response } = await api.request({
+            url: `/get-website-reviews`,
+            method: "GET",
+            signal: cancel ? cancelApiObject[this.getWebsiteReviews.name].handleRequestCancellation().signal : undefined,
+        });
+        return response;
     }
 };
 

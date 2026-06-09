@@ -21,6 +21,11 @@ body {
   scroll-behavior: smooth !important;
 }
 
+/* Lock html scroll when MUI body scroll lock is active to prevent page scroll chaining */
+html:has(body[style*="overflow: hidden"]) {
+  overflow: hidden !important;
+}
+
 body,
 #root {
   margin: 0;

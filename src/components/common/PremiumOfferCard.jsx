@@ -8,6 +8,7 @@
 import React, { useState, useRef } from "react";
 import html2canvas from "html2canvas";
 import "./PremiumOfferCard.css";
+import { useToast } from "./Toast";
 
 const DEFAULT_LOGO = "✦";
 
@@ -59,12 +60,15 @@ const PremiumOfferCard = ({ offer, cardData, onClaim, showClaimButton = true }) 
         used: <span className="poc-status poc-status--used">● Used</span>,
     }[status] || null;
 
+    const { showToast } = useToast();
+
     const handleDownload = async () => {
         if (!cardRef.current) return;
         
         // Temporarily force show the back face for download if it's a claimed card
         const originalFace = face;
         setFace("back");
+        showToast("Generating card image...", "info");
 
         // Wait for state update and rendering
         setTimeout(async () => {
@@ -79,9 +83,10 @@ const PremiumOfferCard = ({ offer, cardData, onClaim, showClaimButton = true }) 
                 link.download = `EdenSign-Card-${cardData?.card_id || 'Offer'}.png`;
                 link.href = canvas.toDataURL("image/png");
                 link.click();
+                showToast("Card downloaded successfully!", "success");
             } catch (err) {
                 console.error("Download failed:", err);
-                alert("Failed to download card. Please try again.");
+                showToast("Failed to download card. Please try again.", "error");
             } finally {
                 setFace(originalFace);
             }

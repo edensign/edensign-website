@@ -6,16 +6,23 @@
  * restrictions set forth in your license agreement with Eden Sign.
 */
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 const TYPE_LABELS = {
-    front:            'Salon Exterior',
-    last_full_salon:  'Full Salon View',
-    service_chair:    'Service Chairs',
-    reception:        'Reception',
-    product_display:  'Products & Display',
-    work_video:       'Work Video',
+    front:                  'Salon Exterior',
+    last_full_salon:        'Full Salon View',
+    service_chair:          'Service Chairs',
+    reception:              'Reception',
+    shampoo_chair:          'Shampoo Chairs',
+    pedi_chair:             'Pedi Chairs',
+    nail_art:               'Nail Art',
+    facial_bed:             'Facial Bed',
+    product_display:        'Products & Display',
+    selfie_point:           'Selfie Point',
+    other_service_customer: 'Other Pics',
+    videos:                 'Videos',
+    work_video:             'Work Video',
 };
 
 const S3_BASE = 'https://salon-s3.s3.us-east-1.amazonaws.com';
@@ -25,7 +32,7 @@ const buildUrl = (img) =>
 
 const SalonGallery = () => {
     const { images } = useSelector(state => state.salonDetail);
-    const [lightbox, setLightbox] = useState(null); // { src, alt }
+    const [lightboxIndex, setLightboxIndex] = useState(null);
     const [activeFilter, setActiveFilter] = useState('all');
 
     if (!images || images.length === 0) return null;
@@ -40,6 +47,25 @@ const SalonGallery = () => {
     const filtered = activeFilter === 'all'
         ? validImages
         : validImages.filter(img => (img.type || 'front') === activeFilter);
+
+    // If there is only 1 image in the filtered list, fallback to validImages to allow slideshow navigation
+    const activeList = filtered.length > 1 ? filtered : validImages;
+
+    // Keyboard navigation for Lightbox
+    useEffect(() => {
+        if (lightboxIndex === null) return;
+        const handleKeyDown = (e) => {
+            if (e.key === 'ArrowLeft') {
+                setLightboxIndex((prev) => (prev - 1 + activeList.length) % activeList.length);
+            } else if (e.key === 'ArrowRight') {
+                setLightboxIndex((prev) => (prev + 1) % activeList.length);
+            } else if (e.key === 'Escape') {
+                setLightboxIndex(null);
+            }
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [lightboxIndex, activeList.length]);
 
     return (
         <section className="sg-section">
@@ -58,7 +84,10 @@ const SalonGallery = () => {
                             <button
                                 key={t}
                                 className={`sg-filter-btn${activeFilter === t ? ' sg-filter-active' : ''}`}
-                                onClick={() => setActiveFilter(t)}
+                                onClick={() => {
+                                    setActiveFilter(t);
+                                    setLightboxIndex(null); // Reset lightbox on filter change
+                                }}
                             >
                                 {t === 'all' ? 'All Photos' : (TYPE_LABELS[t] || t)}
                             </button>
@@ -69,40 +98,69 @@ const SalonGallery = () => {
 
             {/* Masonry grid */}
             <div className="sg-grid">
-                {filtered.map((img, i) => (
-                    <div
-                        key={img.id || i}
-                        className={`sg-item${i % 5 === 0 ? ' sg-item-wide' : ''}`}
-                        onClick={() => setLightbox({ src: buildUrl(img), alt: TYPE_LABELS[img.type] || img.type })}
-                    >
-                        <img
-                            src={buildUrl(img)}
-                            alt={TYPE_LABELS[img.type] || img.type || 'Salon photo'}
-                            loading="lazy"
-                        />
-                        <div className="sg-item-overlay">
-                            <span className="sg-item-type">
-                                {TYPE_LABELS[img.type] || img.type || 'Salon'}
-                            </span>
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5">
-                                <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
-                            </svg>
+                {filtered.map((img, i) => {
+                    const activeIndex = activeList.indexOf(img);
+                    return (
+                        <div
+                            key={img.id || i}
+                            className="sg-item"
+                            onClick={() => setLightboxIndex(activeIndex !== -1 ? activeIndex : 0)}
+                        >
+                            <img
+                                src={buildUrl(img)}
+                                alt={TYPE_LABELS[img.type] || img.type || 'Salon photo'}
+                                loading="lazy"
+                            />
+                            <div className="sg-item-overlay">
+                                <span className="sg-item-type">
+                                    {TYPE_LABELS[img.type] || img.type || 'Salon'}
+                                </span>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5">
+                                    <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
+                                </svg>
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    );
+                })}
             </div>
 
             {/* Lightbox */}
-            {lightbox && (
-                <div className="sg-lightbox" onClick={() => setLightbox(null)}>
-                    <button className="sg-lightbox-close" onClick={() => setLightbox(null)}>✕</button>
+            {lightboxIndex !== null && activeList[lightboxIndex] && (
+                <div className="sg-lightbox" onClick={() => setLightboxIndex(null)}>
+                    <button className="sg-lightbox-close" onClick={() => setLightboxIndex(null)}>✕</button>
+                    
+                    {activeList.length > 1 && (
+                        <>
+                            <button
+                                className="sg-lightbox-prev"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setLightboxIndex((prev) => (prev - 1 + activeList.length) % activeList.length);
+                                }}
+                            >
+                                ‹
+                            </button>
+                            <button
+                                className="sg-lightbox-next"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setLightboxIndex((prev) => (prev + 1) % activeList.length);
+                                }}
+                            >
+                                ›
+                            </button>
+                        </>
+                    )}
+
                     <img
-                        src={lightbox.src}
-                        alt={lightbox.alt}
+                        src={buildUrl(activeList[lightboxIndex])}
+                        alt={TYPE_LABELS[activeList[lightboxIndex].type] || activeList[lightboxIndex].type || 'Salon photo'}
                         onClick={e => e.stopPropagation()}
                     />
-                    {lightbox.alt && (
-                        <p className="sg-lightbox-caption">{lightbox.alt}</p>
+                    {(TYPE_LABELS[activeList[lightboxIndex].type] || activeList[lightboxIndex].type) && (
+                        <p className="sg-lightbox-caption">
+                            {TYPE_LABELS[activeList[lightboxIndex].type] || activeList[lightboxIndex].type}
+                        </p>
                     )}
                 </div>
             )}

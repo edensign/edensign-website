@@ -46,7 +46,8 @@ const products = [
     original_price: 1899,
     discount_percent: 31,
     description: "L'Oreal Paris Bonjour Nudista skin tint hydrates and illuminates skin for a fresh, natural glow.",
-    specification: "Volume: 30ml, Skin Type: Normal, Texture: Tinted Cream"
+    specification: "Volume: 30ml, Skin Type: Normal, Texture: Tinted Cream",
+    stock_quantity: 10
   },
   { 
     id: 2, 
@@ -59,7 +60,8 @@ const products = [
     original_price: 8500,
     discount_percent: 23,
     description: "Rance 1795 perfume is a luxurious, highly refined classic fragrance with notes of jasmine, patchouli, and vanilla.",
-    specification: "Volume: 100ml, Fragrance Type: Eau de Parfum, Origin: Italy"
+    specification: "Volume: 100ml, Fragrance Type: Eau de Parfum, Origin: Italy",
+    stock_quantity: 10
   },
   { 
     id: 3, 
@@ -72,7 +74,8 @@ const products = [
     original_price: 1199,
     discount_percent: 33,
     description: "Farmasi Brown Sugar lotion deeply nourishes and leaves a comforting warm fragrance on your skin.",
-    specification: "Volume: 200ml, Formulation: Body Lotion, Brand: Farmasi"
+    specification: "Volume: 200ml, Formulation: Body Lotion, Brand: Farmasi",
+    stock_quantity: 10
   },
   { 
     id: 4, 
@@ -85,7 +88,8 @@ const products = [
     original_price: 1499,
     discount_percent: 33,
     description: "Botanics All Bright cleanser gently exfoliates to reveal a brighter, smoother, and radiant skin complexion.",
-    specification: "Volume: 150ml, Ingredients: Hibiscus Extract, Cruelty Free: Yes"
+    specification: "Volume: 150ml, Ingredients: Hibiscus Extract, Cruelty Free: Yes",
+    stock_quantity: 10
   },
   { 
     id: 5, 
@@ -98,7 +102,8 @@ const products = [
     original_price: 2199,
     discount_percent: 27,
     description: "An intensive hydrating cream that locks in moisture for 24 hours, perfect for dry or sensitive skin.",
-    specification: "Volume: 50ml, Skin Concern: Dryness, Category: Skincare Cream"
+    specification: "Volume: 50ml, Skin Concern: Dryness, Category: Skincare Cream",
+    stock_quantity: 10
   },
   { 
     id: 6, 
@@ -111,7 +116,8 @@ const products = [
     original_price: 1699,
     discount_percent: 29,
     description: "Holy Grail Skin Cleanser removes makeup, dirt, and excess oil without stripping your natural moisture barrier.",
-    specification: "Volume: 250ml, pH Balanced: Yes, Form: Foaming Wash"
+    specification: "Volume: 250ml, pH Balanced: Yes, Form: Foaming Wash",
+    stock_quantity: 10
   },
   { 
     id: 7, 
@@ -124,7 +130,8 @@ const products = [
     original_price: 2499,
     discount_percent: 24,
     description: "Misolo Cosmetics Premium Moisturiser restores firmness and minimizes fine lines with advanced hyaluronic acid.",
-    specification: "Volume: 60ml, Active Ingredients: Hyaluronic Acid, Brand: Misolo"
+    specification: "Volume: 60ml, Active Ingredients: Hyaluronic Acid, Brand: Misolo",
+    stock_quantity: 10
   },
   { 
     id: 8, 
@@ -137,7 +144,8 @@ const products = [
     original_price: 3299,
     discount_percent: 24,
     description: "A flawless, full-coverage matte foundation that blends seamlessly and lasts all day without creasing.",
-    specification: "Shade: Natural Beige, Coverage: Full, Finish: Matte"
+    specification: "Shade: Natural Beige, Coverage: Full, Finish: Matte",
+    stock_quantity: 10
   }
 ];
 

@@ -47,14 +47,17 @@ function ProductDetailPage() {
     return () => clearTimeout(t);
   }, []);
 
+  const isOutOfStock = product?.stock_quantity !== undefined && product?.stock_quantity !== null && Number(product.stock_quantity) <= 0;
+
   const unitPrice = product?.discounted_price ?? 0;
   const totalPrice = unitPrice * quantity;
 
   const toggleWishlist = () => setIsInWishlist(!isInWishlist);
-  const handleIncreaseQuantity = () => setQuantity(quantity + 1);
-  const handleDecreaseQuantity = () => { if (quantity > 1) setQuantity(quantity - 1); };
+  const handleIncreaseQuantity = () => { if (!isOutOfStock) setQuantity(quantity + 1); };
+  const handleDecreaseQuantity = () => { if (quantity > 1 && !isOutOfStock) setQuantity(quantity - 1); };
 
   const handleAddToCart = () => {
+    if (isOutOfStock) return;
     dispatch(addToCart({ ...product, productImg, quantity }));
     setAddedToCart(true);
     setAlert(true);
@@ -305,6 +308,21 @@ function ProductDetailPage() {
                 </p>
               )}
 
+              {/* Stock status */}
+              <div style={{ marginBottom: '24px', fontFamily: 'Inter, sans-serif', fontSize: '14px', fontWeight: 600 }}>
+                {isOutOfStock ? (
+                  <span style={{ color: '#ef4444', display: 'inline-flex', alignItems: 'center', gap: '6px', background: 'rgba(239, 68, 68, 0.08)', padding: '6px 14px', borderRadius: '8px', border: '1px solid rgba(239, 68, 68, 0.15)' }}>
+                    <span style={{ width: 8, height: 8, borderRadius: '50%', backgroundColor: '#ef4444', display: 'inline-block' }}></span>
+                    This product is out of stock
+                  </span>
+                ) : (
+                  <span style={{ color: '#22c55e', display: 'inline-flex', alignItems: 'center', gap: '6px', background: 'rgba(34, 197, 94, 0.08)', padding: '6px 14px', borderRadius: '8px', border: '1px solid rgba(34, 197, 94, 0.15)' }}>
+                    <span style={{ width: 8, height: 8, borderRadius: '50%', backgroundColor: '#22c55e', display: 'inline-block' }}></span>
+                    This product is available
+                  </span>
+                )}
+              </div>
+
               <div style={{ height: '1px', background: 'rgba(199,149,108,0.12)', marginBottom: '24px' }} />
 
               {/* Quantity selector */}
@@ -315,17 +333,17 @@ function ProductDetailPage() {
                 <div style={{ display: 'inline-flex', alignItems: 'center', border: '1.5px solid rgba(199,149,108,0.25)', borderRadius: '12px', overflow: 'hidden' }}>
                   <button
                     onClick={handleDecreaseQuantity}
-                    disabled={quantity <= 1}
+                    disabled={quantity <= 1 || isOutOfStock}
                     className="es-qty-btn"
                     style={{
                       width: 44,
                       height: 44,
                       background: 'none',
                       border: 'none',
-                      cursor: 'pointer',
+                      cursor: isOutOfStock ? 'not-allowed' : (quantity <= 1 ? 'default' : 'pointer'),
                       fontFamily: 'Inter, sans-serif',
                       fontSize: '20px',
-                      color: quantity <= 1 ? '#ccc' : '#3d1e0a',
+                      color: quantity <= 1 || isOutOfStock ? '#ccc' : '#3d1e0a',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -334,21 +352,22 @@ function ProductDetailPage() {
                   >
                     −
                   </button>
-                  <span style={{ minWidth: '48px', textAlign: 'center', fontFamily: 'Inter, sans-serif', fontSize: '16px', fontWeight: 700, color: '#1a0f08' }}>
+                  <span style={{ minWidth: '48px', textAlign: 'center', fontFamily: 'Inter, sans-serif', fontSize: '16px', fontWeight: 700, color: isOutOfStock ? '#94a3b8' : '#1a0f08' }}>
                     {quantity}
                   </span>
                   <button
                     onClick={handleIncreaseQuantity}
+                    disabled={isOutOfStock}
                     className="es-qty-btn"
                     style={{
                       width: 44,
                       height: 44,
                       background: 'none',
                       border: 'none',
-                      cursor: 'pointer',
+                      cursor: isOutOfStock ? 'not-allowed' : 'pointer',
                       fontFamily: 'Inter, sans-serif',
                       fontSize: '20px',
-                      color: '#3d1e0a',
+                      color: isOutOfStock ? '#ccc' : '#3d1e0a',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -363,8 +382,9 @@ function ProductDetailPage() {
               {/* CTA buttons */}
               <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '28px' }}>
                 <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  disabled={isOutOfStock}
+                  whileHover={isOutOfStock ? {} : { scale: 1.02 }}
+                  whileTap={isOutOfStock ? {} : { scale: 0.98 }}
                   onClick={handleAddToCart}
                   style={{
                     flex: 1,
@@ -374,23 +394,25 @@ function ProductDetailPage() {
                     justifyContent: 'center',
                     gap: '10px',
                     padding: '16px 24px',
-                    background: addedToCart
-                      ? 'linear-gradient(135deg, #22c55e, #16a34a)'
-                      : 'linear-gradient(135deg, #1a0a00, #3d1e0a)',
+                    background: isOutOfStock
+                      ? '#cbd5e1'
+                      : addedToCart
+                        ? 'linear-gradient(135deg, #22c55e, #16a34a)'
+                        : 'linear-gradient(135deg, #1a0a00, #3d1e0a)',
                     border: 'none',
                     borderRadius: '14px',
-                    color: '#fff',
+                    color: isOutOfStock ? '#64748b' : '#fff',
                     fontFamily: 'Inter, sans-serif',
                     fontSize: '14px',
                     fontWeight: 700,
                     letterSpacing: '0.06em',
-                    cursor: 'pointer',
-                    boxShadow: '0 4px 20px rgba(26,10,0,0.25)',
+                    cursor: isOutOfStock ? 'not-allowed' : 'pointer',
+                    boxShadow: isOutOfStock ? 'none' : '0 4px 20px rgba(26,10,0,0.25)',
                     transition: 'background 0.3s',
                   }}
                 >
-                  <ShoppingBagOutlinedIcon sx={{ fontSize: 18 }} />
-                  {addedToCart ? '✓ Added to Cart' : 'Add to Cart'}
+                  {!isOutOfStock && <ShoppingBagOutlinedIcon sx={{ fontSize: 18 }} />}
+                  {isOutOfStock ? 'Out of Stock' : addedToCart ? '✓ Added to Cart' : 'Add to Cart'}
                 </motion.button>
 
                 <button

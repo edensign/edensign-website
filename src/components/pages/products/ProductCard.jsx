@@ -102,13 +102,16 @@ const ProductCard_Item = React.memo(({ product, i, onEyeClick, onAddToCart, isIn
   const [hovered, setHovered] = useState(false);
   const [wishlisted, setWishlisted] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
-  const productImg = product.product_image?.[0]?.image_src 
-    ? (product.product_image[0].image_src.startsWith('http') 
-        ? product.product_image[0].image_src 
-        : `${SAS_URL}/${PRODUCT_FOLDER}/${product.product_image[0].image_src}`)
+  const productImg = product.product_image?.[0]?.image_src
+    ? (product.product_image[0].image_src.startsWith('http')
+      ? product.product_image[0].image_src
+      : `${SAS_URL}/${PRODUCT_FOLDER}/${product.product_image[0].image_src}`)
     : productImages[product.name];
 
+  const isOutOfStock = product.stock_quantity !== undefined && product.stock_quantity !== null && Number(product.stock_quantity) <= 0;
+
   const handleAddToCart = () => {
+    if (isOutOfStock) return;
     onAddToCart(product, productImg);
     setJustAdded(true);
     setTimeout(() => setJustAdded(false), 2200);
@@ -274,6 +277,10 @@ const ProductCard_Item = React.memo(({ product, i, onEyeClick, onAddToCart, isIn
           ))}
           <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', color: '#9a8070', marginLeft: '4px' }}>(3.5)</span>
         </div>
+
+        {/* Stock status */}
+
+
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
           <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '18px', fontWeight: 700, color: '#1a0f08' }}>
             ₹{product.discounted_price}
@@ -289,7 +296,8 @@ const ProductCard_Item = React.memo(({ product, i, onEyeClick, onAddToCart, isIn
         <motion.button
           id={`add-to-cart-${product.id}`}
           onClick={handleAddToCart}
-          whileTap={{ scale: 0.96 }}
+          disabled={isOutOfStock}
+          whileTap={isOutOfStock ? {} : { scale: 0.96 }}
           style={{
             width: '100%',
             display: 'flex',
@@ -297,25 +305,37 @@ const ProductCard_Item = React.memo(({ product, i, onEyeClick, onAddToCart, isIn
             justifyContent: 'center',
             gap: '8px',
             padding: '12px',
-            background: added
-              ? 'linear-gradient(135deg, #16a34a, #22c55e)'
-              : hovered
-                ? 'linear-gradient(135deg, #1a0a00, #3d1e0a)'
-                : 'rgba(199,149,108,0.1)',
-            border: `1.5px solid ${added ? 'transparent' : hovered ? 'transparent' : 'rgba(199,149,108,0.3)'}`,
+            background: isOutOfStock
+              ? '#cbd5e1'
+              : added
+                ? 'linear-gradient(135deg, #16a34a, #22c55e)'
+                : hovered
+                  ? 'linear-gradient(135deg, #1a0a00, #3d1e0a)'
+                  : 'rgba(199,149,108,0.1)',
+            border: `1.5px solid ${isOutOfStock ? 'transparent' : added ? 'transparent' : hovered ? 'transparent' : 'rgba(199,149,108,0.3)'}`,
             borderRadius: '12px',
-            color: added ? '#fff' : hovered ? '#fff' : '#a8724d',
+            color: isOutOfStock ? '#64748b' : added ? '#fff' : hovered ? '#fff' : '#a8724d',
             fontFamily: 'Inter, sans-serif',
             fontSize: '12px',
             fontWeight: 600,
             letterSpacing: '0.06em',
             textTransform: 'uppercase',
-            cursor: 'pointer',
+            cursor: isOutOfStock ? 'not-allowed' : 'pointer',
             transition: 'all 0.3s ease',
           }}
         >
           <AnimatePresence mode="wait">
-            {added ? (
+            {isOutOfStock ? (
+              <motion.span
+                key="outofstock"
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -6 }}
+                style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
+              >
+                Out of Stock
+              </motion.span>
+            ) : added ? (
               <motion.span
                 key="added"
                 initial={{ opacity: 0, y: 6 }}

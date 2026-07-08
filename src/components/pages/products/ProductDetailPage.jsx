@@ -154,19 +154,49 @@ function ProductDetailPage() {
                 justifyContent: 'center',
               }}>
                 <motion.img
-                  key={selectedImage}
-                  src={selectedImage}
-                  alt={product?.name}
-                  initial={{ opacity: 0, scale: 0.96 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.3 }}
-                  decoding="async"
-                  style={{
-                    maxWidth: '80%',
-                    maxHeight: '80%',
-                    objectFit: 'contain',
-                  }}
-                />
+                   key={selectedImage}
+                   src={selectedImage}
+                   alt={product?.name}
+                   initial={{ opacity: 0, scale: 0.96 }}
+                   animate={{ opacity: 1, scale: 1 }}
+                   transition={{ duration: 0.3 }}
+                   decoding="async"
+                   style={{
+                     maxWidth: '80%',
+                     maxHeight: '80%',
+                     objectFit: 'contain',
+                     filter: isOutOfStock ? 'blur(4px)' : 'none',
+                     opacity: isOutOfStock ? 0.6 : 1,
+                     transition: 'filter 0.3s ease, opacity 0.3s ease',
+                   }}
+                 />
+
+                 {isOutOfStock && (
+                   <div style={{
+                     position: 'absolute',
+                     inset: 0,
+                     display: 'flex',
+                     alignItems: 'center',
+                     justifyContent: 'center',
+                     zIndex: 3,
+                     pointerEvents: 'none',
+                   }}>
+                     <span style={{
+                       background: 'rgba(239, 68, 68, 0.9)',
+                       color: '#fff',
+                       fontFamily: 'Inter, sans-serif',
+                       fontSize: '13px',
+                       fontWeight: 700,
+                       letterSpacing: '0.1em',
+                       textTransform: 'uppercase',
+                       padding: '10px 20px',
+                       borderRadius: '8px',
+                       boxShadow: '0 4px 16px rgba(239, 68, 68, 0.3)',
+                     }}>
+                       Out of Stock
+                     </span>
+                   </div>
+                 )}
 
                 {/* Wishlist overlay button */}
                 <button

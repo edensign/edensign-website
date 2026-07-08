@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 
-import Pagination from '@mui/material/Pagination';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -196,10 +196,39 @@ const ProductCard_Item = React.memo(({ product, i, onEyeClick, onAddToCart, isIn
           decoding="async"
           style={{
             maxHeight: '200px', maxWidth: '80%', objectFit: 'contain',
-            transition: 'transform 0.5s ease',
+            transition: 'transform 0.5s ease, filter 0.3s ease, opacity 0.3s ease',
             transform: hovered ? 'scale(1.06)' : 'scale(1)',
+            filter: isOutOfStock ? 'blur(4px)' : 'none',
+            opacity: isOutOfStock ? 0.6 : 1,
           }}
         />
+
+        {isOutOfStock && (
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 3,
+            pointerEvents: 'none',
+          }}>
+            <span style={{
+              background: 'rgba(239, 68, 68, 0.9)',
+              color: '#fff',
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '11px',
+              fontWeight: 700,
+              letterSpacing: '0.1em',
+              textTransform: 'uppercase',
+              padding: '8px 16px',
+              borderRadius: '8px',
+              boxShadow: '0 4px 12px rgba(239, 68, 68, 0.25)',
+            }}>
+              Out of Stock
+            </span>
+          </div>
+        )}
 
         {/* Hover action buttons */}
         <div style={{
@@ -377,7 +406,7 @@ function ProductCard({
   const [alert, setAlert] = useState(false);
   const [severity, setSeverity] = useState('');
   const [message, setMessage] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
+  const [visibleCount, setVisibleCount] = useState(9);
 
   const navigateTo = useNavigate();
   const dispatch = useDispatch();
@@ -402,9 +431,9 @@ function ProductCard({
     getProducts();
   }, []);
 
-  // Reset pagination to page 1 whenever any filter changes
+  // Reset pagination to first batch whenever any filter changes
   React.useEffect(() => {
-    setCurrentPage(1);
+    setVisibleCount(9);
   }, [searchQuery, activeCategory, priceRange, activeCapacities, activeBrands, sortBy]);
 
   // Optimized client-side filtering and sorting pipeline
@@ -476,17 +505,14 @@ function ProductCard({
       } else if (sortBy === 'date') {
         return (b.id || 0) - (a.id || 0);
       }
-      return 0; // Default sorting (menu order)
+      return (b.id || 0) - (a.id || 0); // Default sorting: newest first (latest product on top)
     });
   }, [listData, searchQuery, activeCategory, priceRange, activeCapacities, activeBrands, sortBy]);
 
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentProducts = filteredProducts?.slice(startIndex, endIndex);
+  const currentProducts = filteredProducts?.slice(0, visibleCount);
 
-  const handlePageChange = (event, page) => {
-    setCurrentPage(page);
-    window.scrollTo(0, 300);
+  const loadMore = () => {
+    setVisibleCount(prev => prev + itemsPerPage);
   };
 
   const handleEyeClick = (product, productImg) => {
@@ -511,18 +537,50 @@ function ProductCard({
 
       <Toast alerting={alert} severity={severity} message={message} />
 
-      <div
-        className="es-product-grid"
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: '24px',
-        }}
-      >
-        {loading
-          ? Array.from({ length: 6 }, (_, i) => <ProductCardSkeleton key={i} />)
-          : currentProducts?.length > 0
-            ? currentProducts.map((product, i) => (
+      {loading ? (
+        <div
+          className="es-product-grid"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gap: '24px',
+          }}
+        >
+          {Array.from({ length: 6 }, (_, i) => <ProductCardSkeleton key={i} />)}
+        </div>
+      ) : filteredProducts?.length > 0 ? (
+        <InfiniteScroll
+          dataLength={currentProducts.length}
+          next={loadMore}
+          hasMore={currentProducts.length < filteredProducts.length}
+          loader={
+            <div
+              className="es-product-grid"
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(3, 1fr)',
+                gap: '24px',
+                marginTop: '24px',
+              }}
+            >
+              {Array.from({ length: 3 }, (_, i) => <ProductCardSkeleton key={i} />)}
+            </div>
+          }
+          endMessage={
+            <p style={{ textAlign: 'center', fontFamily: 'Inter, sans-serif', color: '#9a8070', marginTop: '36px', fontSize: '13px' }}>
+              Yay! You have seen all our products
+            </p>
+          }
+        >
+          <div
+            className="es-product-grid"
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(3, 1fr)',
+              gap: '24px',
+            }}
+          >
+            {currentProducts.map((product, i) => (
               <ProductCard_Item
                 key={product.id || i}
                 product={product}
@@ -531,29 +589,11 @@ function ProductCard({
                 onAddToCart={handleAddToCart}
                 isInCart={cartItems.some(c => c.id === product.id)}
               />
-            ))
-            : <EmptyState isFiltered={isFiltered} onReset={onResetFilters} />
-        }
-      </div>
-
-      {/* Pagination */}
-      {filteredProducts?.length > itemsPerPage && (
-        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '48px' }}>
-          <Pagination
-            count={Math.ceil(filteredProducts.length / itemsPerPage)}
-            page={currentPage}
-            onChange={handlePageChange}
-            sx={{
-              '& .MuiPaginationItem-root': {
-                fontFamily: 'Inter, sans-serif', fontSize: '13px', borderRadius: '10px',
-              },
-              '& .Mui-selected': {
-                background: 'linear-gradient(135deg, #c7956c, #a8724d) !important',
-                color: '#fff !important',
-              },
-            }}
-          />
-        </div>
+            ))}
+          </div>
+        </InfiniteScroll>
+      ) : (
+        <EmptyState isFiltered={isFiltered} onReset={onResetFilters} />
       )}
     </>
   );

@@ -5,13 +5,12 @@
  * restricted rights software. The use,reproduction, or disclosure of this software is subject to
  * restrictions set forth in your license agreement with Eden Sign.
  */
-import React, { useState, useEffect } from 'react'
-import ProductPageTop from './ProductPageTop'
+import React, { useEffect, useState } from 'react';
+import ProductPageTop from './ProductPageTop';
 import ProductCategoriesAndCard from './ProductCategories';
 
 import {
   SkeletonStyles,
-  PageTopBannerSkeleton,
   ProductPageSkeleton,
 } from '../../common/PageSkeletons';
 
@@ -19,13 +18,17 @@ import {
 const ProductsLoadingSkeleton = () => (
   <>
     <SkeletonStyles />
-    <PageTopBannerSkeleton height="72vh" />
+    {/* Minimal header skeleton to match new design */}
+    <div style={{ background: 'var(--es-background)', padding: '120px 24px 40px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px' }}>
+      <div className="es-sk" style={{ height: '12px', width: '160px', borderRadius: '6px' }} />
+      <div className="es-sk" style={{ height: '48px', width: '320px', borderRadius: '8px' }} />
+      <div className="es-sk" style={{ height: '16px', width: '480px', borderRadius: '6px' }} />
+    </div>
     <ProductPageSkeleton />
   </>
 );
 
 function Product() {
-  const [searchQuery, setSearchQuery] = useState('');
   const [pageLoaded, setPageLoaded] = useState(false);
 
   useEffect(() => {
@@ -40,8 +43,8 @@ function Product() {
   return (
     <>
       <SkeletonStyles />
-      <ProductPageTop searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-      <ProductCategoriesAndCard searchQuery={searchQuery} />
+      <ProductPageTop />
+      <ProductCategoriesAndCard />
     </>
   )
 }

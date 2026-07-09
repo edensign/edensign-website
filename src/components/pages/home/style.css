@@ -32,9 +32,9 @@
 .es-section-title {
   font-family: 'Playfair Display', serif;
   font-size: clamp(32px, 4.5vw, 52px);
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.15;
-  color: #1a0f08;
+  color: var(--es-espresso);
   margin: 0 0 16px 0;
 }
 
@@ -62,16 +62,18 @@
 
 /* ---- Stats Bar ---- */
 .es-stats-bar {
-  background: linear-gradient(135deg, #1a0a00, #3d1e0a);
-  padding: 60px 5%;
+  background: var(--es-surface-container);
+  padding: 48px 5%;
+  border-top: 1px solid rgba(213, 195, 184, 0.3);
+  border-bottom: 1px solid rgba(213, 195, 184, 0.3);
 }
 
 .es-stats-inner {
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 32px;
+  gap: 24px;
 }
 
 .es-stat-item {
@@ -79,8 +81,8 @@
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  padding: 24px;
-  border-left: 1px solid rgba(199, 149, 108, 0.2);
+  padding: 16px 24px;
+  border-left: 1px solid rgba(131, 116, 106, 0.15);
 }
 
 .es-stat-item:first-child {
@@ -88,26 +90,27 @@
 }
 
 .es-stat-number {
-  font-family: 'Inter', sans-serif;
-  font-size: clamp(36px, 4vw, 52px);
-  font-weight: 700;
-  color: var(--es-rose-gold);
-  line-height: 1;
+  font-family: 'Playfair Display', serif !important;
+  font-size: clamp(36px, 4vw, 48px);
+  font-weight: 600;
+  color: var(--es-primary);
+  line-height: 1.1;
 }
 
 .es-stat-label {
-  font-family: 'Inter', sans-serif;
-  font-size: 13px;
-  font-weight: 400;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 11px;
+  font-weight: 600;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--es-on-surface-variant);
+  opacity: 0.7;
 }
 
 /* ---- Services Section ---- */
 .es-services-section {
   padding: 100px 5%;
-  background: #faf6f1;
+  background: var(--es-cream);
 }
 
 .es-services-grid {
@@ -160,7 +163,7 @@
   font-size: 14px;
   font-weight: 400;
   line-height: 1.7;
-  color: #6b5749;
+  color: var(--es-on-surface-variant);
   margin: 0;
   flex: 1;
 }
@@ -175,7 +178,7 @@
 /* ---- Products Section ---- */
 .es-products-section {
   padding: 100px 5% 40px 5%;
-  background: #fff;
+  background: var(--es-background);
 }
 
 /* ---- Promo (ImageBoxes) Section ---- */
@@ -257,7 +260,7 @@
   align-items: center;
   gap: 80px;
   padding: 100px 8%;
-  background: #fff;
+  background: var(--es-background);
 }
 
 .es-about-section {
@@ -317,7 +320,7 @@
   font-size: 15px;
   font-weight: 400;
   line-height: 1.8;
-  color: #5a4038;
+  color: var(--es-on-surface-variant);
   margin: 0 0 16px 0;
 }
 
@@ -333,7 +336,7 @@
 /* ---- Brands Section ---- */
 .es-brands-section {
   padding: 100px 0;
-  background: #fff;
+  background: var(--es-background);
   overflow: hidden;
 }
 
@@ -471,7 +474,7 @@
   font-family: 'Playfair Display', serif;
   font-size: 15px;
   font-weight: 600;
-  color: #1a0f08;
+  color: var(--es-espresso);
 }
 
 /* ---- Testimonials Section ---- */
@@ -526,7 +529,7 @@
   font-family: 'Inter', sans-serif;
   font-size: 14px;
   line-height: 1.8;
-  color: #5a4038;
+  color: var(--es-on-surface-variant);
   flex: 1;
   font-style: italic;
   margin: 0;
@@ -554,7 +557,7 @@
   font-family: 'Playfair Display', serif;
   font-size: 16px;
   font-weight: 600;
-  color: #1a0f08;
+  color: var(--es-espresso);
 }
 
 .es-testimonial-role {

@@ -70,7 +70,7 @@ const Academy = () => {
   const handleCloseVideo = () => setOpenVideo(null);
 
   return (
-    <Box sx={{ minHeight: '100vh', background: '#f8fafc', pt: '100px', pb: '80px' }}>
+    <Box sx={{ minHeight: '100vh', background: 'var(--es-background)', pt: '100px', pb: '80px' }}>
       <style>{`
         .video-card:hover .play-overlay { opacity: 1; transform: scale(1); }
         .video-card:hover .thumbnail-img { transform: scale(1.05); }
@@ -84,17 +84,17 @@ const Academy = () => {
           transition={{ duration: 0.6 }}
         >
           <Box sx={{ textAlign: 'center', mb: 8 }}>
-            <Box sx={{ display: 'inline-flex', alignItems: 'center', gap: 1, mb: 2, px: 2, py: 0.5, borderRadius: '100px', background: 'rgba(199,149,108,0.1)', border: '1px solid rgba(199,149,108,0.2)' }}>
-              <SchoolOutlinedIcon sx={{ fontSize: 18, color: '#c7956c' }} />
-              <Typography sx={{ fontFamily: 'Inter', fontSize: '12px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#c7956c' }}>
+            <Box sx={{ display: 'inline-flex', alignItems: 'center', gap: 1, mb: 2, px: 2, py: 0.5, borderRadius: '100px', background: 'var(--es-surface-container)', border: '1px solid rgba(213, 195, 184, 0.5)' }}>
+              <SchoolOutlinedIcon sx={{ fontSize: 18, color: 'var(--es-primary)' }} />
+              <Typography sx={{ fontFamily: 'Inter', fontSize: '11px', fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--es-primary)' }}>
                 Expert Learning
               </Typography>
             </Box>
             <Typography variant="h1" sx={{
               fontFamily: 'Playfair Display, serif',
-              fontWeight: 800,
+              fontWeight: 600,
               fontSize: { xs: '36px', md: '56px' },
-              color: '#1a0f08',
+              color: 'var(--es-espresso)',
               mb: 3,
               letterSpacing: '-0.02em'
             }}>
@@ -102,11 +102,12 @@ const Academy = () => {
             </Typography>
             <Typography variant="body1" sx={{
               fontFamily: 'Inter',
-              color: '#6b5749',
+              color: 'var(--es-on-surface-variant)',
               fontSize: '18px',
               maxWidth: '700px',
               mx: 'auto',
-              lineHeight: 1.6
+              lineHeight: 1.6,
+              opacity: 0.85
             }}>
               Master the art of salon excellence with our exclusive collection of professional guides, technical tutorials, and business growth strategies.
             </Typography>
@@ -144,15 +145,15 @@ const Academy = () => {
                   py: 2.5,
                   fontSize: { xs: '13px', sm: '14px' },
                   fontWeight: selectedCategory === cat ? 700 : 500,
-                  background: selectedCategory === cat ? 'linear-gradient(135deg, #1a0a00, #3d1e0a)' : '#fff',
-                  color: selectedCategory === cat ? '#fff' : '#1a0f08',
+                  background: selectedCategory === cat ? 'linear-gradient(135deg, #c7956c 0%, #7f5532 100%)' : '#ffffff',
+                  color: selectedCategory === cat ? '#ffffff' : 'var(--es-espresso)',
                   border: '1px solid',
-                  borderColor: selectedCategory === cat ? 'transparent' : 'rgba(199,149,108,0.2)',
+                  borderColor: selectedCategory === cat ? 'transparent' : 'rgba(213, 195, 184, 0.6)',
                   transition: 'all 0.3s ease',
                   cursor: 'pointer',
                   '&:hover': {
-                    background: selectedCategory === cat ? 'linear-gradient(135deg, #1a0a00, #3d1e0a)' : 'rgba(199,149,108,0.05)',
-                    borderColor: '#c7956c',
+                    background: selectedCategory === cat ? 'linear-gradient(135deg, #c7956c 0%, #7f5532 100%)' : 'var(--es-surface-container)',
+                    borderColor: 'var(--es-primary)',
                     transform: 'translateY(-2px)'
                   }
                 }}
@@ -164,7 +165,7 @@ const Academy = () => {
         {/* Video Grid */}
         {loading ? (
           <Box sx={{ display: 'flex', justifyContent: 'center', py: 10 }}>
-            <Typography sx={{ fontFamily: 'Inter', color: '#c7956c', fontWeight: 600 }}>Loading exclusive content...</Typography>
+            <Typography sx={{ fontFamily: 'Inter', color: 'var(--es-primary)', fontWeight: 600 }}>Loading exclusive content...</Typography>
           </Box>
         ) : filteredVideos.length > 0 ? (
           <Grid container spacing={4}>
@@ -182,16 +183,16 @@ const Academy = () => {
                       height: '100%',
                       display: 'flex',
                       flexDirection: 'column',
-                      borderRadius: '20px',
+                      borderRadius: '12px',
                       overflow: 'hidden',
-                      boxShadow: '0 4px 20px rgba(26,10,0,0.04)',
-                      border: '1px solid rgba(199,149,108,0.1)',
+                      boxShadow: '0 8px 30px rgba(127, 85, 50, 0.04)',
+                      border: '1px solid rgba(213, 195, 184, 0.5)',
                       transition: 'all 0.3s ease',
                       cursor: 'pointer',
                       '&:hover': {
-                        boxShadow: '0 12px 40px rgba(199,149,108,0.15)',
+                        boxShadow: '0 15px 40px rgba(127, 85, 50, 0.08)',
                         transform: 'translateY(-8px)',
-                        borderColor: '#c7956c'
+                        borderColor: 'var(--es-primary)'
                       }
                     }} onClick={() => setOpenVideo(video)}>
                       {/* Thumbnail Section */}
@@ -238,17 +239,16 @@ const Academy = () => {
                           }}>
                             <PlayArrowIcon sx={{ fontSize: 32, color: '#c7956c', ml: 0.5 }} />
                           </Box>
-                        </Box>
-                        {/* Duration Tag */}
+                        </Box>                        {/* Duration Tag */}
                         <Box sx={{
                           position: 'absolute',
                           bottom: 12,
                           right: 12,
-                          background: 'rgba(26,10,0,0.85)',
+                          background: 'rgba(31,27,24,0.85)',
                           color: '#fff',
                           px: 1.5,
                           py: 0.5,
-                          borderRadius: '6px',
+                          borderRadius: '4px',
                           fontFamily: 'Inter',
                           fontSize: '11px',
                           fontWeight: 600,
@@ -264,7 +264,7 @@ const Academy = () => {
                           fontFamily: 'Inter',
                           fontSize: '11px',
                           fontWeight: 700,
-                          color: '#c7956c',
+                          color: 'var(--es-primary)',
                           letterSpacing: '0.1em',
                           textTransform: 'uppercase',
                           mb: 1
@@ -273,8 +273,8 @@ const Academy = () => {
                         </Typography>
                         <Typography gutterBottom variant="h5" sx={{
                           fontFamily: 'Playfair Display',
-                          fontWeight: 700,
-                          color: '#1a0f08',
+                          fontWeight: 600,
+                          color: 'var(--es-espresso)',
                           mb: 1.5,
                           lineHeight: 1.3
                         }}>
@@ -282,13 +282,14 @@ const Academy = () => {
                         </Typography>
                         <Typography sx={{
                           fontFamily: 'Inter',
-                          color: '#6b5749',
+                          color: 'var(--es-on-surface-variant)',
                           fontSize: '14px',
                           lineHeight: 1.6,
                           display: '-webkit-box',
                           WebkitLineClamp: 3,
                           WebkitBoxOrient: 'vertical',
-                          overflow: 'hidden'
+                          overflow: 'hidden',
+                          opacity: 0.85
                         }}>
                           {video.description}
                         </Typography>
@@ -301,10 +302,10 @@ const Academy = () => {
           </Grid>
         ) : (
           <Box sx={{ textAlign: 'center', py: 10 }}>
-            <Typography sx={{ fontFamily: 'Playfair Display', fontSize: '24px', color: '#1a0f08' }}>
+            <Typography sx={{ fontFamily: 'Playfair Display', fontSize: '24px', color: 'var(--es-espresso)' }}>
               No videos found in this category yet.
             </Typography>
-            <Typography sx={{ fontFamily: 'Inter', color: '#6b5749', mt: 1 }}>
+            <Typography sx={{ fontFamily: 'Inter', color: 'var(--es-on-surface-variant)', mt: 1 }}>
               Stay tuned! We are constantly adding new lessons.
             </Typography>
           </Box>
@@ -320,13 +321,13 @@ const Academy = () => {
           <Box sx={{
             mt: 12,
             p: { xs: 4, md: 6 },
-            borderRadius: '32px',
-            background: 'linear-gradient(135deg, #1a0a00 0%, #3d1e0a 100%)',
+            borderRadius: '16px',
+            background: 'linear-gradient(135deg, #c7956c 0%, #7f5532 100%)',
             color: '#fff',
             textAlign: 'center',
             position: 'relative',
             overflow: 'hidden',
-            boxShadow: '0 20px 60px rgba(0,0,0,0.15)'
+            boxShadow: '0 20px 60px rgba(127,85,50,0.15)'
           }}>
             {/* Background Accent */}
             <YouTubeIcon sx={{
@@ -340,7 +341,7 @@ const Academy = () => {
 
             <Typography variant="h3" sx={{
               fontFamily: 'Playfair Display',
-              fontWeight: 700,
+              fontWeight: 600,
               mb: 2,
               position: 'relative'
             }}>
@@ -371,7 +372,7 @@ const Academy = () => {
                 fontFamily: 'Inter',
                 fontWeight: 700,
                 textTransform: 'none',
-                fontSize: '15px',
+                fontSize: '14px',
                 boxShadow: '0 8px 24px rgba(255,0,0,0.3)',
                 '&:hover': {
                   background: '#d40000',
@@ -395,7 +396,7 @@ const Academy = () => {
         onClose={handleCloseVideo}
         PaperProps={{
           sx: {
-            borderRadius: isMobile ? 0 : '24px',
+            borderRadius: isMobile ? 0 : '16px',
             bgcolor: '#000',
             overflow: 'hidden'
           }
@@ -434,11 +435,11 @@ const Academy = () => {
           )}
         </Box>
         {!isMobile && (
-          <DialogContent sx={{ bgcolor: '#fff', p: 4 }}>
-            <Typography variant="h5" sx={{ fontFamily: 'Playfair Display', fontWeight: 700, color: '#1a0f08', mb: 1 }}>
+          <DialogContent sx={{ bgcolor: 'var(--es-background)', p: 4 }}>
+            <Typography variant="h5" sx={{ fontFamily: 'Playfair Display', fontWeight: 600, color: 'var(--es-espresso)', mb: 1 }}>
               {openVideo?.title}
             </Typography>
-            <Typography sx={{ fontFamily: 'Inter', color: '#6b5749', lineHeight: 1.6 }}>
+            <Typography sx={{ fontFamily: 'Inter', color: 'var(--es-on-surface-variant)', lineHeight: 1.6 }}>
               {openVideo?.description}
             </Typography>
           </DialogContent>

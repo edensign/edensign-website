@@ -4,29 +4,26 @@
 
 import { useState, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { motion } from 'framer-motion';
-import { Slider, Checkbox } from '@mui/material';
-import StorefrontOutlinedIcon from '@mui/icons-material/StorefrontOutlined';
-import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
-import StraightenOutlinedIcon from '@mui/icons-material/StraightenOutlined';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Slider, Checkbox, FormControlLabel, Box } from '@mui/material';
+import TuneIcon from '@mui/icons-material/Tune';
+import SearchIcon from '@mui/icons-material/Search';
 import FilterListOffIcon from '@mui/icons-material/FilterListOff';
 
 import ProductCard from './ProductCard';
 
-const FilterSection = ({ title, icon: Icon, children }) => (
-  <div style={{ marginBottom: '28px' }}>
-    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px', paddingBottom: '10px', borderBottom: '1px solid rgba(199,149,108,0.12)' }}>
-      <Icon sx={{ fontSize: 15, color: '#c7956c' }} />
-      <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#3d1e0a' }}>
-        {title}
-      </span>
-    </div>
-    {children}
-  </div>
-);
-
-function ProductCategories({ searchQuery }) {
+function ProductCategories({ searchQuery: parentSearchQuery }) {
   const { listData } = useSelector(state => state.allProducts);
+
+  // ── Search State ───────────────────────────────────────────────────
+  const [searchQuery, setSearchQuery] = useState(parentSearchQuery || '');
+
+  // ── Filter State ───────────────────────────────────────────────────
+  const [activeCategory, setActiveCategory] = useState('');
+  const [activeCapacities, setActiveCapacities] = useState([]);
+  const [activeBrands, setActiveBrands] = useState([]);
+  const [sortBy, setSortBy] = useState('menu order');
+  const [showFiltersPanel, setShowFiltersPanel] = useState(false);
 
   // ── Derive filter options dynamically from the DB data ──────────────
   const dynamicCategories = useMemo(() => {
@@ -65,36 +62,37 @@ function ProductCategories({ searchQuery }) {
     return [Math.floor(Math.min(...prices)), Math.ceil(Math.max(...prices))];
   }, [listData]);
 
-  // ── Filter state ────────────────────────────────────────────────────
-  const [value, setValue] = useState([0, 9999]); // will be clamped by slider max
-  const [activeCategory, setActiveCategory] = useState('');
-  const [activeCapacities, setActiveCapacities] = useState([]);
-  const [activeBrands, setActiveBrands] = useState([]);
-  const [sortBy, setSortBy] = useState('menu order');
+  const [priceValue, setPriceValue] = useState([0, 9999]);
   const minDistance = 1;
+
+  const effectivePriceRange = priceValue[1] === 9999
+    ? [priceRange[0], priceRange[1]]
+    : priceValue;
 
   const isFiltered =
     activeCategory !== '' ||
     activeCapacities.length > 0 ||
     activeBrands.length > 0 ||
     sortBy !== 'menu order' ||
-    value[0] > priceRange[0] ||
-    value[1] < priceRange[1];
+    searchQuery !== '' ||
+    priceValue[0] > priceRange[0] ||
+    priceValue[1] < priceRange[1];
 
   const handleResetFilters = () => {
     setActiveCategory('');
     setActiveCapacities([]);
     setActiveBrands([]);
-    setValue([priceRange[0], priceRange[1]]);
+    setPriceValue([priceRange[0], priceRange[1]]);
     setSortBy('menu order');
+    setSearchQuery('');
   };
 
   const handlePriceChange = (event, newValue, activeThumb) => {
     if (!Array.isArray(newValue)) return;
     if (activeThumb === 0) {
-      setValue([Math.min(newValue[0], value[1] - minDistance), value[1]]);
+      setPriceValue([Math.min(newValue[0], priceValue[1] - minDistance), priceValue[1]]);
     } else {
-      setValue([value[0], Math.max(newValue[1], value[0] + minDistance)]);
+      setPriceValue([priceValue[0], Math.max(newValue[1], priceValue[0] + minDistance)]);
     }
   };
 
@@ -104,228 +102,355 @@ function ProductCategories({ searchQuery }) {
     );
   };
 
-  const effectivePriceRange = value[1] === 9999
-    ? [priceRange[0], priceRange[1]]
-    : value;
-
   return (
-    <div style={{ display: 'flex', gap: '0', background: '#f8fafc', minHeight: '100vh' }}>
-      {/* Sidebar */}
-      <motion.aside
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.5 }}
-        style={{
-          width: '240px',
-          flexShrink: 0,
-          background: '#fff',
-          padding: '32px 24px',
-          borderRight: '1px solid rgba(199,149,108,0.1)',
-          position: 'sticky',
-          top: '72px',
-          height: 'fit-content',
-          maxHeight: 'calc(100vh - 80px)',
-          overflowY: 'auto',
-        }}
-        className="es-product-sidebar"
-      >
-        {/* Header + Reset */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '28px', paddingBottom: '16px', borderBottom: '2px solid rgba(199,149,108,0.2)' }}>
-          <h2 style={{
-            fontFamily: 'Playfair Display, serif',
-            fontSize: '18px',
-            fontWeight: 700,
-            color: '#1a0f08',
-            margin: 0,
-          }}>
-            Filter Products
-          </h2>
-          {isFiltered && (
-            <motion.button
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              onClick={handleResetFilters}
-              title="Reset all filters"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '4px',
-                background: 'rgba(199,149,108,0.1)',
-                border: '1px solid rgba(199,149,108,0.3)',
-                borderRadius: '20px',
-                padding: '4px 10px',
-                fontFamily: 'Inter, sans-serif',
-                fontSize: '10px',
-                fontWeight: 600,
-                color: '#c7956c',
-                cursor: 'pointer',
-                letterSpacing: '0.04em',
-                whiteSpace: 'nowrap',
-              }}
-            >
-              <FilterListOffIcon sx={{ fontSize: 13 }} />
-              Reset
-            </motion.button>
-          )}
-        </div>
-
-        {/* Categories — from DB */}
-        {dynamicCategories.length > 0 && (
-          <FilterSection title="Category" icon={StorefrontOutlinedIcon}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-              {dynamicCategories.map(name => (
-                <button
-                  key={name}
-                  onClick={() => setActiveCategory(activeCategory === name ? '' : name)}
-                  style={{
-                    display: 'block',
-                    width: '100%',
-                    textAlign: 'left',
-                    background: activeCategory === name ? 'rgba(199,149,108,0.1)' : 'none',
-                    border: 'none',
-                    borderRadius: '8px',
-                    padding: '8px 12px',
-                    fontFamily: 'Inter, sans-serif',
-                    fontSize: '13px',
-                    fontWeight: activeCategory === name ? 600 : 400,
-                    color: activeCategory === name ? '#c7956c' : '#3d1e0a',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s',
-                  }}
-                >
-                  {name}
-                </button>
-              ))}
-            </div>
-          </FilterSection>
-        )}
-
-        {/* Price Range */}
-        <FilterSection title="Price Range" icon={LocalOfferOutlinedIcon}>
-          <Slider
-            min={priceRange[0]}
-            max={priceRange[1]}
-            disableSwap
-            size="small"
-            value={value[1] === 9999 ? [priceRange[0], priceRange[1]] : value}
-            onChange={handlePriceChange}
-            valueLabelDisplay="auto"
-            getAriaLabel={() => 'Price range'}
-            sx={{
-              color: '#c7956c',
-              '& .MuiSlider-thumb': { borderRadius: '6px', width: 14, height: 14 },
-              '& .MuiSlider-track': { borderRadius: '6px' },
-            }}
-          />
-          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: '#9a8070', margin: '8px 0 0' }}>
-            ₹{effectivePriceRange[0]} – ₹{effectivePriceRange[1]}
-          </p>
-        </FilterSection>
-
-        {/* Capacity — from DB */}
-        {dynamicCapacities.length > 0 && (
-          <FilterSection title="Capacity" icon={StraightenOutlinedIcon}>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-              {dynamicCapacities.map(cap => (
-                <button
-                  key={cap}
-                  onClick={() => toggleCapacity(cap)}
-                  style={{
-                    padding: '6px 14px',
-                    borderRadius: '8px',
-                    border: `1.5px solid ${activeCapacities.includes(cap) ? '#c7956c' : 'rgba(199,149,108,0.25)'}`,
-                    background: activeCapacities.includes(cap) ? 'rgba(199,149,108,0.1)' : 'none',
-                    fontFamily: 'Inter, sans-serif',
-                    fontSize: '11px',
-                    fontWeight: activeCapacities.includes(cap) ? 600 : 400,
-                    color: activeCapacities.includes(cap) ? '#c7956c' : '#6b5749',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s',
-                  }}
-                >
-                  {cap}
-                </button>
-              ))}
-            </div>
-          </FilterSection>
-        )}
-
-        {/* Brand — from DB */}
-        {dynamicBrands.length > 0 && (
-          <FilterSection title="Brand" icon={StorefrontOutlinedIcon}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-              {dynamicBrands.map(brand => (
-                <label key={brand} style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  fontFamily: 'Inter, sans-serif',
-                  fontSize: '12.5px',
-                  color: '#3d1e0a',
-                  cursor: 'pointer',
-                  padding: '4px 0',
-                }}>
-                  <Checkbox
-                    size="small"
-                    sx={{ padding: '2px', color: 'rgba(199,149,108,0.5)', '&.Mui-checked': { color: '#c7956c' } }}
-                    checked={activeBrands.includes(brand)}
-                    onChange={() => setActiveBrands(prev =>
-                      prev.includes(brand) ? prev.filter(b => b !== brand) : [...prev, brand]
-                    )}
-                  />
-                  {brand}
-                </label>
-              ))}
-            </div>
-          </FilterSection>
-        )}
-      </motion.aside>
-
-      {/* Products main area */}
-      <main style={{ flex: 1, padding: '40px 32px 80px' }}>
-        {/* Top bar */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-          style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '32px', flexWrap: 'wrap', gap: '12px' }}
-        >
-          <div>
-            <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', fontWeight: 600, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#c7956c', display: 'block', marginBottom: '4px' }}>
-              Our Collection
-            </span>
-            <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(22px, 3vw, 32px)', fontWeight: 700, color: '#1a0f08', margin: 0, lineHeight: 1.2 }}>
-              All <em style={{ fontStyle: 'italic', color: '#c7956c' }}>Products</em>
-            </h2>
-          </div>
-
-          {/* Sort */}
-          <select
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value)}
+    <div style={{ background: 'var(--es-background)', minHeight: '100vh', paddingBottom: '120px' }}>
+      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 24px' }}>
+        
+        {/* Categories Pill Bar */}
+        <div style={{ 
+          display: 'flex', 
+          flexWrap: 'wrap', 
+          justifyContent: 'center', 
+          gap: '12px', 
+          marginBottom: '32px' 
+        }}>
+          <button
+            onClick={() => setActiveCategory('')}
             style={{
-              fontFamily: 'Inter, sans-serif',
-              fontSize: '13px',
-              color: '#3d1e0a',
-              border: '1.5px solid rgba(199,149,108,0.25)',
-              borderRadius: '10px',
-              padding: '10px 16px',
-              background: '#fff',
+              fontFamily: "'Inter', sans-serif",
+              fontSize: '11px',
+              fontWeight: 700,
+              letterSpacing: '0.12em',
+              textTransform: 'uppercase',
+              padding: '10px 24px',
+              borderRadius: '100px',
+              border: activeCategory === '' ? 'none' : '1px solid rgba(213, 195, 184, 0.5)',
+              background: activeCategory === '' ? 'linear-gradient(135deg, #c7956c 0%, #7f5532 100%)' : '#ffffff',
+              color: activeCategory === '' ? '#ffffff' : 'var(--es-espresso)',
               cursor: 'pointer',
-              outline: 'none',
-              appearance: 'none',
-              paddingRight: '36px',
+              boxShadow: activeCategory === '' ? '0 4px 14px rgba(127, 85, 50, 0.2)' : 'none',
+              transition: 'all 0.3s ease',
             }}
           >
-            <option value="menu order">Default Sorting</option>
-            <option value="popularity">Sort by Popularity</option>
-            <option value="rating">Sort by Rating</option>
-            <option value="date">Sort by Latest</option>
-            <option value="price">Price: Low to High</option>
-            <option value="price-desc">Price: High to Low</option>
-          </select>
-        </motion.div>
+            All Curation
+          </button>
+          {dynamicCategories.map(name => (
+            <button
+              key={name}
+              onClick={() => setActiveCategory(name)}
+              style={{
+                fontFamily: "'Inter', sans-serif",
+                fontSize: '11px',
+                fontWeight: 700,
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase',
+                padding: '10px 24px',
+                borderRadius: '100px',
+                border: activeCategory === name ? 'none' : '1px solid rgba(213, 195, 184, 0.5)',
+                background: activeCategory === name ? 'linear-gradient(135deg, #c7956c 0%, #7f5532 100%)' : '#ffffff',
+                color: activeCategory === name ? '#ffffff' : 'var(--es-espresso)',
+                cursor: 'pointer',
+                boxShadow: activeCategory === name ? '0 4px 14px rgba(127, 85, 50, 0.2)' : 'none',
+                transition: 'all 0.3s ease',
+              }}
+            >
+              {name}
+            </button>
+          ))}
+        </div>
 
+        {/* Filters and Sorting Inline Bar */}
+        <section style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '20px',
+          borderTop: '1px solid rgba(213, 195, 184, 0.4)',
+          borderBottom: '1px solid rgba(213, 195, 184, 0.4)',
+          padding: '24px 0',
+          marginBottom: '40px',
+        }}>
+          <div style={{
+            display: 'flex',
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '20px',
+            width: '100%',
+          }}>
+            {/* Left side actions */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+              <button
+                onClick={() => setShowFiltersPanel(!showFiltersPanel)}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  fontFamily: "'Inter', sans-serif",
+                  fontSize: '11px',
+                  fontWeight: 700,
+                  letterSpacing: '0.12em',
+                  textTransform: 'uppercase',
+                  padding: '12px 24px',
+                  borderRadius: '100px',
+                  border: '1px solid rgba(213, 195, 184, 0.5)',
+                  background: showFiltersPanel ? 'var(--es-espresso)' : '#ffffff',
+                  color: showFiltersPanel ? '#ffffff' : 'var(--es-espresso)',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                }}
+              >
+                <TuneIcon sx={{ fontSize: 16 }} />
+                <span>Filters {showFiltersPanel ? 'Close' : 'Open'}</span>
+              </button>
+
+              {isFiltered && (
+                <button
+                  onClick={handleResetFilters}
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    fontFamily: "'Inter', sans-serif",
+                    fontSize: '11px',
+                    fontWeight: 700,
+                    letterSpacing: '0.12em',
+                    textTransform: 'uppercase',
+                    padding: '12px 24px',
+                    borderRadius: '100px',
+                    border: '1.5px dashed rgba(239, 68, 68, 0.4)',
+                    background: 'rgba(239, 68, 68, 0.05)',
+                    color: '#dc2626',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                  }}
+                >
+                  <FilterListOffIcon sx={{ fontSize: 15 }} />
+                  Clear All
+                </button>
+              )}
+            </div>
+
+            {/* Right side search + sort */}
+            <div style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: '16px',
+              flexWrap: 'wrap',
+              flex: '1 1 auto',
+              justifyContent: 'flex-end',
+            }}>
+              {/* Search */}
+              <div style={{
+                position: 'relative',
+                width: '280px',
+              }}>
+                <input
+                  type="text"
+                  placeholder="Search product..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  style={{
+                    width: '100%',
+                    background: '#ffffff',
+                    border: '1px solid rgba(213, 195, 184, 0.5)',
+                    borderRadius: '100px',
+                    padding: '12px 48px 12px 20px',
+                    fontFamily: "'Inter', sans-serif",
+                    fontSize: '13px',
+                    color: 'var(--es-espresso)',
+                    outline: 'none',
+                    transition: 'all 0.3s',
+                  }}
+                />
+                <SearchIcon sx={{
+                  position: 'absolute',
+                  right: '18px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  color: 'var(--es-primary)',
+                  fontSize: 18,
+                }} />
+              </div>
+
+              {/* Sort Dropdown */}
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                style={{
+                  fontFamily: "'Inter', sans-serif",
+                  fontSize: '11px',
+                  fontWeight: 700,
+                  letterSpacing: '0.12em',
+                  textTransform: 'uppercase',
+                  color: 'var(--es-espresso)',
+                  border: '1px solid rgba(213, 195, 184, 0.5)',
+                  borderRadius: '100px',
+                  padding: '12px 32px 12px 20px',
+                  background: '#ffffff',
+                  cursor: 'pointer',
+                  outline: 'none',
+                  appearance: 'none',
+                  backgroundImage: 'url("data:image/svg+xml;utf8,<svg fill=\'%237f5532\' height=\'24\' viewBox=\'0 0 24 24\' width=\'24\' xmlns=\'http://www.w3.org/2000/svg\'><path d=\'M7 10l5 5 5-5z\'/></svg>")',
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: 'right 12px center',
+                }}
+              >
+                <option value="menu order">Default Sorting</option>
+                <option value="popularity">Sort by Popularity</option>
+                <option value="rating">Sort by Rating</option>
+                <option value="date">Sort by Latest</option>
+                <option value="price">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Expandable Filter Panel */}
+          <AnimatePresence>
+            {showFiltersPanel && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.35, ease: 'easeInOut' }}
+                style={{ overflow: 'hidden' }}
+              >
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+                  gap: '32px',
+                  padding: '24px 20px',
+                  background: '#ffffff',
+                  border: '1px solid rgba(213, 195, 184, 0.5)',
+                  borderRadius: '16px',
+                  marginTop: '16px',
+                  boxShadow: '0 10px 30px rgba(127, 85, 50, 0.03)',
+                }}>
+                  {/* Price Slider */}
+                  <div>
+                    <h4 style={{
+                      fontFamily: "'Inter', sans-serif",
+                      fontSize: '11px',
+                      fontWeight: 700,
+                      letterSpacing: '0.15em',
+                      textTransform: 'uppercase',
+                      color: 'var(--es-primary)',
+                      marginBottom: '16px',
+                      borderBottom: '1px solid rgba(213, 195, 184, 0.3)',
+                      paddingBottom: '8px',
+                    }}>Price Range</h4>
+                    <Box sx={{ px: 1 }}>
+                      <Slider
+                        min={priceRange[0]}
+                        max={priceRange[1]}
+                        disableSwap
+                        size="small"
+                        value={priceValue[1] === 9999 ? [priceRange[0], priceRange[1]] : priceValue}
+                        onChange={handlePriceChange}
+                        valueLabelDisplay="auto"
+                        sx={{
+                          color: 'var(--es-primary)',
+                          '& .MuiSlider-thumb': { borderRadius: '6px', width: 14, height: 14 },
+                          '& .MuiSlider-track': { borderRadius: '6px' },
+                        }}
+                      />
+                      <p style={{ fontFamily: "'Inter', sans-serif", fontSize: '13px', color: 'var(--es-on-surface-variant)', margin: '12px 0 0', fontWeight: 500 }}>
+                        ₹{effectivePriceRange[0]} – ₹{effectivePriceRange[1]}
+                      </p>
+                    </Box>
+                  </div>
+
+                  {/* Brand Filter */}
+                  {dynamicBrands.length > 0 && (
+                    <div>
+                      <h4 style={{
+                        fontFamily: "'Inter', sans-serif",
+                        fontSize: '11px',
+                        fontWeight: 700,
+                        letterSpacing: '0.15em',
+                        textTransform: 'uppercase',
+                        color: 'var(--es-primary)',
+                        marginBottom: '16px',
+                        borderBottom: '1px solid rgba(213, 195, 184, 0.3)',
+                        paddingBottom: '8px',
+                      }}>Brands</h4>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', maxHeight: '140px', overflowY: 'auto' }}>
+                        {dynamicBrands.map(brand => (
+                          <FormControlLabel
+                            key={brand}
+                            control={
+                              <Checkbox
+                                size="small"
+                                checked={activeBrands.includes(brand)}
+                                onChange={() => setActiveBrands(prev =>
+                                  prev.includes(brand) ? prev.filter(b => b !== brand) : [...prev, brand]
+                                )}
+                                sx={{ color: 'rgba(213, 195, 184, 0.8)', '&.Mui-checked': { color: 'var(--es-primary)' } }}
+                              />
+                            }
+                            label={brand}
+                            sx={{
+                              '& .MuiFormControlLabel-label': {
+                                fontFamily: "'Inter', sans-serif",
+                                fontSize: '13px',
+                                color: 'var(--es-espresso)',
+                              }
+                            }}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Capacity Filter */}
+                  {dynamicCapacities.length > 0 && (
+                    <div>
+                      <h4 style={{
+                        fontFamily: "'Inter', sans-serif",
+                        fontSize: '11px',
+                        fontWeight: 700,
+                        letterSpacing: '0.15em',
+                        textTransform: 'uppercase',
+                        color: 'var(--es-primary)',
+                        marginBottom: '16px',
+                        borderBottom: '1px solid rgba(213, 195, 184, 0.3)',
+                        paddingBottom: '8px',
+                      }}>Sizes / Capacities</h4>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '12px' }}>
+                        {dynamicCapacities.map(cap => {
+                          const isSelected = activeCapacities.includes(cap);
+                          return (
+                            <button
+                              key={cap}
+                              onClick={() => toggleCapacity(cap)}
+                              style={{
+                                padding: '8px 16px',
+                                borderRadius: '100px',
+                                border: isSelected ? 'none' : '1px solid rgba(213, 195, 184, 0.5)',
+                                background: isSelected ? 'var(--es-espresso)' : '#ffffff',
+                                color: isSelected ? '#ffffff' : 'var(--es-espresso)',
+                                fontFamily: "'Inter', sans-serif",
+                                fontSize: '11px',
+                                fontWeight: 600,
+                                cursor: 'pointer',
+                                transition: 'all 0.25s ease',
+                              }}
+                            >
+                              {cap}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </section>
+
+        {/* Product Grid */}
         <ProductCard
           searchQuery={searchQuery}
           activeCategory={activeCategory}
@@ -335,11 +460,7 @@ function ProductCategories({ searchQuery }) {
           sortBy={sortBy}
           onResetFilters={handleResetFilters}
         />
-      </main>
-
-      <style>{`
-        @media (max-width: 768px) { .es-product-sidebar { display: none !important; } }
-      `}</style>
+      </div>
     </div>
   );
 }

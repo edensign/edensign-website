@@ -104,6 +104,7 @@ const SlideContent = ({ slide }) => (
 
 const Carousel = () => {
   const [activeIndex, setActiveIndex] = React.useState(0);
+  const [swiperInstance, setSwiperInstance] = React.useState(null);
 
   return (
     <div className="es-hero-wrapper">
@@ -122,6 +123,7 @@ const Carousel = () => {
             `<span class="${className}"><span class="es-bullet-inner"></span></span>`,
         }}
         loop
+        onSwiper={setSwiperInstance}
         onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
         className="es-hero-swiper"
       >

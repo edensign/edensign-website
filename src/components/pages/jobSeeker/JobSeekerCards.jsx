@@ -163,52 +163,51 @@ const SeekerCard = ({ seeker, index, getCityByName, getStateByName }) => {
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.5, delay: (index % 2) * 0.1, ease: 'easeOut' }}
       style={{
-        background: '#fff',
-        borderRadius: '20px',
+        background: '#ffffff',
+        borderRadius: '12px',
         overflow: 'hidden',
-        boxShadow: '0 4px 20px rgba(26,10,0,0.06)',
-        border: '1px solid rgba(199,149,108,0.1)',
-        transition: 'box-shadow 0.3s ease, transform 0.3s ease',
+        boxShadow: '0 8px 30px rgba(127, 85, 50, 0.04)',
+        border: '1px solid rgba(213, 195, 184, 0.5)',
+        transition: 'all 0.3s ease',
         cursor: 'pointer',
       }}
       onClick={() => navigate(`/job-seeker/${seeker.id}`)}
       className="es-seeker-card"
     >
       {/* Card top accent */}
-      <div style={{ height: '4px', background: 'linear-gradient(90deg, #c7956c, #a8724d)' }} />
+      <div style={{ height: '4px', background: 'linear-gradient(90deg, #c7956c 0%, #7f5532 100%)' }} />
 
       <div style={{ display: 'flex', gap: 0 }}>
         {/* Left sidebar */}
         <div style={{
           width: '200px',
           flexShrink: 0,
-          background: 'linear-gradient(180deg, #1a0a00 0%, #3d1e0a 100%)',
+          background: 'var(--es-surface-container)',
           padding: '24px 20px',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
           gap: '20px',
+          borderRight: '1px solid rgba(213, 195, 184, 0.4)',
         }} className="es-seeker-sidebar">
           {/* Brand tag */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <ContentCutOutlinedIcon sx={{ fontSize: 14, color: '#c7956c' }} />
-            <span style={{
-              fontFamily: 'Playfair Display, serif',
-              fontWeight: 700,
-              fontSize: '14px',
-              color: '#c7956c',
-              letterSpacing: '0.05em',
-            }}>edensign.</span>
+            <ContentCutOutlinedIcon sx={{ fontSize: 13, color: 'var(--es-primary)' }} />
+            <span className="font-label-caps" style={{
+              fontSize: '11px',
+              color: 'var(--es-primary)',
+            }}>EDEN SIGN</span>
           </div>
 
           {/* Photo */}
           <div style={{
             width: '80px',
             height: '80px',
-            borderRadius: '16px',
+            borderRadius: '50%',
             overflow: 'hidden',
-            border: '2px solid rgba(199,149,108,0.5)',
+            border: '2px solid var(--es-rose-gold)',
             margin: '0 auto',
+            boxShadow: '0 4px 10px rgba(127, 85, 50, 0.08)',
           }}>
             <img
               src={customer}
@@ -220,20 +219,20 @@ const SeekerCard = ({ seeker, index, getCityByName, getStateByName }) => {
           {/* Contact info */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <EmailOutlinedIcon sx={{ fontSize: 12, color: '#c7956c', flexShrink: 0 }} />
-              <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '10px', color: 'rgba(255,255,255,0.65)', wordBreak: 'break-all', lineHeight: 1.4 }}>
+              <EmailOutlinedIcon sx={{ fontSize: 12, color: 'var(--es-primary)', flexShrink: 0 }} />
+              <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '10px', color: 'var(--es-on-surface-variant)', opacity: 0.9, wordBreak: 'break-all', lineHeight: 1.4 }}>
                 {seeker.email?.toLowerCase()}
               </span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <PermContactCalendarOutlinedIcon sx={{ fontSize: 12, color: '#c7956c', flexShrink: 0 }} />
-              <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '10px', color: 'rgba(255,255,255,0.65)' }}>
+              <PermContactCalendarOutlinedIcon sx={{ fontSize: 12, color: 'var(--es-primary)', flexShrink: 0 }} />
+              <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '10px', color: 'var(--es-on-surface-variant)', opacity: 0.9 }}>
                 {seeker.contact_no}
               </span>
             </div>
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
-              <LocationOnOutlinedIcon sx={{ fontSize: 12, color: '#c7956c', flexShrink: 0, mt: '2px' }} />
-              <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '10px', color: 'rgba(255,255,255,0.65)', lineHeight: 1.5, textTransform: 'capitalize' }}>
+              <LocationOnOutlinedIcon sx={{ fontSize: 12, color: 'var(--es-primary)', flexShrink: 0, mt: '2px' }} />
+              <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '10px', color: 'var(--es-on-surface-variant)', opacity: 0.9, lineHeight: 1.5, textTransform: 'capitalize' }}>
                 {seeker.street}<br />
                 {getCityByName(seeker.city)}, {getStateByName(seeker.state)}
               </span>
@@ -247,14 +246,14 @@ const SeekerCard = ({ seeker, index, getCityByName, getStateByName }) => {
           <div>
             <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '12px', marginBottom: '12px' }}>
               <div>
-                <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', color: '#c7956c', fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase' }}>
+                <span className="font-label-caps" style={{ fontSize: '10px', color: 'var(--es-primary)' }}>
                   Looking for opportunities
                 </span>
                 <h3 style={{
                   fontFamily: 'Playfair Display, serif',
                   fontSize: '22px',
                   fontWeight: 600,
-                  color: '#1a0f08',
+                  color: 'var(--es-espresso)',
                   margin: '4px 0 0 0',
                   textTransform: 'capitalize',
                   lineHeight: 1.2,
@@ -269,13 +268,13 @@ const SeekerCard = ({ seeker, index, getCityByName, getStateByName }) => {
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '4px',
-                  background: 'rgba(199,149,108,0.08)',
-                  border: '1px solid rgba(199,149,108,0.2)',
+                  background: 'var(--es-surface-container)',
+                  border: '1px solid rgba(213, 195, 184, 0.4)',
                   borderRadius: '100px',
                   padding: '4px 12px',
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '11px',
-                  color: '#a8724d',
+                  color: 'var(--es-espresso)',
                   fontWeight: 500,
                   whiteSpace: 'nowrap',
                 }}>
@@ -291,13 +290,14 @@ const SeekerCard = ({ seeker, index, getCityByName, getStateByName }) => {
             <p style={{
               fontFamily: 'Inter, sans-serif',
               fontSize: '13px',
-              color: '#6b5749',
+              color: 'var(--es-on-surface-variant)',
               margin: '0 0 20px 0',
               lineHeight: 1.7,
               display: '-webkit-box',
               WebkitLineClamp: 2,
               WebkitBoxOrient: 'vertical',
               overflow: 'hidden',
+              opacity: 0.85,
             }}>
               {seeker.description}
             </p>
@@ -305,13 +305,10 @@ const SeekerCard = ({ seeker, index, getCityByName, getStateByName }) => {
             {/* Skills */}
             {seeker.skills?.length > 0 && (
               <div style={{ marginBottom: '20px' }}>
-                <span style={{
-                  fontFamily: 'Inter, sans-serif',
-                  fontSize: '10px',
-                  fontWeight: 600,
-                  letterSpacing: '0.15em',
-                  textTransform: 'uppercase',
-                  color: '#9a8070',
+                <span className="font-label-caps" style={{
+                  fontSize: '9px',
+                  color: 'var(--es-on-surface-variant)',
+                  opacity: 0.6,
                   display: 'block',
                   marginBottom: '8px',
                 }}>Skills</span>
@@ -321,10 +318,10 @@ const SeekerCard = ({ seeker, index, getCityByName, getStateByName }) => {
                       fontFamily: 'Inter, sans-serif',
                       fontSize: '11px',
                       fontWeight: 500,
-                      color: '#a8724d',
-                      background: 'rgba(199,149,108,0.1)',
-                      border: '1px solid rgba(199,149,108,0.2)',
-                      borderRadius: '100px',
+                      color: 'var(--es-espresso)',
+                      background: 'var(--es-surface-container)',
+                      border: '1px solid rgba(213, 195, 184, 0.4)',
+                      borderRadius: '4px',
                       padding: '4px 12px',
                       textTransform: 'capitalize',
                     }}>
@@ -337,7 +334,7 @@ const SeekerCard = ({ seeker, index, getCityByName, getStateByName }) => {
           </div>
 
           {/* Actions */}
-          <div style={{ paddingTop: '16px', borderTop: '1px solid rgba(199,149,108,0.1)', display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+          <div style={{ paddingTop: '16px', borderTop: '1px solid rgba(213, 195, 184, 0.4)', display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
             <button
               onClick={(e) => {
                 e.stopPropagation();
@@ -347,24 +344,25 @@ const SeekerCard = ({ seeker, index, getCityByName, getStateByName }) => {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
-                background: 'linear-gradient(135deg, #1a0a00, #3d1e0a)',
+                background: 'linear-gradient(135deg, #c7956c 0%, #7f5532 100%)',
                 color: '#fff',
                 border: 'none',
-                borderRadius: '10px',
-                padding: '11px 20px',
+                borderRadius: '100px',
+                padding: '10px 20px',
                 fontFamily: 'Inter, sans-serif',
-                fontSize: '12px',
+                fontSize: '11px',
                 fontWeight: 600,
                 cursor: 'pointer',
                 letterSpacing: '0.05em',
+                textTransform: 'uppercase',
                 transition: 'transform 0.2s, box-shadow 0.2s',
-                boxShadow: '0 4px 12px rgba(26,10,0,0.2)',
+                boxShadow: '0 4px 12px rgba(127, 85, 50, 0.15)',
               }}
               className="es-cv-btn"
             >
-              <ArticleOutlinedIcon sx={{ fontSize: 15 }} />
+              <ArticleOutlinedIcon sx={{ fontSize: 14 }} />
               View CV
-              <FileDownloadIcon sx={{ fontSize: 13, opacity: 0.7 }} />
+              <FileDownloadIcon sx={{ fontSize: 12, opacity: 0.7 }} />
             </button>
 
             <button
@@ -376,16 +374,17 @@ const SeekerCard = ({ seeker, index, getCityByName, getStateByName }) => {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
-                background: 'rgba(199, 149, 108, 0.1)',
-                color: '#a8724d',
-                border: '1px solid rgba(199, 149, 108, 0.3)',
-                borderRadius: '10px',
-                padding: '11px 20px',
+                background: 'rgba(213, 195, 184, 0.15)',
+                color: 'var(--es-espresso)',
+                border: '1px solid rgba(213, 195, 184, 0.6)',
+                borderRadius: '100px',
+                padding: '10px 20px',
                 fontFamily: 'Inter, sans-serif',
-                fontSize: '12px',
+                fontSize: '11px',
                 fontWeight: 600,
                 cursor: 'pointer',
                 letterSpacing: '0.05em',
+                textTransform: 'uppercase',
                 transition: 'all 0.2s ease',
               }}
               className="es-profile-btn"
@@ -396,7 +395,8 @@ const SeekerCard = ({ seeker, index, getCityByName, getStateByName }) => {
             <span style={{
               fontFamily: 'Inter, sans-serif',
               fontSize: '11px',
-              color: '#9a8070',
+              color: 'var(--es-on-surface-variant)',
+              opacity: 0.8,
               display: 'flex',
               alignItems: 'center',
               gap: '4px',
@@ -529,7 +529,7 @@ const JobSeekerCards = ({ skills, selectedSkill, selectedGender, selectedExperie
         }
       `}</style>
 
-      <section style={{ background: '#f8fafc', padding: '60px 5% 100px' }}>
+      <section style={{ background: 'var(--es-background)', padding: '60px 5% 100px' }}>
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -538,15 +538,15 @@ const JobSeekerCards = ({ skills, selectedSkill, selectedGender, selectedExperie
           style={{ marginBottom: '40px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}
         >
           <div>
-            <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', fontWeight: 600, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#c7956c', display: 'block', marginBottom: '8px' }}>
+            <span className="font-label-caps" style={{ fontSize: '11px', color: 'var(--es-primary)', display: 'block', marginBottom: '8px' }}>
               Talent Pool
             </span>
-            <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(28px, 4vw, 40px)', fontWeight: 700, color: '#1a0f08', margin: 0, lineHeight: 1.15 }}>
-              Discover <em style={{ fontStyle: 'italic', color: '#c7956c' }}>Talent</em>
+            <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(28px, 4vw, 40px)', fontWeight: 600, color: 'var(--es-espresso)', margin: 0, lineHeight: 1.15 }}>
+              Discover <span style={{ fontStyle: 'italic', fontWeight: '400' }}>Talent</span>
             </h2>
           </div>
           {!initialLoading && jobSeekerDetail.listData?.length > 0 && (
-            <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '13px', color: '#9a8070', background: '#fff', border: '1px solid rgba(199,149,108,0.2)', padding: '8px 20px', borderRadius: '100px' }}>
+            <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', fontWeight: 600, color: 'var(--es-espresso)', background: '#ffffff', border: '1px solid rgba(213, 195, 184, 0.6)', padding: '8px 20px', borderRadius: '100px' }}>
               {jobSeekerDetail.totalResults} profiles found
             </span>
           )}
@@ -558,10 +558,9 @@ const JobSeekerCards = ({ skills, selectedSkill, selectedGender, selectedExperie
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
           style={{
-            background: 'rgba(255, 255, 255, 0.8)',
-            backdropFilter: 'blur(12px)',
-            border: '1px solid rgba(199, 149, 108, 0.15)',
-            borderRadius: '24px',
+            background: '#ffffff',
+            border: '1px solid rgba(213, 195, 184, 0.5)',
+            borderRadius: '12px',
             padding: '20px 24px',
             marginBottom: '32px',
             display: 'flex',
@@ -569,20 +568,17 @@ const JobSeekerCards = ({ skills, selectedSkill, selectedGender, selectedExperie
             gap: '24px',
             alignItems: 'center',
             justifyContent: 'space-between',
-            boxShadow: '0 8px 30px rgba(26, 10, 0, 0.04)',
+            boxShadow: '0 15px 40px rgba(127, 85, 50, 0.05)',
           }}
         >
           {/* Left: Filter groups */}
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '24px', alignItems: 'center' }}>
             {/* Filter by Profile Type */}
             <div>
-              <span style={{
-                fontFamily: 'Inter, sans-serif',
-                fontSize: '11px',
-                fontWeight: 600,
-                textTransform: 'uppercase',
-                letterSpacing: '0.1em',
-                color: '#9a8070',
+              <span className="font-label-caps" style={{
+                fontSize: '10px',
+                color: 'var(--es-on-surface-variant)',
+                opacity: 0.7,
                 display: 'block',
                 marginBottom: '8px'
               }}>Profile Type</span>
@@ -593,17 +589,18 @@ const JobSeekerCards = ({ skills, selectedSkill, selectedGender, selectedExperie
                     onClick={() => setSelectedType(type)}
                     style={{
                       fontFamily: 'Inter, sans-serif',
-                      fontSize: '12px',
-                      fontWeight: 500,
-                      textTransform: 'capitalize',
+                      fontSize: '11px',
+                      fontWeight: 600,
+                      letterSpacing: '0.05em',
+                      textTransform: 'uppercase',
                       padding: '8px 16px',
                       borderRadius: '100px',
                       cursor: 'pointer',
                       transition: 'all 0.2s ease',
-                      border: selectedType === type ? '1px solid #c7956c' : '1px solid rgba(199, 149, 108, 0.2)',
-                      background: selectedType === type ? 'linear-gradient(135deg, #c7956c, #a8724d)' : '#fff',
-                      color: selectedType === type ? '#fff' : '#6b5749',
-                      boxShadow: selectedType === type ? '0 4px 12px rgba(199, 149, 108, 0.25)' : 'none',
+                      border: selectedType === type ? '1px solid transparent' : '1px solid rgba(213, 195, 184, 0.6)',
+                      background: selectedType === type ? 'linear-gradient(135deg, #c7956c 0%, #7f5532 100%)' : '#ffffff',
+                      color: selectedType === type ? '#ffffff' : 'var(--es-espresso)',
+                      boxShadow: selectedType === type ? '0 4px 12px rgba(127, 85, 50, 0.15)' : 'none',
                     }}
                   >
                     {type === 'all' ? 'All Types' : type === 'experience' ? 'Experienced' : type}
@@ -614,13 +611,10 @@ const JobSeekerCards = ({ skills, selectedSkill, selectedGender, selectedExperie
 
             {/* Filter by Gender */}
             <div>
-              <span style={{
-                fontFamily: 'Inter, sans-serif',
-                fontSize: '11px',
-                fontWeight: 600,
-                textTransform: 'uppercase',
-                letterSpacing: '0.1em',
-                color: '#9a8070',
+              <span className="font-label-caps" style={{
+                fontSize: '10px',
+                color: 'var(--es-on-surface-variant)',
+                opacity: 0.7,
                 display: 'block',
                 marginBottom: '8px'
               }}>Gender</span>
@@ -631,17 +625,18 @@ const JobSeekerCards = ({ skills, selectedSkill, selectedGender, selectedExperie
                     onClick={() => setSelectedGenderState(gen)}
                     style={{
                       fontFamily: 'Inter, sans-serif',
-                      fontSize: '12px',
-                      fontWeight: 500,
-                      textTransform: 'capitalize',
+                      fontSize: '11px',
+                      fontWeight: 600,
+                      letterSpacing: '0.05em',
+                      textTransform: 'uppercase',
                       padding: '8px 16px',
                       borderRadius: '100px',
                       cursor: 'pointer',
                       transition: 'all 0.2s ease',
-                      border: selectedGenderState === gen ? '1px solid #c7956c' : '1px solid rgba(199, 149, 108, 0.2)',
-                      background: selectedGenderState === gen ? 'linear-gradient(135deg, #c7956c, #a8724d)' : '#fff',
-                      color: selectedGenderState === gen ? '#fff' : '#6b5749',
-                      boxShadow: selectedGenderState === gen ? '0 4px 12px rgba(199, 149, 108, 0.25)' : 'none',
+                      border: selectedGenderState === gen ? '1px solid transparent' : '1px solid rgba(213, 195, 184, 0.6)',
+                      background: selectedGenderState === gen ? 'linear-gradient(135deg, #c7956c 0%, #7f5532 100%)' : '#ffffff',
+                      color: selectedGenderState === gen ? '#ffffff' : 'var(--es-espresso)',
+                      boxShadow: selectedGenderState === gen ? '0 4px 12px rgba(127, 85, 50, 0.15)' : 'none',
                     }}
                   >
                     {gen === 'all' ? 'All Genders' : gen}
@@ -660,8 +655,10 @@ const JobSeekerCards = ({ skills, selectedSkill, selectedGender, selectedExperie
               }}
               style={{
                 fontFamily: 'Inter, sans-serif',
-                fontSize: '12px',
+                fontSize: '11px',
                 fontWeight: 600,
+                letterSpacing: '0.05em',
+                textTransform: 'uppercase',
                 color: '#ff4d4d',
                 background: 'rgba(255, 77, 77, 0.08)',
                 border: '1px solid rgba(255, 77, 77, 0.2)',

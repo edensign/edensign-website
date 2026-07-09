@@ -12,7 +12,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
+import AddShoppingCartOutlinedIcon from '@mui/icons-material/AddShoppingCartOutlined';
 import CheckIcon from '@mui/icons-material/Check';
 import StarIcon from '@mui/icons-material/Star';
 import StorefrontOutlinedIcon from '@mui/icons-material/StorefrontOutlined';
@@ -21,7 +21,6 @@ import API from '../../../apis';
 import { setProducts } from '../../../redux/actions/ProductAction';
 import { addToCart } from '../../../redux/actions/CartAction';
 import Toast from '../../common/Toast';
-import Loader from '../../common/Loader';
 
 import botanicsImg from '../../assets/products/botanics.jpg';
 import cleanserImg from '../../assets/products/cleanser.jpg';
@@ -42,46 +41,54 @@ const productImages = {
 const SAS_URL = import.meta.env.VITE_SAS_URL || 'https://oaqyonnkveufkkamswzv.supabase.co/storage/v1/object/public/photos';
 const PRODUCT_FOLDER = 'product';
 
-
-/* ── Skeleton card ── */
+/* ── Luxury Card Skeleton ── */
 const ProductCardSkeleton = () => (
-  <div style={{ background: '#fff', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 4px 20px rgba(26,10,0,0.05)', border: '1px solid rgba(199,149,108,0.08)' }}>
-    <div style={{ height: '240px', background: 'linear-gradient(90deg, #f0ebe6 25%, #e8e0d8 50%, #f0ebe6 75%)', backgroundSize: '200% 100%', animation: 'shimmer 1.6s infinite' }} />
-    <div style={{ padding: '20px' }}>
-      <div style={{ height: '16px', borderRadius: '5px', background: 'linear-gradient(90deg, #f0ebe6 25%, #e8e0d8 50%, #f0ebe6 75%)', backgroundSize: '200% 100%', animation: 'shimmer 1.6s infinite', marginBottom: '10px', width: '70%' }} />
-      <div style={{ height: '13px', borderRadius: '5px', background: 'linear-gradient(90deg, #f0ebe6 25%, #e8e0d8 50%, #f0ebe6 75%)', backgroundSize: '200% 100%', animation: 'shimmer 1.6s infinite', width: '45%' }} />
+  <div style={{
+    background: '#ffffff',
+    borderRadius: '16px',
+    overflow: 'hidden',
+    border: '1px solid rgba(213, 195, 184, 0.4)',
+    boxShadow: '0 8px 30px rgba(127, 85, 50, 0.02)',
+  }}>
+    <div style={{ 
+      aspectRatio: '4/5',
+      background: 'linear-gradient(90deg, #faf5f2 25%, #f2eae4 50%, #faf5f2 75%)', 
+      backgroundSize: '200% 100%', 
+      animation: 'shimmer 1.6s infinite' 
+    }} />
+    <div style={{ padding: '24px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+      <div style={{ height: '10px', width: '30%', borderRadius: '4px', background: 'linear-gradient(90deg, #faf5f2 25%, #f2eae4 50%, #faf5f2 75%)', backgroundSize: '200% 100%', animation: 'shimmer 1.6s infinite' }} />
+      <div style={{ height: '18px', width: '70%', borderRadius: '4px', background: 'linear-gradient(90deg, #faf5f2 25%, #f2eae4 50%, #faf5f2 75%)', backgroundSize: '200% 100%', animation: 'shimmer 1.6s infinite' }} />
+      <div style={{ height: '14px', width: '40%', borderRadius: '4px', background: 'linear-gradient(90deg, #faf5f2 25%, #f2eae4 50%, #faf5f2 75%)', backgroundSize: '200% 100%', animation: 'shimmer 1.6s infinite' }} />
     </div>
   </div>
 );
 
-/* ── Empty state ── */
+/* ── Empty State ── */
 const EmptyState = ({ isFiltered, onReset }) => (
   <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '80px 24px' }}>
-    <div style={{ width: 80, height: 80, borderRadius: '24px', background: 'rgba(199,149,108,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px' }}>
-      <StorefrontOutlinedIcon sx={{ fontSize: 36, color: '#c7956c' }} />
+    <div style={{ width: 80, height: 80, borderRadius: '50%', background: 'rgba(199,149,108,0.1)', display: 'flex', alignItems: 'center', justifycontent: 'center', margin: '0 auto 24px', justifyContent: 'center' }}>
+      <StorefrontOutlinedIcon sx={{ fontSize: 32, color: 'var(--es-primary)' }} />
     </div>
     {isFiltered ? (
       <>
-        <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: '22px', color: '#1a0f08', margin: '0 0 8px' }}>No Matching Products</h3>
-        <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', color: '#9a8070', margin: '0 0 24px' }}>No products match your current filters. Try adjusting or clearing them.</p>
+        <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: '24px', fontWeight: 600, color: 'var(--es-espresso)', margin: '0 0 8px', fontStyle: 'italic' }}>No Products Found</h3>
+        <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', color: 'var(--es-on-surface-variant)', margin: '0 0 24px' }}>No products match your active search or filters.</p>
         <button
           onClick={onReset}
           style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '8px',
-            background: 'linear-gradient(135deg, #c7956c, #a8724d)',
+            background: 'linear-gradient(135deg, #c7956c, #7f5532)',
             border: 'none',
             borderRadius: '100px',
-            padding: '12px 28px',
+            padding: '12px 32px',
             fontFamily: 'Inter, sans-serif',
-            fontSize: '13px',
-            fontWeight: 600,
+            fontSize: '11px',
+            fontWeight: 700,
             color: '#fff',
             cursor: 'pointer',
-            letterSpacing: '0.06em',
-            boxShadow: '0 6px 20px rgba(199,149,108,0.35)',
-            transition: 'all 0.2s',
+            letterSpacing: '0.12em',
+            textTransform: 'uppercase',
+            boxShadow: '0 6px 20px rgba(127,85,50,0.2)',
           }}
         >
           Reset Filters
@@ -89,19 +96,20 @@ const EmptyState = ({ isFiltered, onReset }) => (
       </>
     ) : (
       <>
-        <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: '22px', color: '#1a0f08', margin: '0 0 8px' }}>No Products Yet</h3>
-        <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', color: '#9a8070', margin: 0 }}>Check back soon for our curated product collection.</p>
+        <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: '24px', fontWeight: 600, color: 'var(--es-espresso)', margin: '0 0 8px', fontStyle: 'italic' }}>Boutique is Empty</h3>
+        <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', color: 'var(--es-on-surface-variant)', margin: 0 }}>Check back later for curated beauty collections.</p>
       </>
     )}
   </div>
 );
 
-/* ── Single product card ── */
+/* ── High-End Bento Product Card Item ── */
 const ProductCard_Item = React.memo(({ product, i, onEyeClick, onAddToCart, isInCart }) => {
-  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.08 });
+  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.05 });
   const [hovered, setHovered] = useState(false);
   const [wishlisted, setWishlisted] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
+
   const productImg = product.product_image?.[0]?.image_src
     ? (product.product_image[0].image_src.startsWith('http')
       ? product.product_image[0].image_src
@@ -110,293 +118,271 @@ const ProductCard_Item = React.memo(({ product, i, onEyeClick, onAddToCart, isIn
 
   const isOutOfStock = product.stock_quantity !== undefined && product.stock_quantity !== null && Number(product.stock_quantity) <= 0;
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (e) => {
+    e.stopPropagation();
     if (isOutOfStock) return;
     onAddToCart(product, productImg);
     setJustAdded(true);
     setTimeout(() => setJustAdded(false), 2200);
   };
 
-  const added = justAdded || isInCart;
-
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 36 }}
+      initial={{ opacity: 0, y: 30 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.5, delay: (i % 3) * 0.1, ease: 'easeOut' }}
+      transition={{ duration: 0.6, delay: (i % 4) * 0.08, ease: [0.16, 1, 0.3, 1] }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      onClick={() => onEyeClick(product, productImg)}
+      className="es-product-card"
       style={{
-        background: '#fff',
-        borderRadius: '20px',
+        background: '#ffffff',
+        borderRadius: '16px',
         overflow: 'hidden',
-        boxShadow: hovered ? '0 20px 56px rgba(26,10,0,0.12)' : '0 4px 20px rgba(26,10,0,0.05)',
-        border: added ? '1.5px solid rgba(34,197,94,0.45)' : '1px solid rgba(199,149,108,0.1)',
-        transition: 'box-shadow 0.35s ease, transform 0.35s ease, border 0.3s ease',
+        boxShadow: hovered ? '0 20px 40px rgba(127, 85, 50, 0.08)' : '0 8px 30px rgba(127, 85, 50, 0.02)',
+        border: '1px solid rgba(213, 195, 184, 0.5)',
+        transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
         transform: hovered ? 'translateY(-6px)' : 'translateY(0)',
         position: 'relative',
         display: 'flex',
         flexDirection: 'column',
+        cursor: 'pointer',
       }}
     >
-      {/* Bestseller badge */}
-      {product.is_bestseller && (
-        <div style={{
-          position: 'absolute', top: 14, left: 14, zIndex: 2,
-          background: 'linear-gradient(135deg, #c7956c, #a8724d)',
-          color: '#fff', fontFamily: 'Inter, sans-serif', fontSize: '9px',
-          fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase',
-          padding: '4px 10px', borderRadius: '100px',
-        }}>Bestseller</div>
-      )}
-
-      {/* Discount badge */}
-      {product.discount_percent > 0 && (
-        <div style={{
-          position: 'absolute', top: 14, right: 14, zIndex: 2,
-          background: 'rgba(34,197,94,0.9)', color: '#fff',
-          fontFamily: 'Inter, sans-serif', fontSize: '10px', fontWeight: 700,
-          padding: '4px 10px', borderRadius: '100px',
-        }}>
-          {product.discount_percent.toFixed(0)}% OFF
-        </div>
-      )}
-
-      {/* In-cart ribbon */}
-      <AnimatePresence>
-        {added && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            style={{
-              position: 'absolute', top: 14, left: '50%', transform: 'translateX(-50%)',
-              zIndex: 5, background: 'rgba(34,197,94,0.95)', color: '#fff',
-              fontFamily: 'Inter, sans-serif', fontSize: '10px', fontWeight: 700,
-              letterSpacing: '0.1em', padding: '4px 12px', borderRadius: '100px',
-              display: 'flex', alignItems: 'center', gap: '4px',
-              boxShadow: '0 4px 14px rgba(34,197,94,0.35)',
-            }}
-          >
-            <CheckIcon sx={{ fontSize: 12 }} /> In Cart
-          </motion.div>
+      {/* Badges */}
+      <div style={{ position: 'absolute', top: 16, left: 16, zIndex: 10, display: 'flex', flexDirection: 'column', gap: '6px' }}>
+        {product.is_bestseller && (
+          <span style={{
+            background: 'linear-gradient(135deg, #c7956c, #7f5532)',
+            color: '#fff',
+            fontFamily: "'Inter', sans-serif",
+            fontSize: '9px',
+            fontWeight: 700,
+            letterSpacing: '0.12em',
+            textTransform: 'uppercase',
+            padding: '4px 10px',
+            borderRadius: '100px',
+            boxShadow: '0 4px 10px rgba(127, 85, 50, 0.15)',
+          }}>Bestseller</span>
         )}
-      </AnimatePresence>
+        {product.discount_percent > 0 && (
+          <span style={{
+            background: '#22c55e',
+            color: '#fff',
+            fontFamily: "'Inter', sans-serif",
+            fontSize: '9px',
+            fontWeight: 700,
+            letterSpacing: '0.12em',
+            textTransform: 'uppercase',
+            padding: '4px 10px',
+            borderRadius: '100px',
+            width: 'fit-content',
+          }}>{product.discount_percent.toFixed(0)}% OFF</span>
+        )}
+      </div>
 
-      {/* Image container */}
+      {/* Wishlist Button on top right */}
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          setWishlisted(!wishlisted);
+        }}
+        style={{
+          position: 'absolute',
+          top: 16,
+          right: 16,
+          zIndex: 10,
+          width: '36px',
+          height: '36px',
+          borderRadius: '50%',
+          background: '#ffffff',
+          border: '1px solid rgba(213, 195, 184, 0.4)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          color: wishlisted ? '#ef4444' : 'var(--es-espresso)',
+          cursor: 'pointer',
+          boxShadow: '0 4px 12px rgba(127, 85, 50, 0.05)',
+          transition: 'all 0.2s',
+        }}
+      >
+        {wishlisted ? <FavoriteIcon sx={{ fontSize: 16, color: '#ef4444' }} /> : <FavoriteBorderOutlinedIcon sx={{ fontSize: 16 }} />}
+      </button>
+
+      {/* Image Wrap */}
       <div style={{
-        position: 'relative', height: '240px', background: '#faf6f1',
-        display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden',
+        position: 'relative',
+        width: '100%',
+        aspectRatio: '4/5',
+        overflow: 'hidden',
+        background: '#faf7f5',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
       }}>
+        {/* Product image with zooming */}
         <img
           src={productImg}
           alt={product.name}
           loading="lazy"
-          decoding="async"
           style={{
-            maxHeight: '200px', maxWidth: '80%', objectFit: 'contain',
-            transition: 'transform 0.5s ease, filter 0.3s ease, opacity 0.3s ease',
-            transform: hovered ? 'scale(1.06)' : 'scale(1)',
-            filter: isOutOfStock ? 'blur(4px)' : 'none',
-            opacity: isOutOfStock ? 0.6 : 1,
+            width: '80%',
+            height: '80%',
+            objectFit: 'contain',
+            transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+            transform: hovered ? 'scale(1.08)' : 'scale(1)',
           }}
         />
 
-        {isOutOfStock && (
-          <div style={{
-            position: 'absolute',
-            inset: 0,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 3,
-            pointerEvents: 'none',
-          }}>
-            <span style={{
-              background: 'rgba(239, 68, 68, 0.9)',
-              color: '#fff',
-              fontFamily: 'Inter, sans-serif',
+        {/* Ethereal Blur Overlay on Hover */}
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'rgba(31, 27, 24, 0.05)',
+          opacity: hovered ? 1 : 0,
+          transition: 'opacity 0.4s',
+          pointerEvents: 'none',
+        }} />
+
+        {/* Quick Add To Cart overlay banner */}
+        <div style={{
+          position: 'absolute',
+          bottom: '16px',
+          left: '16px',
+          right: '16px',
+          zIndex: 15,
+          opacity: hovered ? 1 : 0,
+          transform: hovered ? 'translateY(0)' : 'translateY(8px)',
+          transition: 'opacity 0.3s ease, transform 0.3s ease',
+        }}>
+          <button
+            onClick={handleAddToCart}
+            disabled={isOutOfStock}
+            style={{
+              width: '100%',
+              background: isOutOfStock
+                ? '#94a3b8'
+                : justAdded
+                  ? '#22c55e'
+                  : 'rgba(31, 27, 24, 0.9)',
+              backdropFilter: 'blur(10px)',
+              border: 'none',
+              color: '#ffffff',
+              borderRadius: '100px',
+              padding: '12px 20px',
+              fontFamily: "'Inter', sans-serif",
               fontSize: '11px',
               fontWeight: 700,
-              letterSpacing: '0.1em',
+              letterSpacing: '0.12em',
               textTransform: 'uppercase',
-              padding: '8px 16px',
-              borderRadius: '8px',
-              boxShadow: '0 4px 12px rgba(239, 68, 68, 0.25)',
-            }}>
-              Out of Stock
-            </span>
-          </div>
-        )}
-
-        {/* Hover action buttons */}
-        <div style={{
-          position: 'absolute', inset: 0, display: 'flex', alignItems: 'flex-end',
-          justifyContent: 'center', gap: '8px', padding: '16px',
-          background: hovered ? 'rgba(26,10,0,0.08)' : 'transparent',
-          transition: 'background 0.3s',
-        }}>
-          <motion.div
-            style={{ display: 'flex', gap: '8px', alignItems: 'center' }}
-            initial={{ y: 10, opacity: 0 }}
-            animate={{ y: hovered ? 0 : 10, opacity: hovered ? 1 : 0 }}
-            transition={{ duration: 0.2 }}
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px',
+              cursor: isOutOfStock ? 'not-allowed' : 'pointer',
+              boxShadow: '0 6px 20px rgba(0,0,0,0.15)',
+              transition: 'background-color 0.3s',
+            }}
           >
-            <button
-              onClick={() => onEyeClick(product, productImg)}
-              style={{
-                width: 38, height: 38, borderRadius: '12px', background: '#fff',
-                border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center',
-                justifyContent: 'center', boxShadow: '0 4px 12px rgba(26,10,0,0.15)',
-                transition: 'transform 0.2s', color: '#3d1e0a',
-              }}
-              title="Quick view"
-            >
-              <RemoveRedEyeOutlinedIcon sx={{ fontSize: 17 }} />
-            </button>
-            <button
-              onClick={() => setWishlisted(!wishlisted)}
-              style={{
-                width: 38, height: 38, borderRadius: '12px', background: '#fff',
-                border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center',
-                justifyContent: 'center', boxShadow: '0 4px 12px rgba(26,10,0,0.15)',
-                color: wishlisted ? '#ef4444' : '#3d1e0a',
-              }}
-              title="Add to wishlist"
-            >
-              {wishlisted
-                ? <FavoriteIcon sx={{ fontSize: 17, color: '#ef4444' }} />
-                : <FavoriteBorderOutlinedIcon sx={{ fontSize: 17 }} />
-              }
-            </button>
-          </motion.div>
-        </div>
-      </div>
-
-      {/* Product info */}
-      <div style={{ padding: '20px 20px 0', flex: 1 }}>
-        <span style={{
-          fontFamily: 'Inter, sans-serif', fontSize: '10px', fontWeight: 600,
-          letterSpacing: '0.15em', textTransform: 'uppercase', color: '#c7956c',
-          display: 'block', marginBottom: '4px',
-        }}>
-          {product.brand}
-        </span>
-        <h3
-          onClick={() => onEyeClick(product, productImg)}
-          style={{
-            fontFamily: 'Inter, sans-serif', fontSize: '15px', fontWeight: 600,
-            color: '#1a0f08', margin: '0 0 6px 0', lineHeight: 1.3,
-            cursor: 'pointer'
-          }}
-        >
-          {product.name}
-        </h3>
-        <p style={{
-          fontFamily: 'Inter, sans-serif', fontSize: '12px', color: '#9a8070',
-          margin: '0 0 12px 0', lineHeight: 1.6,
-          display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden',
-        }}>
-          {product.description}
-        </p>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginBottom: '14px' }}>
-          {[1, 2, 3, 4, 5].map((s) => (
-            <StarIcon key={s} sx={{ fontSize: 12, color: s <= 3.5 ? '#F59E0B' : '#e8e0d8' }} />
-          ))}
-          <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', color: '#9a8070', marginLeft: '4px' }}>(3.5)</span>
-        </div>
-
-        {/* Stock status */}
-
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
-          <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '18px', fontWeight: 700, color: '#1a0f08' }}>
-            ₹{product.discounted_price}
-          </span>
-          <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '13px', color: '#9a8070', textDecoration: 'line-through' }}>
-            ₹{product.price}
-          </span>
-        </div>
-      </div>
-
-      {/* Add to cart button */}
-      <div style={{ padding: '0 20px 20px' }}>
-        <motion.button
-          id={`add-to-cart-${product.id}`}
-          onClick={handleAddToCart}
-          disabled={isOutOfStock}
-          whileTap={isOutOfStock ? {} : { scale: 0.96 }}
-          style={{
-            width: '100%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '8px',
-            padding: '12px',
-            background: isOutOfStock
-              ? '#cbd5e1'
-              : added
-                ? 'linear-gradient(135deg, #16a34a, #22c55e)'
-                : hovered
-                  ? 'linear-gradient(135deg, #1a0a00, #3d1e0a)'
-                  : 'rgba(199,149,108,0.1)',
-            border: `1.5px solid ${isOutOfStock ? 'transparent' : added ? 'transparent' : hovered ? 'transparent' : 'rgba(199,149,108,0.3)'}`,
-            borderRadius: '12px',
-            color: isOutOfStock ? '#64748b' : added ? '#fff' : hovered ? '#fff' : '#a8724d',
-            fontFamily: 'Inter, sans-serif',
-            fontSize: '12px',
-            fontWeight: 600,
-            letterSpacing: '0.06em',
-            textTransform: 'uppercase',
-            cursor: isOutOfStock ? 'not-allowed' : 'pointer',
-            transition: 'all 0.3s ease',
-          }}
-        >
-          <AnimatePresence mode="wait">
             {isOutOfStock ? (
-              <motion.span
-                key="outofstock"
-                initial={{ opacity: 0, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -6 }}
-                style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
-              >
-                Out of Stock
-              </motion.span>
-            ) : added ? (
-              <motion.span
-                key="added"
-                initial={{ opacity: 0, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -6 }}
-                style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
-              >
-                <CheckIcon sx={{ fontSize: 15 }} /> Added to Cart
-              </motion.span>
+              <span>Out of Stock</span>
+            ) : justAdded ? (
+              <>
+                <CheckIcon sx={{ fontSize: 14 }} />
+                <span>Added</span>
+              </>
             ) : (
-              <motion.span
-                key="add"
-                initial={{ opacity: 0, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -6 }}
-                style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
-              >
-                <ShoppingBagOutlinedIcon sx={{ fontSize: 16 }} /> Add to Cart
-              </motion.span>
+              <>
+                <AddShoppingCartOutlinedIcon sx={{ fontSize: 14 }} />
+                <span>Quick Add</span>
+              </>
             )}
-          </AnimatePresence>
-        </motion.button>
+          </button>
+        </div>
+      </div>
+
+      {/* Info Content */}
+      <div style={{
+        padding: '24px 20px',
+        textAlign: 'center',
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: '8px',
+      }}>
+        <div>
+          {/* Brand/Subtitle */}
+          <span style={{
+            fontFamily: "'Inter', sans-serif",
+            fontSize: '9px',
+            fontWeight: 700,
+            letterSpacing: '0.2em',
+            textTransform: 'uppercase',
+            color: 'var(--es-primary)',
+            display: 'block',
+            marginBottom: '4px',
+          }}>{product.brand}</span>
+
+          {/* Product Title */}
+          <h3 style={{
+            fontFamily: "'Playfair Display', serif",
+            fontSize: '19px',
+            fontWeight: 600,
+            color: 'var(--es-espresso)',
+            margin: '0 0 6px 0',
+            lineHeight: 1.3,
+          }}>{product.name}</h3>
+
+          {/* Stars rating below title */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '2px', marginBottom: '8px' }}>
+            {[1, 2, 3, 4, 5].map((s) => (
+              <StarIcon key={s} sx={{ fontSize: 13, color: s <= 4 ? '#E2A154' : '#e8dcd3' }} />
+            ))}
+            <span style={{
+              fontFamily: "'Inter', sans-serif",
+              fontSize: '11px',
+              color: 'var(--es-on-surface-variant)',
+              marginLeft: '4px',
+              fontWeight: 500,
+            }}>(42)</span>
+          </div>
+        </div>
+
+        {/* Pricing */}
+        <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: '8px' }}>
+          <span style={{
+            fontFamily: "'Inter', sans-serif",
+            fontSize: '16px',
+            fontWeight: 700,
+            color: 'var(--es-espresso)',
+          }}>
+            ₹{product.discounted_price || product.price}
+          </span>
+          {product.discounted_price && product.discounted_price !== product.price && (
+            <span style={{
+              fontFamily: "'Inter', sans-serif",
+              fontSize: '12px',
+              color: 'var(--es-on-surface-variant)',
+              textDecoration: 'line-through',
+              opacity: 0.6,
+            }}>
+              ₹{product.price}
+            </span>
+          )}
+        </div>
       </div>
     </motion.div>
   );
 });
 
-/* ── Main component ── */
+/* ── Main Component ── */
 function ProductCard({
   searchQuery = '',
   activeCategory = '',
-  priceRange = [10, 500],
+  priceRange = [0, 9999],
   activeCapacities = [],
   activeBrands = [],
   sortBy = 'menu order',
@@ -406,14 +392,14 @@ function ProductCard({
   const [alert, setAlert] = useState(false);
   const [severity, setSeverity] = useState('');
   const [message, setMessage] = useState('');
-  const [visibleCount, setVisibleCount] = useState(9);
+  const [visibleCount, setVisibleCount] = useState(8);
 
   const navigateTo = useNavigate();
   const dispatch = useDispatch();
   const { listData, loading } = useSelector(state => state.allProducts);
   const cartItems = useSelector(state => state.cart.items);
 
-  const itemsPerPage = 9;
+  const itemsPerPage = 8;
 
   const getProducts = () => {
     API.ProductAPI.getProductList()
@@ -431,81 +417,63 @@ function ProductCard({
     getProducts();
   }, []);
 
-  // Reset pagination to first batch whenever any filter changes
   React.useEffect(() => {
-    setVisibleCount(9);
+    setVisibleCount(8);
   }, [searchQuery, activeCategory, priceRange, activeCapacities, activeBrands, sortBy]);
 
-  // Optimized client-side filtering and sorting pipeline
+  // Client-side filtering & sorting pipeline
   const filteredProducts = React.useMemo(() => {
     if (!listData) return [];
 
     return listData.filter(product => {
-      // 1. Search query (matches name or brand)
+      // 1. Search Query
       if (searchQuery) {
         const query = searchQuery.toLowerCase().trim();
         const name = (product.name || '').toLowerCase();
         const brand = (product.brand || '').toLowerCase();
-        if (!name.includes(query) && !brand.includes(query)) {
-          return false;
-        }
+        if (!name.includes(query) && !brand.includes(query)) return false;
       }
 
       // 2. Category
       if (activeCategory) {
         const category = (product.category || '').toLowerCase();
-        if (category !== activeCategory.toLowerCase()) {
-          return false;
-        }
+        if (category !== activeCategory.toLowerCase()) return false;
       }
 
-      // 3. Price Range (uses discounted_price if available, else price)
+      // 3. Price Range
       if (priceRange && priceRange.length === 2) {
-        const minPrice = priceRange[0];
-        const maxPrice = priceRange[1];
         const price = product.discounted_price !== undefined ? product.discounted_price : product.price;
-        if (price < minPrice || price > maxPrice) {
-          return false;
-        }
+        if (price < priceRange[0] || price > priceRange[1]) return false;
       }
 
       // 4. Capacity
       if (activeCapacities && activeCapacities.length > 0) {
         const capacity = (product.capacity || '').trim();
-        if (!activeCapacities.includes(capacity)) {
-          return false;
-        }
+        if (!activeCapacities.includes(capacity)) return false;
       }
 
       // 5. Brand
       if (activeBrands && activeBrands.length > 0) {
         const brand = (product.brand || '').toLowerCase().trim();
-        const brandMatch = activeBrands.some(b => b.toLowerCase().trim() === brand);
-        if (!brandMatch) {
-          return false;
-        }
+        const match = activeBrands.some(b => b.toLowerCase().trim() === brand);
+        if (!match) return false;
       }
 
       return true;
     }).sort((a, b) => {
-      // 6. Sorting
       const priceA = a.discounted_price !== undefined ? a.discounted_price : a.price;
       const priceB = b.discounted_price !== undefined ? b.discounted_price : b.price;
 
-      if (sortBy === 'price') {
-        return priceA - priceB;
-      } else if (sortBy === 'price-desc') {
-        return priceB - priceA;
-      } else if (sortBy === 'rating') {
-        return (b.rating || 3.5) - (a.rating || 3.5);
-      } else if (sortBy === 'popularity') {
+      if (sortBy === 'price') return priceA - priceB;
+      if (sortBy === 'price-desc') return priceB - priceA;
+      if (sortBy === 'rating') return (b.rating || 4) - (a.rating || 4);
+      if (sortBy === 'popularity') {
         const scoreA = (a.is_bestseller ? 2 : 0) + (a.discount_percent ? a.discount_percent / 100 : 0);
         const scoreB = (b.is_bestseller ? 2 : 0) + (b.discount_percent ? b.discount_percent / 100 : 0);
         return scoreB - scoreA;
-      } else if (sortBy === 'date') {
-        return (b.id || 0) - (a.id || 0);
       }
-      return (b.id || 0) - (a.id || 0); // Default sorting: newest first (latest product on top)
+      if (sortBy === 'date') return (b.id || 0) - (a.id || 0);
+      return (b.id || 0) - (a.id || 0);
     });
   }, [listData, searchQuery, activeCategory, priceRange, activeCapacities, activeBrands, sortBy]);
 
@@ -531,22 +499,21 @@ function ProductCard({
     <>
       <style>{`
         @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
-        @media (max-width:900px) { .es-product-grid { grid-template-columns: repeat(2,1fr) !important; } }
-        @media (max-width:550px) { .es-product-grid { grid-template-columns: 1fr !important; } }
+        .es-bento-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 28px;
+        }
+        @media (max-width: 1200px) { .es-bento-grid { grid-template-columns: repeat(3, 1fr) !important; } }
+        @media (max-width: 800px) { .es-bento-grid { grid-template-columns: repeat(2, 1fr) !important; } }
+        @media (max-width: 520px) { .es-bento-grid { grid-template-columns: 1fr !important; } }
       `}</style>
 
       <Toast alerting={alert} severity={severity} message={message} />
 
       {loading ? (
-        <div
-          className="es-product-grid"
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: '24px',
-          }}
-        >
-          {Array.from({ length: 6 }, (_, i) => <ProductCardSkeleton key={i} />)}
+        <div className="es-bento-grid">
+          {Array.from({ length: 8 }, (_, i) => <ProductCardSkeleton key={i} />)}
         </div>
       ) : filteredProducts?.length > 0 ? (
         <InfiniteScroll
@@ -554,32 +521,24 @@ function ProductCard({
           next={loadMore}
           hasMore={currentProducts.length < filteredProducts.length}
           loader={
-            <div
-              className="es-product-grid"
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(3, 1fr)',
-                gap: '24px',
-                marginTop: '24px',
-              }}
-            >
-              {Array.from({ length: 3 }, (_, i) => <ProductCardSkeleton key={i} />)}
+            <div className="es-bento-grid" style={{ marginTop: '28px' }}>
+              {Array.from({ length: 4 }, (_, i) => <ProductCardSkeleton key={i} />)}
             </div>
           }
           endMessage={
-            <p style={{ textAlign: 'center', fontFamily: 'Inter, sans-serif', color: '#9a8070', marginTop: '36px', fontSize: '13px' }}>
-              Yay! You have seen all our products
+            <p style={{
+              textAlign: 'center',
+              fontFamily: "'Playfair Display', serif",
+              fontStyle: 'italic',
+              color: 'var(--es-on-surface-variant)',
+              marginTop: '48px',
+              fontSize: '15px'
+            }}>
+              — You have viewed all curated boutique items —
             </p>
           }
         >
-          <div
-            className="es-product-grid"
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(3, 1fr)',
-              gap: '24px',
-            }}
-          >
+          <div className="es-bento-grid">
             {currentProducts.map((product, i) => (
               <ProductCard_Item
                 key={product.id || i}

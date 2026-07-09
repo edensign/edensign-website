@@ -75,6 +75,9 @@ const SalonCard = React.memo(({ salon, index }) => {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
   const [hovered, setHovered] = React.useState(false);
 
+  // Derive tags visually based on properties or type to look like the stitch template
+  const tags = salon.type === 'Male' ? ['HAIR', 'BARBER'] : salon.type === 'Female' ? ['HAIR', 'SPA'] : ['HAIR', 'SALON'];
+
   return (
     <motion.div
       ref={ref}
@@ -90,15 +93,15 @@ const SalonCard = React.memo(({ salon, index }) => {
       >
         <div
           style={{
-            background: '#fff',
-            borderRadius: '20px',
+            background: '#ffffff',
+            borderRadius: '12px',
             overflow: 'hidden',
             boxShadow: hovered
-              ? '0 20px 60px rgba(26,10,0,0.14)'
-              : '0 4px 20px rgba(26,10,0,0.06)',
-            transition: 'box-shadow 0.35s ease, transform 0.35s ease',
+              ? '0 20px 45px rgba(127, 85, 50, 0.12)'
+              : '0 8px 30px rgba(127, 85, 50, 0.04)',
+            transition: 'all 0.35s ease',
             transform: hovered ? 'translateY(-6px)' : 'translateY(0)',
-            border: '1px solid rgba(199,149,108,0.1)',
+            border: '1px solid rgba(213, 195, 184, 0.5)',
           }}
         >
           {/* Image */}
@@ -112,8 +115,8 @@ const SalonCard = React.memo(({ salon, index }) => {
                 width: '100%',
                 height: '100%',
                 objectFit: 'cover',
-                transition: 'transform 0.6s ease',
-                transform: hovered ? 'scale(1.07)' : 'scale(1)',
+                transition: 'transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                transform: hovered ? 'scale(1.08)' : 'scale(1)',
                 display: 'block',
               }}
             />
@@ -121,59 +124,39 @@ const SalonCard = React.memo(({ salon, index }) => {
             <div style={{
               position: 'absolute',
               inset: 0,
-              background: 'linear-gradient(to top, rgba(26,10,0,0.6) 0%, transparent 50%)',
+              background: 'linear-gradient(to top, rgba(31, 27, 24, 0.4) 0%, transparent 60%)',
             }} />
-
-            {/* Type badge */}
-            {salon.type && (
-              <span style={{
-                position: 'absolute',
-                top: '16px',
-                left: '16px',
-                background: 'rgba(199,149,108,0.92)',
-                backdropFilter: 'blur(8px)',
-                color: '#fff',
-                fontFamily: 'Inter, sans-serif',
-                fontSize: '10px',
-                fontWeight: 600,
-                letterSpacing: '0.12em',
-                textTransform: 'uppercase',
-                padding: '5px 12px',
-                borderRadius: '100px',
-              }}>
-                {salon.type}
-              </span>
-            )}
 
             {/* Rating badge */}
             <div style={{
               position: 'absolute',
-              bottom: '14px',
+              top: '16px',
               right: '16px',
               display: 'flex',
               alignItems: 'center',
               gap: '4px',
-              background: 'rgba(255,255,255,0.95)',
+              background: 'rgba(255,255,255,0.92)',
               borderRadius: '100px',
               padding: '4px 10px',
-              backdropFilter: 'blur(10px)',
+              backdropFilter: 'blur(8px)',
+              boxShadow: '0 4px 12px rgba(31,27,24,0.08)',
             }}>
               <StarIcon sx={{ fontSize: 13, color: '#F59E0B' }} />
-              <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', fontWeight: 700, color: '#1a0f08' }}>
+              <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', fontWeight: 700, color: 'var(--es-espresso)' }}>
                 {salon.rating ? parseFloat(salon.rating).toFixed(1) : '4.5'}
               </span>
             </div>
           </div>
 
           {/* Content */}
-          <div style={{ padding: '20px 24px 24px' }}>
+          <div style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <h3 style={{
               fontFamily: 'Playfair Display, serif',
               fontSize: '20px',
               fontWeight: 600,
-              color: '#1a0f08',
-              margin: '0 0 8px 0',
-              lineHeight: 1.2,
+              color: 'var(--es-espresso)',
+              margin: 0,
+              lineHeight: 1.25,
               textTransform: 'capitalize',
             }}>
               {salon.name}
@@ -186,15 +169,15 @@ const SalonCard = React.memo(({ salon, index }) => {
                 gap: '6px',
                 fontFamily: 'Inter, sans-serif',
                 fontSize: '13px',
-                color: '#9a8070',
-                margin: '0 0 20px 0',
+                color: 'var(--es-on-surface-variant)',
+                margin: 0,
                 lineHeight: 1.5,
               }}>
-                <LocationOnOutlinedIcon sx={{ fontSize: 15, color: '#c7956c', marginTop: '2px', flexShrink: 0 }} />
-                <span>
+                <LocationOnOutlinedIcon sx={{ fontSize: 15, color: 'var(--es-primary)', marginTop: '2px', flexShrink: 0 }} />
+                <span style={{ opacity: 0.85 }}>
                   {salon.landmark} {salon.street}
                   {salon.distance !== null && salon.distance !== undefined && (
-                    <strong style={{ color: '#c7956c', marginLeft: '8px' }}>
+                    <strong style={{ color: 'var(--es-primary)', marginLeft: '8px' }}>
                       ({parseFloat(salon.distance).toFixed(1)} km away)
                     </strong>
                   )}
@@ -202,24 +185,49 @@ const SalonCard = React.memo(({ salon, index }) => {
               </p>
             )}
 
-            <span
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                fontFamily: 'Inter, sans-serif',
-                fontSize: '13px',
-                fontWeight: 600,
-                color: '#c7956c',
-                letterSpacing: '0.04em',
-                padding: '10px 0',
-                borderBottom: `1.5px solid ${hovered ? '#c7956c' : 'rgba(199,149,108,0.3)'}`,
-                transition: 'gap 0.2s, border-color 0.2s',
-              }}
-            >
-              View Salon
-              <ArrowForwardIcon sx={{ fontSize: 15, transition: 'transform 0.2s', transform: hovered ? 'translateX(4px)' : 'none' }} />
-            </span>
+            {/* Tag Pills */}
+            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '4px' }}>
+              {tags.map(tag => (
+                <span 
+                  key={tag}
+                  className="font-label-caps"
+                  style={{
+                    fontSize: '9px',
+                    color: 'var(--es-on-surface-variant)',
+                    background: 'var(--es-surface-container)',
+                    padding: '4px 10px',
+                    borderRadius: '4px',
+                    letterSpacing: '0.08em',
+                  }}
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+
+            {/* View Details Button matching stitch design */}
+            <div style={{ marginTop: '12px', borderTop: '1px solid rgba(213, 195, 184, 0.4)', paddingTop: '16px', textAlign: 'center' }}>
+              <span
+                style={{
+                  display: 'block',
+                  width: '100%',
+                  padding: '10px 24px',
+                  borderRadius: '4px',
+                  border: '1px solid var(--es-outline)',
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '11px',
+                  fontWeight: 600,
+                  letterSpacing: '0.1em',
+                  textTransform: 'uppercase',
+                  textAlign: 'center',
+                  background: hovered ? 'var(--es-espresso)' : 'transparent',
+                  color: hovered ? '#ffffff' : 'var(--es-espresso)',
+                  transition: 'all 0.3s ease',
+                }}
+              >
+                View Details
+              </span>
+            </div>
           </div>
         </div>
       </Link>
@@ -346,7 +354,7 @@ const SalonListCards = ({
         @media (max-width: 580px) { .es-salon-grid { grid-template-columns: 1fr !important; } }
       `}</style>
 
-      <section style={{ padding: '72px 5% 100px', background: '#f8fafc' }}>
+      <section style={{ padding: '72px 5% 100px', background: 'var(--es-background)' }}>
         {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -355,13 +363,9 @@ const SalonListCards = ({
           style={{ marginBottom: '48px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}
         >
           <div>
-            <span style={{
-              fontFamily: 'Inter, sans-serif',
+            <span className="font-label-caps" style={{
               fontSize: '11px',
-              fontWeight: 600,
-              letterSpacing: '0.3em',
-              textTransform: 'uppercase',
-              color: '#c7956c',
+              color: 'var(--es-primary)',
               display: 'block',
               marginBottom: '8px',
             }}>
@@ -370,23 +374,24 @@ const SalonListCards = ({
             <h2 style={{
               fontFamily: 'Playfair Display, serif',
               fontSize: 'clamp(28px, 4vw, 40px)',
-              fontWeight: 700,
-              color: '#1a0f08',
+              fontWeight: 600,
+              color: 'var(--es-espresso)',
               margin: 0,
               lineHeight: 1.15,
             }}>
-              Featured <em style={{ fontStyle: 'italic', color: '#c7956c' }}>Salons</em>
+              Featured <span style={{ fontStyle: 'italic', fontWeight: '400' }}>Salons</span>
             </h2>
           </div>
           {!loading && allSalons.length > 0 && (
             <span style={{
               fontFamily: 'Inter, sans-serif',
-              fontSize: '13px',
-              color: '#9a8070',
-              background: '#fff',
-              border: '1px solid rgba(199,149,108,0.2)',
+              fontSize: '12px',
+              color: 'var(--es-on-surface-variant)',
+              background: '#ffffff',
+              border: '1px solid var(--es-outline-variant)',
               padding: '8px 20px',
               borderRadius: '100px',
+              boxShadow: '0 4px 12px rgba(127, 85, 50, 0.04)',
             }}>
               {visibleCount < allSalons.length
                 ? `Showing ${visibleCount} of ${allSalons.length} salons`

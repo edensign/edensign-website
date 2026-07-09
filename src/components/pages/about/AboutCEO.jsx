@@ -40,34 +40,33 @@ const AboutCEO = () => {
                         justifyContent: "center",
                         alignItems: "center",
                         width: "100%",
-                        background: "rgba(255, 255, 255, 0.7)",
-                        backdropFilter: "blur(10px)",
-                        border: "1px solid rgba(199, 149, 108, 0.15)",
-                        borderRadius: "24px",
+                        background: "#ffffff",
+                        border: "1px solid rgba(213, 195, 184, 0.5)",
+                        borderRadius: "12px",
                         p: { xs: 4, sm: 6 },
-                        boxShadow: "0 8px 30px rgba(26, 10, 0, 0.03)",
+                        boxShadow: "0 8px 30px rgba(127, 85, 50, 0.05)",
                         textAlign: "center"
                     }}>
                     <Typography sx={{ 
                         fontFamily: "Inter, sans-serif", 
                         fontWeight: 600, 
                         fontSize: "11px", 
-                        letterSpacing: "0.4em", 
+                        letterSpacing: "0.2em", 
                         textTransform: "uppercase", 
-                        color: "#c7956c",
+                        color: "var(--es-primary)",
                         mb: 1.5
                     }}> 
                         Hello From 
                     </Typography>
-                    <DiamondIcon sx={{ fontSize: "12px", color: '#c7956c', mb: 1.5 }} />
+                    <DiamondIcon sx={{ fontSize: "12px", color: 'var(--es-rose-gold)', mb: 1.5 }} />
                     <Typography sx={{ 
                         fontFamily: 'Playfair Display, serif',
-                        fontWeight: 700, 
+                        fontWeight: 600, 
                         fontSize: "28px", 
                         lineHeight: "1.2", 
-                        letterSpacing: "0.08em", 
+                        letterSpacing: "0.05em", 
                         textTransform: "uppercase", 
-                        color: "#1a0f08",
+                        color: "var(--es-espresso)",
                         mb: 3
                     }}> 
                         CEO 
@@ -77,7 +76,7 @@ const AboutCEO = () => {
                         fontWeight: 400, 
                         fontSize: "14.5px", 
                         lineHeight: "1.8", 
-                        color: "#6b5749", 
+                        color: "var(--es-on-surface-variant)", 
                         mb: 2 
                     }}> 
                         Hello there, this is your ultimate destination for effortless salon appointment bookings! We bridge the gap between clients and salons, making beauty and grooming services accessible with just a few clicks. Whether you're looking for a haircut, spa treatment, or a complete makeover, we've got you covered. 

@@ -58,7 +58,7 @@ function ContactUsForm() {
   }
 
   return (
-    <Box id="parent-box">
+    <Box id="parent-box" sx={{ background: 'var(--es-background)' }}>
       <SkeletonStyles />
 
       <Box sx={{
@@ -69,7 +69,10 @@ function ContactUsForm() {
         margin: { xs: "60px auto", md: "10% auto 4% auto" },
         width: { xs: "95vw", md: "80vw" }, 
         backgroundColor: "#ffffff",
-        boxShadow: "0 4px 20px rgba(0,0,0,0.05)"
+        border: "1px solid rgba(213, 195, 184, 0.5)",
+        borderRadius: "12px",
+        boxShadow: "0 15px 40px rgba(127, 85, 50, 0.05)",
+        overflow: "hidden"
       }}>
         <Box sx={{ 
           display: "grid", 
@@ -79,31 +82,33 @@ function ContactUsForm() {
           padding: { xs: "32px 24px", md: "4% 6%" } 
         }}>
           <p style={{
-            fontWeight: "400", fontSize: "26px", letterSpacing: "0.05em", textTransform: "uppercase",
+            fontFamily: "'Playfair Display', serif",
+            fontWeight: "600", fontSize: "26px", letterSpacing: "0.03em",
+            color: "var(--es-espresso)",
             marginTop: "6px", gridColumn: "span 2"
           }}>
-            eden sign </p>
+            Eden Sign </p>
 
           <Box>
-            <p style={{ fontWeight: "600", fontSize: "11px", letterSpacing: "0.1em", color: "#c7956c", marginBottom: "4px" }}>PHONE</p>
-            <p style={{ fontWeight: "300", fontSize: "15px", letterSpacing: "0.02em" }}>9897331083</p>
+            <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: "600", fontSize: "11px", letterSpacing: "0.15em", textTransform: "uppercase", color: "var(--es-primary)", marginBottom: "4px" }}>PHONE</p>
+            <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: "300", fontSize: "15px", letterSpacing: "0.02em", color: "var(--es-on-surface-variant)" }}>9897331083</p>
           </Box>
           <Box>
-            <p style={{ fontWeight: "600", fontSize: "11px", letterSpacing: "0.1em", color: "#c7956c", marginBottom: "4px" }}>ADDRESS</p>
-            <p style={{ fontWeight: "300", fontSize: "15px", letterSpacing: "0.02em", lineHeight: "1.5" }}>O, 44, Shastri Nagar, Izatnagar, Bareilly, Uttar Pradesh 243122</p>
+            <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: "600", fontSize: "11px", letterSpacing: "0.15em", textTransform: "uppercase", color: "var(--es-primary)", marginBottom: "4px" }}>ADDRESS</p>
+            <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: "300", fontSize: "15px", letterSpacing: "0.02em", lineHeight: "1.5", color: "var(--es-on-surface-variant)" }}>O, 44, Shastri Nagar, Izatnagar, Bareilly, Uttar Pradesh 243122</p>
           </Box>
 
           <Box>
-            <p style={{ fontWeight: "600", fontSize: "11px", letterSpacing: "0.1em", color: "#c7956c", marginBottom: "4px" }}>EMAIL</p>
-            <p style={{ fontWeight: "300", fontSize: "15px", letterSpacing: "0.02em" }}>edensign@gmail.com</p>
+            <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: "600", fontSize: "11px", letterSpacing: "0.15em", textTransform: "uppercase", color: "var(--es-primary)", marginBottom: "4px" }}>EMAIL</p>
+            <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: "300", fontSize: "15px", letterSpacing: "0.02em", color: "var(--es-on-surface-variant)" }}>edensign@gmail.com</p>
           </Box>
           <Box>
-            <p style={{ fontWeight: "600", fontSize: "11px", letterSpacing: "0.1em", color: "#c7956c", marginBottom: "4px" }}>SOCIAL NETWORKS</p>
+            <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: "600", fontSize: "11px", letterSpacing: "0.15em", textTransform: "uppercase", color: "var(--es-primary)", marginBottom: "4px" }}>SOCIAL NETWORKS</p>
             <Box sx={{ width: "120px", display: "flex", justifyContent: "space-between", alignItems: "center", mt: "4px" }}>
-              <FacebookOutlinedIcon sx={{ fontSize: "20px", cursor: "pointer", "&:hover": { color: "#c7956c" } }} />
-              <TwitterIcon sx={{ fontSize: "20px", cursor: "pointer", "&:hover": { color: "#c7956c" } }} />
-              <InstagramIcon sx={{ fontSize: "20px", cursor: "pointer", "&:hover": { color: "#c7956c" } }} />
-              <YouTubeIcon sx={{ fontSize: "20px", cursor: "pointer", "&:hover": { color: "#c7956c" } }} />
+              <FacebookOutlinedIcon sx={{ fontSize: "20px", color: "var(--es-on-surface-variant)", cursor: "pointer", "&:hover": { color: "var(--es-primary)" } }} />
+              <TwitterIcon sx={{ fontSize: "20px", color: "var(--es-on-surface-variant)", cursor: "pointer", "&:hover": { color: "var(--es-primary)" } }} />
+              <InstagramIcon sx={{ fontSize: "20px", color: "var(--es-on-surface-variant)", cursor: "pointer", "&:hover": { color: "var(--es-primary)" } }} />
+              <YouTubeIcon sx={{ fontSize: "20px", color: "var(--es-on-surface-variant)", cursor: "pointer", "&:hover": { color: "var(--es-primary)" } }} />
             </Box>
           </Box>
         </Box>
@@ -122,15 +127,18 @@ function ContactUsForm() {
         margin: { xs: "40px auto 80px auto", md: "4% auto 10% auto" },
         width: { xs: "95vw", md: "80vw" }, 
         backgroundColor: "#ffffff",
-        boxShadow: "0 4px 20px rgba(0,0,0,0.05)"
+        border: "1px solid rgba(213, 195, 184, 0.5)",
+        borderRadius: "12px",
+        boxShadow: "0 15px 40px rgba(127, 85, 50, 0.05)",
+        overflow: "hidden"
       }}>
         <Box sx={{ width: { xs: "100%", md: "50%" }, height: { xs: "300px", md: "auto" }, position: "relative" }}>
           <img src={flowerimage} alt="flower" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </Box>
 
         <Box sx={{ width: { xs: "100%", md: "50%" }, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", py: 4 }} >
-          <p style={{ width: "88%", marginBottom: "24px", fontWeight: "400", fontSize: "24px", letterSpacing: "0.05em", textTransform: "uppercase", textAlign: "center" }}>
-            send your question </p>
+          <p style={{ width: "88%", marginBottom: "24px", fontWeight: "600", fontSize: "24px", letterSpacing: "0.03em", textTransform: "capitalize", textAlign: "center", fontFamily: "'Playfair Display', serif", color: "var(--es-espresso)" }}>
+            Send Your Question</p>
 
           <Formik
             initialValues={initialValues}
@@ -206,10 +214,17 @@ function ContactUsForm() {
                 <Button type="submit" color='primary' variant='contained'
                   disabled={!dirty || loading}
                   sx={{
-                    fontSize: "14px", letterSpacing: "0.15em", height: "50px", fontWeight: "600",
+                    fontSize: "11px", letterSpacing: "0.15em", height: "50px", fontWeight: "700",
                     mt: 2, textTransform: "uppercase",
-                    backgroundColor: "#1a0a00",
-                    "&:hover": { backgroundColor: "#3d1e0a" }
+                    background: "linear-gradient(135deg, #c7956c 0%, #7f5532 100%)",
+                    border: "none",
+                    borderRadius: "100px",
+                    boxShadow: "0 4px 14px rgba(127, 85, 50, 0.2)",
+                    "&:hover": {
+                      background: "linear-gradient(135deg, #b8845a 0%, #6e4728 100%)",
+                      boxShadow: "0 6px 20px rgba(127, 85, 50, 0.3)",
+                      transform: "translateY(-1px)"
+                    }
                   }}>
                   {loading ? <CircularProgress size={24} color="inherit" /> : "send message"}
                 </Button>

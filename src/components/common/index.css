@@ -22,20 +22,20 @@ body {
 
 /* ── Custom Scrollbar ── */
 ::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #f8fafc; }
-::-webkit-scrollbar-thumb { background: rgba(199,149,108,0.4); border-radius: 8px; }
-::-webkit-scrollbar-thumb:hover { background: #c7956c; }
+::-webkit-scrollbar-track { background: var(--es-background); }
+::-webkit-scrollbar-thumb { background: rgba(127, 85, 50, 0.4); border-radius: 8px; }
+::-webkit-scrollbar-thumb:hover { background: var(--es-primary); }
 
 /* ── Focus ring ── */
 *:focus-visible {
-  outline: 2px solid #c7956c;
+  outline: 2px solid var(--es-rose-gold);
   outline-offset: 2px;
   border-radius: 4px;
 }
 
 /* ── Main padding top for fixed navbar ── */
 #main-div > div:first-of-type:not(#app-bar) {
-  padding-top: 72px;
+  padding-top: 80px;
 }
 
 .lds-ring {
@@ -55,10 +55,10 @@ body {
   width: 64px;
   height: 64px;
   margin: 8px;
-  border: 8px solid #cef;
+  border: 8px solid var(--es-rose-gold);
   border-radius: 50%;
   animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-  border-color: #cef transparent transparent transparent;
+  border-color: var(--es-rose-gold) transparent transparent transparent;
 }
 
 .lds-ring div:nth-child(1) {
@@ -97,7 +97,7 @@ body {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: #cef;
+  background: var(--es-rose-gold);
   animation-timing-function: cubic-bezier(0, 1, 1, 0);
 }
 
@@ -330,19 +330,19 @@ body {
 /* ── Selection highlights ── */
 ::selection {
   background-color: rgba(199, 149, 108, 0.25);
-  color: #1a0f08;
+  color: var(--es-espresso);
 }
 
 /* ── Modern Glassmorphism ── */
 .es-glass {
-  background: rgba(255, 255, 255, 0.75) !important;
+  background: rgba(255, 248, 245, 0.8) !important;
   backdrop-filter: blur(16px) saturate(120%) !important;
   WebkitBackdropFilter: blur(16px) saturate(120%) !important;
   border: 1px solid rgba(199, 149, 108, 0.15) !important;
 }
 
 .es-glass-dark {
-  background: rgba(26, 18, 14, 0.75) !important;
+  background: rgba(31, 27, 24, 0.85) !important;
   backdrop-filter: blur(16px) saturate(110%) !important;
   WebkitBackdropFilter: blur(16px) saturate(110%) !important;
   border: 1px solid rgba(255, 255, 255, 0.08) !important;
@@ -350,11 +350,11 @@ body {
 
 /* ── Luxury Details & Glows ── */
 .es-glow {
-  box-shadow: 0 8px 30px rgba(199, 149, 108, 0.15) !important;
+  box-shadow: 0 8px 30px rgba(127, 85, 50, 0.08) !important;
   transition: box-shadow 0.3s ease, transform 0.3s ease !important;
 }
 .es-glow:hover {
-  box-shadow: 0 12px 40px rgba(199, 149, 108, 0.25) !important;
+  box-shadow: 0 12px 40px rgba(127, 85, 50, 0.16) !important;
   transform: translateY(-2px);
 }
 
@@ -371,7 +371,7 @@ body {
   height: 1.5px;
   bottom: -4px;
   left: 0;
-  background-color: #c7956c;
+  background-color: var(--es-rose-gold);
   transform-origin: bottom right;
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }

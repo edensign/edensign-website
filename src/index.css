@@ -9,6 +9,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 
+:root {
+  --es-espresso: #1f1b18;
+  --es-rose-gold: #c7956c;
+  --es-rose-dark: #7f5532;
+  --es-ivory: #fff8f5;
+  --es-cream: #faf6f1;
+  --es-surface: #fff8f5;
+  --es-surface-container: #f6ece6;
+  --es-surface-variant: #eae1db;
+  --es-outline: #83746a;
+  --es-outline-variant: #d5c3b8;
+  --es-on-surface: #1f1b18;
+  --es-on-surface-variant: #50443c;
+  --es-primary: #7f5532;
+  --es-primary-fixed: #ffdcc2;
+  --es-on-primary-fixed: #2e1500;
+  --es-secondary: #835331;
+  --es-on-secondary: #ffffff;
+  --es-tertiary: #6f5a4c;
+  --es-background: #fff8f5;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -19,6 +41,8 @@ body {
   position: relative;
   width: 100%;
   scroll-behavior: smooth !important;
+  background-color: var(--es-background) !important;
+  color: var(--es-on-surface) !important;
 }
 
 /* Lock html scroll when MUI body scroll lock is active to prevent page scroll chaining */
@@ -34,9 +58,32 @@ body,
   word-wrap: break-word;
 }
 
+/* Redesign Typography Override */
+h1, h2, h3, h4, h5, h6,
+.font-headline-md, .font-headline-sm, .font-display-lg, .font-display-lg-mobile {
+  font-family: 'Playfair Display', serif !important;
+}
 
+/* Custom classes from the stitch template */
+.luxury-gradient {
+  background: linear-gradient(135deg, #c7956c 0%, #7f5532 100%) !important;
+}
 
-/* 
-font-family: 'Marcellus', serif;
-font-family: 'Dancing Script', cursive;
- */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(199, 149, 108, 0.2);
+}
+
+.editorial-shadow {
+  box-shadow: 0 20px 40px -15px rgba(127, 85, 50, 0.12);
+}
+
+.font-label-caps {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 12px !important;
+  line-height: 1.0 !important;
+  letter-spacing: 0.1em !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+}

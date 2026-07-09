@@ -99,7 +99,7 @@ function ProductDetailPage() {
 
       <Toast alerting={alert} severity="success" message={message} />
 
-      <div style={{ background: '#f8fafc', minHeight: '100vh', paddingTop: '88px' }}>
+      <div style={{ background: 'var(--es-background)', minHeight: '100vh', paddingTop: '88px' }}>
         {/* Back button */}
         <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '20px 32px 0' }}>
           <button
@@ -112,14 +112,17 @@ function ProductDetailPage() {
               border: 'none',
               cursor: 'pointer',
               fontFamily: 'Inter, sans-serif',
-              fontSize: '13px',
-              color: '#9a8070',
+              fontSize: '11px',
+              letterSpacing: '0.05em',
+              textTransform: 'uppercase',
+              fontWeight: 600,
+              color: 'var(--es-on-surface-variant)',
               padding: '8px 0',
               transition: 'color 0.2s',
             }}
             className="es-back-btn"
           >
-            <ArrowBackIcon sx={{ fontSize: 16 }} />
+            <ArrowBackIcon sx={{ fontSize: 14 }} />
             Back to Products
           </button>
         </div>
@@ -132,11 +135,11 @@ function ProductDetailPage() {
             style={{
               display: 'flex',
               gap: '48px',
-              background: '#fff',
-              borderRadius: '24px',
+              background: '#ffffff',
+              borderRadius: '16px',
               overflow: 'hidden',
-              boxShadow: '0 8px 40px rgba(26,10,0,0.07)',
-              border: '1px solid rgba(199,149,108,0.1)',
+              boxShadow: '0 15px 40px rgba(127, 85, 50, 0.05)',
+              border: '1px solid rgba(213, 195, 184, 0.5)',
             }}
             className="es-detail-layout"
           >
@@ -144,14 +147,15 @@ function ProductDetailPage() {
             <div style={{ width: '50%', flexShrink: 0, display: 'flex', flexDirection: 'column', gap: '16px', padding: '32px 0 32px 32px' }} className="es-detail-image">
               {/* Main image */}
               <div style={{
-                background: '#faf6f1',
-                borderRadius: '16px',
+                background: '#ffffff',
+                borderRadius: '12px',
                 overflow: 'hidden',
                 position: 'relative',
                 aspectRatio: '1',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
+                border: '1px solid rgba(213, 195, 184, 0.4)',
               }}>
                 <motion.img
                    key={selectedImage}
@@ -185,12 +189,12 @@ function ProductDetailPage() {
                        background: 'rgba(239, 68, 68, 0.9)',
                        color: '#fff',
                        fontFamily: 'Inter, sans-serif',
-                       fontSize: '13px',
+                       fontSize: '12px',
                        fontWeight: 700,
                        letterSpacing: '0.1em',
                        textTransform: 'uppercase',
                        padding: '10px 20px',
-                       borderRadius: '8px',
+                       borderRadius: '4px',
                        boxShadow: '0 4px 16px rgba(239, 68, 68, 0.3)',
                      }}>
                        Out of Stock
@@ -207,15 +211,15 @@ function ProductDetailPage() {
                     right: '16px',
                     width: 40,
                     height: 40,
-                    borderRadius: '12px',
-                    background: '#fff',
-                    border: 'none',
+                    borderRadius: '50%',
+                    background: '#ffffff',
+                    border: '1px solid rgba(213, 195, 184, 0.5)',
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    boxShadow: '0 4px 12px rgba(26,10,0,0.1)',
-                    color: isInWishlist ? '#ef4444' : '#9a8070',
+                    boxShadow: '0 4px 12px rgba(31,27,24,0.06)',
+                    color: isInWishlist ? '#ef4444' : 'var(--es-on-surface-variant)',
                     transition: 'transform 0.2s',
                   }}
                 >
@@ -231,17 +235,17 @@ function ProductDetailPage() {
                     background: 'rgba(34,197,94,0.9)',
                     color: '#fff',
                     fontFamily: 'Inter, sans-serif',
-                    fontSize: '11px',
+                    fontSize: '10px',
                     fontWeight: 700,
                     padding: '4px 10px',
-                    borderRadius: '100px',
+                    borderRadius: '4px',
                   }}>
                     {product.discount_percent?.toFixed(0)}% OFF
                   </div>
                 )}
               </div>
 
-              {/* Thumbnail strip (placeholder — single image shown) */}
+              {/* Thumbnail strip */}
               <div style={{ display: 'flex', gap: '10px' }}>
                 {[selectedImage].map((img, i) => (
                   <button
@@ -251,9 +255,9 @@ function ProductDetailPage() {
                     style={{
                       width: 70,
                       height: 70,
-                      borderRadius: '12px',
-                      border: `2px solid ${selectedImage === img ? '#c7956c' : 'rgba(199,149,108,0.2)'}`,
-                      background: '#faf6f1',
+                      borderRadius: '8px',
+                      border: `2px solid ${selectedImage === img ? 'var(--es-rose-gold)' : 'rgba(213, 195, 184, 0.4)'}`,
+                      background: '#ffffff',
                       cursor: 'pointer',
                       overflow: 'hidden',
                       padding: 4,
@@ -269,19 +273,13 @@ function ProductDetailPage() {
 
             {/* ── Info Column ── */}
             <div style={{ flex: 1, padding: '40px 40px 40px 16px', display: 'flex', flexDirection: 'column' }} className="es-detail-info">
-              {/* Brand + Category */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
-                <span style={{
-                  fontFamily: 'Inter, sans-serif',
-                  fontSize: '10px',
-                  fontWeight: 700,
-                  letterSpacing: '0.18em',
-                  textTransform: 'uppercase',
-                  color: '#c7956c',
-                  background: 'rgba(199,149,108,0.1)',
-                  border: '1px solid rgba(199,149,108,0.2)',
-                  padding: '4px 12px',
-                  borderRadius: '100px',
+              {/* Brand */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>
+                <span className="font-label-caps" style={{
+                  fontSize: '11px',
+                  fontWeight: 600,
+                  color: 'var(--es-primary)',
+                  letterSpacing: '0.15em',
                 }}>
                   {product?.brand}
                 </span>
@@ -291,8 +289,8 @@ function ProductDetailPage() {
               <h1 style={{
                 fontFamily: 'Playfair Display, serif',
                 fontSize: 'clamp(24px, 3vw, 36px)',
-                fontWeight: 700,
-                color: '#1a0f08',
+                fontWeight: 600,
+                color: 'var(--es-espresso)',
                 margin: '0 0 12px 0',
                 lineHeight: 1.15,
               }}>
@@ -303,9 +301,10 @@ function ProductDetailPage() {
               <p style={{
                 fontFamily: 'Inter, sans-serif',
                 fontSize: '14px',
-                color: '#6b5749',
+                color: 'var(--es-on-surface-variant)',
                 margin: '0 0 20px 0',
                 lineHeight: 1.8,
+                opacity: 0.85,
               }}>
                 {product?.description}
               </p>
@@ -313,17 +312,17 @@ function ProductDetailPage() {
               {/* Rating */}
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '24px' }}>
                 {[1,2,3,4,5].map(s => (
-                  <StarIcon key={s} sx={{ fontSize: 16, color: s <= 3.5 ? '#F59E0B' : '#e8e0d8' }} />
+                  <StarIcon key={s} sx={{ fontSize: 15, color: s <= 4 ? '#F59E0B' : '#e8e0d8' }} />
                 ))}
-                <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '13px', color: '#9a8070', marginLeft: '4px' }}>3.5 (128 reviews)</span>
+                <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '13px', color: 'var(--es-on-surface-variant)', opacity: 0.7, marginLeft: '4px' }}>4.0 (128 reviews)</span>
               </div>
 
               {/* Price */}
               <div style={{ display: 'flex', alignItems: 'baseline', gap: '12px', marginBottom: '8px' }}>
-                <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '32px', fontWeight: 800, color: '#1a0f08' }}>
+                <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '32px', fontWeight: 700, color: 'var(--es-espresso)' }}>
                   ₹{totalPrice.toFixed(2)}
                 </span>
-                <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '16px', color: '#9a8070', textDecoration: 'line-through' }}>
+                <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '16px', color: 'var(--es-on-surface-variant)', opacity: 0.6, textDecoration: 'line-through' }}>
                   ₹{product?.price ?? 0}
                 </span>
                 {product?.discount_percent > 0 && (
@@ -333,7 +332,7 @@ function ProductDetailPage() {
                 )}
               </div>
               {product?.capacity && (
-                <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: '#9a8070', margin: '0 0 24px' }}>
+                <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'var(--es-on-surface-variant)', opacity: 0.7, margin: '0 0 24px' }}>
                   Capacity: {product.capacity}
                 </p>
               )}
@@ -341,26 +340,26 @@ function ProductDetailPage() {
               {/* Stock status */}
               <div style={{ marginBottom: '24px', fontFamily: 'Inter, sans-serif', fontSize: '14px', fontWeight: 600 }}>
                 {isOutOfStock ? (
-                  <span style={{ color: '#ef4444', display: 'inline-flex', alignItems: 'center', gap: '6px', background: 'rgba(239, 68, 68, 0.08)', padding: '6px 14px', borderRadius: '8px', border: '1px solid rgba(239, 68, 68, 0.15)' }}>
+                  <span style={{ color: '#ef4444', display: 'inline-flex', alignItems: 'center', gap: '6px', background: 'rgba(239, 68, 68, 0.08)', padding: '6px 14px', borderRadius: '4px', border: '1px solid rgba(239, 68, 68, 0.15)' }}>
                     <span style={{ width: 8, height: 8, borderRadius: '50%', backgroundColor: '#ef4444', display: 'inline-block' }}></span>
                     This product is out of stock
                   </span>
                 ) : (
-                  <span style={{ color: '#22c55e', display: 'inline-flex', alignItems: 'center', gap: '6px', background: 'rgba(34, 197, 94, 0.08)', padding: '6px 14px', borderRadius: '8px', border: '1px solid rgba(34, 197, 94, 0.15)' }}>
+                  <span style={{ color: '#22c55e', display: 'inline-flex', alignItems: 'center', gap: '6px', background: 'rgba(34, 197, 94, 0.08)', padding: '6px 14px', borderRadius: '4px', border: '1px solid rgba(34, 197, 94, 0.15)' }}>
                     <span style={{ width: 8, height: 8, borderRadius: '50%', backgroundColor: '#22c55e', display: 'inline-block' }}></span>
                     This product is available
                   </span>
                 )}
               </div>
 
-              <div style={{ height: '1px', background: 'rgba(199,149,108,0.12)', marginBottom: '24px' }} />
+              <div style={{ height: '1px', background: 'rgba(213, 195, 184, 0.4)', marginBottom: '24px' }} />
 
               {/* Quantity selector */}
               <div style={{ marginBottom: '24px' }}>
-                <label style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#9a8070', display: 'block', marginBottom: '10px' }}>
+                <label className="font-label-caps" style={{ fontSize: '10px', color: 'var(--es-on-surface-variant)', opacity: 0.7, display: 'block', marginBottom: '10px' }}>
                   Quantity
                 </label>
-                <div style={{ display: 'inline-flex', alignItems: 'center', border: '1.5px solid rgba(199,149,108,0.25)', borderRadius: '12px', overflow: 'hidden' }}>
+                <div style={{ display: 'inline-flex', alignItems: 'center', border: '1px solid var(--es-outline-variant)', borderRadius: '4px', overflow: 'hidden', background: '#ffffff' }}>
                   <button
                     onClick={handleDecreaseQuantity}
                     disabled={quantity <= 1 || isOutOfStock}
@@ -373,7 +372,7 @@ function ProductDetailPage() {
                       cursor: isOutOfStock ? 'not-allowed' : (quantity <= 1 ? 'default' : 'pointer'),
                       fontFamily: 'Inter, sans-serif',
                       fontSize: '20px',
-                      color: quantity <= 1 || isOutOfStock ? '#ccc' : '#3d1e0a',
+                      color: quantity <= 1 || isOutOfStock ? '#ccc' : 'var(--es-espresso)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -382,7 +381,7 @@ function ProductDetailPage() {
                   >
                     −
                   </button>
-                  <span style={{ minWidth: '48px', textAlign: 'center', fontFamily: 'Inter, sans-serif', fontSize: '16px', fontWeight: 700, color: isOutOfStock ? '#94a3b8' : '#1a0f08' }}>
+                  <span style={{ minWidth: '48px', textAlign: 'center', fontFamily: 'Inter, sans-serif', fontSize: '16px', fontWeight: 700, color: isOutOfStock ? '#94a3b8' : 'var(--es-espresso)' }}>
                     {quantity}
                   </span>
                   <button
@@ -397,7 +396,7 @@ function ProductDetailPage() {
                       cursor: isOutOfStock ? 'not-allowed' : 'pointer',
                       fontFamily: 'Inter, sans-serif',
                       fontSize: '20px',
-                      color: isOutOfStock ? '#ccc' : '#3d1e0a',
+                      color: isOutOfStock ? '#ccc' : 'var(--es-espresso)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -413,12 +412,12 @@ function ProductDetailPage() {
               <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '28px' }}>
                 <motion.button
                   disabled={isOutOfStock}
-                  whileHover={isOutOfStock ? {} : { scale: 1.02 }}
-                  whileTap={isOutOfStock ? {} : { scale: 0.98 }}
+                  whileHover={isOutOfStock ? {} : { scale: 0.98 }}
+                  whileTap={isOutOfStock ? {} : { scale: 0.96 }}
                   onClick={handleAddToCart}
                   style={{
                     flex: 1,
-                    minWidth: '160px',
+                    minWidth: '180px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -428,21 +427,22 @@ function ProductDetailPage() {
                       ? '#cbd5e1'
                       : addedToCart
                         ? 'linear-gradient(135deg, #22c55e, #16a34a)'
-                        : 'linear-gradient(135deg, #1a0a00, #3d1e0a)',
+                        : 'linear-gradient(135deg, #c7956c 0%, #7f5532 100%)',
                     border: 'none',
-                    borderRadius: '14px',
+                    borderRadius: '100px',
                     color: isOutOfStock ? '#64748b' : '#fff',
                     fontFamily: 'Inter, sans-serif',
-                    fontSize: '14px',
-                    fontWeight: 700,
-                    letterSpacing: '0.06em',
+                    fontSize: '12px',
+                    fontWeight: 600,
+                    letterSpacing: '0.08em',
+                    textTransform: 'uppercase',
                     cursor: isOutOfStock ? 'not-allowed' : 'pointer',
-                    boxShadow: isOutOfStock ? 'none' : '0 4px 20px rgba(26,10,0,0.25)',
+                    boxShadow: isOutOfStock ? 'none' : '0 4px 14px rgba(127, 85, 50, 0.2)',
                     transition: 'background 0.3s',
                   }}
                 >
                   {!isOutOfStock && <ShoppingBagOutlinedIcon sx={{ fontSize: 18 }} />}
-                  {isOutOfStock ? 'Out of Stock' : addedToCart ? '✓ Added to Cart' : 'Add to Cart'}
+                  {isOutOfStock ? 'Out of Stock' : addedToCart ? '✓ Added to Cart' : 'Add to Bag'}
                 </motion.button>
 
                 <button
@@ -450,14 +450,14 @@ function ProductDetailPage() {
                   style={{
                     width: 56,
                     height: 56,
-                    borderRadius: '14px',
-                    border: `1.5px solid ${isInWishlist ? '#ef4444' : 'rgba(199,149,108,0.3)'}`,
+                    borderRadius: '50%',
+                    border: `1.5px solid ${isInWishlist ? '#ef4444' : 'var(--es-outline-variant)'}`,
                     background: isInWishlist ? 'rgba(239,68,68,0.08)' : 'none',
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: isInWishlist ? '#ef4444' : '#9a8070',
+                    color: isInWishlist ? '#ef4444' : 'var(--es-on-surface-variant)',
                     transition: 'all 0.2s',
                     flexShrink: 0,
                   }}
@@ -467,32 +467,31 @@ function ProductDetailPage() {
               </div>
 
               {/* Guarantees */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '24px', padding: '16px', background: '#faf6f1', borderRadius: '12px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '24px', padding: '16px', background: 'var(--es-surface-container)', borderRadius: '8px' }}>
                 {guarantees.map(({ Icon, text }) => (
                   <div key={text} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <Icon sx={{ fontSize: 16, color: '#c7956c', flexShrink: 0 }} />
-                    <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '12.5px', color: '#6b5749' }}>{text}</span>
+                    <Icon sx={{ fontSize: 16, color: 'var(--es-primary)', flexShrink: 0 }} />
+                    <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '13px', color: 'var(--es-on-surface-variant)', opacity: 0.9 }}>{text}</span>
                   </div>
                 ))}
               </div>
 
               {/* Meta */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '20px' }}>
-                <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: '#9a8070', margin: 0 }}>
-                  <strong style={{ color: '#3d1e0a' }}>Brand:</strong> {product?.brand}
+                <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'var(--es-on-surface-variant)', opacity: 0.8, margin: 0 }}>
+                  <strong style={{ color: 'var(--es-espresso)' }}>Brand:</strong> {product?.brand}
                 </p>
-                <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: '#9a8070', margin: 0 }}>
-                  <strong style={{ color: '#3d1e0a' }}>Tags:</strong>{' '}
+                <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'var(--es-on-surface-variant)', opacity: 0.8, margin: 0 }}>
+                  <strong style={{ color: 'var(--es-espresso)' }}>Tags:</strong>{' '}
                   {['Airbrush', 'Matte', 'Skin'].map(tag => (
                     <span key={tag} style={{
                       display: 'inline-block',
                       marginRight: '6px',
                       padding: '2px 10px',
-                      borderRadius: '100px',
-                      background: 'rgba(199,149,108,0.1)',
-                      border: '1px solid rgba(199,149,108,0.2)',
+                      borderRadius: '4px',
+                      background: 'var(--es-surface-container)',
                       fontSize: '11px',
-                      color: '#a8724d',
+                      color: 'var(--es-espresso)',
                     }}>{tag}</span>
                   ))}
                 </p>
@@ -500,7 +499,7 @@ function ProductDetailPage() {
 
               {/* Share */}
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: '#9a8070' }}>Share:</span>
+                <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'var(--es-on-surface-variant)', opacity: 0.6 }}>Share:</span>
                 {[
                   { Icon: FacebookOutlinedIcon, color: '#1877f2' },
                   { Icon: TwitterIcon, color: '#1da1f2' },
@@ -514,7 +513,8 @@ function ProductDetailPage() {
                       background: 'none',
                       border: 'none',
                       cursor: 'pointer',
-                      color: '#9a8070',
+                      color: 'var(--es-on-surface-variant)',
+                      opacity: 0.7,
                       display: 'flex',
                       padding: '4px',
                       transition: 'all 0.2s',

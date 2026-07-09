@@ -8,10 +8,10 @@ import { useInView } from 'react-intersection-observer';
 import { motion } from 'framer-motion';
 
 const stats = [
-  { value: 500, suffix: '+', label: 'Salons Listed' },
-  { value: 10000, suffix: '+', label: 'Happy Clients' },
-  { value: 50, suffix: '+', label: 'Cities Covered' },
-  { value: 98, suffix: '%', label: 'Client Satisfaction' },
+  { value: 500, suffix: '+', label: 'Luxury Salons' },
+  { value: 10, suffix: 'k+', label: 'Master Stylists' },
+  { value: 45, suffix: 'k', label: 'Active Members' },
+  { value: 12, suffix: '', label: 'Global Cities' },
 ];
 
 const StatsBar = () => {

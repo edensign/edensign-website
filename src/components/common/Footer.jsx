@@ -59,23 +59,24 @@ function Footer() {
 
   return (
     <footer ref={ref} style={{
-      background: 'linear-gradient(180deg, #1a0a00 0%, #0d0500 100%)',
-      color: '#fff',
+      background: 'var(--es-background)',
+      color: 'var(--es-on-surface)',
       position: 'relative',
       overflow: 'hidden',
+      borderTop: '1px solid rgba(131, 116, 106, 0.2)',
     }}>
       {/* Decorative top border */}
       <div style={{
         height: '3px',
-        background: 'linear-gradient(90deg, transparent, #c7956c, #a8724d, transparent)',
+        background: 'linear-gradient(90deg, transparent, var(--es-rose-gold), var(--es-primary), transparent)',
       }} />
 
       {/* Decorative background pattern */}
       <div style={{
         position: 'absolute',
         inset: 0,
-        backgroundImage: `radial-gradient(circle at 20% 20%, rgba(199,149,108,0.05) 0%, transparent 50%),
-                          radial-gradient(circle at 80% 80%, rgba(199,149,108,0.04) 0%, transparent 50%)`,
+        backgroundImage: `radial-gradient(circle at 20% 20%, rgba(199,149,108,0.03) 0%, transparent 50%),
+                          radial-gradient(circle at 80% 80%, rgba(199,149,108,0.02) 0%, transparent 50%)`,
         pointerEvents: 'none',
       }} />
 
@@ -83,7 +84,7 @@ function Footer() {
       <div style={{
         maxWidth: '1200px',
         margin: '0 auto',
-        padding: '72px 40px 48px',
+        padding: '80px 40px 48px',
         position: 'relative',
         zIndex: 1,
       }}>
@@ -100,32 +101,21 @@ function Footer() {
         >
           {/* Brand Column */}
           <div>
-            <Link to="/" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
-              <div style={{
-                width: 36,
-                height: 36,
-                background: 'linear-gradient(135deg, #c7956c, #a8724d)',
-                borderRadius: '10px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexShrink: 0,
-              }}>
-                <ContentCutOutlinedIcon sx={{ fontSize: 18, color: '#fff' }} />
-              </div>
+            <Link to="/" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', marginBottom: '20px' }}>
               <span style={{
                 fontFamily: 'Playfair Display, serif',
-                fontWeight: 700,
-                fontSize: '22px',
-                color: '#fff',
-                letterSpacing: '0.04em',
-              }}>edensign</span>
+                fontWeight: 600,
+                fontSize: '24px',
+                color: 'var(--es-primary)',
+                letterSpacing: '0.15em',
+                textTransform: 'uppercase',
+              }}>Eden Sign</span>
             </Link>
 
             <p style={{
               fontFamily: 'Inter, sans-serif',
               fontSize: '13.5px',
-              color: 'rgba(255,255,255,0.55)',
+              color: 'var(--es-on-surface-variant)',
               lineHeight: '1.8',
               margin: '0 0 28px 0',
               maxWidth: '280px',
@@ -145,12 +135,12 @@ function Footer() {
                   style={{
                     width: 36,
                     height: 36,
-                    borderRadius: '10px',
-                    border: '1px solid rgba(199,149,108,0.25)',
+                    borderRadius: '50%',
+                    border: '1px solid var(--es-outline-variant)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: 'rgba(255,255,255,0.6)',
+                    color: 'var(--es-on-surface-variant)',
                     textDecoration: 'none',
                     transition: 'all 0.25s ease',
                   }}
@@ -165,13 +155,11 @@ function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h4 style={{
-              fontFamily: 'Inter, sans-serif',
+            <h4 className="font-label-caps" style={{
               fontSize: '11px',
               fontWeight: 600,
-              letterSpacing: '0.18em',
-              textTransform: 'uppercase',
-              color: '#c7956c',
+              letterSpacing: '0.15em',
+              color: 'var(--es-primary)',
               margin: '0 0 20px 0',
             }}>Navigation</h4>
             <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -183,11 +171,11 @@ function Footer() {
                       textDecoration: 'none',
                       fontFamily: 'Inter, sans-serif',
                       fontSize: '13.5px',
-                      color: 'rgba(255,255,255,0.6)',
+                      color: 'var(--es-on-surface-variant)',
                       display: 'flex',
                       alignItems: 'center',
                       gap: '6px',
-                      transition: 'color 0.2s, gap 0.2s',
+                      transition: 'all 0.2s',
                     }}
                     className="es-footer-link"
                   >
@@ -201,13 +189,11 @@ function Footer() {
 
           {/* Legal */}
           <div>
-            <h4 style={{
-              fontFamily: 'Inter, sans-serif',
+            <h4 className="font-label-caps" style={{
               fontSize: '11px',
               fontWeight: 600,
-              letterSpacing: '0.18em',
-              textTransform: 'uppercase',
-              color: '#c7956c',
+              letterSpacing: '0.15em',
+              color: 'var(--es-primary)',
               margin: '0 0 20px 0',
             }}>Legal</h4>
             <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -219,7 +205,7 @@ function Footer() {
                       textDecoration: 'none',
                       fontFamily: 'Inter, sans-serif',
                       fontSize: '13.5px',
-                      color: 'rgba(255,255,255,0.6)',
+                      color: 'var(--es-on-surface-variant)',
                       display: 'flex',
                       alignItems: 'center',
                       gap: '6px',
@@ -235,13 +221,11 @@ function Footer() {
             </ul>
 
             {/* Platform badges */}
-            <h4 style={{
-              fontFamily: 'Inter, sans-serif',
+            <h4 className="font-label-caps" style={{
               fontSize: '11px',
               fontWeight: 600,
-              letterSpacing: '0.18em',
-              textTransform: 'uppercase',
-              color: '#c7956c',
+              letterSpacing: '0.15em',
+              color: 'var(--es-primary)',
               margin: '32px 0 14px 0',
             }}>Platform</h4>
             <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -257,11 +241,11 @@ function Footer() {
                       textDecoration: 'none',
                       fontFamily: 'Inter, sans-serif',
                       fontSize: '13.5px',
-                      color: 'rgba(255,255,255,0.6)',
+                      color: 'var(--es-on-surface-variant)',
                       display: 'flex',
                       alignItems: 'center',
                       gap: '6px',
-                      transition: 'color 0.2s',
+                      transition: 'opacity 0.2s',
                     }}
                     className="es-footer-link"
                   >
@@ -275,13 +259,11 @@ function Footer() {
 
           {/* Contact */}
           <div>
-            <h4 style={{
-              fontFamily: 'Inter, sans-serif',
+            <h4 className="font-label-caps" style={{
               fontSize: '11px',
               fontWeight: 600,
-              letterSpacing: '0.18em',
-              textTransform: 'uppercase',
-              color: '#c7956c',
+              letterSpacing: '0.15em',
+              color: 'var(--es-primary)',
               margin: '0 0 20px 0',
             }}>Get In Touch</h4>
             <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: '14px' }}>
@@ -292,10 +274,10 @@ function Footer() {
                   gap: '10px',
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '13px',
-                  color: 'rgba(255,255,255,0.55)',
+                  color: 'var(--es-on-surface-variant)',
                   lineHeight: '1.5',
                 }}>
-                  <Icon sx={{ fontSize: 15, color: '#c7956c', marginTop: '2px', flexShrink: 0 }} />
+                  <Icon sx={{ fontSize: 15, color: 'var(--es-primary)', marginTop: '2px', flexShrink: 0 }} />
                   {text}
                 </li>
               ))}
@@ -307,7 +289,7 @@ function Footer() {
         <div style={{
           marginTop: '56px',
           paddingTop: '24px',
-          borderTop: '1px solid rgba(199,149,108,0.12)',
+          borderTop: '1px solid rgba(131, 116, 106, 0.15)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
@@ -317,7 +299,8 @@ function Footer() {
           <p style={{
             fontFamily: 'Inter, sans-serif',
             fontSize: '12px',
-            color: 'rgba(255,255,255,0.3)',
+            color: 'var(--es-on-surface-variant)',
+            opacity: 0.6,
             margin: 0,
           }}>
             © {new Date().getFullYear()} EDENSIGN. All Rights Reserved. Made with ❤️ in India.
@@ -325,7 +308,8 @@ function Footer() {
           <p style={{
             fontFamily: 'Inter, sans-serif',
             fontSize: '12px',
-            color: 'rgba(255,255,255,0.25)',
+            color: 'var(--es-on-surface-variant)',
+            opacity: 0.5,
             margin: 0,
           }}>
             Designed &amp; Built by  — Codevamp Technologies
@@ -352,7 +336,7 @@ function Footer() {
 
         /* Footer link hover */
         .es-footer-link:hover {
-          color: #c7956c !important;
+          color: var(--es-primary) !important;
           gap: 10px !important;
         }
         .es-footer-link:hover .es-footer-link-arrow {
@@ -361,9 +345,9 @@ function Footer() {
 
         /* Social icon hover */
         .es-social-icon:hover {
-          background: rgba(199,149,108,0.15) !important;
-          border-color: rgba(199,149,108,0.5) !important;
-          color: #c7956c !important;
+          background: rgba(127, 85, 50, 0.08) !important;
+          border-color: var(--es-primary) !important;
+          color: var(--es-primary) !important;
           transform: translateY(-2px);
         }
       `}</style>

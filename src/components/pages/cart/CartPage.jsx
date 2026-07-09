@@ -75,47 +75,46 @@ const CartRow = ({ item, onRemove, onQty }) => {
       transition={{ duration: 0.3 }}
       style={{
         display: 'flex', alignItems: 'center', gap: '20px',
-        padding: '20px', background: '#fff',
-        borderRadius: '18px', border: '1px solid rgba(199,149,108,0.1)',
-        boxShadow: '0 4px 16px rgba(26,10,0,0.04)',
+        padding: '16px 20px', background: '#ffffff',
+        borderRadius: '12px', border: '1px solid rgba(213, 195, 184, 0.5)',
+        boxShadow: '0 8px 30px rgba(127, 85, 50, 0.04)',
         marginBottom: '14px',
       }}
     >
       {/* Product image */}
       <div style={{
-        width: 80, height: 80, borderRadius: '14px',
-        background: '#faf6f1', flexShrink: 0,
+        width: 80, height: 80, borderRadius: '8px',
+        background: '#ffffff', flexShrink: 0,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         overflow: 'hidden',
+        border: '1px solid rgba(213, 195, 184, 0.4)',
       }}>
         {item.productImg
           ? <img src={item.productImg} alt={item.name} style={{ maxWidth: '70px', maxHeight: '70px', objectFit: 'contain' }} />
-          : <ShoppingBagOutlinedIcon sx={{ fontSize: 28, color: '#c7956c' }} />
+          : <ShoppingBagOutlinedIcon sx={{ fontSize: 28, color: 'var(--es-primary)' }} />
         }
       </div>
 
       {/* Info */}
-      <div style={{ flex: 1, minWidth: 0 }}>
-        <span style={{
-          fontFamily: 'Inter, sans-serif', fontSize: '9px', fontWeight: 700,
-          letterSpacing: '0.15em', textTransform: 'uppercase', color: '#c7956c',
-          display: 'block', marginBottom: '3px',
+      <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: '4px' }}>
+        <span className="font-label-caps" style={{
+          fontSize: '9px', color: 'var(--es-primary)',
         }}>
           {item.brand}
         </span>
         <h4 style={{
-          fontFamily: 'Inter, sans-serif', fontSize: '15px', fontWeight: 600,
-          color: '#1a0f08', margin: '0 0 6px', lineHeight: 1.3,
+          fontFamily: 'Playfair Display, serif', fontSize: '16px', fontWeight: 600,
+          color: 'var(--es-espresso)', margin: 0, lineHeight: 1.3,
           whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
         }}>
           {item.name}
         </h4>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '16px', fontWeight: 700, color: '#1a0f08' }}>
+          <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '15px', fontWeight: 700, color: 'var(--es-espresso)' }}>
             ₹{price.toLocaleString('en-IN')}
           </span>
           {item.price && Number(item.price) !== price && (
-            <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: '#9a8070', textDecoration: 'line-through' }}>
+            <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'var(--es-on-surface-variant)', opacity: 0.6, textDecoration: 'line-through' }}>
               ₹{Number(item.price).toLocaleString('en-IN')}
             </span>
           )}
@@ -125,17 +124,17 @@ const CartRow = ({ item, onRemove, onQty }) => {
       {/* Qty controls */}
       <div style={{
         display: 'flex', alignItems: 'center', gap: '2px',
-        background: 'rgba(199,149,108,0.08)', borderRadius: '12px',
+        background: 'var(--es-surface-container)', borderRadius: '4px',
         padding: '4px',
         flexShrink: 0,
       }}>
         <button
           onClick={() => onQty(item.id, item.qty - 1)}
           style={{
-            width: 30, height: 30, borderRadius: '9px', border: 'none',
-            background: item.qty === 1 ? 'rgba(199,149,108,0.15)' : 'rgba(199,149,108,0.25)',
+            width: 30, height: 30, borderRadius: '4px', border: 'none',
+            background: item.qty === 1 ? 'rgba(213,195,184,0.1)' : 'rgba(213,195,184,0.3)',
             cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
-            color: '#a8724d', transition: 'background 0.2s',
+            color: 'var(--es-espresso)', transition: 'background 0.2s',
           }}
           aria-label="Decrease"
         >
@@ -143,17 +142,17 @@ const CartRow = ({ item, onRemove, onQty }) => {
         </button>
         <span style={{
           minWidth: 32, textAlign: 'center',
-          fontFamily: 'Inter, sans-serif', fontSize: '14px', fontWeight: 700, color: '#1a0f08',
+          fontFamily: 'Inter, sans-serif', fontSize: '14px', fontWeight: 700, color: 'var(--es-espresso)',
         }}>
           {item.qty}
         </span>
         <button
           onClick={() => onQty(item.id, item.qty + 1)}
           style={{
-            width: 30, height: 30, borderRadius: '9px', border: 'none',
-            background: 'rgba(199,149,108,0.25)', cursor: 'pointer',
+            width: 30, height: 30, borderRadius: '4px', border: 'none',
+            background: 'rgba(213,195,184,0.3)', cursor: 'pointer',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            color: '#a8724d', transition: 'background 0.2s',
+            color: 'var(--es-espresso)', transition: 'background 0.2s',
           }}
           aria-label="Increase"
         >
@@ -166,12 +165,12 @@ const CartRow = ({ item, onRemove, onQty }) => {
         minWidth: 80, textAlign: 'right', flexShrink: 0,
       }}>
         <span style={{
-          fontFamily: 'Inter, sans-serif', fontSize: '16px', fontWeight: 700, color: '#1a0f08',
+          fontFamily: 'Inter, sans-serif', fontSize: '16px', fontWeight: 700, color: 'var(--es-primary)',
           display: 'block',
         }}>
           ₹{(price * item.qty).toLocaleString('en-IN')}
         </span>
-        <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', color: '#9a8070' }}>
+        <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--es-on-surface-variant)', opacity: 0.6 }}>
           subtotal
         </span>
       </div>
@@ -343,7 +342,7 @@ function CartPage() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f8f4f0', paddingTop: '96px' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--es-background)', paddingTop: '96px' }}>
       <style>{`
         @media (max-width: 900px) {
           .cart-layout { flex-direction: column !important; }
@@ -366,24 +365,25 @@ function CartPage() {
             style={{
               display: 'flex', alignItems: 'center', gap: '6px',
               background: 'none', border: 'none', cursor: 'pointer',
-              fontFamily: 'Inter, sans-serif', fontSize: '13px', fontWeight: 500,
-              color: '#9a8070', padding: '6px 0', transition: 'color 0.2s',
+              fontFamily: 'Inter, sans-serif', fontSize: '11px', fontWeight: 600,
+              letterSpacing: '0.05em', textTransform: 'uppercase',
+              color: 'var(--es-on-surface-variant)', padding: '6px 0', transition: 'color 0.2s',
             }}
           >
-            <ArrowBackIcon sx={{ fontSize: 18 }} /> Back to Products
+            <ArrowBackIcon sx={{ fontSize: 16 }} /> Back to Products
           </motion.button>
-          <div style={{ width: 1, height: 20, background: 'rgba(199,149,108,0.25)' }} />
+          <div style={{ width: 1, height: 20, background: 'rgba(213,195,184,0.5)' }} />
           <div>
             <h1 style={{
               fontFamily: 'Playfair Display, serif',
-              fontSize: '32px', fontWeight: 700, color: '#1a0f08',
-              margin: 0, lineHeight: 1.1,
+              fontSize: '32px', fontWeight: 600, color: 'var(--es-espresso)',
+              margin: 0, lineHeight: 1.15,
             }}>
-              Shopping Cart
+              Your Shopping Bag
             </h1>
             {items.length > 0 && (
-              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '13px', color: '#9a8070', margin: '4px 0 0' }}>
-                {totalQty} item{totalQty !== 1 ? 's' : ''} in your cart
+              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '13px', color: 'var(--es-on-surface-variant)', opacity: 0.8, margin: '4px 0 0' }}>
+                {totalQty} item{totalQty !== 1 ? 's' : ''} in your bag
               </p>
             )}
           </div>
@@ -397,7 +397,7 @@ function CartPage() {
             {/* ── Left: items list ── */}
             <div style={{ flex: 1, minWidth: 0 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
-                <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#9a8070' }}>
+                <span className="font-label-caps" style={{ fontSize: '11px', color: 'var(--es-primary)' }}>
                   Your Items
                 </span>
                 <button
@@ -430,20 +430,21 @@ function CartPage() {
             {/* ── Right: order summary ── */}
             <div className="cart-summary" style={{ width: '360px', flexShrink: 0 }}>
               <div style={{
-                background: '#fff', borderRadius: '22px',
-                border: '1px solid rgba(199,149,108,0.12)',
-                boxShadow: '0 8px 32px rgba(26,10,0,0.07)',
+                background: '#ffffff', borderRadius: '16px',
+                border: '1px solid rgba(213, 195, 184, 0.5)',
+                boxShadow: '0 15px 40px rgba(127,85,50,0.04)',
                 overflow: 'hidden',
               }}>
                 {/* Summary header */}
                 <div style={{
                   padding: '20px 24px',
-                  borderBottom: '1px solid rgba(199,149,108,0.1)',
-                  background: 'linear-gradient(135deg, rgba(199,149,108,0.06), rgba(199,149,108,0.02))',
+                  borderBottom: '1px solid rgba(213,195,184,0.4)',
+                  background: 'var(--es-surface-container)',
                 }}>
                   <h2 style={{
-                    fontFamily: 'Inter, sans-serif', fontSize: '16px',
-                    fontWeight: 700, color: '#1a0f08', margin: 0,
+                    fontFamily: 'Inter, sans-serif', fontSize: '14px',
+                    fontWeight: 700, color: 'var(--es-espresso)', margin: 0,
+                    textTransform: 'uppercase', letterSpacing: '0.08em',
                   }}>
                     Order Summary
                   </h2>
@@ -457,8 +458,8 @@ function CartPage() {
                     { label: 'Shipping', value: shipping === 0 ? 'FREE' : `₹${shipping}`, green: shipping === 0 },
                   ].map(({ label, value, green }) => (
                     <div key={label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
-                      <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', color: '#6b5749' }}>{label}</span>
-                      <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', fontWeight: 600, color: green ? '#16a34a' : '#1a0f08' }}>
+                      <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', color: 'var(--es-on-surface-variant)', opacity: 0.9 }}>{label}</span>
+                      <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', fontWeight: 600, color: green ? '#16a34a' : 'var(--es-espresso)' }}>
                         {value}
                       </span>
                     </div>
@@ -467,10 +468,11 @@ function CartPage() {
                   {/* Free shipping nudge */}
                   {shipping > 0 && (
                     <div style={{
-                      background: 'rgba(199,149,108,0.07)',
-                      borderRadius: '10px', padding: '10px 14px',
+                      background: 'var(--es-surface-container)',
+                      borderRadius: '8px', padding: '10px 14px',
                       marginBottom: '18px',
-                      fontFamily: 'Inter, sans-serif', fontSize: '12px', color: '#a8724d',
+                      fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'var(--es-primary)',
+                      border: '1px solid rgba(213, 195, 184, 0.4)',
                     }}>
                       Add ₹{(999 - totalPrice + 1).toLocaleString('en-IN')} more for <strong>free shipping</strong>!
                     </div>
@@ -478,7 +480,7 @@ function CartPage() {
 
                   {/* Promo code */}
                   <div style={{ marginBottom: '20px' }}>
-                    <label style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', fontWeight: 600, color: '#6b5749', display: 'flex', alignItems: 'center', gap: '5px', marginBottom: '8px' }}>
+                    <label className="font-label-caps" style={{ fontSize: '10px', color: 'var(--es-on-surface-variant)', opacity: 0.7, display: 'flex', alignItems: 'center', gap: '5px', marginBottom: '8px' }}>
                       <LocalOfferOutlinedIcon sx={{ fontSize: 14 }} /> Promo Code
                     </label>
                     <div style={{ display: 'flex', gap: '8px' }}>
@@ -488,11 +490,11 @@ function CartPage() {
                         placeholder="EDEN10"
                         disabled={promoApplied}
                         style={{
-                          flex: 1, padding: '10px 14px', borderRadius: '10px',
-                          border: `1.5px solid ${promoApplied ? 'rgba(34,197,94,0.5)' : 'rgba(199,149,108,0.3)'}`,
+                          flex: 1, padding: '10px 14px', borderRadius: '4px',
+                          border: `1.5px solid ${promoApplied ? 'rgba(34,197,94,0.5)' : 'var(--es-outline-variant)'}`,
                           fontFamily: 'Inter, sans-serif', fontSize: '13px',
-                          color: '#1a0f08', outline: 'none',
-                          background: promoApplied ? 'rgba(34,197,94,0.05)' : '#fff',
+                          color: 'var(--es-espresso)', outline: 'none',
+                          background: promoApplied ? 'rgba(34,197,94,0.05)' : '#ffffff',
                         }}
                       />
                       <motion.button
@@ -500,13 +502,13 @@ function CartPage() {
                         onClick={handlePromo}
                         disabled={promoApplied}
                         style={{
-                          padding: '10px 16px', borderRadius: '10px', border: 'none',
+                          padding: '10px 16px', borderRadius: '4px', border: 'none',
                           background: promoApplied
                             ? 'linear-gradient(135deg, #16a34a, #22c55e)'
-                            : 'linear-gradient(135deg, #c7956c, #a8724d)',
+                            : 'linear-gradient(135deg, #c7956c 0%, #7f5532 100%)',
                           color: '#fff', cursor: promoApplied ? 'default' : 'pointer',
-                          fontFamily: 'Inter, sans-serif', fontSize: '12px', fontWeight: 700,
-                          letterSpacing: '0.05em', whiteSpace: 'nowrap',
+                          fontFamily: 'Inter, sans-serif', fontSize: '11px', fontWeight: 600,
+                          letterSpacing: '0.05em', textTransform: 'uppercase', whiteSpace: 'nowrap',
                         }}
                       >
                         {promoApplied ? '✓ Applied' : 'Apply'}
@@ -515,14 +517,14 @@ function CartPage() {
                   </div>
 
                   {/* Divider */}
-                  <div style={{ borderTop: '1px solid rgba(199,149,108,0.12)', marginBottom: '18px' }} />
+                  <div style={{ borderTop: '1px solid rgba(213, 195, 184, 0.4)', marginBottom: '18px' }} />
 
                   {/* Grand total */}
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-                    <span style={{ fontFamily: 'Playfair Display, serif', fontSize: '18px', fontWeight: 700, color: '#1a0f08' }}>
+                    <span style={{ fontFamily: 'Playfair Display, serif', fontSize: '18px', fontWeight: 600, color: 'var(--es-espresso)' }}>
                       Total
                     </span>
-                    <span style={{ fontFamily: 'Playfair Display, serif', fontSize: '22px', fontWeight: 700, color: '#1a0f08' }}>
+                    <span style={{ fontFamily: 'Playfair Display, serif', fontSize: '22px', fontWeight: 600, color: 'var(--es-primary)' }}>
                       ₹{grandTotal.toLocaleString('en-IN')}
                     </span>
                   </div>
@@ -530,7 +532,7 @@ function CartPage() {
                   {orderError && (
                     <div style={{
                       background: 'rgba(239,68,68,0.07)', border: '1px solid rgba(239,68,68,0.25)',
-                      borderRadius: '12px', padding: '12px 16px', marginBottom: '16px',
+                      borderRadius: '4px', padding: '12px 16px', marginBottom: '16px',
                       fontFamily: 'Inter, sans-serif', fontSize: '13px', color: '#b91c1c', lineHeight: 1.5
                     }}>
                       ⚠️ {orderError}
@@ -541,18 +543,18 @@ function CartPage() {
                   <motion.button
                     id="checkout-btn"
                     disabled={isProcessing}
-                    whileHover={{ scale: isProcessing ? 1 : 1.02, boxShadow: isProcessing ? 'none' : '0 8px 28px rgba(26,10,0,0.25)' }}
-                    whileTap={{ scale: isProcessing ? 1 : 0.97 }}
+                    whileHover={{ scale: isProcessing ? 1 : 0.98 }}
+                    whileTap={{ scale: isProcessing ? 1 : 0.96 }}
                     onClick={handlePayNow}
                     style={{
                       width: '100%', padding: '16px',
-                      background: 'linear-gradient(135deg, #1a0a00, #3d1e0a)',
-                      color: '#fff', border: 'none', borderRadius: '14px',
+                      background: 'linear-gradient(135deg, #c7956c 0%, #7f5532 100%)',
+                      color: '#fff', border: 'none', borderRadius: '100px',
                       cursor: isProcessing ? 'wait' : 'pointer', opacity: isProcessing ? 0.8 : 1,
-                      fontFamily: 'Inter, sans-serif', fontSize: '15px', fontWeight: 700,
-                      letterSpacing: '0.04em',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
-                      boxShadow: '0 4px 20px rgba(26,10,0,0.18)',
+                      fontFamily: 'Inter, sans-serif', fontSize: '12px', fontWeight: 600,
+                      letterSpacing: '0.08em', textTransform: 'uppercase',
+                      display: 'flex', alignItems: 'center', justifyWarehouse: 'center', justifyContent: 'center', gap: '8px',
+                      boxShadow: '0 4px 20px rgba(127, 85, 50, 0.2)',
                       transition: 'all 0.3s ease',
                     }}
                   >
@@ -561,12 +563,12 @@ function CartPage() {
 
                   {/* Trust badges */}
                   <div style={{
-                    marginTop: '16px', display: 'flex', justifyContent: 'center',
+                    marginTop: '20px', display: 'flex', justifyContent: 'center',
                     gap: '16px', flexWrap: 'wrap',
                   }}>
                     {['🔒 Secure Payment', '🚚 Fast Delivery', '↩️ Easy Returns'].map(t => (
-                      <span key={t} style={{ fontFamily: 'Inter, sans-serif', fontSize: '10px', color: '#9a8070', fontWeight: 500 }}>
-                        {t}
+                      <span key={t} style={{ fontFamily: 'Inter, sans-serif', fontSize: '10px', color: 'var(--es-on-surface-variant)', opacity: 0.6, fontWeight: 600, letterSpacing: '0.05em' }}>
+                        {t.toUpperCase()}
                       </span>
                     ))}
                   </div>

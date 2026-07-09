@@ -139,14 +139,15 @@ function Topbar() {
         id="app-bar"
         style={{
           ...styles.appBar,
-          background: scrolled ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.75)',
+          background: scrolled ? 'rgba(255, 248, 245, 0.85)' : 'rgba(255, 248, 245, 0.7)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
-          boxShadow: scrolled ? '0 4px 20px rgba(26,10,0,0.08)' : 'none',
-          borderBottom: '1px solid rgba(199,149,108,0.1)',
+          boxShadow: scrolled ? '0 4px 20px rgba(127, 85, 50, 0.08)' : 'none',
+          borderBottom: '1px solid rgba(213, 195, 184, 0.4)',
+          height: '80px',
         }}
       >
-        <div style={styles.toolbar}>
+        <div style={{ ...styles.toolbar, height: '80px' }}>
           {/* Logo */}
           <Link
             to="/"
@@ -154,35 +155,23 @@ function Topbar() {
               textDecoration: 'none',
               display: 'flex',
               alignItems: 'center',
-              gap: '10px',
               flexShrink: 0,
             }}
           >
-            <div style={{
-              width: 34,
-              height: 34,
-              background: 'linear-gradient(135deg, #1a0a00, #c7956c)',
-              borderRadius: '10px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              boxShadow: '0 4px 12px rgba(199,149,108,0.2)',
-            }}>
-              <ContentCutOutlinedIcon sx={{ fontSize: 18, color: '#fff' }} />
-            </div>
             <span style={{
               fontFamily: 'Playfair Display, serif',
-              fontWeight: 700,
-              fontSize: '22px',
-              letterSpacing: '0.02em',
-              color: '#1a0a00',
+              fontWeight: 600,
+              fontSize: '24px',
+              letterSpacing: '0.15em',
+              color: 'var(--es-primary)',
+              textTransform: 'uppercase',
             }}>
-              edensign
+              Eden Sign
             </span>
           </Link>
 
           {/* Desktop Nav Links */}
-          <nav className="es-desktop-nav">
+          <nav className="es-desktop-nav" style={{ gap: '20px' }}>
             {navLinks.map((link) => {
               const isActive = location.pathname === link.href ||
                 (link.href !== '/' && location.pathname.startsWith(link.href));
@@ -190,16 +179,16 @@ function Topbar() {
                 <Link
                   key={link.href}
                   to={link.href}
+                  className="font-label-caps"
                   style={{
                     textDecoration: 'none',
-                    padding: '6px 16px',
-                    borderRadius: '100px',
-                    fontFamily: 'Inter, sans-serif',
-                    fontSize: '13.5px',
-                    fontWeight: isActive ? 600 : 500,
-                    letterSpacing: '0.03em',
-                    color: isActive ? '#c7956c' : '#1a0a00',
-                    background: isActive ? 'rgba(199,149,108,0.1)' : 'transparent',
+                    padding: '8px 12px',
+                    fontSize: '11px',
+                    letterSpacing: '0.1em',
+                    fontWeight: 600,
+                    textTransform: 'uppercase',
+                    color: isActive ? 'var(--es-primary)' : 'var(--es-on-surface-variant)',
+                    borderBottom: isActive ? '2px solid var(--es-primary)' : '2px solid transparent',
                     transition: 'all 0.25s ease',
                     position: 'relative',
                   }}
@@ -237,7 +226,7 @@ function Topbar() {
                   borderRadius: '50%',
                   display: 'flex',
                   alignItems: 'center',
-                  color: '#1a0a00',
+                  color: 'var(--es-on-surface-variant)',
                   transition: 'all 0.3s',
                   position: 'relative',
                 }}
@@ -258,7 +247,7 @@ function Topbar() {
                       minWidth: 17,
                       height: 17,
                       borderRadius: '100px',
-                      background: 'linear-gradient(135deg, #c7956c, #a8724d)',
+                      background: 'var(--es-primary)',
                       color: '#fff',
                       fontFamily: 'Inter, sans-serif',
                       fontSize: '9px',
@@ -269,7 +258,7 @@ function Topbar() {
                       pointerEvents: 'none',
                       lineHeight: 1,
                       padding: '0 4px',
-                      boxShadow: '0 2px 6px rgba(199,149,108,0.5)',
+                      boxShadow: '0 2px 6px rgba(127, 85, 50, 0.4)',
                     }}
                   >
                     {cartTotalQty > 99 ? '99+' : cartTotalQty}
@@ -285,7 +274,7 @@ function Topbar() {
                       width: 36,
                       height: 36,
                       borderRadius: '50%',
-                      background: 'linear-gradient(135deg, #c7956c, #a8724d)',
+                      background: 'var(--es-primary)',
                       border: 'none',
                       cursor: 'pointer',
                       display: 'flex',
@@ -297,7 +286,7 @@ function Topbar() {
                       color: '#fff',
                       marginLeft: '4px',
                       transition: 'transform 0.2s, box-shadow 0.2s',
-                      boxShadow: '0 2px 8px rgba(199,149,108,0.4)',
+                      boxShadow: '0 2px 8px rgba(127, 85, 50, 0.3)',
                     }}
                     className="es-avatar-btn"
                     title={customer?.username || 'Profile'}
@@ -307,10 +296,10 @@ function Topbar() {
                   <div className={`es-profile-dropdown ${profileOpen ? 'is-open' : ''}`}>
                     <div className="es-profile-dropdown-inner" style={{ padding: '20px' }}>
                       <div style={{ marginBottom: '16px' }}>
-                        <p style={{ margin: '0', fontWeight: 700, fontSize: '15px', color: '#1a0f08', fontFamily: 'Inter, sans-serif' }}>
+                        <p style={{ margin: '0', fontWeight: 700, fontSize: '15px', color: 'var(--es-espresso)', fontFamily: 'Inter, sans-serif' }}>
                           Hi, {customer?.username?.split(' ')[0] || 'User'} 👋
                         </p>
-                        <p style={{ margin: '2px 0 0 0', fontSize: '12px', color: '#6b5749', opacity: 0.7, fontFamily: 'Inter, sans-serif', wordBreak: 'break-all' }}>
+                        <p style={{ margin: '2px 0 0 0', fontSize: '12px', color: 'var(--es-on-surface-variant)', opacity: 0.7, fontFamily: 'Inter, sans-serif', wordBreak: 'break-all' }}>
                           {customer?.email || ''}
                         </p>
                       </div>
@@ -328,7 +317,7 @@ function Topbar() {
                             borderRadius: '12px',
                             padding: '10px 14px',
                             cursor: 'pointer',
-                            color: '#1a0a00',
+                            color: 'var(--es-espresso)',
                             fontFamily: 'Inter, sans-serif',
                             fontSize: '13.5px',
                             fontWeight: 600,
@@ -336,7 +325,7 @@ function Topbar() {
                             textAlign: 'left'
                           }} 
                         >
-                          <PersonOutlineOutlinedIcon sx={{ fontSize: 18, color: '#c7956c' }} />
+                          <PersonOutlineOutlinedIcon sx={{ fontSize: 18, color: 'var(--es-primary)' }} />
                           Dashboard
                         </button>
                         
@@ -375,21 +364,22 @@ function Topbar() {
                     alignItems: 'center',
                     gap: '6px',
                     textDecoration: 'none',
-                    padding: '9px 20px',
+                    padding: '8px 20px',
                     borderRadius: '100px',
-                    background: 'linear-gradient(135deg, #c7956c, #a8724d)',
+                    background: 'linear-gradient(135deg, #c7956c 0%, #7f5532 100%)',
                     color: '#fff',
                     fontFamily: 'Inter, sans-serif',
-                    fontSize: '13px',
+                    fontSize: '11px',
                     fontWeight: 600,
-                    letterSpacing: '0.04em',
+                    letterSpacing: '0.08em',
+                    textTransform: 'uppercase',
                     marginLeft: '8px',
-                    boxShadow: '0 2px 12px rgba(199,149,108,0.35)',
+                    boxShadow: '0 4px 12px rgba(127, 85, 50, 0.2)',
                     transition: 'transform 0.2s, box-shadow 0.2s',
                   }}
-                  className="es-login-btn"
+                  className="es-login-btn font-label-caps"
                 >
-                  <LoginIcon sx={{ fontSize: 16 }} />
+                  <LoginIcon sx={{ fontSize: 14 }} />
                   Sign In
                 </Link>
               )}

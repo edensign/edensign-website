@@ -25,9 +25,10 @@ const AccordionSummary = styled((props) => (
         {...props}
     />
 ))(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.02)' : 'rgba(199, 149, 108, 0.04)',
+    backgroundColor: 'var(--es-surface-container)',
     minHeight: "72px",
-    borderRadius: "16px",
+    borderRadius: "12px",
+    border: "1px solid rgba(213, 195, 184, 0.4)",
     flexDirection: 'row',
     '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
         transform: 'rotate(180deg)',
@@ -40,7 +41,7 @@ const AccordionSummary = styled((props) => (
 const AccordionDetails = styled(MuiAccordionDetails)((({ theme }) => ({
     padding: theme.spacing(3),
     backgroundColor: 'transparent',
-    borderTop: theme.palette.mode === 'dark' ? '1px solid rgba(255, 255, 255, 0.05)' : '1px solid rgba(199, 149, 108, 0.08)',
+    borderTop: '1px solid rgba(213, 195, 184, 0.3)',
 })));
 
 export default function Faq() {
@@ -51,7 +52,7 @@ export default function Faq() {
     };
 
     return (
-        <Box sx={{ background: (theme) => theme.palette.mode === 'dark' ? '#0f0a07' : '#FAF8F5', minHeight: '100vh', pb: 8 }}>
+        <Box sx={{ background: 'var(--es-background)', minHeight: '100vh', pb: 8 }}>
             <Box sx={{
                 width: "100%", 
                 height: "45vh", 
@@ -73,15 +74,15 @@ export default function Faq() {
             }}>
                 <Box sx={{ zIndex: 2, textAlign: 'center' }}>
                     <Typography sx={{
-                        textTransform: "uppercase", 
                         fontSize: { xs: "36px", sm: "48px" }, 
-                        letterSpacing: ".25em", 
+                        letterSpacing: "0.05em", 
                         color: "white", 
-                        fontWeight: "700",
+                        fontWeight: "600",
                         fontFamily: "'Playfair Display', serif",
+                        fontStyle: "italic",
                         mb: 1
                     }}>FAQ</Typography>
-                    <div style={{ width: '48px', height: '2px', background: '#c7956c', margin: '0 auto' }} />
+                    <div style={{ width: '48px', height: '2px', background: 'var(--es-rose-gold)', margin: '0 auto' }} />
                 </Box>
             </Box>
 
@@ -105,11 +106,11 @@ export default function Faq() {
                             id="panel1a-header"
                         >
                             <Typography sx={{
-                                textTransform: "uppercase", 
-                                fontSize: "15px", 
+                                fontSize: "13px", 
                                 fontWeight: "600", 
-                                letterSpacing: "0.15em",
-                                color: (theme) => theme.palette.mode === 'dark' ? '#fdfbfa' : '#1a0f08',
+                                letterSpacing: "0.12em",
+                                textTransform: "uppercase",
+                                color: 'var(--es-espresso)',
                                 fontFamily: "'Inter', sans-serif"
                             }}>
                                 payment methods
@@ -134,11 +135,11 @@ export default function Faq() {
                             id="panel2a-header"
                         >
                             <Typography sx={{
-                                textTransform: "uppercase", 
-                                fontSize: "15px", 
+                                fontSize: "13px", 
                                 fontWeight: "600", 
-                                letterSpacing: "0.15em",
-                                color: (theme) => theme.palette.mode === 'dark' ? '#fdfbfa' : '#1a0f08',
+                                letterSpacing: "0.12em",
+                                textTransform: "uppercase",
+                                color: 'var(--es-espresso)',
                                 fontFamily: "'Inter', sans-serif"
                             }}>
                                 international shipping
@@ -147,7 +148,7 @@ export default function Faq() {
                         <AccordionDetails>
                             <Typography sx={{
                                 fontSize: "14px", 
-                                color: (theme) => theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.7)' : '#6b5749', 
+                                color: 'var(--es-on-surface-variant)', 
                                 fontWeight: "400", 
                                 lineHeight: "1.8",
                                 fontFamily: "'Inter', sans-serif"
@@ -163,11 +164,11 @@ export default function Faq() {
                             id="panel3a-header"
                         >
                             <Typography sx={{
-                                textTransform: "uppercase", 
-                                fontSize: "15px", 
+                                fontSize: "13px", 
                                 fontWeight: "600", 
-                                letterSpacing: "0.15em",
-                                color: (theme) => theme.palette.mode === 'dark' ? '#fdfbfa' : '#1a0f08',
+                                letterSpacing: "0.12em",
+                                textTransform: "uppercase",
+                                color: 'var(--es-espresso)',
                                 fontFamily: "'Inter', sans-serif"
                             }}>
                                 cashback program
@@ -176,7 +177,7 @@ export default function Faq() {
                         <AccordionDetails>
                             <Typography sx={{
                                 fontSize: "14px", 
-                                color: (theme) => theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.7)' : '#6b5749', 
+                                color: 'var(--es-on-surface-variant)', 
                                 fontWeight: "400", 
                                 lineHeight: "1.8",
                                 fontFamily: "'Inter', sans-serif"
@@ -192,11 +193,11 @@ export default function Faq() {
                             id="panel4a-header"
                         >
                             <Typography sx={{
-                                textTransform: "uppercase", 
-                                fontSize: "15px", 
+                                fontSize: "13px", 
                                 fontWeight: "600", 
-                                letterSpacing: "0.15em",
-                                color: (theme) => theme.palette.mode === 'dark' ? '#fdfbfa' : '#1a0f08',
+                                letterSpacing: "0.12em",
+                                textTransform: "uppercase",
+                                color: 'var(--es-espresso)',
                                 fontFamily: "'Inter', sans-serif"
                             }}>
                                 money back warranty
@@ -205,7 +206,7 @@ export default function Faq() {
                         <AccordionDetails>
                             <Typography sx={{
                                 fontSize: "14px", 
-                                color: (theme) => theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.7)' : '#6b5749', 
+                                color: 'var(--es-on-surface-variant)', 
                                 fontWeight: "400", 
                                 lineHeight: "1.8",
                                 fontFamily: "'Inter', sans-serif"

@@ -30,42 +30,41 @@ const MissionComponent = () => {
         <Typography sx={{
             fontFamily: "Playfair Display, serif",
             fontSize: { xs: '28px', sm: '36px' }, 
-            fontWeight: 700, 
+            fontWeight: 600, 
             lineHeight: "1.2", 
-            letterSpacing: "0.08em",
-            color: '#1a0f08',
+            letterSpacing: "0.05em",
+            color: 'var(--es-espresso)',
             textTransform: 'uppercase'
         }}>
             MISSION
         </Typography>
-        <div style={{ width: '48px', height: '1.5px', background: '#c7956c', marginTop: '16px' }} />
+        <div style={{ width: '48px', height: '1.5px', background: 'var(--es-rose-gold)', marginTop: '16px' }} />
       </Box>
 
       <Grid container spacing={4} sx={{ maxWidth: '1200px', margin: '0 auto' }}>
         <Grid item xs={12} md={6}>
           <Card sx={{
-            background: 'rgba(255, 255, 255, 0.7)',
-            backdropFilter: 'blur(10px)',
-            border: '1px solid rgba(199, 149, 108, 0.12)',
-            borderRadius: '20px',
+            background: '#ffffff',
+            border: '1px solid rgba(213, 195, 184, 0.5)',
+            borderRadius: '12px',
             p: { xs: 4, sm: 5 },
-            boxShadow: '0 8px 30px rgba(26, 10, 0, 0.03)',
+            boxShadow: '0 8px 30px rgba(127, 85, 50, 0.04)',
             height: '100%',
             transition: 'transform 0.3s ease, box-shadow 0.3s ease',
             '&:hover': {
                 transform: 'translateY(-4px)',
-                boxShadow: '0 12px 40px rgba(199, 149, 108, 0.1)',
-                borderColor: '#c7956c',
+                boxShadow: '0 12px 40px rgba(127, 85, 50, 0.08)',
+                borderColor: 'var(--es-rose-gold)',
             }
           }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 3 }}>
                 <DiamondIcon sx={{ fontSize: 16, color: '#c7956c' }} />
-                <Typography sx={{ fontFamily: 'Playfair Display, serif', fontSize: '18px', fontWeight: 600, color: '#1a0f08' }}>
+                <Typography sx={{ fontFamily: 'Playfair Display, serif', fontSize: '18px', fontWeight: 600, color: 'var(--es-espresso)' }}>
                     Exceptional Experiences
                 </Typography>
             </Box>
             <Typography sx={{
-              color: "#6b5749", 
+              color: 'var(--es-on-surface-variant)', 
               fontWeight: 400, 
               fontFamily: "Inter, sans-serif", 
               fontSize: "14.5px", 
@@ -95,12 +94,12 @@ const MissionComponent = () => {
           }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 3 }}>
                 <DiamondIcon sx={{ fontSize: 16, color: '#c7956c' }} />
-                <Typography sx={{ fontFamily: 'Playfair Display, serif', fontSize: '18px', fontWeight: 600, color: '#1a0f08' }}>
+                <Typography sx={{ fontFamily: 'Playfair Display, serif', fontSize: '18px', fontWeight: 600, color: 'var(--es-espresso)' }}>
                     Transformation & Trust
                 </Typography>
             </Box>
             <Typography sx={{
-              color: "#6b5749", 
+              color: 'var(--es-on-surface-variant)', 
               fontWeight: 400, 
               fontFamily: "Inter, sans-serif", 
               fontSize: "14.5px", 

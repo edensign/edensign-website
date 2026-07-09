@@ -24,15 +24,15 @@ import { api } from '../../../apis/config/axiosConfig.jsx';
 import { loadRazorpayScript } from '../../utils/razorpay';
 
 /* ── helpers ── */
-const summaryText = { fontFamily: 'Inter, sans-serif', fontSize: '13px', color: '#6b5749', margin: '3px 0', lineHeight: 1.5 };
+const summaryText = { fontFamily: 'Inter, sans-serif', fontSize: '13px', color: 'var(--es-on-surface-variant)', margin: '3px 0', lineHeight: 1.5, opacity: 0.95 };
 const SummaryBlock = ({ title, children }) => (
   <div style={{
-    background: '#fff', borderRadius: '14px',
-    border: '1px solid rgba(199,149,108,0.12)',
+    background: '#ffffff', borderRadius: '12px',
+    border: '1px solid rgba(213, 195, 184, 0.5)',
     padding: '16px 20px', marginBottom: '14px',
-    boxShadow: '0 2px 10px rgba(26,10,0,0.04)',
+    boxShadow: '0 8px 30px rgba(127, 85, 50, 0.04)',
   }}>
-    <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '13px', fontWeight: 700, color: '#1a0f08', marginBottom: '8px' }}>
+    <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase', color: 'var(--es-espresso)', marginBottom: '8px' }}>
       {title}
     </div>
     {children}
@@ -42,13 +42,13 @@ const SummaryBlock = ({ title, children }) => (
 const inputStyle = (focus) => ({
   width: '100%',
   padding: '13px 16px',
-  borderRadius: '12px',
-  border: `1.5px solid ${focus ? '#c7956c' : 'rgba(199,149,108,0.28)'}`,
+  borderRadius: '4px',
+  border: `1.5px solid ${focus ? 'var(--es-primary)' : 'var(--es-outline-variant)'}`,
   fontFamily: 'Inter, sans-serif',
   fontSize: '14px',
-  color: '#1a0f08',
+  color: 'var(--es-espresso)',
   outline: 'none',
-  background: '#fff',
+  background: '#ffffff',
   boxSizing: 'border-box',
   transition: 'border 0.2s',
 });
@@ -57,7 +57,7 @@ const labelStyle = {
   fontFamily: 'Inter, sans-serif',
   fontSize: '12px',
   fontWeight: 600,
-  color: '#6b5749',
+  color: 'var(--es-on-surface-variant)',
   display: 'block',
   marginBottom: '7px',
   letterSpacing: '0.04em',
@@ -81,38 +81,39 @@ const StepBar = ({ step }) => {
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px' }}>
               <motion.div
                 animate={{
-                  background: done ? '#16a34a' : active ? 'linear-gradient(135deg, #c7956c, #a8724d)' : '#e8e0d8',
+                  background: done ? 'var(--es-primary)' : active ? 'linear-gradient(135deg, #c7956c 0%, #7f5532 100%)' : 'var(--es-surface-container)',
                   scale: active ? 1.12 : 1,
                 }}
                 transition={{ duration: 0.25 }}
                 style={{
-                  width: 42, height: 42, borderRadius: '14px',
+                  width: 42, height: 42, borderRadius: '50%',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  background: done ? '#16a34a' : active ? 'linear-gradient(135deg, #c7956c, #a8724d)' : '#e8e0d8',
-                  boxShadow: active ? '0 4px 16px rgba(199,149,108,0.4)' : 'none',
+                  background: done ? 'var(--es-primary)' : active ? 'linear-gradient(135deg, #c7956c 0%, #7f5532 100%)' : 'var(--es-surface-container)',
+                  boxShadow: active ? '0 4px 16px rgba(127, 85, 50, 0.2)' : 'none',
                   transition: 'all 0.3s',
+                  border: `1px solid ${active || done ? 'transparent' : 'rgba(213, 195, 184, 0.5)'}`,
                 }}
               >
                 {done
-                  ? <CheckCircleIcon sx={{ fontSize: 22, color: '#fff' }} />
-                  : <Icon sx={{ fontSize: 20, color: active ? '#fff' : '#9a8070' }} />
+                  ? <CheckCircleIcon sx={{ fontSize: 20, color: '#fff' }} />
+                  : <Icon sx={{ fontSize: 18, color: active ? '#fff' : 'var(--es-on-surface-variant)' }} />
                 }
               </motion.div>
-              <span style={{
-                fontFamily: 'Inter, sans-serif', fontSize: '11px',
+              <span className="font-label-caps" style={{
+                fontSize: '9px',
                 fontWeight: active ? 700 : 500,
-                color: active ? '#c7956c' : done ? '#16a34a' : '#9a8070',
+                color: active ? 'var(--es-primary)' : done ? 'var(--es-primary)' : 'var(--es-on-surface-variant)',
+                opacity: active || done ? 1 : 0.6,
               }}>
                 {label}
               </span>
             </div>
             {i < steps.length - 1 && (
               <div style={{
-                flex: 1, height: 2, maxWidth: 80, margin: '0 8px',
+                flex: 1, height: 1, maxWidth: 80, margin: '0 8px',
                 marginBottom: 24,
-                background: done ? '#16a34a' : 'rgba(199,149,108,0.18)',
+                background: done ? 'var(--es-primary)' : 'rgba(213, 195, 184, 0.5)',
                 transition: 'background 0.4s',
-                borderRadius: '2px',
               }} />
             )}
           </React.Fragment>
@@ -638,7 +639,7 @@ function CheckoutPage() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f8f4f0', paddingTop: '96px' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--es-background)', paddingTop: '96px' }}>
       <style>{`
         @media (max-width: 900px) {
           .checkout-layout { flex-direction: column !important; }
@@ -657,18 +658,20 @@ function CheckoutPage() {
             style={{
               display: 'flex', alignItems: 'center', gap: '6px',
               background: 'none', border: 'none', cursor: 'pointer',
-              fontFamily: 'Inter, sans-serif', fontSize: '13px', color: '#9a8070', padding: '6px 0',
+              fontFamily: 'Inter, sans-serif', fontSize: '11px', fontWeight: 600,
+              letterSpacing: '0.05em', textTransform: 'uppercase',
+              color: 'var(--es-on-surface-variant)', padding: '6px 0',
             }}
           >
-            <ArrowBackIcon sx={{ fontSize: 18 }} /> {step === 0 ? 'Back to Cart' : 'Back'}
+            <ArrowBackIcon sx={{ fontSize: 16 }} /> {step === 0 ? 'Back to Cart' : 'Back'}
           </motion.button>
-          <div style={{ width: 1, height: 20, background: 'rgba(199,149,108,0.25)' }} />
-          <h1 style={{ fontFamily: 'Playfair Display, serif', fontSize: '30px', fontWeight: 700, color: '#1a0f08', margin: 0 }}>
+          <div style={{ width: 1, height: 20, background: 'rgba(213,195,184,0.5)' }} />
+          <h1 style={{ fontFamily: 'Playfair Display, serif', fontSize: '30px', fontWeight: 600, color: 'var(--es-espresso)', margin: 0 }}>
             Checkout
           </h1>
-          <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '6px', color: '#16a34a' }}>
+          <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--es-primary)' }}>
             <LockOutlinedIcon sx={{ fontSize: 16 }} />
-            <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', fontWeight: 600 }}>Secure Checkout</span>
+            <span className="font-label-caps" style={{ fontSize: '10px' }}>Secure Checkout</span>
           </div>
         </div>
 
@@ -680,9 +683,9 @@ function CheckoutPage() {
             {/* ── Main form area ── */}
             <div style={{
               flex: 1, minWidth: 0,
-              background: '#fff', borderRadius: '22px',
-              border: '1px solid rgba(199,149,108,0.12)',
-              boxShadow: '0 8px 32px rgba(26,10,0,0.07)',
+              background: '#ffffff', borderRadius: '12px',
+              border: '1px solid rgba(213, 195, 184, 0.5)',
+              boxShadow: '0 15px 40px rgba(127, 85, 50, 0.04)',
               padding: '32px',
             }}>
               <AnimatePresence mode="wait">
@@ -730,17 +733,21 @@ function CheckoutPage() {
             {/* ── Sidebar: mini order summary ── */}
             <div className="checkout-sidebar" style={{ width: '320px', flexShrink: 0 }}>
               <div style={{
-                background: '#fff', borderRadius: '22px',
-                border: '1px solid rgba(199,149,108,0.12)',
-                boxShadow: '0 8px 32px rgba(26,10,0,0.07)',
+                background: '#ffffff', borderRadius: '12px',
+                border: '1px solid rgba(213, 195, 184, 0.5)',
+                boxShadow: '0 15px 40px rgba(127, 85, 50, 0.04)',
                 overflow: 'hidden',
               }}>
                 <div style={{
                   padding: '18px 22px',
-                  borderBottom: '1px solid rgba(199,149,108,0.1)',
-                  background: 'linear-gradient(135deg, rgba(199,149,108,0.06), rgba(199,149,108,0.02))',
+                  borderBottom: '1px solid rgba(213, 195, 184, 0.4)',
+                  background: 'var(--es-surface-container)',
                 }}>
-                  <h3 style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', fontWeight: 700, color: '#1a0f08', margin: 0 }}>
+                  <h3 style={{
+                    fontFamily: 'Inter, sans-serif', fontSize: '12px',
+                    fontWeight: 700, color: 'var(--es-espresso)', margin: 0,
+                    textTransform: 'uppercase', letterSpacing: '0.08em',
+                  }}>
                     Order Summary
                   </h3>
                 </div>
@@ -750,39 +757,39 @@ function CheckoutPage() {
                     <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px', gap: '10px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0 }}>
                         {item.productImg && (
-                          <div style={{ width: 38, height: 38, flexShrink: 0, borderRadius: '9px', background: '#faf6f1', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+                          <div style={{ width: 38, height: 38, flexShrink: 0, borderRadius: '6px', background: '#ffffff', border: '1px solid rgba(213, 195, 184, 0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
                             <img src={item.productImg} alt={item.name} style={{ maxWidth: 34, maxHeight: 34, objectFit: 'contain' }} />
                           </div>
                         )}
                         <div style={{ minWidth: 0 }}>
-                          <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', fontWeight: 600, color: '#1a0f08', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                          <div style={{ fontFamily: 'Playfair Display, serif', fontSize: '13px', fontWeight: 600, color: 'var(--es-espresso)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                             {item.name}
                           </div>
-                          <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', color: '#9a8070' }}>×{item.qty}</div>
+                          <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', color: 'var(--es-on-surface-variant)', opacity: 0.7 }}>×{item.qty}</div>
                         </div>
                       </div>
-                      <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '13px', fontWeight: 700, color: '#1a0f08', flexShrink: 0 }}>
+                      <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '13px', fontWeight: 700, color: 'var(--es-espresso)', flexShrink: 0 }}>
                         ₹{(Number(item.discounted_price || item.price) * item.qty).toLocaleString('en-IN')}
                       </span>
                     </div>
                   ))}
 
-                  <div style={{ borderTop: '1px solid rgba(199,149,108,0.12)', paddingTop: '14px', marginTop: '4px' }}>
+                  <div style={{ borderTop: '1px solid rgba(213, 195, 184, 0.4)', paddingTop: '14px', marginTop: '4px' }}>
                     {discount > 0 && (
                       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                        <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: '#6b5749' }}>Discount</span>
+                        <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'var(--es-on-surface-variant)', opacity: 0.8 }}>Discount</span>
                         <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: '#16a34a', fontWeight: 700 }}>−₹{discount.toLocaleString('en-IN')}</span>
                       </div>
                     )}
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
-                      <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: '#6b5749' }}>Shipping</span>
-                      <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: shipping === 0 ? '#16a34a' : '#1a0f08', fontWeight: 700 }}>
+                      <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'var(--es-on-surface-variant)', opacity: 0.8 }}>Shipping</span>
+                      <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: shipping === 0 ? '#16a34a' : 'var(--es-espresso)', fontWeight: 700 }}>
                         {shipping === 0 ? 'FREE' : `₹${shipping}`}
                       </span>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                      <span style={{ fontFamily: 'Playfair Display, serif', fontSize: '16px', fontWeight: 700, color: '#1a0f08' }}>Total</span>
-                      <span style={{ fontFamily: 'Playfair Display, serif', fontSize: '18px', fontWeight: 700, color: '#1a0f08' }}>
+                      <span style={{ fontFamily: 'Playfair Display, serif', fontSize: '16px', fontWeight: 600, color: 'var(--es-espresso)' }}>Total</span>
+                      <span style={{ fontFamily: 'Playfair Display, serif', fontSize: '18px', fontWeight: 600, color: 'var(--es-primary)' }}>
                         ₹{grandTotal.toLocaleString('en-IN')}
                       </span>
                     </div>
@@ -792,13 +799,13 @@ function CheckoutPage() {
 
               {/* Trust badges */}
               <div style={{
-                marginTop: '16px', background: '#fff',
-                borderRadius: '16px', border: '1px solid rgba(199,149,108,0.12)',
+                marginTop: '16px', background: '#ffffff',
+                borderRadius: '12px', border: '1px solid rgba(213, 195, 184, 0.5)',
                 padding: '16px 20px',
               }}>
                 {['🔒 SSL Encrypted Payment', '📦 Discreet Packaging', '↩️ 7-Day Easy Returns', '🇮🇳 Made for India'].map(t => (
                   <div key={t} style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
-                    <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: '#6b5749' }}>{t}</span>
+                    <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', fontWeight: 600, color: 'var(--es-on-surface-variant)', opacity: 0.8 }}>{t}</span>
                   </div>
                 ))}
               </div>

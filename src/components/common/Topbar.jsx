@@ -203,18 +203,7 @@ function Topbar() {
           <div className="es-actions-wrapper" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             {/* Desktop Actions */}
             <div className="es-desktop-actions">
-              <button style={{
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                padding: '8px',
-                borderRadius: '50%',
-                display: 'flex',
-                color: '#1a0a00',
-                transition: 'all 0.3s',
-              }} className="es-icon-btn">
-                <SearchIcon sx={{ fontSize: 20 }} />
-              </button>
+
 
               <button
                 onClick={() => navigate('/cart')}
@@ -305,7 +294,7 @@ function Topbar() {
                       </div>
 
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                        <button 
+                        <button
                           onClick={() => navigate('/dashboard')}
                           className="es-profile-menu-btn"
                           style={{
@@ -323,14 +312,14 @@ function Topbar() {
                             fontWeight: 600,
                             transition: 'all 0.2s',
                             textAlign: 'left'
-                          }} 
+                          }}
                         >
                           <PersonOutlineOutlinedIcon sx={{ fontSize: 18, color: 'var(--es-primary)' }} />
                           Dashboard
                         </button>
-                        
-                        <button 
-                          onClick={handleLogout} 
+
+                        <button
+                          onClick={handleLogout}
                           className="es-profile-menu-btn es-logout-btn-dropdown"
                           style={{
                             display: 'flex',
@@ -426,7 +415,7 @@ function Topbar() {
                   </span>
                 )}
               </button>
-              
+
               <button
                 onClick={() => setMobileMenuOpen(true)}
                 style={{

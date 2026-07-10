@@ -2,15 +2,15 @@
  * Copyright © 2023, Eden Sign Inc. ALL RIGHTS RESERVED.
  */
 
-import React, { useRef, useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import StarIcon from '@mui/icons-material/Star';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ContentCutOutlinedIcon from '@mui/icons-material/ContentCutOutlined';
 
 import API from '../../../apis';
@@ -246,15 +246,10 @@ const SalonListCards = ({
   onCityDetected 
 }) => {
   const dispatch = useDispatch();
-  const { listData } = useSelector(state => state.allSalons);
   const [allSalonsRaw, setAllSalonsRaw] = React.useState([]);
   const [allSalons, setAllSalons] = React.useState([]);
   const [visibleCount, setVisibleCount] = React.useState(PAGE_SIZE);
   const [loading, setLoading] = React.useState(true);
-  const [loadingMore, setLoadingMore] = React.useState(false);
-
-  // IntersectionObserver sentinel ref for infinite scroll
-  const sentinelRef = useRef(null);
 
   const getSalons = () => {
     setLoading(true);
@@ -318,30 +313,11 @@ const SalonListCards = ({
     getSalons();
   }, [selectedCategory, selectedCity, selectedRating, latitude, longitude]);
 
-  // Infinite scroll observer
-  const handleSentinel = useCallback((entries) => {
-    const [entry] = entries;
-    if (entry.isIntersecting && !loadingMore && !loading) {
-      if (visibleCount < allSalons.length) {
-        setLoadingMore(true);
-        // Simulate a small delay for a smooth loader appearance
-        setTimeout(() => {
-          setVisibleCount(prev => Math.min(prev + PAGE_SIZE, allSalons.length));
-          setLoadingMore(false);
-        }, 600);
-      }
-    }
-  }, [loadingMore, loading, visibleCount, allSalons.length]);
-
-  React.useEffect(() => {
-    const observer = new IntersectionObserver(handleSentinel, { threshold: 0.1 });
-    const el = sentinelRef.current;
-    if (el) observer.observe(el);
-    return () => { if (el) observer.unobserve(el); };
-  }, [handleSentinel]);
+  const loadMore = () => {
+    setVisibleCount(prev => prev + PAGE_SIZE);
+  };
 
   const visibleSalons = allSalons.slice(0, visibleCount);
-  const hasMore = visibleCount < allSalons.length;
 
   return (
     <>
@@ -400,60 +376,79 @@ const SalonListCards = ({
           )}
         </motion.div>
 
-        {/* Grid */}
-        <div
-          className="es-salon-grid"
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: '28px',
-          }}
-        >
-          {loading
-            ? Array.from({ length: 6 }, (_, i) => <SalonCardSkeleton key={i} />)
-            : visibleSalons.length > 0
-              ? visibleSalons.map((salon, index) => (
+        {/* Grid and InfiniteScroll */}
+        {!loading && allSalons.length > 0 ? (
+          <InfiniteScroll
+            dataLength={visibleSalons.length}
+            next={loadMore}
+            hasMore={visibleSalons.length < allSalons.length}
+            loader={
+              <div
+                className="es-salon-grid"
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(3, 1fr)',
+                  gap: '28px',
+                  marginTop: '28px',
+                }}
+              >
+                {Array.from({ length: 3 }, (_, i) => (
+                  <SalonCardSkeleton key={`more-${i}`} />
+                ))}
+              </div>
+            }
+            endMessage={
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.3 }}
+                style={{
+                  textAlign: 'center',
+                  marginTop: '48px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: '8px',
+                }}
+              >
+                <div style={{ width: '48px', height: '2px', background: 'linear-gradient(90deg, transparent, #c7956c, transparent)' }} />
+                <p style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '13px',
+                  color: '#9a8070',
+                  margin: 0,
+                }}>
+                  You&apos;ve seen all {allSalons.length} salons
+                </p>
+              </motion.div>
+            }
+          >
+            <div
+              className="es-salon-grid"
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(3, 1fr)',
+                gap: '28px',
+              }}
+            >
+              {visibleSalons.map((salon, index) => (
                 <SalonCard key={salon.salon_code || index} salon={salon} index={index} />
-              ))
-              : <EmptyState />
-          }
-
-          {/* Inline skeleton batch loader when loading more */}
-          {loadingMore && Array.from({ length: 3 }, (_, i) => (
-            <SalonCardSkeleton key={`more-${i}`} />
-          ))}
-        </div>
-
-        {/* Sentinel element — triggers infinite scroll */}
-        {!loading && hasMore && (
-          <div ref={sentinelRef} style={{ height: '80px', marginTop: '24px' }} />
-        )}
-
-        {/* End of list indicator */}
-        {!loading && !hasMore && allSalons.length > 0 && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
+              ))}
+            </div>
+          </InfiniteScroll>
+        ) : loading ? (
+          <div
+            className="es-salon-grid"
             style={{
-              textAlign: 'center',
-              marginTop: '48px',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              gap: '8px',
+              display: 'grid',
+              gridTemplateColumns: 'repeat(3, 1fr)',
+              gap: '28px',
             }}
           >
-            <div style={{ width: '48px', height: '2px', background: 'linear-gradient(90deg, transparent, #c7956c, transparent)' }} />
-            <p style={{
-              fontFamily: 'Inter, sans-serif',
-              fontSize: '13px',
-              color: '#9a8070',
-              margin: 0,
-            }}>
-              You've seen all {allSalons.length} salons
-            </p>
-          </motion.div>
+            {Array.from({ length: 6 }, (_, i) => <SalonCardSkeleton key={i} />)}
+          </div>
+        ) : (
+          <EmptyState />
         )}
       </section>
     </>

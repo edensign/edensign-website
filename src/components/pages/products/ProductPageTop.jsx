@@ -10,7 +10,7 @@ function ProductPageTop() {
     <div style={{
       width: '100%',
       background: 'var(--es-background)',
-      padding: '120px 24px 20px 24px',
+      padding: '65px 24px 20px 24px',
       display: 'flex',
       justifyContent: 'center',
     }}>

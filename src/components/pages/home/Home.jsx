@@ -24,6 +24,12 @@ import Testimonials from "../../common/Testimonials";
 import ActiveOffersSection from "../ActiveOffersSection";
 import HomeReviewSection from "./HomeReviewSection";
 
+import FeaturedSalons from "./FeaturedSalons";
+import TopStylists from "./TopStylists";
+import BeautyTips from "./BeautyTips";
+import AIAssistantSection from "./AIAssistantSection";
+import AppDownload from "./AppDownload";
+
 import {
   SkeletonStyles,
   StatsBarSkeleton,
@@ -117,6 +123,14 @@ const Home = () => {
         <ServicesList />
       </LazySection>
 
+      <LazySection height="480px" skeleton={<div className="es-sk" style={{ height: "480px", borderRadius: "24px" }} />}>
+        <FeaturedSalons />
+      </LazySection>
+
+      <LazySection height="480px" skeleton={<div className="es-sk" style={{ height: "480px", borderRadius: "24px" }} />}>
+        <TopStylists />
+      </LazySection>
+
       <LazySection height="340px" skeleton={<ActiveOffersSkeleton />}>
         <ActiveOffersSection title="Exclusive Digital Offer Cards" />
       </LazySection>
@@ -141,8 +155,20 @@ const Home = () => {
         <Brands />
       </LazySection>
 
+      <LazySection height="480px" skeleton={<div className="es-sk" style={{ height: "480px", borderRadius: "24px" }} />}>
+        <BeautyTips />
+      </LazySection>
+
+      <LazySection height="480px" skeleton={<div className="es-sk" style={{ height: "480px", borderRadius: "24px" }} />}>
+        <AIAssistantSection />
+      </LazySection>
+
       <LazySection height="400px" skeleton={<TestimonialsSkeleton />}>
         <Testimonials />
+      </LazySection>
+
+      <LazySection height="480px" skeleton={<div className="es-sk" style={{ height: "480px", borderRadius: "24px" }} />}>
+        <AppDownload />
       </LazySection>
 
       <LazySection height="500px" skeleton={<div className="es-sk" style={{ height: "500px", borderRadius: "24px" }} />}>

@@ -6,14 +6,15 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import InstagramIcon from '@mui/icons-material/Instagram';
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 
 const brandLogos = [
-  { name: "L'Oréal", img: 'https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/brands/loreal.jpg' },
-  { name: 'Aerin', img: 'https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/brands/aerin.jpg' },
-  { name: 'MAC', img: 'https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/brands/mac.jpg' },
-  { name: 'Revlon', img: 'https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/brands/revlon.png' },
-  { name: 'Fable', img: 'https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/brands/fable.jpg' },
-  { name: 'Schwarzkopf', img: 'https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/brands/schwar.jpg' },
+  { name: "L'Oréal",       img: 'https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/brands/loreal.jpg' },
+  { name: 'Aerin',          img: 'https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/brands/aerin.jpg' },
+  { name: 'MAC',             img: 'https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/brands/mac.jpg' },
+  { name: 'Revlon',          img: 'https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/brands/revlon.png' },
+  { name: 'Fable',           img: 'https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/brands/fable.jpg' },
+  { name: 'Schwarzkopf',     img: 'https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/brands/schwar.jpg' },
 ];
 
 const galleryImages = [
@@ -38,8 +39,22 @@ const Brands = () => {
         transition={{ duration: 0.6 }}
       >
         <span className="es-eyebrow">Trusted Partners</span>
-        <h2 className="es-section-title">Our <em>Brands</em></h2>
-        <div className="es-title-divider" />
+        <h2 className="es-section-title">
+          Our <em>Brands</em>
+        </h2>
+        <p
+          style={{
+            fontFamily: "'Inter', sans-serif",
+            fontSize: '14px',
+            color: 'var(--es-muted)',
+            maxWidth: '420px',
+            margin: '16px auto 0',
+            lineHeight: 1.7,
+          }}
+        >
+          Trusted by the houses that define beauty — from global powerhouses to artisan boutiques.
+        </p>
+        <div className="es-title-divider" style={{ margin: '20px auto 0' }} />
       </motion.div>
 
       {/* Infinite marquee */}
@@ -68,7 +83,13 @@ const Brands = () => {
             rel="noreferrer"
             className="es-insta-cell"
           >
-            <img src={img} alt={`Eden Sign gallery ${i + 1}`} className="es-insta-img" />
+            <img
+              src={img}
+              alt={`Eden Sign gallery ${i + 1}`}
+              className="es-insta-img"
+              loading="lazy"
+              decoding="async"
+            />
             <div className="es-insta-hover">
               <InstagramIcon sx={{ fontSize: 28, color: '#fff' }} />
             </div>
@@ -82,9 +103,21 @@ const Brands = () => {
           rel="noreferrer"
           className="es-insta-center-card"
         >
-          <InstagramIcon sx={{ fontSize: 32, color: '#c7956c' }} />
+          <AutoAwesomeIcon sx={{ fontSize: 28, color: 'var(--es-rose-gold)' }} />
           <span className="es-insta-handle-label">Follow Us</span>
           <span className="es-insta-handle">@edensign</span>
+          <span
+            style={{
+              fontFamily: "'Inter', sans-serif",
+              fontSize: '10px',
+              color: 'rgba(26,10,0,0.4)',
+              letterSpacing: '0.2em',
+              textTransform: 'uppercase',
+              marginTop: '2px',
+            }}
+          >
+            On Instagram
+          </span>
         </a>
       </motion.div>
     </section>

@@ -9,7 +9,7 @@
 const LatestOffer = () => {
     return (
         <section className="latest-offer-section">
-            <span className="section-label" style={{ justifyContent: 'center', color: '#c9a96e' }}>
+            <span className="section-label" style={{ justifyContent: 'center', color: 'var(--es-emerald)' }}>
                 Browse Through
             </span>
             <h2 className="section-heading section-heading-light">
@@ -32,7 +32,7 @@ const LatestOffer = () => {
             <div style={{
                 width: '48px',
                 height: '1px',
-                background: 'linear-gradient(to right, transparent, #c9a96e, transparent)',
+                background: 'linear-gradient(to right, transparent, var(--es-emerald), transparent)',
                 margin: '32px auto 0',
             }} />
         </section>

@@ -9,16 +9,11 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { useNavigate } from 'react-router-dom';
 
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
-import PermContactCalendarOutlinedIcon from '@mui/icons-material/PermContactCalendarOutlined';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
-import WorkOutlineOutlinedIcon from '@mui/icons-material/WorkOutlineOutlined';
-import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
-import ContentCutOutlinedIcon from '@mui/icons-material/ContentCutOutlined';
 
 import API from '../../../apis';
-import { downloadResumeFromAzure } from '../../azure/AzureStorageConnection';
 import { useToast } from '../../common/Toast';
 
 import './InfiniteScroll.css';
@@ -31,18 +26,15 @@ const ENV = import.meta.env;
 const SeekCard_Skeleton = () => (
   <div style={{
     background: '#fff',
-    borderRadius: '20px',
-    padding: '24px',
-    boxShadow: '0 4px 20px rgba(26,10,0,0.06)',
+    borderRadius: '2rem',
+    border: '1px solid rgba(26,21,18,0.05)',
     display: 'flex',
-    gap: '20px',
-    border: '1px solid rgba(199,149,108,0.08)',
+    flexDirection: 'column',
     overflow: 'hidden',
   }}>
-    <div style={{ width: 80, height: 80, borderRadius: '16px', background: 'linear-gradient(90deg, #f0ebe6 25%, #e8e0d8 50%, #f0ebe6 75%)', backgroundSize: '200% 100%', animation: 'shimmer 1.6s infinite', flexShrink: 0 }} />
-    <div style={{ flex: 1 }}>
+    <div style={{ width: '100%', aspectRatio: '16/11', background: 'linear-gradient(90deg, #f0ebe6 25%, #e8e0d8 50%, #f0ebe6 75%)', backgroundSize: '200% 100%', animation: 'shimmer 1.6s infinite' }} />
+    <div style={{ padding: '24px' }}>
       <div style={{ height: '18px', borderRadius: '6px', background: 'linear-gradient(90deg, #f0ebe6 25%, #e8e0d8 50%, #f0ebe6 75%)', backgroundSize: '200% 100%', animation: 'shimmer 1.6s infinite', marginBottom: '10px', width: '60%' }} />
-      <div style={{ height: '13px', borderRadius: '5px', background: 'linear-gradient(90deg, #f0ebe6 25%, #e8e0d8 50%, #f0ebe6 75%)', backgroundSize: '200% 100%', animation: 'shimmer 1.6s infinite', marginBottom: '8px', width: '40%' }} />
       <div style={{ height: '13px', borderRadius: '5px', background: 'linear-gradient(90deg, #f0ebe6 25%, #e8e0d8 50%, #f0ebe6 75%)', backgroundSize: '200% 100%', animation: 'shimmer 1.6s infinite', width: '80%' }} />
     </div>
   </div>
@@ -63,10 +55,10 @@ const EmptyState = () => (
     }}
   >
     <img src={sadFaceImage} style={{ width: 100, height: 100, marginBottom: '20px', opacity: 0.5 }} alt="No results" />
-    <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: '24px', color: '#1a0f08', margin: '0 0 8px 0' }}>
+    <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: '24px', color: 'var(--es-charcoal)', margin: '0 0 8px 0' }}>
       No Profiles Found
     </h3>
-    <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', color: '#9a8070', margin: 0, lineHeight: 1.7 }}>
+    <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', color: 'var(--es-charcoal-60)', margin: 0, lineHeight: 1.7 }}>
       Try adjusting your filters to find more talent.
     </p>
   </motion.div>
@@ -83,332 +75,230 @@ const SeekerCard = ({ seeker, index, getCityByName, getStateByName }) => {
       showToast("No CV uploaded for this profile.", "warning");
       return;
     }
-    // Check if it's already a full URL
     if (resume.startsWith('http://') || resume.startsWith('https://')) {
       window.open(resume, '_blank');
     } else {
-      // Construct S3 URL
       const s3Url = `https://salon-s3.s3.us-east-1.amazonaws.com/job-seeker/${resume}`;
       window.open(s3Url, '_blank');
     }
   };
 
-  const renderExperienceBadge = () => {
-    const exp = (seeker.experience || '').trim();
-    if (!exp || exp === 'fresher' || exp === '0') {
-      return (
-        <span style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: '4px',
-          background: 'rgba(74, 222, 128, 0.08)',
-          border: '1px solid rgba(74, 222, 128, 0.2)',
-          borderRadius: '100px',
-          padding: '4px 12px',
-          fontFamily: 'Inter, sans-serif',
-          fontSize: '11px',
-          color: '#16a34a',
-          fontWeight: 600,
-          whiteSpace: 'nowrap',
-        }}>
-          Fresher
-        </span>
-      );
-    } else if (exp.startsWith('trainer:')) {
-      const timeToTrain = exp.substring(8);
-      return (
-        <span style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: '4px',
-          background: 'rgba(147, 51, 234, 0.08)',
-          border: '1px solid rgba(147, 51, 234, 0.2)',
-          borderRadius: '100px',
-          padding: '4px 12px',
-          fontFamily: 'Inter, sans-serif',
-          fontSize: '11px',
-          color: '#7c3aed',
-          fontWeight: 600,
-          whiteSpace: 'nowrap',
-        }}>
-          Trainer ({timeToTrain})
-        </span>
-      );
-    } else {
-      return (
-        <span style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: '4px',
-          background: 'rgba(59, 130, 246, 0.08)',
-          border: '1px solid rgba(59, 130, 246, 0.2)',
-          borderRadius: '100px',
-          padding: '4px 12px',
-          fontFamily: 'Inter, sans-serif',
-          fontSize: '11px',
-          color: '#2563eb',
-          fontWeight: 600,
-          whiteSpace: 'nowrap',
-        }}>
-          {exp} Years Exp
-        </span>
-      );
-    }
-  };
+  const exp = (seeker.experience || '').trim();
+  const expLabel = !exp || exp === 'fresher' || exp === '0' 
+    ? "Fresher" 
+    : exp.startsWith('trainer:') 
+      ? `${exp.substring(8)}y · Trainer` 
+      : `${exp} Years Exp`;
+
+  // Get primary skill from skills array
+  const primarySkill = seeker.skills && seeker.skills.length > 0 ? seeker.skills[0].name : 'Artisan';
+  
+  // Resolve city
+  const cityName = seeker.city ? getCityByName(seeker.city) : '';
+  const stateName = seeker.state ? getStateByName(seeker.state) : '';
+  const locationLabel = cityName ? `${cityName}${stateName ? ', ' + stateName : ''}` : 'India';
+
+  // Photo
+  const S3_BASE = 'https://salon-s3.s3.us-east-1.amazonaws.com';
+  const hasImage = !!seeker.photo;
+  const profileImg = hasImage
+    ? (seeker.photo.startsWith('http') ? seeker.photo : `${S3_BASE}/job-seeker/photo/${seeker.photo}`)
+    : null;
 
   return (
-    <motion.div
+    <motion.article
       ref={ref}
       initial={{ opacity: 0, y: 32 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.5, delay: (index % 2) * 0.1, ease: 'easeOut' }}
+      transition={{ duration: 0.5, delay: (index % 3) * 0.05, ease: 'easeOut' }}
+      className="group es-seeker-card-premium"
       style={{
+        borderRadius: '2rem',
         background: '#ffffff',
-        borderRadius: '12px',
+        border: '1px solid rgba(26,21,18,0.05)',
         overflow: 'hidden',
-        boxShadow: '0 8px 30px rgba(127, 85, 50, 0.04)',
-        border: '1px solid rgba(213, 195, 184, 0.5)',
-        transition: 'all 0.3s ease',
-        cursor: 'pointer',
+        boxShadow: '0 8px 30px rgba(0,0,0,0.02)',
+        transition: 'all 0.4s ease',
+        display: 'flex',
+        flexDirection: 'column',
       }}
       onClick={() => navigate(`/job-seeker/${seeker.id}`)}
-      className="es-seeker-card"
     >
-      {/* Card top accent */}
-      <div style={{ height: '4px', background: 'linear-gradient(90deg, #c7956c 0%, #7f5532 100%)' }} />
-
-      <div style={{ display: 'flex', gap: 0 }}>
-        {/* Left sidebar */}
-        <div style={{
-          width: '200px',
-          flexShrink: 0,
-          background: 'var(--es-surface-container)',
-          padding: '24px 20px',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          gap: '20px',
-          borderRight: '1px solid rgba(213, 195, 184, 0.4)',
-        }} className="es-seeker-sidebar">
-          {/* Brand tag */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <ContentCutOutlinedIcon sx={{ fontSize: 13, color: 'var(--es-primary)' }} />
-            <span className="font-label-caps" style={{
-              fontSize: '11px',
-              color: 'var(--es-primary)',
-            }}>EDEN SIGN</span>
-          </div>
-
-          {/* Photo */}
+      {/* Top Image area */}
+      <div style={{ position: 'relative', width: '100%', aspectRatio: '16/11', overflow: 'hidden' }}>
+        {hasImage ? (
+          <img
+            src={profileImg}
+            alt={seeker.name}
+            loading="lazy"
+            style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.8s ease' }}
+            className="es-seeker-img"
+          />
+        ) : (
           <div style={{
-            width: '80px',
-            height: '80px',
-            borderRadius: '50%',
-            overflow: 'hidden',
-            border: '2px solid var(--es-rose-gold)',
-            margin: '0 auto',
-            boxShadow: '0 4px 10px rgba(127, 85, 50, 0.08)',
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: 'linear-gradient(135deg, var(--es-emerald) 0%, var(--es-emerald-soft) 100%)',
+            color: '#ffffff',
+            fontFamily: "'Cormorant Garamond', serif",
+            fontSize: '3.5rem',
+            fontWeight: 500,
+            textTransform: 'uppercase'
           }}>
-            <img
-              src={customer}
-              alt={seeker.name}
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-            />
+            {seeker.name ? seeker.name.trim().charAt(0).toUpperCase() : '?'}
           </div>
+        )}
+        {/* Gradient overlay */}
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'linear-gradient(to top, rgba(26,21,18,0.85) 0%, rgba(26,21,18,0.1) 70%, transparent 100%)',
+        }} />
+        
+        {/* Brand Label */}
+        <span style={{
+          position: 'absolute',
+          top: '16px',
+          left: '16px',
+          background: 'rgba(251, 247, 242, 0.95)',
+          backdropFilter: 'blur(8px)',
+          borderRadius: '100px',
+          padding: '4px 12px',
+          color: 'var(--es-emerald)',
+          fontSize: '11px',
+          fontWeight: 700,
+          letterSpacing: '0.18em',
+          textTransform: 'uppercase'
+        }}>
+          EDEN SIGN
+        </span>
 
-          {/* Contact info */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <EmailOutlinedIcon sx={{ fontSize: 12, color: 'var(--es-primary)', flexShrink: 0 }} />
-              <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '10px', color: 'var(--es-on-surface-variant)', opacity: 0.9, wordBreak: 'break-all', lineHeight: 1.4 }}>
-                {seeker.email?.toLowerCase()}
-              </span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <PermContactCalendarOutlinedIcon sx={{ fontSize: 12, color: 'var(--es-primary)', flexShrink: 0 }} />
-              <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '10px', color: 'var(--es-on-surface-variant)', opacity: 0.9 }}>
-                {seeker.contact_no}
-              </span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
-              <LocationOnOutlinedIcon sx={{ fontSize: 12, color: 'var(--es-primary)', flexShrink: 0, mt: '2px' }} />
-              <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '10px', color: 'var(--es-on-surface-variant)', opacity: 0.9, lineHeight: 1.5, textTransform: 'capitalize' }}>
-                {seeker.street}<br />
-                {getCityByName(seeker.city)}, {getStateByName(seeker.state)}
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {/* Right content */}
-        <div style={{ flex: 1, padding: '24px 28px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-          {/* Name & info */}
-          <div>
-            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '12px', marginBottom: '12px' }}>
-              <div>
-                <span className="font-label-caps" style={{ fontSize: '10px', color: 'var(--es-primary)' }}>
-                  Looking for opportunities
-                </span>
-                <h3 style={{
-                  fontFamily: 'Playfair Display, serif',
-                  fontSize: '22px',
-                  fontWeight: 600,
-                  color: 'var(--es-espresso)',
-                  margin: '4px 0 0 0',
-                  textTransform: 'capitalize',
-                  lineHeight: 1.2,
-                }}>
-                  {seeker.name}
-                </h3>
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '6px' }}>
-                {/* Age | Gender badge */}
-                <span style={{
-                  flexShrink: 0,
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '4px',
-                  background: 'var(--es-surface-container)',
-                  border: '1px solid rgba(213, 195, 184, 0.4)',
-                  borderRadius: '100px',
-                  padding: '4px 12px',
-                  fontFamily: 'Inter, sans-serif',
-                  fontSize: '11px',
-                  color: 'var(--es-espresso)',
-                  fontWeight: 500,
-                  whiteSpace: 'nowrap',
-                }}>
-                  <PersonOutlineOutlinedIcon sx={{ fontSize: 12 }} />
-                  {seeker.age}y · {seeker.gender?.charAt(0).toUpperCase() + seeker.gender?.slice(1)}
-                </span>
-                {/* Profile Type / Experience badge */}
-                {renderExperienceBadge()}
-              </div>
-            </div>
-
-            {/* Description */}
-            <p style={{
-              fontFamily: 'Inter, sans-serif',
-              fontSize: '13px',
-              color: 'var(--es-on-surface-variant)',
-              margin: '0 0 20px 0',
-              lineHeight: 1.7,
-              display: '-webkit-box',
-              WebkitLineClamp: 2,
-              WebkitBoxOrient: 'vertical',
-              overflow: 'hidden',
-              opacity: 0.85,
-            }}>
-              {seeker.description}
-            </p>
-
-            {/* Skills */}
-            {seeker.skills?.length > 0 && (
-              <div style={{ marginBottom: '20px' }}>
-                <span className="font-label-caps" style={{
-                  fontSize: '9px',
-                  color: 'var(--es-on-surface-variant)',
-                  opacity: 0.6,
-                  display: 'block',
-                  marginBottom: '8px',
-                }}>Skills</span>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-                  {seeker.skills.map((skill, i) => (
-                    <span key={i} style={{
-                      fontFamily: 'Inter, sans-serif',
-                      fontSize: '11px',
-                      fontWeight: 500,
-                      color: 'var(--es-espresso)',
-                      background: 'var(--es-surface-container)',
-                      border: '1px solid rgba(213, 195, 184, 0.4)',
-                      borderRadius: '4px',
-                      padding: '4px 12px',
-                      textTransform: 'capitalize',
-                    }}>
-                      {skill.name}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Actions */}
-          <div style={{ paddingTop: '16px', borderTop: '1px solid rgba(213, 195, 184, 0.4)', display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                handleViewCV(seeker.resume);
-              }}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                background: 'linear-gradient(135deg, #c7956c 0%, #7f5532 100%)',
-                color: '#fff',
-                border: 'none',
-                borderRadius: '100px',
-                padding: '10px 20px',
-                fontFamily: 'Inter, sans-serif',
-                fontSize: '11px',
-                fontWeight: 600,
-                cursor: 'pointer',
-                letterSpacing: '0.05em',
-                textTransform: 'uppercase',
-                transition: 'transform 0.2s, box-shadow 0.2s',
-                boxShadow: '0 4px 12px rgba(127, 85, 50, 0.15)',
-              }}
-              className="es-cv-btn"
-            >
-              <ArticleOutlinedIcon sx={{ fontSize: 14 }} />
-              View CV
-              <FileDownloadIcon sx={{ fontSize: 12, opacity: 0.7 }} />
-            </button>
-
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                navigate(`/job-seeker/${seeker.id}`);
-              }}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                background: 'rgba(213, 195, 184, 0.15)',
-                color: 'var(--es-espresso)',
-                border: '1px solid rgba(213, 195, 184, 0.6)',
-                borderRadius: '100px',
-                padding: '10px 20px',
-                fontFamily: 'Inter, sans-serif',
-                fontSize: '11px',
-                fontWeight: 600,
-                cursor: 'pointer',
-                letterSpacing: '0.05em',
-                textTransform: 'uppercase',
-                transition: 'all 0.2s ease',
-              }}
-              className="es-profile-btn"
-            >
-              View Profile
-            </button>
-
+        {/* Availability Badge */}
+        {seeker.available !== false && (
+          <span style={{
+            position: 'absolute',
+            top: '16px',
+            right: '16px',
+            background: 'var(--es-emerald)',
+            color: 'var(--es-cream)',
+            borderRadius: '100px',
+            padding: '4px 12px',
+            fontSize: '11px',
+            fontWeight: 600,
+            letterSpacing: '0.16em',
+            textTransform: 'uppercase',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '6px'
+          }}>
             <span style={{
-              fontFamily: 'Inter, sans-serif',
-              fontSize: '11px',
-              color: 'var(--es-on-surface-variant)',
-              opacity: 0.8,
-              display: 'flex',
-              alignItems: 'center',
-              gap: '4px',
-              marginLeft: 'auto'
-            }}>
-              <WorkOutlineOutlinedIcon sx={{ fontSize: 14 }} />
-              Available for hire
-            </span>
+              width: '6px',
+              height: '6px',
+              borderRadius: '50%',
+              background: 'var(--es-cream)',
+              animation: 'pulse-dot 1.2s infinite'
+            }} className="es-pulse-dot" />
+            Available
+          </span>
+        )}
+
+        {/* Text Info over Image */}
+        <div style={{ position: 'absolute', bottom: '16px', left: '16px', right: '16px', color: '#ffffff' }}>
+          <div style={{ fontSize: '11px', fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', opacity: 0.85 }}>
+            {primarySkill}
+          </div>
+          <h3 style={{
+            fontFamily: 'Playfair Display, serif',
+            fontSize: '24px',
+            fontWeight: 500,
+            lineHeight: 1.2,
+            margin: '4px 0 0 0',
+            textTransform: 'capitalize'
+          }}>
+            {seeker.name}
+          </h3>
+          <div style={{ fontSize: '12px', opacity: 0.85, marginTop: '4px' }}>
+            {seeker.age}y · <span style={{ textTransform: 'capitalize' }}>{seeker.gender}</span> · {expLabel}
           </div>
         </div>
       </div>
-    </motion.div>
+
+      {/* Card Body area */}
+      <div style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '16px', flex: 1 }}>
+        <p style={{
+          fontFamily: 'Inter, sans-serif',
+          fontSize: '14px',
+          color: 'var(--es-charcoal-60)',
+          lineHeight: '1.6',
+          margin: 0,
+          fontStyle: 'italic',
+          flex: 1,
+          display: '-webkit-box',
+          WebkitLineClamp: 3,
+          WebkitBoxOrient: 'vertical',
+          overflow: 'hidden'
+        }}>
+          "{seeker.description || 'Passionate about beauty rituals and salon artistry.'}"
+        </p>
+
+        {/* Contact details */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '13px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--es-charcoal-60)' }}>
+            <EmailOutlinedIcon sx={{ fontSize: 16, color: 'var(--es-emerald)' }} />
+            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{seeker.email?.toLowerCase()}</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--es-charcoal-60)' }}>
+            <LocationOnOutlinedIcon sx={{ fontSize: 16, color: 'var(--es-emerald)' }} />
+            <span>{locationLabel}</span>
+          </div>
+        </div>
+
+        {/* Buttons */}
+        <div style={{ display: 'flex', gap: '10px', marginTop: '8px' }}>
+          <button
+            onClick={(e) => { e.stopPropagation(); handleViewCV(seeker.resume); }}
+            style={{
+              flex: 1,
+              borderRadius: '12px',
+              border: '1px solid rgba(15, 93, 78, 0.15)',
+              background: '#ffffff',
+              color: 'var(--es-charcoal)',
+              padding: '10px 0',
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '13px',
+              fontWeight: 600,
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+            }}
+            className="es-cv-btn-premium"
+          >
+            View CV
+          </button>
+          <button
+            onClick={() => navigate(`/job-seeker/${seeker.id}`)}
+            style={{
+              flex: 1,
+              borderRadius: '12px',
+              background: 'var(--es-charcoal)',
+              color: '#ffffff',
+              border: 'none',
+              padding: '10px 0',
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '13px',
+              fontWeight: 600,
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+            }}
+            className="es-profile-btn-premium"
+          >
+            View Profile
+          </button>
+        </div>
+      </div>
+    </motion.article>
   );
 };
 
@@ -520,16 +410,28 @@ const JobSeekerCards = ({ skills, selectedSkill, selectedGender, selectedExperie
     <>
       <style>{`
         @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
-        .es-seeker-card:hover { box-shadow: 0 16px 48px rgba(26,10,0,0.12) !important; transform: translateY(-4px) !important; }
-        .es-cv-btn:hover { transform: translateY(-1px) !important; box-shadow: 0 6px 20px rgba(26,10,0,0.3) !important; }
-        .es-profile-btn:hover { background: rgba(199, 149, 108, 0.2) !important; transform: translateY(-1px) !important; }
-        @media (max-width: 640px) {
-          .es-seeker-sidebar { width: 120px !important; padding: 16px 12px !important; }
-          .es-seeker-card { flex-direction: column !important; }
+        @keyframes pulse-dot {
+          0%, 100% { transform: scale(1); opacity: 1; }
+          50% { transform: scale(1.3); opacity: 0.7; }
+        }
+        .es-seeker-card-premium:hover {
+          transform: translateY(-6px);
+          box-shadow: 0 20px 48px rgba(15, 93, 78, 0.08) !important;
+          border-color: rgba(15, 93, 78, 0.15) !important;
+        }
+        .es-seeker-card-premium:hover .es-seeker-img {
+          transform: scale(1.05);
+        }
+        .es-cv-btn-premium:hover {
+          border-color: rgba(15, 93, 78, 0.3) !important;
+          background: rgba(15, 93, 78, 0.02) !important;
+        }
+        .es-profile-btn-premium:hover {
+          background: var(--es-emerald) !important;
         }
       `}</style>
 
-      <section style={{ background: 'var(--es-background)', padding: '60px 5% 100px' }}>
+      <section style={{ background: 'transparent', padding: '60px 5% 100px' }}>
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -538,15 +440,15 @@ const JobSeekerCards = ({ skills, selectedSkill, selectedGender, selectedExperie
           style={{ marginBottom: '40px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}
         >
           <div>
-            <span className="font-label-caps" style={{ fontSize: '11px', color: 'var(--es-primary)', display: 'block', marginBottom: '8px' }}>
+            <span className="font-label-caps" style={{ fontSize: '11px', color: 'var(--es-emerald)', display: 'block', marginBottom: '8px' }}>
               Talent Pool
             </span>
-            <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(28px, 4vw, 40px)', fontWeight: 600, color: 'var(--es-espresso)', margin: 0, lineHeight: 1.15 }}>
+            <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 'clamp(28px, 4vw, 40px)', fontWeight: 600, color: 'var(--es-charcoal)', margin: 0, lineHeight: 1.15 }}>
               Discover <span style={{ fontStyle: 'italic', fontWeight: '400' }}>Talent</span>
             </h2>
           </div>
           {!initialLoading && jobSeekerDetail.listData?.length > 0 && (
-            <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', fontWeight: 600, color: 'var(--es-espresso)', background: '#ffffff', border: '1px solid rgba(213, 195, 184, 0.6)', padding: '8px 20px', borderRadius: '100px' }}>
+            <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', fontWeight: 600, color: 'var(--es-charcoal)', background: '#ffffff', border: '1px solid rgba(15, 93, 78, 0.15)', padding: '8px 20px', borderRadius: '100px' }}>
               {jobSeekerDetail.totalResults} profiles found
             </span>
           )}
@@ -559,7 +461,7 @@ const JobSeekerCards = ({ skills, selectedSkill, selectedGender, selectedExperie
           transition={{ duration: 0.5, delay: 0.1 }}
           style={{
             background: '#ffffff',
-            border: '1px solid rgba(213, 195, 184, 0.5)',
+            border: '1px solid rgba(15, 93, 78, 0.15)',
             borderRadius: '12px',
             padding: '20px 24px',
             marginBottom: '32px',
@@ -568,7 +470,7 @@ const JobSeekerCards = ({ skills, selectedSkill, selectedGender, selectedExperie
             gap: '24px',
             alignItems: 'center',
             justifyContent: 'space-between',
-            boxShadow: '0 15px 40px rgba(127, 85, 50, 0.05)',
+            boxShadow: '0 15px 40px rgba(15, 93, 78, 0.05)',
           }}
         >
           {/* Left: Filter groups */}
@@ -577,7 +479,7 @@ const JobSeekerCards = ({ skills, selectedSkill, selectedGender, selectedExperie
             <div>
               <span className="font-label-caps" style={{
                 fontSize: '10px',
-                color: 'var(--es-on-surface-variant)',
+                color: 'var(--es-charcoal-60)',
                 opacity: 0.7,
                 display: 'block',
                 marginBottom: '8px'
@@ -597,10 +499,10 @@ const JobSeekerCards = ({ skills, selectedSkill, selectedGender, selectedExperie
                       borderRadius: '100px',
                       cursor: 'pointer',
                       transition: 'all 0.2s ease',
-                      border: selectedType === type ? '1px solid transparent' : '1px solid rgba(213, 195, 184, 0.6)',
-                      background: selectedType === type ? 'linear-gradient(135deg, #c7956c 0%, #7f5532 100%)' : '#ffffff',
-                      color: selectedType === type ? '#ffffff' : 'var(--es-espresso)',
-                      boxShadow: selectedType === type ? '0 4px 12px rgba(127, 85, 50, 0.15)' : 'none',
+                      border: selectedType === type ? '1px solid transparent' : '1px solid rgba(15, 93, 78, 0.15)',
+                      background: selectedType === type ? 'linear-gradient(135deg, var(--es-emerald) 0%, var(--es-emerald-soft) 100%)' : '#ffffff',
+                      color: selectedType === type ? '#ffffff' : 'var(--es-charcoal)',
+                      boxShadow: selectedType === type ? '0 4px 12px rgba(15, 93, 78, 0.15)' : 'none',
                     }}
                   >
                     {type === 'all' ? 'All Types' : type === 'experience' ? 'Experienced' : type}
@@ -613,7 +515,7 @@ const JobSeekerCards = ({ skills, selectedSkill, selectedGender, selectedExperie
             <div>
               <span className="font-label-caps" style={{
                 fontSize: '10px',
-                color: 'var(--es-on-surface-variant)',
+                color: 'var(--es-charcoal-60)',
                 opacity: 0.7,
                 display: 'block',
                 marginBottom: '8px'
@@ -633,10 +535,10 @@ const JobSeekerCards = ({ skills, selectedSkill, selectedGender, selectedExperie
                       borderRadius: '100px',
                       cursor: 'pointer',
                       transition: 'all 0.2s ease',
-                      border: selectedGenderState === gen ? '1px solid transparent' : '1px solid rgba(213, 195, 184, 0.6)',
-                      background: selectedGenderState === gen ? 'linear-gradient(135deg, #c7956c 0%, #7f5532 100%)' : '#ffffff',
-                      color: selectedGenderState === gen ? '#ffffff' : 'var(--es-espresso)',
-                      boxShadow: selectedGenderState === gen ? '0 4px 12px rgba(127, 85, 50, 0.15)' : 'none',
+                      border: selectedGenderState === gen ? '1px solid transparent' : '1px solid rgba(15, 93, 78, 0.15)',
+                      background: selectedGenderState === gen ? 'linear-gradient(135deg, var(--es-emerald) 0%, var(--es-emerald-soft) 100%)' : '#ffffff',
+                      color: selectedGenderState === gen ? '#ffffff' : 'var(--es-charcoal)',
+                      boxShadow: selectedGenderState === gen ? '0 4px 12px rgba(15, 93, 78, 0.15)' : 'none',
                     }}
                   >
                     {gen === 'all' ? 'All Genders' : gen}
@@ -677,8 +579,8 @@ const JobSeekerCards = ({ skills, selectedSkill, selectedGender, selectedExperie
 
         {/* Cards */}
         {initialLoading ? (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(540px, 1fr))', gap: '20px' }} className="es-seeker-grid">
-            {Array.from({ length: 4 }, (_, i) => <SeekCard_Skeleton key={i} />)}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '24px' }} className="es-seeker-grid">
+            {Array.from({ length: 6 }, (_, i) => <SeekCard_Skeleton key={i} />)}
           </div>
         ) : jobSeekerDetail.listData?.length === 0 ? (
           <EmptyState />
@@ -689,7 +591,7 @@ const JobSeekerCards = ({ skills, selectedSkill, selectedGender, selectedExperie
             next={fetchMoreData}
             loader={jobSeekerDetail.loading ? <SeekCard_Skeleton /> : null}
           >
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(540px, 1fr))', gap: '20px' }} className="es-seeker-grid">
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '24px' }} className="es-seeker-grid">
               {jobSeekerDetail.listData.map((seeker, index) => (
                 <SeekerCard
                   key={index}

@@ -139,11 +139,11 @@ function Topbar() {
         id="app-bar"
         style={{
           ...styles.appBar,
-          background: scrolled ? 'rgba(255, 248, 245, 0.85)' : 'rgba(255, 248, 245, 0.7)',
+          background: scrolled ? 'rgba(251, 247, 242, 0.85)' : 'rgba(251, 247, 242, 0.7)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
-          boxShadow: scrolled ? '0 4px 20px rgba(127, 85, 50, 0.08)' : 'none',
-          borderBottom: '1px solid rgba(213, 195, 184, 0.4)',
+          boxShadow: scrolled ? '0 4px 20px rgba(26, 21, 18, 0.05)' : 'none',
+          borderBottom: '1px solid rgba(26, 21, 18, 0.08)',
           height: '80px',
         }}
       >
@@ -159,14 +159,12 @@ function Topbar() {
             }}
           >
             <span style={{
-              fontFamily: 'Playfair Display, serif',
+              fontFamily: 'var(--font-serif)',
               fontWeight: 600,
               fontSize: '24px',
-              letterSpacing: '0.15em',
-              color: 'var(--es-primary)',
-              textTransform: 'uppercase',
+              color: 'var(--es-charcoal)',
             }}>
-              Eden Sign
+              Eden <span style={{ fontStyle: 'italic', color: 'var(--es-emerald)' }}>Sign</span>
             </span>
           </Link>
 
@@ -353,20 +351,17 @@ function Topbar() {
                     alignItems: 'center',
                     gap: '6px',
                     textDecoration: 'none',
-                    padding: '8px 20px',
+                    padding: '10px 24px',
                     borderRadius: '100px',
-                    background: 'linear-gradient(135deg, #c7956c 0%, #7f5532 100%)',
-                    color: '#fff',
-                    fontFamily: 'Inter, sans-serif',
-                    fontSize: '11px',
-                    fontWeight: 600,
-                    letterSpacing: '0.08em',
-                    textTransform: 'uppercase',
+                    background: 'var(--es-emerald)',
+                    color: 'var(--es-cream)',
+                    fontFamily: 'var(--font-sans)',
+                    fontSize: '13px',
+                    fontWeight: 500,
                     marginLeft: '8px',
-                    boxShadow: '0 4px 12px rgba(127, 85, 50, 0.2)',
-                    transition: 'transform 0.2s, box-shadow 0.2s',
+                    transition: 'all 0.25s ease',
                   }}
-                  className="es-login-btn font-label-caps"
+                  className="es-login-btn"
                 >
                   <LoginIcon sx={{ fontSize: 14 }} />
                   Sign In

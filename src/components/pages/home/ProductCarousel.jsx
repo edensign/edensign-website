@@ -163,7 +163,7 @@ const ProductCarousel = () => {
           >
             <Typography 
               variant="overline" 
-              sx={{ color: '#c7956c', letterSpacing: '0.3em', fontWeight: 600 }}
+              sx={{ color: 'var(--es-emerald)', letterSpacing: '0.3em', fontWeight: 600 }}
             >
               Our Collection
             </Typography>

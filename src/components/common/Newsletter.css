@@ -1,13 +1,46 @@
-/* ---- Newsletter Section ---- */
+/* ---- Newsletter Section — Dark Panel Design ---- */
+
 .es-newsletter-section {
   position: relative;
-  min-height: 45vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   overflow: hidden;
-  background-color: var(--es-background);
-  padding: 80px 5%;
+  padding: 60px 5% 80px;
+  background: var(--es-background);
+}
+
+/* The inner rounded dark panel */
+.es-newsletter-panel {
+  position: relative;
+  background: var(--es-espresso);
+  border-radius: 48px;
+  padding: 80px 10%;
+  overflow: hidden;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Decorative glow blobs inside the panel */
+.es-newsletter-blob-1 {
+  position: absolute;
+  top: -120px;
+  right: -80px;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  background: rgba(199, 149, 108, 0.12);
+  filter: blur(70px);
+  pointer-events: none;
+}
+
+.es-newsletter-blob-2 {
+  position: absolute;
+  bottom: -100px;
+  left: -60px;
+  width: 360px;
+  height: 360px;
+  border-radius: 50%;
+  background: rgba(199, 149, 108, 0.08);
+  filter: blur(60px);
+  pointer-events: none;
 }
 
 .es-newsletter-bg {
@@ -22,7 +55,8 @@
   position: relative;
   z-index: 2;
   text-align: center;
-  max-width: 650px;
+  max-width: 600px;
+  margin: 0 auto;
   padding: 0;
 }
 
@@ -30,73 +64,108 @@
   display: none;
 }
 
+.es-newsletter-eyebrow {
+  display: block;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: var(--es-rose-gold);
+  margin-bottom: 16px;
+}
+
+.es-newsletter-headline {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.15;
+  margin: 0 0 16px 0;
+}
+
+.es-newsletter-headline em {
+  font-style: italic;
+  font-weight: 400;
+}
+
 .es-newsletter-subtext {
   font-family: 'Inter', sans-serif !important;
-  font-size: 16px !important;
-  color: var(--es-on-surface-variant);
-  line-height: 1.7;
-  margin: 12px 0 32px 0;
+  font-size: 15px !important;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.72;
+  margin: 0 0 36px 0;
 }
 
 .es-newsletter-form {
   display: flex;
-  gap: 16px;
-  max-width: 550px;
+  gap: 12px;
+  max-width: 540px;
   margin: 0 auto;
-  border-radius: 0;
   overflow: visible;
   box-shadow: none;
 }
 
 .es-newsletter-input {
   flex: 1;
-  padding: 16px 28px;
+  padding: 16px 26px;
   font-family: 'Inter', sans-serif !important;
   font-size: 14px;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   outline: none;
-  background: var(--es-surface-container);
-  color: var(--es-on-surface);
+  background: rgba(255, 255, 255, 0.07);
+  color: #fff;
   border-radius: 100px;
+  transition: border-color 0.3s ease, background 0.3s ease;
 }
 
 .es-newsletter-input::placeholder {
-  color: var(--es-outline);
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.es-newsletter-input:focus {
+  border-color: rgba(199, 149, 108, 0.6);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .es-newsletter-btn {
   padding: 16px 36px;
-  background: linear-gradient(135deg, #c7956c 0%, #7f5532 100%) !important;
+  background: var(--es-rose-gold) !important;
   color: #fff;
   font-family: 'Inter', sans-serif !important;
   font-size: 12px !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.1em !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.12em !important;
   text-transform: uppercase !important;
   border: none;
   cursor: pointer;
   border-radius: 100px;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: background 0.3s ease, transform 0.25s ease, box-shadow 0.3s ease;
   white-space: nowrap;
 }
 
 .es-newsletter-btn:hover {
-  transform: scale(0.95);
-  box-shadow: 0 8px 24px rgba(127, 85, 50, 0.25);
+  background: #a8724d !important;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(199, 149, 108, 0.3);
 }
 
 .es-newsletter-note {
   font-family: 'Inter', sans-serif !important;
   font-size: 10px !important;
-  font-weight: 600 !important;
-  color: var(--es-on-surface-variant);
-  opacity: 0.5;
-  margin-top: 24px;
-  letter-spacing: 0.15em !important;
+  font-weight: 500 !important;
+  color: rgba(255, 255, 255, 0.3);
+  margin-top: 20px;
+  letter-spacing: 0.12em !important;
   text-transform: uppercase !important;
 }
 
 @media (max-width: 768px) {
+  .es-newsletter-panel {
+    padding: 56px 7%;
+    border-radius: 32px;
+  }
+
   .es-newsletter-form {
     flex-direction: column;
     gap: 12px;
@@ -105,5 +174,12 @@
   .es-newsletter-btn {
     padding: 16px;
     width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .es-newsletter-panel {
+    padding: 44px 6%;
+    border-radius: 24px;
   }
 }

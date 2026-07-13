@@ -33,12 +33,12 @@ import appointmentImg from "../../assets/appointment.jpg";
 /* ── shared MUI overrides ── */
 const inputSx = {
   '& .MuiFilledInput-root': {
-    background: 'rgba(201,169,110,0.06)',
+    background: 'rgba(15,93,78,0.06)',
     borderRadius: '10px',
-    border: '1px solid rgba(201,169,110,0.25)',
+    border: '1px solid rgba(15,93,78,0.25)',
     transition: 'border-color 0.2s',
-    '&:hover': { background: 'rgba(201,169,110,0.10)', borderColor: 'rgba(201,169,110,0.4)' },
-    '&.Mui-focused': { background: 'rgba(201,169,110,0.08)', borderColor: '#c9a96e' },
+    '&:hover': { background: 'rgba(15,93,78,0.10)', borderColor: 'rgba(15,93,78,0.4)' },
+    '&.Mui-focused': { background: 'rgba(15,93,78,0.08)', borderColor: 'var(--es-emerald)' },
     '&::before, &::after': { display: 'none' },
   },
   '& .MuiInputLabel-filled': {
@@ -46,7 +46,7 @@ const inputSx = {
     fontSize: '13px',
     letterSpacing: '0.04em',
   },
-  '& .MuiInputLabel-filled.Mui-focused': { color: '#8b6914' },
+  '& .MuiInputLabel-filled.Mui-focused': { color: 'var(--es-emerald-soft)' },
 };
 
 const MenuProps = {
@@ -68,8 +68,15 @@ const Booking = ({ appointmentRef, selectedService }) => {
   const [bookingStatus, setBookingStatus] = React.useState({ type: '', message: '' });
   const [useWallet, setUseWallet] = React.useState(false);
   const [walletBalance, setWalletBalance] = React.useState(0);
-  const { salon } = useSelector(state => state.salonDetail);
+  const { salon, images } = useSelector(state => state.salonDetail);
   const URLParams = useParams();
+
+  const S3_BASE = import.meta.env.VITE_S3_BASE_URL || 'https://salon-s3.s3.us-east-1.amazonaws.com';
+  const salonPhoto = salon?.front_image 
+    ? (salon.front_image.startsWith('http') ? salon.front_image : `${S3_BASE}/eden-sign/salon/front/${salon.front_image}`)
+    : (images && images.length > 0 && images[0]?.image_src
+        ? `${S3_BASE}/eden-sign/salon/${images[0].type || 'front'}/${images[0].image_src}`
+        : appointmentImg);
 
   const refId = React.useRef();
   const checkboxLabel = { inputProps: { 'aria-label': 'Checkboxes' } };
@@ -260,7 +267,7 @@ const Booking = ({ appointmentRef, selectedService }) => {
           name: 'Eden Sign',
           order_id: rpOrder.id,
           prefill: { name: '', email: '', contact: '' },
-          theme: { color: '#c9a96e' },
+          theme: { color: 'var(--es-emerald)' },
           config: {
             display: {
               blocks: {
@@ -319,7 +326,7 @@ const Booking = ({ appointmentRef, selectedService }) => {
     <section
       ref={appointmentRef}
       style={{
-        background: 'linear-gradient(to bottom, #faf8f4, #f5f0e8)',
+        background: 'linear-gradient(to bottom, var(--es-cream), var(--es-cream-deep))',
         padding: '96px 5%',
         position: 'relative',
         overflow: 'hidden',
@@ -330,7 +337,7 @@ const Booking = ({ appointmentRef, selectedService }) => {
         position: 'absolute', top: 0, left: '50%',
         transform: 'translateX(-50%)',
         width: 1, height: 64,
-        background: 'linear-gradient(to bottom, transparent, #c9a96e)',
+        background: 'linear-gradient(to bottom, transparent, var(--es-emerald))',
       }} />
 
       {/* Section header */}
@@ -338,10 +345,10 @@ const Booking = ({ appointmentRef, selectedService }) => {
         <span style={{
           display: 'inline-flex', alignItems: 'center', gap: '10px',
           fontFamily: "'Inter', sans-serif", fontSize: '11px', fontWeight: 600,
-          letterSpacing: '3px', textTransform: 'uppercase', color: '#8b6914',
+          letterSpacing: '3px', textTransform: 'uppercase', color: 'var(--es-emerald-soft)',
           marginBottom: '16px',
         }}>
-          <span style={{ width: 24, height: 1, background: '#c9a96e', display: 'inline-block' }} />
+          <span style={{ width: 24, height: 1, background: 'var(--es-emerald)', display: 'inline-block' }} />
           Reserve Your Visit
         </span>
         <h2 style={{
@@ -379,14 +386,14 @@ const Booking = ({ appointmentRef, selectedService }) => {
           position: 'relative',
           borderRadius: '24px',
           overflow: 'hidden',
-          border: '1px solid rgba(201,169,110,0.25)',
+          border: '1px solid rgba(15,93,78,0.25)',
           boxShadow: '0 30px 80px rgba(0,0,0,0.12)',
           aspectRatio: '3/4',
           maxHeight: '600px',
           display: 'flex',
         }}>
           <img
-            src={appointmentImg}
+            src={salonPhoto}
             alt="Book your salon appointment"
             style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
           />
@@ -401,7 +408,7 @@ const Booking = ({ appointmentRef, selectedService }) => {
               fontFamily: "'Inter', sans-serif",
               fontSize: '11px', fontWeight: 600,
               letterSpacing: '3px', textTransform: 'uppercase',
-              color: '#c9a96e', marginBottom: '8px',
+              color: 'var(--es-emerald)', marginBottom: '8px',
             }}>Premium Experience</p>
             <p style={{
               fontFamily: "'Cormorant Garamond', serif",
@@ -417,7 +424,7 @@ const Booking = ({ appointmentRef, selectedService }) => {
         <div style={{
           background: '#ffffff',
           borderRadius: '24px',
-          border: '1px solid rgba(201,169,110,0.18)',
+          border: '1px solid rgba(15,93,78,0.18)',
           boxShadow: '0 20px 60px rgba(0,0,0,0.06)',
           padding: '40px 36px',
         }}>
@@ -437,7 +444,7 @@ const Booking = ({ appointmentRef, selectedService }) => {
             {/* Date */}
             <Box display="flex" flexDirection="column" marginBottom="24px">
               <Box display="flex" alignItems="center" gap="8px" marginBottom="10px">
-                <CalendarTodayOutlinedIcon sx={{ fontSize: '16px', color: '#c9a96e' }} />
+                <CalendarTodayOutlinedIcon sx={{ fontSize: '16px', color: 'var(--es-emerald)' }} />
                 <span style={{ fontFamily: "'Inter', sans-serif", fontWeight: 600, fontSize: '11px', letterSpacing: '2px', textTransform: 'uppercase', color: '#44403c' }}>
                   Select Date
                 </span>
@@ -469,7 +476,7 @@ const Booking = ({ appointmentRef, selectedService }) => {
             {/* Service */}
             <Box display="flex" flexDirection="column" marginBottom="24px">
               <Box display="flex" alignItems="center" gap="8px" marginBottom="10px">
-                <ContentCutIcon sx={{ fontSize: '16px', color: '#c9a96e' }} />
+                <ContentCutIcon sx={{ fontSize: '16px', color: 'var(--es-emerald)' }} />
                 <span style={{ fontFamily: "'Inter', sans-serif", fontWeight: 600, fontSize: '11px', letterSpacing: '2px', textTransform: 'uppercase', color: '#44403c' }}>
                   Service
                 </span>
@@ -495,7 +502,7 @@ const Booking = ({ appointmentRef, selectedService }) => {
             {/* Stylist */}
             <Box display="flex" flexDirection="column" marginBottom="24px">
               <Box display="flex" alignItems="center" gap="8px" marginBottom="10px">
-                <PersonOutlineIcon sx={{ fontSize: '16px', color: '#c9a96e' }} />
+                <PersonOutlineIcon sx={{ fontSize: '16px', color: 'var(--es-emerald)' }} />
                 <span style={{ fontFamily: "'Inter', sans-serif", fontWeight: 600, fontSize: '11px', letterSpacing: '2px', textTransform: 'uppercase', color: '#44403c' }}>
                   Stylist
                 </span>
@@ -524,7 +531,7 @@ const Booking = ({ appointmentRef, selectedService }) => {
             {/* Time Slot Select */}
             <Box display="flex" flexDirection="column" marginBottom="24px">
               <Box display="flex" alignItems="center" gap="8px" marginBottom="10px">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9a96e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'inline-block' }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--es-emerald)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'inline-block' }}>
                   <circle cx="12" cy="12" r="10" />
                   <polyline points="12 6 12 12 16 14" />
                 </svg>
@@ -574,7 +581,7 @@ const Booking = ({ appointmentRef, selectedService }) => {
                 checked={formik.values?.else}
                 onChange={(_, value) => formik.setFieldValue("else", value)}
                 value={formik.values.else}
-                sx={{ color: '#c9a96e', '&.Mui-checked': { color: '#c9a96e' }, padding: '4px 8px 4px 0' }}
+                sx={{ color: 'var(--es-emerald)', '&.Mui-checked': { color: 'var(--es-emerald)' }, padding: '4px 8px 4px 0' }}
               />
               <span style={{
                 fontFamily: "'Inter', sans-serif",
@@ -615,14 +622,14 @@ const Booking = ({ appointmentRef, selectedService }) => {
                 justifyContent="space-between"
                 marginBottom="24px"
                 sx={{
-                  background: 'rgba(201,169,110,0.08)',
+                  background: 'rgba(15,93,78,0.08)',
                   padding: '12px 16px',
                   borderRadius: '10px',
-                  border: '1px solid rgba(201,169,110,0.25)',
+                  border: '1px solid rgba(15,93,78,0.25)',
                 }}
               >
                 <Box display="flex" alignItems="center">
-                  <AccountBalanceWalletIcon sx={{ color: '#c9a96e', mr: 1 }} />
+                  <AccountBalanceWalletIcon sx={{ color: 'var(--es-emerald)', mr: 1 }} />
                   <Box>
                     <Typography variant="body2" fontWeight="600" color="#1a0f08" fontSize="13px">
                       Use Wallet Balance
@@ -636,8 +643,8 @@ const Booking = ({ appointmentRef, selectedService }) => {
                   checked={useWallet}
                   onChange={e => setUseWallet(e.target.checked)}
                   sx={{
-                    '& .MuiSwitch-switchBase.Mui-checked': { color: '#c9a96e' },
-                    '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: '#c9a96e' },
+                    '& .MuiSwitch-switchBase.Mui-checked': { color: 'var(--es-emerald)' },
+                    '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': { backgroundColor: 'var(--es-emerald)' },
                   }}
                 />
               </Box>
@@ -652,7 +659,7 @@ const Booking = ({ appointmentRef, selectedService }) => {
               style={{
                 width: '100%',
                 padding: '16px',
-                background: loading ? '#d4b896' : 'linear-gradient(135deg, #c9a96e 0%, #8b6914 100%)',
+                background: loading ? 'var(--es-emerald-muted)' : 'linear-gradient(135deg, var(--es-emerald) 0%, var(--es-emerald-soft) 100%)',
                 color: '#ffffff',
                 border: 'none',
                 borderRadius: '10px',
@@ -667,17 +674,17 @@ const Booking = ({ appointmentRef, selectedService }) => {
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: '10px',
-                boxShadow: '0 8px 28px rgba(201,169,110,0.35)',
+                boxShadow: '0 8px 28px rgba(15,93,78,0.35)',
               }}
               onMouseEnter={e => {
                 if (!loading) {
                   e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 12px 36px rgba(201,169,110,0.45)';
+                  e.currentTarget.style.boxShadow = '0 12px 36px rgba(15,93,78,0.45)';
                 }
               }}
               onMouseLeave={e => {
                 e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = '0 8px 28px rgba(201,169,110,0.35)';
+                e.currentTarget.style.boxShadow = '0 8px 28px rgba(15,93,78,0.35)';
               }}
             >
               {loading

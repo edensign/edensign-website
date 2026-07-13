@@ -3,6 +3,7 @@
  */
 
 import React from 'react';
+import { BRAND_NAME, BRAND_COMPACT, BRAND_INSTAGRAM, BRAND_EMAIL_INFO, BRAND_PHONE, BRAND_ADDRESS, BRAND_HOURS } from '../../brand.js';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
@@ -37,24 +38,24 @@ const legalLinks = [
 ];
 
 const socialLinks = [
-  { Icon: InstagramIcon, href: 'https://instagram.com/edensign.in?igshid=NzZlODBkYWE4Ng==', label: 'Instagram' },
+  { Icon: InstagramIcon, href: BRAND_INSTAGRAM, label: 'Instagram' },
   { Icon: FacebookIcon, href: '#', label: 'Facebook' },
   { Icon: TwitterIcon, href: '#', label: 'Twitter' },
   { Icon: YouTubeIcon, href: '#', label: 'YouTube' },
 ];
 
 const contactItems = [
-  { Icon: CallIcon, text: '123 488 6532' },
-  { Icon: PlaceIcon, text: 'O-44 Shastri Nagar, Bareilly' },
-  { Icon: MailIcon, text: 'info@edensign.com' },
-  { Icon: ScheduleIcon, text: 'Mon–Fri: 10:00–18:00' },
+  { Icon: CallIcon, text: BRAND_PHONE },
+  { Icon: PlaceIcon, text: BRAND_ADDRESS },
+  { Icon: MailIcon, text: BRAND_EMAIL_INFO },
+  { Icon: ScheduleIcon, text: BRAND_HOURS },
 ];
 
 function Footer() {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
 
   const handleInstagramClick = () => {
-    window.open('https://instagram.com/edensign.in?igshid=NzZlODBkYWE4Ng==', '_blank');
+    window.open(BRAND_INSTAGRAM, '_blank');
   };
 
   return (
@@ -109,7 +110,7 @@ function Footer() {
                 color: 'var(--es-primary)',
                 letterSpacing: '0.15em',
                 textTransform: 'uppercase',
-              }}>Eden Sign</span>
+              }}>{BRAND_NAME}</span>
             </Link>
 
             <p style={{
@@ -303,7 +304,7 @@ function Footer() {
             opacity: 0.6,
             margin: 0,
           }}>
-            © {new Date().getFullYear()} EDENSIGN. All Rights Reserved. Made with ❤️ in India.
+            © {new Date().getFullYear()} {BRAND_COMPACT.toUpperCase()}. All Rights Reserved. Made with ❤️ in India.
           </p>
           <p style={{
             fontFamily: 'Inter, sans-serif',

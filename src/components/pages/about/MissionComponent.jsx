@@ -1,118 +1,157 @@
 /**
  * Copyright © 2023, Eden Sign Inc. ALL RIGHTS RESERVED.
- *
- * This software is the confidential information of Eden Sign Inc., and is licensed as
- * restricted rights software. The use, reproduction, or disclosure of this software is subject to
- * restrictions set forth in your license agreement with Eden Sign.
  */
 
 import React from 'react';
-import { Box, Grid, Typography, Card } from '@mui/material';
-import DiamondIcon from '@mui/icons-material/Diamond';
+
+const CARDS = [
+  {
+    icon: '✦',
+    title: 'Exceptional Experiences',
+    body: 'At "Eden Sign", our mission is to deliver exceptional salon experiences that empower our clients to look and feel their best. We are dedicated to providing top-quality services that prioritize customer satisfaction, innovation, and inclusivity. Through a commitment to excellence, sustainability, and community engagement, we strive to be the trusted destination for beauty, self-confidence, and well-being.',
+  },
+  {
+    icon: '◆',
+    title: 'Transformation & Trust',
+    body: "Our client-centric approach and eco-friendly practices define our salon\u2019s character. We aim to create a welcoming and diverse space where individuals can confidently express themselves, knowing that they are in the hands of skilled professionals who care deeply about their needs and preferences. We are more than just a salon franchise; we are a destination for transformation, self-expression, and empowerment.",
+  },
+];
+
+const VALUES = [
+  { emoji: '🌿', label: 'Sustainability' },
+  { emoji: '💎', label: 'Excellence' },
+  { emoji: '🤝', label: 'Community' },
+  { emoji: '✨', label: 'Innovation' },
+];
 
 const MissionComponent = () => {
   return (
-    <Box sx={{ position: "relative", py: 10, px: { xs: 3, md: 8 }, background: 'transparent' }}>
-      <Box sx={{ display: 'flex', flexDirection: "column", justifyContent: "center", alignItems: "center", mb: 8 }}>
-        <Typography sx={{
-            fontFamily: "Inter, sans-serif", 
-            fontWeight: 600, 
-            fontSize: "11px", 
-            lineHeight: "1", 
-            letterSpacing: "0.4em",
-            color: '#c7956c',
+    <section id="mission" style={{
+      padding: '100px 7%',
+      background: 'var(--es-cream)',
+    }}>
+      {/* Section header */}
+      <div style={{ textAlign: 'center', marginBottom: '64px' }}>
+        <div style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '10px',
+          marginBottom: '18px',
+        }}>
+          <span style={{ display: 'inline-block', width: '28px', height: '1.5px', background: 'var(--es-emerald)' }} />
+          <span style={{
+            fontFamily: 'Inter, sans-serif',
+            fontSize: '10px',
+            fontWeight: 700,
+            letterSpacing: '0.35em',
             textTransform: 'uppercase',
-            mb: 1.5
+            color: 'var(--es-emerald)',
+          }}>Our Values</span>
+          <span style={{ display: 'inline-block', width: '28px', height: '1.5px', background: 'var(--es-emerald)' }} />
+        </div>
+        <h2 style={{
+          fontFamily: 'Playfair Display, serif',
+          fontSize: 'clamp(28px, 3.5vw, 44px)',
+          fontWeight: 700,
+          color: 'var(--es-charcoal)',
+          margin: '0 0 16px 0',
+          lineHeight: 1.2,
         }}>
-            OUR
-        </Typography>
-        <DiamondIcon sx={{ fontSize: "12px", color: '#c7956c', mb: 1.5 }} />
-        <Typography sx={{
-            fontFamily: "Playfair Display, serif",
-            fontSize: { xs: '28px', sm: '36px' }, 
-            fontWeight: 600, 
-            lineHeight: "1.2", 
-            letterSpacing: "0.05em",
-            color: 'var(--es-espresso)',
-            textTransform: 'uppercase'
+          Our Mission
+        </h2>
+        <p style={{
+          fontFamily: 'Inter, sans-serif',
+          fontSize: '15px',
+          color: 'var(--es-charcoal-60)',
+          maxWidth: '480px',
+          margin: '0 auto',
+          lineHeight: 1.7,
         }}>
-            MISSION
-        </Typography>
-        <div style={{ width: '48px', height: '1.5px', background: 'var(--es-rose-gold)', marginTop: '16px' }} />
-      </Box>
+          We exist to make premium beauty experiences accessible, empowering, and unforgettable.
+        </p>
+      </div>
 
-      <Grid container spacing={4} sx={{ maxWidth: '1200px', margin: '0 auto' }}>
-        <Grid item xs={12} md={6}>
-          <Card sx={{
-            background: '#ffffff',
-            border: '1px solid rgba(213, 195, 184, 0.5)',
-            borderRadius: '12px',
-            p: { xs: 4, sm: 5 },
-            boxShadow: '0 8px 30px rgba(127, 85, 50, 0.04)',
-            height: '100%',
-            transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-            '&:hover': {
-                transform: 'translateY(-4px)',
-                boxShadow: '0 12px 40px rgba(127, 85, 50, 0.08)',
-                borderColor: 'var(--es-rose-gold)',
-            }
-          }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 3 }}>
-                <DiamondIcon sx={{ fontSize: 16, color: '#c7956c' }} />
-                <Typography sx={{ fontFamily: 'Playfair Display, serif', fontSize: '18px', fontWeight: 600, color: 'var(--es-espresso)' }}>
-                    Exceptional Experiences
-                </Typography>
-            </Box>
-            <Typography sx={{
-              color: 'var(--es-on-surface-variant)', 
-              fontWeight: 400, 
-              fontFamily: "Inter, sans-serif", 
-              fontSize: "14.5px", 
-              lineHeight: "1.8", 
-              letterSpacing: "0.02em"
-            }}>
-              At "Eden Sign", our mission is to deliver exceptional salon experiences that empower our clients to look and feel their best. We are dedicated to providing top-quality services that prioritize customer satisfaction, innovation, and inclusivity. Through a commitment to excellence, sustainability, and community engagement, we strive to be the trusted destination for beauty, self-confidence, and well-being. We believe beauty is about embracing one's uniqueness.
-            </Typography>
-          </Card>
-        </Grid>
-
-        <Grid item xs={12} md={6}>
-          <Card sx={{
-            background: 'rgba(255, 255, 255, 0.7)',
-            backdropFilter: 'blur(10px)',
-            border: '1px solid rgba(199, 149, 108, 0.12)',
+      {/* Cards */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+        gap: '28px',
+        maxWidth: '1100px',
+        margin: '0 auto 72px',
+      }}>
+        {CARDS.map((card, i) => (
+          <div key={i} style={{
+            background: '#fff',
             borderRadius: '20px',
-            p: { xs: 4, sm: 5 },
-            boxShadow: '0 8px 30px rgba(26, 10, 0, 0.03)',
-            height: '100%',
-            transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-            '&:hover': {
-                transform: 'translateY(-4px)',
-                boxShadow: '0 12px 40px rgba(199, 149, 108, 0.1)',
-                borderColor: '#c7956c',
-            }
+            padding: '40px 36px',
+            border: '1px solid rgba(15,93,78,0.10)',
+            boxShadow: '0 4px 24px rgba(15,93,78,0.06)',
+            transition: 'transform 0.3s, box-shadow 0.3s',
+            cursor: 'default',
+          }}
+            onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-6px)'; e.currentTarget.style.boxShadow = '0 16px 48px rgba(15,93,78,0.12)'; }}
+            onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 24px rgba(15,93,78,0.06)'; }}
+          >
+            <div style={{
+              width: '48px',
+              height: '48px',
+              borderRadius: '12px',
+              background: 'rgba(15,93,78,0.08)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '20px',
+              color: 'var(--es-emerald)',
+              marginBottom: '22px',
+              fontWeight: 700,
+            }}>{card.icon}</div>
+            <h3 style={{
+              fontFamily: 'Playfair Display, serif',
+              fontSize: '20px',
+              fontWeight: 600,
+              color: 'var(--es-charcoal)',
+              margin: '0 0 14px 0',
+            }}>{card.title}</h3>
+            <div style={{ width: '36px', height: '1.5px', background: 'var(--es-emerald)', marginBottom: '18px', borderRadius: '2px' }} />
+            <p style={{
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '14.5px',
+              lineHeight: 1.8,
+              color: 'var(--es-charcoal-60)',
+              margin: 0,
+            }}>{card.body}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Value pills */}
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        gap: '16px',
+        flexWrap: 'wrap',
+      }}>
+        {VALUES.map((v, i) => (
+          <div key={i} style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            padding: '12px 22px',
+            borderRadius: '999px',
+            border: '1px solid rgba(15,93,78,0.18)',
+            background: 'rgba(15,93,78,0.05)',
+            fontFamily: 'Inter, sans-serif',
+            fontSize: '13px',
+            fontWeight: 500,
+            color: 'var(--es-charcoal)',
           }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 3 }}>
-                <DiamondIcon sx={{ fontSize: 16, color: '#c7956c' }} />
-                <Typography sx={{ fontFamily: 'Playfair Display, serif', fontSize: '18px', fontWeight: 600, color: 'var(--es-espresso)' }}>
-                    Transformation & Trust
-                </Typography>
-            </Box>
-            <Typography sx={{
-              color: 'var(--es-on-surface-variant)', 
-              fontWeight: 400, 
-              fontFamily: "Inter, sans-serif", 
-              fontSize: "14.5px", 
-              lineHeight: "1.8", 
-              letterSpacing: "0.02em"
-            }}>
-              Our client-centric approach and eco-friendly practices define our salon's character. We aim to create a welcoming and diverse space where individuals can confidently express themselves, knowing that they are in the hands of skilled professionals who care deeply about their needs and preferences. We are more than just a salon franchise; we are a destination for transformation, self-expression, and empowerment.
-            </Typography>
-          </Card>
-        </Grid>
-      </Grid>
-    </Box>
+            <span>{v.emoji}</span>
+            {v.label}
+          </div>
+        ))}
+      </div>
+    </section>
   );
-}
+};
 
 export default MissionComponent;

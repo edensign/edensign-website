@@ -9,7 +9,7 @@ function ProductPageTop() {
   return (
     <div style={{
       width: '100%',
-      background: 'var(--es-background)',
+      background: 'var(--es-cream)',
       padding: '65px 24px 20px 24px',
       display: 'flex',
       justifyContent: 'center',
@@ -30,7 +30,7 @@ function ProductPageTop() {
             fontSize: '11px',
             letterSpacing: '0.25em',
             textTransform: 'uppercase',
-            color: 'var(--es-primary)',
+            color: 'var(--es-emerald)',
             marginBottom: '12px',
           }}
         >
@@ -46,12 +46,12 @@ function ProductPageTop() {
             fontFamily: "'Playfair Display', serif",
             fontSize: 'clamp(36px, 6vw, 56px)',
             fontWeight: 600,
-            color: 'var(--es-espresso)',
+            color: 'var(--es-charcoal)',
             margin: '0 0 16px',
             lineHeight: 1.1,
           }}
         >
-          The <span style={{ fontStyle: 'italic', fontWeight: '400' }}>Boutique</span>
+          The <span style={{ fontStyle: 'italic', fontWeight: '400', color: 'var(--es-emerald)' }}>Boutique</span>
         </motion.h1>
 
         {/* Tagline description */}
@@ -62,7 +62,7 @@ function ProductPageTop() {
           style={{
             fontFamily: "'Inter', sans-serif",
             fontSize: '15px',
-            color: 'var(--es-on-surface-variant)',
+            color: 'var(--es-charcoal-60)',
             lineHeight: '1.7',
             maxWidth: '650px',
             margin: '0 auto',
@@ -76,7 +76,7 @@ function ProductPageTop() {
         <div style={{
           width: '48px',
           height: '2px',
-          background: 'var(--es-rose-gold)',
+          background: 'var(--es-emerald)',
           margin: '24px auto 0',
         }} />
       </div>

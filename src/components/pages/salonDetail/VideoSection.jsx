@@ -25,7 +25,7 @@ const VideoSection = ({ salon }) => {
         <div className="video-section">
             {/* Left text panel */}
             <div className="video-text-panel">
-                <span className="section-label" style={{ color: '#c9a96e' }}>
+                <span className="section-label" style={{ color: 'var(--es-emerald)' }}>
                     Luxury Salon
                 </span>
 
@@ -64,7 +64,7 @@ const VideoSection = ({ salon }) => {
                     textTransform: 'uppercase',
                     color: 'rgba(255,255,255,0.25)',
                 }}>
-                    <span style={{ width: '20px', height: '1px', background: 'rgba(201,169,110,0.4)' }} />
+                    <span style={{ width: '20px', height: '1px', background: 'rgba(15,93,78,0.4)' }} />
                     Eden Sign Studio
                 </div>
             </div>

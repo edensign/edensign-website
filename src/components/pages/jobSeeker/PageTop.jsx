@@ -6,9 +6,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import TuneIcon from '@mui/icons-material/Tune';
-import WorkOutlineOutlinedIcon from '@mui/icons-material/WorkOutlineOutlined';
 import SearchIcon from '@mui/icons-material/Search';
 
 import { setFilterOpen } from '../../../redux/actions/FilterAction';
@@ -72,141 +69,92 @@ const PageTop = ({ onSearch, skills = [], onProfileAdded }) => {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'stretch',
         overflow: 'hidden',
-        background: 'var(--es-background)',
-        color: 'var(--es-espresso)',
-        padding: '80px 24px 40px 24px',
+        background: 'var(--es-cream)',
+        color: 'var(--es-charcoal)',
+        padding: '96px 5% 40px 5%',
       }}>
         {/* Content */}
         <div style={{
           position: 'relative',
           zIndex: 2,
-          textAlign: 'center',
-          padding: '0',
-          maxWidth: '760px',
+          textAlign: 'left',
+          maxWidth: '1200px',
           width: '100%',
+          margin: '0 auto',
         }}>
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="font-label-caps"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '8px',
-              color: 'var(--es-primary)',
-              marginBottom: '16px',
-              letterSpacing: '0.15em',
-            }}
-          >
-            <WorkOutlineOutlinedIcon sx={{ fontSize: 14, color: 'var(--es-primary)' }} />
-            <span>Salon Career Platform</span>
-          </motion.div>
+          {/* Label */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px',
+            color: 'var(--es-emerald-soft)',
+            marginBottom: '20px',
+            fontSize: '11px',
+            fontWeight: 600,
+            letterSpacing: '3px',
+            textTransform: 'uppercase',
+          }}>
+            <span style={{ width: '24px', height: '1px', background: 'var(--es-emerald-soft)' }} />
+            Salon Career Platform
+          </div>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 25 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            style={{
-              fontFamily: 'Playfair Display, serif',
-              fontSize: 'clamp(36px, 5.5vw, 56px)',
-              fontWeight: 600,
-              color: 'var(--es-espresso)',
-              margin: '0 0 16px 0',
-              lineHeight: 1.15,
-            }}
-          >
-            The <span style={{ fontStyle: 'italic', fontWeight: '400' }}>Talent Directory</span>
-          </motion.h1>
+          {/* Heading */}
+          <h1 style={{
+            fontFamily: "'Cormorant Garamond', 'Playfair Display', serif",
+            fontSize: 'clamp(40px, 6vw, 76px)',
+            fontWeight: 400,
+            color: 'var(--es-charcoal)',
+            margin: '0 0 24px 0',
+            lineHeight: 1.05,
+            letterSpacing: '-0.02em',
+          }}>
+            The <em style={{ fontStyle: 'italic', color: 'var(--es-emerald)', fontWeight: '400' }}>Talent</em> Directory.
+          </h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            style={{
-              fontFamily: 'Inter, sans-serif',
-              fontSize: '15px',
-              color: 'var(--es-on-surface-variant)',
-              margin: '0 0 32px 0',
-              lineHeight: 1.7,
-              opacity: 0.85,
-            }}
-          >
-            Connect with top salons across India. Browse professional artisan profiles or showcase your portfolio to take the next step in your career.
-          </motion.p>
+          {/* Paragraph */}
+          <p style={{
+            fontFamily: 'Inter, sans-serif',
+            fontSize: '16px',
+            color: 'var(--es-charcoal-60)',
+            lineHeight: '1.7',
+            maxWidth: '680px',
+            margin: '0 0 40px 0',
+          }}>
+            Connect with the world's most desirable salons. Browse artisan portfolios, or add your own to take the next step in a beautiful career.
+          </p>
 
-          {/* Add Profile CTA Button */}
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.25 }}
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              marginBottom: '32px',
-            }}
-          >
-            <button
-              onClick={() => setModalOpen(true)}
-              style={{
-                background: 'linear-gradient(135deg, #c7956c 0%, #7f5532 100%)',
-                border: 'none',
-                borderRadius: '100px',
-                padding: '12px 32px',
-                color: '#fff',
-                fontFamily: 'Inter, sans-serif',
-                fontSize: '12px',
-                fontWeight: 600,
-                cursor: 'pointer',
-                letterSpacing: '0.06em',
-                textTransform: 'uppercase',
-                transition: 'all 0.3s ease',
-                boxShadow: '0 4px 14px rgba(127, 85, 50, 0.2)',
-              }}
-              className="es-add-profile-btn"
-            >
-              Add Your Profile
-            </button>
-          </motion.div>
-
-          {/* Search bar */}
-          <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              background: '#ffffff',
-              border: '1px solid rgba(213, 195, 184, 0.5)',
-              borderRadius: '100px',
-              padding: '6px 8px 6px 24px',
-              maxWidth: '520px',
-              margin: '0 auto 40px',
-              boxShadow: '0 15px 40px rgba(127, 85, 50, 0.05)',
-            }}
-          >
-            <SearchIcon sx={{ color: 'var(--es-primary)', fontSize: 20, mr: 1 }} />
+          {/* Search bar inside container */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            background: '#ffffff',
+            border: '1px solid rgba(26, 21, 18, 0.08)',
+            borderRadius: '100px',
+            padding: '8px 8px 8px 24px',
+            maxWidth: '900px',
+            width: '100%',
+            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.02)',
+            boxSizing: 'border-box'
+          }}>
+            <SearchIcon sx={{ color: 'var(--es-charcoal-60)', opacity: 0.6, fontSize: 20, mr: 1.5 }} />
             <input
               ref={inputRef}
               type="text"
               value={searchValue}
-              onChange={(e) => setSearchValue(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  onSearch && onSearch(searchValue.trim());
-                }
+              onChange={(e) => {
+                setSearchValue(e.target.value);
+                onSearch && onSearch(e.target.value);
               }}
-              placeholder="Search by skill, role, or location..."
+              placeholder="Search talent, cities, skills..."
               style={{
                 flex: 1,
                 border: 'none',
                 outline: 'none',
                 fontFamily: 'Inter, sans-serif',
-                fontSize: '14px',
-                color: 'var(--es-espresso)',
+                fontSize: '15px',
+                color: 'var(--es-charcoal)',
                 background: 'transparent',
                 padding: '10px 0',
               }}
@@ -217,36 +165,39 @@ const PageTop = ({ onSearch, skills = [], onProfileAdded }) => {
                 style={{
                   background: 'none',
                   border: 'none',
-                  color: 'var(--es-on-surface-variant)',
+                  color: 'var(--es-charcoal-60)',
                   opacity: 0.6,
                   cursor: 'pointer',
                   fontSize: '18px',
                   lineHeight: 1,
-                  padding: '0 8px 0 0',
+                  padding: '0 12px 0 0',
                 }}
                 aria-label="Clear search"
               >✕</button>
             )}
             <button
-              onClick={() => onSearch && onSearch(searchValue.trim())}
+              onClick={() => setModalOpen(true)}
               style={{
-                background: 'linear-gradient(135deg, #c7956c 0%, #7f5532 100%)',
+                background: 'var(--es-emerald)',
                 border: 'none',
                 borderRadius: '100px',
                 padding: '12px 28px',
                 color: '#fff',
                 fontFamily: 'Inter, sans-serif',
-                fontSize: '12px',
+                fontSize: '14px',
                 fontWeight: 600,
                 cursor: 'pointer',
-                textTransform: 'uppercase',
-                letterSpacing: '0.04em',
-                whiteSpace: 'nowrap',
+                transition: 'background-color 0.2s',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                whiteSpace: 'nowrap'
               }}
+              className="es-add-profile-btn-hero"
             >
-              Search
+              Add your profile <span style={{ fontSize: '16px' }}>→</span>
             </button>
-          </motion.div>
+          </div>
 
           {/* Category pills */}
           <motion.div
@@ -257,7 +208,8 @@ const PageTop = ({ onSearch, skills = [], onProfileAdded }) => {
               display: 'flex',
               flexWrap: 'wrap',
               gap: '10px',
-              justifyContent: 'center',
+              justifyContent: 'flex-start',
+              marginTop: '24px'
             }}
           >
             {jobCategories.map((cat, i) => (
@@ -271,11 +223,11 @@ const PageTop = ({ onSearch, skills = [], onProfileAdded }) => {
                   onSearch && onSearch(cat);
                 }}
                 style={{
-                  background: searchValue === cat ? 'var(--es-surface-container)' : '#ffffff',
-                  border: searchValue === cat ? '1px solid var(--es-primary)' : '1px solid rgba(213, 195, 184, 0.6)',
+                  background: searchValue === cat ? 'rgba(15, 93, 78, 0.06)' : '#ffffff',
+                  border: searchValue === cat ? '1px solid var(--es-emerald)' : '1px solid rgba(15, 93, 78, 0.15)',
                   borderRadius: '100px',
                   padding: '8px 18px',
-                  color: searchValue === cat ? 'var(--es-primary)' : 'var(--es-espresso)',
+                  color: searchValue === cat ? 'var(--es-emerald)' : 'var(--es-charcoal)',
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '12px',
                   fontWeight: 500,
@@ -301,13 +253,12 @@ const PageTop = ({ onSearch, skills = [], onProfileAdded }) => {
 
       <style>{`
         .es-job-cat-pill:hover {
-          background: var(--es-surface-container) !important;
-          border-color: var(--es-primary) !important;
-          color: var(--es-primary) !important;
+          background: rgba(15, 93, 78, 0.06) !important;
+          border-color: var(--es-emerald) !important;
+          color: var(--es-emerald) !important;
         }
-        .es-add-profile-btn:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 6px 20px rgba(127, 85, 50, 0.3) !important;
+        .es-add-profile-btn-hero:hover {
+          background: var(--es-emerald-soft) !important;
         }
       `}</style>
     </>

@@ -64,7 +64,7 @@ const JobSeekers = () => {
 
 
     return (
-        <div style={{ backgroundColor: "#f8fafc", color: "#1a0f08" }}>
+        <div style={{ backgroundColor: "var(--es-cream)", color: "var(--es-charcoal)", minHeight: '100vh' }}>
             <PageTop onSearch={(q) => setSearchQuery(q)} skills={skills} onProfileAdded={triggerRefresh} />
             <JobSeekerCards skills={skills} selectedSkill={selectedSkill} selectedGender={selectedGender} selectedExperience={value} searchQuery={searchQuery} refreshTrigger={refreshTrigger} />
         </div>

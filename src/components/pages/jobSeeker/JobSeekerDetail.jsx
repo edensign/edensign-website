@@ -98,15 +98,15 @@ const JobSeekerDetail = () => {
   if (!seeker) {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '60vh', textAlign: 'center', padding: '24px' }}>
-        <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: '28px', color: '#1a0f08', marginBottom: '12px' }}>Profile Not Found</h3>
-        <p style={{ fontFamily: 'Inter, sans-serif', color: '#9a8070', marginBottom: '24px' }}>The requested Job Seeker profile could not be retrieved.</p>
+        <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: '28px', color: 'var(--es-charcoal)', marginBottom: '12px' }}>Profile Not Found</h3>
+        <p style={{ fontFamily: 'Inter, sans-serif', color: 'var(--es-charcoal-60)', marginBottom: '24px' }}>The requested Job Seeker profile could not be retrieved.</p>
         <button 
           onClick={() => navigate('/job-seeker')} 
           style={{
             display: 'inline-flex',
             alignItems: 'center',
             gap: '8px',
-            background: 'linear-gradient(135deg, #1a0a00, #3d1e0a)',
+            background: 'linear-gradient(135deg, var(--es-emerald) 0%, var(--es-emerald-soft) 100%)',
             color: '#fff',
             border: 'none',
             borderRadius: '10px',
@@ -192,11 +192,11 @@ const JobSeekerDetail = () => {
       <style>{`
         .es-back-btn:hover {
           transform: translateX(-4px);
-          background: rgba(26, 10, 0, 0.05) !important;
+          background: rgba(15, 93, 78, 0.05) !important;
         }
         .es-action-btn:hover {
           transform: translateY(-2px) !important;
-          box-shadow: 0 8px 24px rgba(199, 149, 108, 0.3) !important;
+          box-shadow: 0 8px 24px rgba(15, 93, 78, 0.3) !important;
         }
         .es-detail-card {
           box-shadow: 0 4px 30px rgba(26,10,0,0.04);
@@ -212,7 +212,7 @@ const JobSeekerDetail = () => {
         }
       `}</style>
 
-      <div style={{ background: '#f8fafc', minHeight: '100vh', padding: '40px 5% 100px' }}>
+      <div style={{ background: 'var(--es-cream)', minHeight: '100vh', padding: '40px 5% 100px' }}>
         {/* Navigation & Header */}
         <div style={{ maxWidth: '1200px', margin: '0 auto 32px' }}>
           <button
@@ -222,8 +222,8 @@ const JobSeekerDetail = () => {
               alignItems: 'center',
               gap: '8px',
               background: 'transparent',
-              color: '#c7956c',
-              border: '1px solid rgba(199, 149, 108, 0.3)',
+              color: 'var(--es-emerald)',
+              border: '1px solid rgba(15, 93, 78, 0.15)',
               borderRadius: '30px',
               padding: '8px 20px',
               fontFamily: 'Inter, sans-serif',
@@ -255,7 +255,7 @@ const JobSeekerDetail = () => {
                 background: '#fff',
                 borderRadius: '24px',
                 padding: '40px 32px',
-                border: '1px solid rgba(199,149,108,0.1)',
+                border: '1px solid rgba(15,93,78,0.15)',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
@@ -265,42 +265,73 @@ const JobSeekerDetail = () => {
               className="es-detail-card"
             >
               {/* Profile Top Color Strip Accent */}
-              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '8px', borderTopLeftRadius: '24px', borderTopRightRadius: '24px', background: 'linear-gradient(90deg, #1a0a00, #c7956c)' }} />
+              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '8px', borderTopLeftRadius: '24px', borderTopRightRadius: '24px', background: 'linear-gradient(90deg, var(--es-charcoal), var(--es-emerald))' }} />
               
               {/* Profile Image */}
-              <div style={{
-                width: '140px',
-                height: '140px',
-                borderRadius: '28px',
-                overflow: 'hidden',
-                border: '3px solid rgba(199,149,108,0.4)',
-                boxShadow: '0 8px 24px rgba(26,10,0,0.1)',
-                marginBottom: '20px',
-                marginTop: '10px'
-              }}>
-                <img
-                  src={customer}
-                  alt={seeker.name}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                />
-              </div>
+              {(() => {
+                const S3_BASE = 'https://salon-s3.s3.us-east-1.amazonaws.com';
+                const hasImage = !!seeker.photo;
+                const profileImg = hasImage
+                  ? (seeker.photo.startsWith('http') ? seeker.photo : `${S3_BASE}/job-seeker/photo/${seeker.photo}`)
+                  : null;
+
+                return (
+                  <div style={{
+                    width: '140px',
+                    height: '140px',
+                    borderRadius: '28px',
+                    overflow: 'hidden',
+                    border: '3px solid rgba(15,93,78,0.3)',
+                    boxShadow: '0 8px 24px rgba(26,10,0,0.1)',
+                    marginBottom: '20px',
+                    marginTop: '10px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                    {hasImage ? (
+                      <img
+                        src={profileImg}
+                        alt={seeker.name}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      />
+                    ) : (
+                      <div style={{
+                        width: '100%',
+                        height: '100%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        background: 'linear-gradient(135deg, var(--es-emerald) 0%, var(--es-emerald-soft) 100%)',
+                        color: '#ffffff',
+                        fontFamily: "'Cormorant Garamond', serif",
+                        fontSize: '3.5rem',
+                        fontWeight: 500,
+                        textTransform: 'uppercase'
+                      }}>
+                        {seeker.name ? seeker.name.trim().charAt(0).toUpperCase() : '?'}
+                      </div>
+                    )}
+                  </div>
+                );
+              })()}
 
               {/* Title & Name */}
-              <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: '#c7956c', fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase' }}>
+              <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', color: 'var(--es-emerald)', fontWeight: 600, letterSpacing: '0.2em', textTransform: 'uppercase' }}>
                 Job Seeker Profile
               </span>
               <h1 style={{
                 fontFamily: 'Playfair Display, serif',
                 fontSize: '32px',
                 fontWeight: 700,
-                color: '#1a0f08',
+                color: 'var(--es-charcoal)',
                 margin: '8px 0',
                 textTransform: 'capitalize',
                 lineHeight: 1.2
               }}>
                 {seeker.name}
               </h1>
-              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '16px', color: '#9a8070', margin: '0 0 20px 0', fontWeight: 500 }}>
+              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '16px', color: 'var(--es-charcoal-60)', margin: '0 0 20px 0', fontWeight: 500 }}>
                 {seeker.designation || 'Salon Professional'}
               </p>
 
@@ -311,13 +342,13 @@ const JobSeekerDetail = () => {
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '6px',
-                  background: 'rgba(199,149,108,0.08)',
-                  border: '1px solid rgba(199,149,108,0.2)',
+                  background: 'rgba(15,93,78,0.08)',
+                  border: '1px solid rgba(15,93,78,0.15)',
                   borderRadius: '100px',
                   padding: '6px 16px',
                   fontFamily: 'Inter, sans-serif',
                   fontSize: '12px',
-                  color: '#a8724d',
+                  color: 'var(--es-emerald-soft)',
                   fontWeight: 600,
                 }}>
                   <PersonOutlineOutlinedIcon sx={{ fontSize: 14 }} />
@@ -332,14 +363,14 @@ const JobSeekerDetail = () => {
                 background: '#fff',
                 borderRadius: '24px',
                 padding: '32px',
-                border: '1px solid rgba(199,149,108,0.1)',
+                border: '1px solid rgba(15,93,78,0.15)',
               }}
               className="es-detail-card"
             >
-              <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: '20px', color: '#1a0f08', margin: '0 0 16px 0', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <BadgeOutlinedIcon sx={{ color: '#c7956c' }} /> About Profile
+              <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: '20px', color: 'var(--es-charcoal)', margin: '0 0 16px 0', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <BadgeOutlinedIcon sx={{ color: 'var(--es-emerald)' }} /> About Profile
               </h3>
-              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '15px', color: '#6b5749', margin: 0, lineHeight: 1.8 }}>
+              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '15px', color: 'var(--es-charcoal-60)', margin: 0, lineHeight: 1.8 }}>
                 {seeker.description || "No description provided for this profile. Please contact the seeker directly to learn more about their qualifications."}
               </p>
             </div>
@@ -350,12 +381,12 @@ const JobSeekerDetail = () => {
                 background: '#fff',
                 borderRadius: '24px',
                 padding: '32px',
-                border: '1px solid rgba(199,149,108,0.1)',
+                border: '1px solid rgba(15,93,78,0.15)',
               }}
               className="es-detail-card"
             >
-              <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: '20px', color: '#1a0f08', margin: '0 0 20px 0', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <WorkOutlineOutlinedIcon sx={{ color: '#c7956c' }} /> Professional Skills
+              <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: '20px', color: 'var(--es-charcoal)', margin: '0 0 20px 0', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <WorkOutlineOutlinedIcon sx={{ color: 'var(--es-emerald)' }} /> Professional Skills
               </h3>
               {seeker.skillsList && seeker.skillsList.length > 0 ? (
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
@@ -364,9 +395,9 @@ const JobSeekerDetail = () => {
                       fontFamily: 'Inter, sans-serif',
                       fontSize: '13px',
                       fontWeight: 500,
-                      color: '#a8724d',
-                      background: 'rgba(199,149,108,0.1)',
-                      border: '1px solid rgba(199,149,108,0.25)',
+                      color: 'var(--es-emerald-soft)',
+                      background: 'rgba(15,93,78,0.06)',
+                      border: '1px solid rgba(15, 93, 78, 0.15)',
                       borderRadius: '100px',
                       padding: '6px 16px',
                       textTransform: 'capitalize'
@@ -376,35 +407,35 @@ const JobSeekerDetail = () => {
                   ))}
                 </div>
               ) : (
-                <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', color: '#9a8070', margin: 0 }}>No specific skills highlighted.</p>
+                <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', color: 'var(--es-charcoal-60)', margin: 0 }}>No specific skills highlighted.</p>
               )}
 
               {/* Extra Details (Hobbies & Qualification & Previous Employer) */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginTop: '30px', borderTop: '1px solid rgba(199,149,108,0.1)', paddingTop: '24px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginTop: '30px', borderTop: '1px solid rgba(15,93,78,0.1)', paddingTop: '24px' }}>
                 <div>
-                  <h4 style={{ fontFamily: 'Playfair Display, serif', fontSize: '16px', color: '#1a0f08', margin: '0 0 8px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <SchoolOutlinedIcon sx={{ color: '#c7956c', fontSize: 18 }} /> Qualification
+                  <h4 style={{ fontFamily: 'Playfair Display, serif', fontSize: '16px', color: 'var(--es-charcoal)', margin: '0 0 8px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <SchoolOutlinedIcon sx={{ color: 'var(--es-emerald)', fontSize: 18 }} /> Qualification
                   </h4>
-                  <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', color: '#6b5749', margin: 0, textTransform: 'capitalize', fontWeight: 500 }}>
+                  <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', color: 'var(--es-charcoal-60)', margin: 0, textTransform: 'capitalize', fontWeight: 500 }}>
                     {seeker.qualification}
                   </p>
                 </div>
                 {seeker.previous_employer && (
                   <div>
-                    <h4 style={{ fontFamily: 'Playfair Display, serif', fontSize: '16px', color: '#1a0f08', margin: '0 0 8px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <WorkOutlineOutlinedIcon sx={{ color: '#c7956c', fontSize: 18 }} /> Prev Employer
+                    <h4 style={{ fontFamily: 'Playfair Display, serif', fontSize: '16px', color: 'var(--es-charcoal)', margin: '0 0 8px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <WorkOutlineOutlinedIcon sx={{ color: 'var(--es-emerald)', fontSize: 18 }} /> Prev Employer
                     </h4>
-                    <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', color: '#6b5749', margin: 0, textTransform: 'capitalize', fontWeight: 500 }}>
+                    <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', color: 'var(--es-charcoal-60)', margin: 0, textTransform: 'capitalize', fontWeight: 500 }}>
                       {seeker.previous_employer}
                     </p>
                   </div>
                 )}
                 {seeker.hobbies && (
                   <div style={{ gridColumn: '1 / -1' }}>
-                    <h4 style={{ fontFamily: 'Playfair Display, serif', fontSize: '16px', color: '#1a0f08', margin: '0 0 8px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <SportsEsportsOutlinedIcon sx={{ color: '#c7956c', fontSize: 18 }} /> Hobbies & Interests
+                    <h4 style={{ fontFamily: 'Playfair Display, serif', fontSize: '16px', color: 'var(--es-charcoal)', margin: '0 0 8px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <SportsEsportsOutlinedIcon sx={{ color: 'var(--es-emerald)', fontSize: 18 }} /> Hobbies & Interests
                     </h4>
-                    <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', color: '#6b5749', margin: 0 }}>
+                    <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', color: 'var(--es-charcoal-60)', margin: 0 }}>
                       {seeker.hobbies}
                     </p>
                   </div>
@@ -422,46 +453,46 @@ const JobSeekerDetail = () => {
                 background: '#fff',
                 borderRadius: '24px',
                 padding: '32px',
-                border: '1px solid rgba(199,149,108,0.1)',
+                border: '1px solid rgba(15,93,78,0.15)',
               }}
               className="es-detail-card"
             >
-              <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: '20px', color: '#1a0f08', margin: '0 0 20px 0', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <PersonOutlineOutlinedIcon sx={{ color: '#c7956c' }} /> Contact Details
+              <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: '20px', color: 'var(--es-charcoal)', margin: '0 0 20px 0', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <PersonOutlineOutlinedIcon sx={{ color: 'var(--es-emerald)' }} /> Contact Details
               </h3>
               
               <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-                  <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'rgba(199,149,108,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                    <EmailOutlinedIcon sx={{ color: '#a8724d', fontSize: 20 }} />
+                  <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'rgba(15,93,78,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <EmailOutlinedIcon sx={{ color: 'var(--es-emerald-soft)', fontSize: 20 }} />
                   </div>
                   <div>
-                    <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', color: '#9a8070', display: 'block', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Email</span>
-                    <a href={`mailto:${seeker.email}`} style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', color: '#1a0f08', fontWeight: 600, textDecoration: 'none' }}>
+                    <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', color: 'var(--es-charcoal-60)', display: 'block', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Email</span>
+                    <a href={`mailto:${seeker.email}`} style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', color: 'var(--es-charcoal)', fontWeight: 600, textDecoration: 'none' }}>
                       {seeker.email?.toLowerCase()}
                     </a>
                   </div>
                 </div>
 
                 <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-                  <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'rgba(199,149,108,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                    <PhoneOutlinedIcon sx={{ color: '#a8724d', fontSize: 20 }} />
+                  <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'rgba(15,93,78,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <PhoneOutlinedIcon sx={{ color: 'var(--es-emerald-soft)', fontSize: 20 }} />
                   </div>
                   <div>
-                    <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', color: '#9a8070', display: 'block', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Phone</span>
-                    <a href={`tel:${seeker.contact_no}`} style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', color: '#1a0f08', fontWeight: 600, textDecoration: 'none' }}>
+                    <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', color: 'var(--es-charcoal-60)', display: 'block', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Phone</span>
+                    <a href={`tel:${seeker.contact_no}`} style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', color: 'var(--es-charcoal)', fontWeight: 600, textDecoration: 'none' }}>
                       {seeker.contact_no}
                     </a>
                   </div>
                 </div>
 
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '14px' }}>
-                  <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'rgba(199,149,108,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, mt: '2px' }}>
-                    <LocationOnOutlinedIcon sx={{ color: '#a8724d', fontSize: 20 }} />
+                  <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'rgba(15,93,78,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, mt: '2px' }}>
+                    <LocationOnOutlinedIcon sx={{ color: 'var(--es-emerald-soft)', fontSize: 20 }} />
                   </div>
                   <div>
-                    <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', color: '#9a8070', display: 'block', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Location</span>
-                    <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', color: '#1a0f08', fontWeight: 600, lineHeight: 1.5, textTransform: 'capitalize' }}>
+                    <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', color: 'var(--es-charcoal-60)', display: 'block', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Location</span>
+                    <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', color: 'var(--es-charcoal)', fontWeight: 600, lineHeight: 1.5, textTransform: 'capitalize' }}>
                       {seeker.street && `${seeker.street}, `}
                       {seeker.city ? getCityName(seeker.city) : ''}
                       {seeker.state ? `, ${getStateName(seeker.state)}` : ''}
@@ -471,12 +502,12 @@ const JobSeekerDetail = () => {
                 </div>
 
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '14px' }}>
-                  <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'rgba(199,149,108,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                    <WorkOutlineOutlinedIcon sx={{ color: '#a8724d', fontSize: 20 }} />
+                  <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'rgba(15,93,78,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <WorkOutlineOutlinedIcon sx={{ color: 'var(--es-emerald-soft)', fontSize: 20 }} />
                   </div>
                   <div>
-                    <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', color: '#9a8070', display: 'block', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Preferred Job Location</span>
-                    <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', color: '#1a0f08', fontWeight: 600, lineHeight: 1.5 }}>
+                    <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', color: 'var(--es-charcoal-60)', display: 'block', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Preferred Job Location</span>
+                    <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', color: 'var(--es-charcoal)', fontWeight: 600, lineHeight: 1.5 }}>
                       {!seeker.job_location_preference || seeker.job_location_preference === 'anywhere'
                         ? 'Anywhere'
                         : seeker.job_location_preference === 'his_city'
@@ -498,16 +529,16 @@ const JobSeekerDetail = () => {
                 background: '#fff',
                 borderRadius: '24px',
                 padding: '32px',
-                border: '1px solid rgba(199,149,108,0.1)',
+                border: '1px solid rgba(15,93,78,0.15)',
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '20px'
               }}
               className="es-detail-card"
             >
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: '20px', color: '#1a0f08', margin: 0, display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <ArticleOutlinedIcon sx={{ color: '#c7956c' }} /> Resume / CV
+              <div style={{ display: 'flex', alignItems: 'center', justifycontent: 'space-between' }}>
+                <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: '20px', color: 'var(--es-charcoal)', margin: 0, display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <ArticleOutlinedIcon sx={{ color: 'var(--es-emerald)' }} /> Resume / CV
                 </h3>
                 {s3Url && (
                   <button
@@ -516,7 +547,7 @@ const JobSeekerDetail = () => {
                       display: 'inline-flex',
                       alignItems: 'center',
                       gap: '6px',
-                      background: 'linear-gradient(135deg, #c7956c 0%, #a8724d 100%)',
+                      background: 'linear-gradient(135deg, var(--es-emerald) 0%, var(--es-emerald-soft) 100%)',
                       color: '#fff',
                       border: 'none',
                       borderRadius: '8px',
@@ -525,7 +556,7 @@ const JobSeekerDetail = () => {
                       fontSize: '12px',
                       fontWeight: 600,
                       cursor: 'pointer',
-                      boxShadow: '0 4px 10px rgba(199, 149, 108, 0.2)',
+                      boxShadow: '0 4px 10px rgba(15, 93, 78, 0.2)',
                       transition: 'all 0.2s ease',
                     }}
                     className="es-action-btn"
@@ -537,7 +568,7 @@ const JobSeekerDetail = () => {
 
               {s3Url ? (
                 isPdf ? (
-                  <div style={{ overflow: 'hidden', borderRadius: '16px', border: '1px solid rgba(199,149,108,0.15)', height: '550px' }}>
+                  <div style={{ overflow: 'hidden', borderRadius: '16px', border: '1px solid rgba(15,93,78,0.15)', height: '550px' }}>
                     <iframe
                       src={`${s3Url}#toolbar=0&navpanes=0`}
                       width="100%"
@@ -550,18 +581,18 @@ const JobSeekerDetail = () => {
                   <div style={{
                     padding: '60px 24px',
                     textAlign: 'center',
-                    border: '1px dashed rgba(199, 149, 108, 0.3)',
+                    border: '1px dashed rgba(15, 93, 78, 0.3)',
                     borderRadius: '16px',
-                    backgroundColor: 'rgba(199, 149, 108, 0.02)',
+                    backgroundColor: 'rgba(15, 93, 78, 0.02)',
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
                     gap: '16px'
                   }}>
-                    <ArticleOutlinedIcon sx={{ fontSize: 64, color: '#c7956c', opacity: 0.7 }} />
+                    <ArticleOutlinedIcon sx={{ fontSize: 64, color: 'var(--es-emerald)', opacity: 0.7 }} />
                     <div>
-                      <h4 style={{ fontFamily: 'Playfair Display, serif', fontSize: '18px', color: '#1a0f08', margin: '0 0 6px 0' }}>Resume File View</h4>
-                      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '13px', color: '#9a8070', margin: 0 }}>This CV file cannot be previewed directly in the browser.</p>
+                      <h4 style={{ fontFamily: 'Playfair Display, serif', fontSize: '18px', color: 'var(--es-charcoal)', margin: '0 0 6px 0' }}>Resume File View</h4>
+                      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '13px', color: 'var(--es-charcoal-60)', margin: 0 }}>This CV file cannot be previewed directly in the browser.</p>
                     </div>
                     <button
                       onClick={() => window.open(s3Url, '_blank')}
@@ -569,7 +600,7 @@ const JobSeekerDetail = () => {
                         display: 'inline-flex',
                         alignItems: 'center',
                         gap: '8px',
-                        background: 'linear-gradient(135deg, #1a0a00, #3d1e0a)',
+                        background: 'linear-gradient(135deg, var(--es-emerald) 0%, var(--es-emerald-soft) 100%)',
                         color: '#fff',
                         border: 'none',
                         borderRadius: '10px',
@@ -578,7 +609,7 @@ const JobSeekerDetail = () => {
                         fontSize: '13px',
                         fontWeight: 600,
                         cursor: 'pointer',
-                        boxShadow: '0 4px 12px rgba(26,10,0,0.15)',
+                        boxShadow: '0 4px 12px rgba(15, 93, 78, 0.15)',
                         transition: 'all 0.2s ease',
                       }}
                       className="es-action-btn"
@@ -591,16 +622,16 @@ const JobSeekerDetail = () => {
                 <div style={{
                   padding: '60px 24px',
                   textAlign: 'center',
-                  border: '1px dashed rgba(199, 149, 108, 0.2)',
+                  border: '1px dashed rgba(15, 93, 78, 0.2)',
                   borderRadius: '16px',
-                  backgroundColor: 'rgba(26, 10, 0, 0.01)',
+                  backgroundColor: 'rgba(15, 93, 78, 0.01)',
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
                   gap: '12px'
                 }}>
-                  <ArticleOutlinedIcon sx={{ fontSize: 48, color: '#9a8070', opacity: 0.4 }} />
-                  <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', color: '#9a8070', margin: 0 }}>No resume uploaded for this job seeker.</p>
+                  <ArticleOutlinedIcon sx={{ fontSize: 48, color: 'var(--es-charcoal-60)', opacity: 0.4 }} />
+                  <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', color: 'var(--es-charcoal-60)', margin: 0 }}>No resume uploaded for this job seeker.</p>
                 </div>
               )}
             </div>

@@ -4,7 +4,7 @@
  * This software is the confidential information of Eden Sign Inc., and is licensed as
  * restricted rights software. The use, reproduction, or disclosure of this software is subject to
  * restrictions set forth in your license agreement with Eden Sign.
-*/
+ */
 
 import { Box, IconButton, Typography } from "@mui/material";
 import PlaceIcon from '@mui/icons-material/Place';
@@ -31,7 +31,7 @@ const TheLocations = () => {
                 maxWidth: "1200px",
                 margin: { xs: "80px auto", md: "100px auto" }, 
                 fontFamily: "'Inter', sans-serif",
-                color: "#1c1917"
+                color: "var(--es-charcoal)"
             }}
         >
             <Box 
@@ -58,7 +58,7 @@ const TheLocations = () => {
                             fontWeight: "600", 
                             letterSpacing: "3px", 
                             textTransform: "uppercase", 
-                            color: "#8b6914", 
+                            color: "var(--es-emerald-soft)", 
                             mb: 2,
                             display: "flex",
                             alignItems: "center",
@@ -67,7 +67,7 @@ const TheLocations = () => {
                                 content: '""',
                                 width: "24px",
                                 height: "1px",
-                                bgcolor: "#c9a96e"
+                                bgcolor: "var(--es-emerald)"
                             }
                         }}
                     >
@@ -95,7 +95,7 @@ const TheLocations = () => {
                             fontSize: "15px", 
                             lineHeight: "1.8", 
                             letterSpacing: "0.02em", 
-                            color: "#78716c",
+                            color: "var(--es-charcoal-60)",
                             mb: 4 
                         }}
                     >
@@ -112,11 +112,11 @@ const TheLocations = () => {
                                 gap: 2.5,
                                 padding: "20px",
                                 borderRadius: "16px",
-                                background: "rgba(201,169,110,0.04)",
-                                border: "1px solid rgba(201,169,110,0.15)",
+                                background: "rgba(15,93,78,0.04)",
+                                border: "1px solid rgba(15,93,78,0.15)",
                                 transition: "all 0.3s ease",
                                 "&:hover": {
-                                    background: "rgba(201,169,110,0.07)",
+                                    background: "rgba(15,93,78,0.07)",
                                     transform: "translateY(-2px)"
                                 }
                             }}
@@ -124,15 +124,15 @@ const TheLocations = () => {
                             <Box sx={{ 
                                 width: 46, height: 46, borderRadius: "12px", 
                                 display: "flex", alignItems: "center", justifyContent: "center",
-                                bgcolor: "rgba(199,149,108,0.12)", color: "#8b6914", flexShrink: 0 
+                                bgcolor: "rgba(15,93,78,0.12)", color: "var(--es-emerald-soft)", flexShrink: 0 
                             }}>
                                 <PlaceIcon sx={{ fontSize: "22px" }} />
                             </Box>
                             <Box>
-                                <Typography sx={{ fontSize: "11px", fontWeight: "600", textTransform: "uppercase", letterSpacing: "1.5px", color: "#8b6914", margin: "0 0 6px 0" }}>
+                                <Typography sx={{ fontSize: "11px", fontWeight: "600", textTransform: "uppercase", letterSpacing: "1.5px", color: "var(--es-emerald-soft)", margin: "0 0 6px 0" }}>
                                     Visit Us
                                 </Typography>
-                                <Typography sx={{ fontSize: "14px", color: "#1c1917", lineHeight: "1.6", fontWeight: "400" }}> 
+                                <Typography sx={{ fontSize: "14px", color: "var(--es-charcoal)", lineHeight: "1.6", fontWeight: "400" }}> 
                                     {salon?.landmark ? `${salon.landmark}, ` : ''}
                                     {salon?.street ? `${salon.street}, ` : ''}
                                     {salon?.area ? `${salon.area}, ` : ''}
@@ -151,11 +151,11 @@ const TheLocations = () => {
                                 gap: 2.5,
                                 padding: "20px",
                                 borderRadius: "16px",
-                                background: "rgba(201,169,110,0.04)",
-                                border: "1px solid rgba(201,169,110,0.15)",
+                                background: "rgba(15,93,78,0.04)",
+                                border: "1px solid rgba(15,93,78,0.15)",
                                 transition: "all 0.3s ease",
                                 "&:hover": {
-                                    background: "rgba(201,169,110,0.07)",
+                                    background: "rgba(15,93,78,0.07)",
                                     transform: "translateY(-2px)"
                                 }
                             }}
@@ -163,12 +163,12 @@ const TheLocations = () => {
                             <Box sx={{ 
                                 width: 46, height: 46, borderRadius: "12px", 
                                 display: "flex", alignItems: "center", justifyContent: "center",
-                                bgcolor: "rgba(199,149,108,0.12)", color: "#8b6914", flexShrink: 0 
+                                bgcolor: "rgba(15,93,78,0.12)", color: "var(--es-emerald-soft)", flexShrink: 0 
                             }}>
                                 <MailIcon sx={{ fontSize: "20px" }} />
                             </Box>
                             <Box>
-                                <Typography sx={{ fontSize: "11px", fontWeight: "600", textTransform: "uppercase", letterSpacing: "1.5px", color: "#8b6914", margin: "0 0 6px 0" }}>
+                                <Typography sx={{ fontSize: "11px", fontWeight: "600", textTransform: "uppercase", letterSpacing: "1.5px", color: "var(--es-emerald-soft)", margin: "0 0 6px 0" }}>
                                     Email Us
                                 </Typography>
                                 <Typography 
@@ -176,11 +176,11 @@ const TheLocations = () => {
                                     href={`mailto:${salon?.email || "info@edensign.com"}`}
                                     sx={{ 
                                         fontSize: "14px", 
-                                        color: "#1c1917", 
+                                        color: "var(--es-charcoal)", 
                                         fontWeight: "400",
                                         textDecoration: "none",
                                         transition: "color 0.2s",
-                                        "&:hover": { color: "#8b6914" }
+                                        "&:hover": { color: "var(--es-emerald-soft)" }
                                     }}
                                 >
                                     {salon?.email || "info@edensign.com"}
@@ -195,7 +195,7 @@ const TheLocations = () => {
                             <IconButton href={salon.instagram_link} target="_blank" 
                                 sx={{ 
                                     width: 42, height: 42, 
-                                    border: "1px solid rgba(201,169,110,0.25)",
+                                    border: "1px solid rgba(15,93,78,0.25)",
                                     borderRadius: "10px",
                                     color: "#E1306C", 
                                     transition: "all 0.3s",
@@ -212,7 +212,7 @@ const TheLocations = () => {
                             <IconButton href={salon.facebook_link} target="_blank" 
                                 sx={{ 
                                     width: 42, height: 42, 
-                                    border: "1px solid rgba(201,169,110,0.25)",
+                                    border: "1px solid rgba(15,93,78,0.25)",
                                     borderRadius: "10px",
                                     color: "#1877F2", 
                                     transition: "all 0.3s",
@@ -229,7 +229,7 @@ const TheLocations = () => {
                             <IconButton href={salon.youtube_link} target="_blank" 
                                 sx={{ 
                                     width: 42, height: 42, 
-                                    border: "1px solid rgba(201,169,110,0.25)",
+                                    border: "1px solid rgba(15,93,78,0.25)",
                                     borderRadius: "10px",
                                     color: "#FF0000", 
                                     transition: "all 0.3s",
@@ -246,13 +246,13 @@ const TheLocations = () => {
                             <IconButton href={salon.website_link} target="_blank" 
                                 sx={{ 
                                     width: 42, height: 42, 
-                                    border: "1px solid rgba(201,169,110,0.25)",
+                                    border: "1px solid rgba(15,93,78,0.25)",
                                     borderRadius: "10px",
-                                    color: "#8b6914", 
+                                    color: "var(--es-emerald-soft)", 
                                     transition: "all 0.3s",
                                     "&:hover": { 
-                                        bgcolor: "rgba(201, 169, 110, 0.08)", 
-                                        borderColor: "#8b6914",
+                                        bgcolor: "rgba(15, 93, 78, 0.08)", 
+                                        borderColor: "var(--es-emerald-soft)",
                                         transform: "translateY(-3px)" 
                                     } 
                                 }}>
@@ -269,10 +269,10 @@ const TheLocations = () => {
                         minHeight: { xs: "320px", md: "520px" }, 
                         position: "relative",
                         borderRadius: "24px",
-                        border: "1px solid rgba(201, 169, 110, 0.25)",
+                        border: "1px solid rgba(15, 93, 78, 0.25)",
                         boxShadow: "0 25px 60px rgba(0, 0, 0, 0.08)",
                         overflow: "hidden",
-                        background: "#faf8f4",
+                        background: "var(--es-cream)",
                         display: "flex",
                         alignItems: "stretch"
                     }}

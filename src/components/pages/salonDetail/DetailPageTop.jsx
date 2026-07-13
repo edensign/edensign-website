@@ -66,7 +66,7 @@ const DetailPageTop = () => {
                     {salon?.name || 'Lumière Salon'}
                 </h1>
 
-                <div className="salon-hero-divider" style={{ width: '80px', height: '2px', background: 'var(--es-rose-gold)', margin: '16px 0' }} />
+                <div className="salon-hero-divider" style={{ width: '80px', height: '2px', background: 'var(--es-emerald)', margin: '16px 0' }} />
 
                 <div className="salon-hero-meta" style={{ display: 'flex', gap: '20px', fontSize: '13px', color: 'rgba(255, 255, 255, 0.8)' }}>
                     {salon?.location && (

@@ -103,7 +103,7 @@ function ProductCategories({ searchQuery: parentSearchQuery }) {
   };
 
   return (
-    <div style={{ background: 'var(--es-background)', minHeight: '100vh', paddingBottom: '120px' }}>
+    <div style={{ background: 'var(--es-cream)', minHeight: '100vh', paddingBottom: '120px' }}>
       <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 24px' }}>
         
         {/* Categories Pill Bar */}
@@ -124,11 +124,11 @@ function ProductCategories({ searchQuery: parentSearchQuery }) {
               textTransform: 'uppercase',
               padding: '10px 24px',
               borderRadius: '100px',
-              border: activeCategory === '' ? 'none' : '1px solid rgba(213, 195, 184, 0.5)',
-              background: activeCategory === '' ? 'linear-gradient(135deg, #c7956c 0%, #7f5532 100%)' : '#ffffff',
-              color: activeCategory === '' ? '#ffffff' : 'var(--es-espresso)',
+              border: activeCategory === '' ? 'none' : '1px solid rgba(15, 93, 78, 0.15)',
+              background: activeCategory === '' ? 'linear-gradient(135deg, var(--es-emerald) 0%, var(--es-emerald-soft) 100%)' : '#ffffff',
+              color: activeCategory === '' ? '#ffffff' : 'var(--es-charcoal)',
               cursor: 'pointer',
-              boxShadow: activeCategory === '' ? '0 4px 14px rgba(127, 85, 50, 0.2)' : 'none',
+              boxShadow: activeCategory === '' ? '0 4px 14px rgba(15, 93, 78, 0.2)' : 'none',
               transition: 'all 0.3s ease',
             }}
           >
@@ -146,11 +146,11 @@ function ProductCategories({ searchQuery: parentSearchQuery }) {
                 textTransform: 'uppercase',
                 padding: '10px 24px',
                 borderRadius: '100px',
-                border: activeCategory === name ? 'none' : '1px solid rgba(213, 195, 184, 0.5)',
-                background: activeCategory === name ? 'linear-gradient(135deg, #c7956c 0%, #7f5532 100%)' : '#ffffff',
-                color: activeCategory === name ? '#ffffff' : 'var(--es-espresso)',
+                border: activeCategory === name ? 'none' : '1px solid rgba(15, 93, 78, 0.15)',
+                background: activeCategory === name ? 'linear-gradient(135deg, var(--es-emerald) 0%, var(--es-emerald-soft) 100%)' : '#ffffff',
+                color: activeCategory === name ? '#ffffff' : 'var(--es-charcoal)',
                 cursor: 'pointer',
-                boxShadow: activeCategory === name ? '0 4px 14px rgba(127, 85, 50, 0.2)' : 'none',
+                boxShadow: activeCategory === name ? '0 4px 14px rgba(15, 93, 78, 0.2)' : 'none',
                 transition: 'all 0.3s ease',
               }}
             >
@@ -164,8 +164,8 @@ function ProductCategories({ searchQuery: parentSearchQuery }) {
           display: 'flex',
           flexDirection: 'column',
           gap: '20px',
-          borderTop: '1px solid rgba(213, 195, 184, 0.4)',
-          borderBottom: '1px solid rgba(213, 195, 184, 0.4)',
+          borderTop: '1px solid rgba(15, 93, 78, 0.15)',
+          borderBottom: '1px solid rgba(15, 93, 78, 0.15)',
           padding: '24px 0',
           marginBottom: '40px',
         }}>
@@ -193,9 +193,9 @@ function ProductCategories({ searchQuery: parentSearchQuery }) {
                   textTransform: 'uppercase',
                   padding: '12px 24px',
                   borderRadius: '100px',
-                  border: '1px solid rgba(213, 195, 184, 0.5)',
-                  background: showFiltersPanel ? 'var(--es-espresso)' : '#ffffff',
-                  color: showFiltersPanel ? '#ffffff' : 'var(--es-espresso)',
+                  border: '1px solid rgba(15, 93, 78, 0.15)',
+                  background: showFiltersPanel ? 'var(--es-charcoal)' : '#ffffff',
+                  color: showFiltersPanel ? '#ffffff' : 'var(--es-charcoal)',
                   cursor: 'pointer',
                   transition: 'all 0.3s ease',
                 }}
@@ -253,12 +253,12 @@ function ProductCategories({ searchQuery: parentSearchQuery }) {
                   style={{
                     width: '100%',
                     background: '#ffffff',
-                    border: '1px solid rgba(213, 195, 184, 0.5)',
+                    border: '1px solid rgba(15, 93, 78, 0.15)',
                     borderRadius: '100px',
                     padding: '12px 48px 12px 20px',
                     fontFamily: "'Inter', sans-serif",
                     fontSize: '13px',
-                    color: 'var(--es-espresso)',
+                    color: 'var(--es-charcoal)',
                     outline: 'none',
                     transition: 'all 0.3s',
                   }}
@@ -268,7 +268,7 @@ function ProductCategories({ searchQuery: parentSearchQuery }) {
                   right: '18px',
                   top: '50%',
                   transform: 'translateY(-50%)',
-                  color: 'var(--es-primary)',
+                  color: 'var(--es-emerald)',
                   fontSize: 18,
                 }} />
               </div>
@@ -283,15 +283,15 @@ function ProductCategories({ searchQuery: parentSearchQuery }) {
                   fontWeight: 700,
                   letterSpacing: '0.12em',
                   textTransform: 'uppercase',
-                  color: 'var(--es-espresso)',
-                  border: '1px solid rgba(213, 195, 184, 0.5)',
+                  color: 'var(--es-charcoal)',
+                  border: '1px solid rgba(15, 93, 78, 0.15)',
                   borderRadius: '100px',
                   padding: '12px 32px 12px 20px',
                   background: '#ffffff',
                   cursor: 'pointer',
                   outline: 'none',
                   appearance: 'none',
-                  backgroundImage: 'url("data:image/svg+xml;utf8,<svg fill=\'%237f5532\' height=\'24\' viewBox=\'0 0 24 24\' width=\'24\' xmlns=\'http://www.w3.org/2000/svg\'><path d=\'M7 10l5 5 5-5z\'/></svg>")',
+                  backgroundImage: 'url("data:image/svg+xml;utf8,<svg fill=\'%230f5d4e\' height=\'24\' viewBox=\'0 0 24 24\' width=\'24\' xmlns=\'http://www.w3.org/2000/svg\'><path d=\'M7 10l5 5 5-5z\'/></svg>")',
                   backgroundRepeat: 'no-repeat',
                   backgroundPosition: 'right 12px center',
                 }}
@@ -322,10 +322,10 @@ function ProductCategories({ searchQuery: parentSearchQuery }) {
                   gap: '32px',
                   padding: '24px 20px',
                   background: '#ffffff',
-                  border: '1px solid rgba(213, 195, 184, 0.5)',
+                  border: '1px solid rgba(15, 93, 78, 0.15)',
                   borderRadius: '16px',
                   marginTop: '16px',
-                  boxShadow: '0 10px 30px rgba(127, 85, 50, 0.03)',
+                  boxShadow: '0 10px 30px rgba(15, 93, 78, 0.03)',
                 }}>
                   {/* Price Slider */}
                   <div>
@@ -335,9 +335,9 @@ function ProductCategories({ searchQuery: parentSearchQuery }) {
                       fontWeight: 700,
                       letterSpacing: '0.15em',
                       textTransform: 'uppercase',
-                      color: 'var(--es-primary)',
+                      color: 'var(--es-emerald)',
                       marginBottom: '16px',
-                      borderBottom: '1px solid rgba(213, 195, 184, 0.3)',
+                      borderBottom: '1px solid rgba(15, 93, 78, 0.1)',
                       paddingBottom: '8px',
                     }}>Price Range</h4>
                     <Box sx={{ px: 1 }}>
@@ -350,12 +350,12 @@ function ProductCategories({ searchQuery: parentSearchQuery }) {
                         onChange={handlePriceChange}
                         valueLabelDisplay="auto"
                         sx={{
-                          color: 'var(--es-primary)',
+                          color: 'var(--es-emerald)',
                           '& .MuiSlider-thumb': { borderRadius: '6px', width: 14, height: 14 },
                           '& .MuiSlider-track': { borderRadius: '6px' },
                         }}
                       />
-                      <p style={{ fontFamily: "'Inter', sans-serif", fontSize: '13px', color: 'var(--es-on-surface-variant)', margin: '12px 0 0', fontWeight: 500 }}>
+                      <p style={{ fontFamily: "'Inter', sans-serif", fontSize: '13px', color: 'var(--es-charcoal-60)', margin: '12px 0 0', fontWeight: 500 }}>
                         ₹{effectivePriceRange[0]} – ₹{effectivePriceRange[1]}
                       </p>
                     </Box>
@@ -370,9 +370,9 @@ function ProductCategories({ searchQuery: parentSearchQuery }) {
                         fontWeight: 700,
                         letterSpacing: '0.15em',
                         textTransform: 'uppercase',
-                        color: 'var(--es-primary)',
+                        color: 'var(--es-emerald)',
                         marginBottom: '16px',
-                        borderBottom: '1px solid rgba(213, 195, 184, 0.3)',
+                        borderBottom: '1px solid rgba(15, 93, 78, 0.1)',
                         paddingBottom: '8px',
                       }}>Brands</h4>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', maxHeight: '140px', overflowY: 'auto' }}>
@@ -386,7 +386,7 @@ function ProductCategories({ searchQuery: parentSearchQuery }) {
                                 onChange={() => setActiveBrands(prev =>
                                   prev.includes(brand) ? prev.filter(b => b !== brand) : [...prev, brand]
                                 )}
-                                sx={{ color: 'rgba(213, 195, 184, 0.8)', '&.Mui-checked': { color: 'var(--es-primary)' } }}
+                                sx={{ color: 'rgba(15, 93, 78, 0.3)', '&.Mui-checked': { color: 'var(--es-emerald)' } }}
                               />
                             }
                             label={brand}
@@ -394,7 +394,7 @@ function ProductCategories({ searchQuery: parentSearchQuery }) {
                               '& .MuiFormControlLabel-label': {
                                 fontFamily: "'Inter', sans-serif",
                                 fontSize: '13px',
-                                color: 'var(--es-espresso)',
+                                color: 'var(--es-charcoal)',
                               }
                             }}
                           />
@@ -412,9 +412,9 @@ function ProductCategories({ searchQuery: parentSearchQuery }) {
                         fontWeight: 700,
                         letterSpacing: '0.15em',
                         textTransform: 'uppercase',
-                        color: 'var(--es-primary)',
+                        color: 'var(--es-emerald)',
                         marginBottom: '16px',
-                        borderBottom: '1px solid rgba(213, 195, 184, 0.3)',
+                        borderBottom: '1px solid rgba(15, 93, 78, 0.1)',
                         paddingBottom: '8px',
                       }}>Sizes / Capacities</h4>
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '12px' }}>
@@ -427,9 +427,9 @@ function ProductCategories({ searchQuery: parentSearchQuery }) {
                               style={{
                                 padding: '8px 16px',
                                 borderRadius: '100px',
-                                border: isSelected ? 'none' : '1px solid rgba(213, 195, 184, 0.5)',
-                                background: isSelected ? 'var(--es-espresso)' : '#ffffff',
-                                color: isSelected ? '#ffffff' : 'var(--es-espresso)',
+                                border: isSelected ? 'none' : '1px solid rgba(15, 93, 78, 0.15)',
+                                background: isSelected ? 'var(--es-charcoal)' : '#ffffff',
+                                color: isSelected ? '#ffffff' : 'var(--es-charcoal)',
                                 fontFamily: "'Inter', sans-serif",
                                 fontSize: '11px',
                                 fontWeight: 600,

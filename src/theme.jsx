@@ -129,7 +129,7 @@ export const tokens = (mode) => ({
 
 //mui Theme Settings
 export const themeSettings = (mode) => {
-    const gold = "#c7956c";
+    const emerald = "#0f5d4e";
     const charcoal = "#1a0f08";
     const darkObsidian = "#0f0a07";
     const creamBg = "#FAF8F5";
@@ -139,7 +139,7 @@ export const themeSettings = (mode) => {
         palette: {
             mode: mode,
             primary: {
-                main: gold,
+                main: emerald,
                 contrastText: mode === "dark" ? "#1a0f08" : "#ffffff",
             },
             secondary: {
@@ -217,14 +217,14 @@ export const themeSettings = (mode) => {
                         transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
                         "&:hover": {
                             transform: "translateY(-1px)",
-                            boxShadow: "0 6px 20px rgba(199, 149, 108, 0.3)",
+                            boxShadow: "0 6px 20px rgba(15, 93, 78, 0.3)",
                         }
                     },
                     containedPrimary: {
-                        background: "linear-gradient(135deg, #c7956c, #a8724d)",
+                        background: "linear-gradient(135deg, #0f5d4e, #14705f)",
                         color: "#ffffff",
                         "&:hover": {
-                            background: "linear-gradient(135deg, #a8724d, #c7956c)",
+                            background: "linear-gradient(135deg, #14705f, #0f5d4e)",
                         }
                     }
                 }
@@ -237,20 +237,20 @@ export const themeSettings = (mode) => {
                             transition: "all 0.3s ease",
                             backgroundColor: mode === "dark" ? "rgba(255, 255, 255, 0.03)" : "rgba(26, 10, 0, 0.01)",
                             "& fieldset": {
-                                borderColor: mode === "dark" ? "rgba(255, 255, 255, 0.15)" : "rgba(199, 149, 108, 0.25)",
+                                borderColor: mode === "dark" ? "rgba(255, 255, 255, 0.15)" : "rgba(15, 93, 78, 0.25)",
                             },
                             "&:hover fieldset": {
-                                borderColor: "#c7956c",
+                                borderColor: "#0f5d4e",
                             },
                             "&.Mui-focused fieldset": {
-                                borderColor: "#c7956c",
+                                borderColor: "#0f5d4e",
                                 borderWidth: "1.5px",
                             }
                         },
                         "& .MuiInputLabel-root": {
                             color: mode === "dark" ? "rgba(255, 255, 255, 0.5)" : "#6b5749",
                             "&.Mui-focused": {
-                                color: "#c7956c",
+                                color: "#0f5d4e",
                             }
                         }
                     }
@@ -261,7 +261,7 @@ export const themeSettings = (mode) => {
                     root: {
                         borderRadius: "16px !important",
                         marginBottom: "12px",
-                        border: mode === "dark" ? "1px solid rgba(255, 255, 255, 0.08)" : "1px solid rgba(199, 149, 108, 0.15)",
+                        border: mode === "dark" ? "1px solid rgba(255, 255, 255, 0.08)" : "1px solid rgba(15, 93, 78, 0.15)",
                         background: mode === "dark" ? "rgba(24, 18, 14, 0.6)" : "#ffffff",
                         "&:before": {
                             display: "none"
@@ -269,8 +269,8 @@ export const themeSettings = (mode) => {
                         boxShadow: "0 4px 20px rgba(26, 10, 0, 0.02)",
                         transition: "all 0.3s ease",
                         "&.Mui-expanded": {
-                            boxShadow: "0 10px 30px rgba(199, 149, 108, 0.06)",
-                            borderColor: "#c7956c",
+                            boxShadow: "0 10px 30px rgba(15, 93, 78, 0.06)",
+                            borderColor: "#0f5d4e",
                         }
                     }
                 }
@@ -289,10 +289,10 @@ export const themeSettings = (mode) => {
             MuiRating: {
                 styleOverrides: {
                     iconFilled: {
-                        color: gold,
+                        color: "#E2A154",
                     },
                     iconHover: {
-                        color: "#a8724d",
+                        color: "#D29144",
                     }
                 }
             }

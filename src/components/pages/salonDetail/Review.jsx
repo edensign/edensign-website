@@ -25,7 +25,7 @@ import API from '../../../apis';
 const StarRow = ({ count = 5 }) => (
   <div style={{ display: 'flex', gap: '4px' }}>
     {[...Array(5)].map((_, i) => (
-      <svg key={i} width="14" height="14" viewBox="0 0 24 24" fill={i < count ? '#c9a96e' : 'none'} stroke="#c9a96e" strokeWidth="1.5">
+      <svg key={i} width="14" height="14" viewBox="0 0 24 24" fill={i < count ? 'var(--es-emerald)' : 'none'} stroke="var(--es-emerald)" strokeWidth="1.5">
         <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
       </svg>
     ))}
@@ -37,15 +37,15 @@ const RatingRow = ({ icon, label, value, onChange }) => (
   <div style={{
     display: 'flex', alignItems: 'center', justifyContent: 'space-between',
     padding: '8px 0',
-    borderBottom: '1px solid rgba(201,169,110,0.08)',
+    borderBottom: '1px solid rgba(15,93,78,0.08)',
   }}>
-    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#c9a96e' }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--es-emerald)' }}>
       {icon}
       <span style={{
         fontFamily: "'Inter', sans-serif",
         fontSize: '11px', fontWeight: 600,
         letterSpacing: '1.2px', textTransform: 'uppercase',
-        color: '#44403c',
+        color: 'var(--es-charcoal-60)',
       }}>
         {label}
       </span>
@@ -181,25 +181,25 @@ const Review = () => {
 
   const inputSx = {
     '& .MuiFilledInput-root': {
-      background: 'rgba(201,169,110,0.05)',
+      background: 'rgba(15,93,78,0.05)',
       borderRadius: '10px',
-      border: '1px solid rgba(201,169,110,0.2)',
-      '&:hover': { background: 'rgba(201,169,110,0.09)' },
-      '&.Mui-focused': { background: 'rgba(201,169,110,0.07)', borderColor: '#c9a96e' },
+      border: '1px solid rgba(15,93,78,0.2)',
+      '&:hover': { background: 'rgba(15,93,78,0.09)' },
+      '&.Mui-focused': { background: 'rgba(15,93,78,0.07)', borderColor: 'var(--es-emerald)' },
       '&::before, &::after': { display: 'none' },
     },
-    '& .MuiInputLabel-filled': { color: '#78716c', fontSize: '13px' },
-    '& .MuiInputLabel-filled.Mui-focused': { color: '#8b6914' },
+    '& .MuiInputLabel-filled': { color: 'var(--es-charcoal-60)', fontSize: '13px' },
+    '& .MuiInputLabel-filled.Mui-focused': { color: 'var(--es-emerald-soft)' },
   };
 
   return (
-    <section style={{ background: '#faf8f4', padding: '96px 5%', position: 'relative', overflow: 'hidden' }}>
+    <section style={{ background: 'var(--es-cream)', padding: '96px 5%', position: 'relative', overflow: 'hidden' }}>
       {/* top rule */}
       <div style={{
         position: 'absolute', top: 0, left: '50%',
         transform: 'translateX(-50%)',
         width: 1, height: 64,
-        background: 'linear-gradient(to bottom, transparent, #c9a96e)',
+        background: 'linear-gradient(to bottom, transparent, var(--es-emerald))',
       }} />
 
       {/* Section header */}
@@ -207,17 +207,17 @@ const Review = () => {
         <span style={{
           display: 'inline-flex', alignItems: 'center', gap: '10px',
           fontFamily: "'Inter', sans-serif", fontSize: '11px', fontWeight: 600,
-          letterSpacing: '3px', textTransform: 'uppercase', color: '#8b6914',
+          letterSpacing: '3px', textTransform: 'uppercase', color: 'var(--es-emerald-soft)',
           marginBottom: '16px',
         }}>
-          <span style={{ width: 24, height: 1, background: '#c9a96e', display: 'inline-block' }} />
+          <span style={{ width: 24, height: 1, background: 'var(--es-emerald)', display: 'inline-block' }} />
           Voices & Ratings
         </span>
         <h2 style={{
           fontFamily: "'Cormorant Garamond', serif",
           fontSize: 'clamp(2.4rem, 4.5vw, 3.8rem)',
           fontWeight: 400, lineHeight: 1.1,
-          letterSpacing: '-0.02em', color: '#1c1917',
+          letterSpacing: '-0.02em', color: 'var(--es-charcoal)',
           margin: 0,
         }}>
           Testimonials &amp; Reviews
@@ -238,7 +238,7 @@ const Review = () => {
         <div style={{
           background: '#ffffff',
           borderRadius: '24px',
-          border: '1px solid rgba(201,169,110,0.18)',
+          border: '1px solid rgba(15,93,78,0.18)',
           boxShadow: '0 20px 60px rgba(0,0,0,0.06)',
           padding: '24px 28px',
         }}>
@@ -246,11 +246,11 @@ const Review = () => {
             display: 'flex', alignItems: 'center', gap: '10px',
             marginBottom: '20px',
             paddingBottom: '16px',
-            borderBottom: '1px solid rgba(201,169,110,0.15)',
+            borderBottom: '1px solid rgba(15,93,78,0.15)',
           }}>
             <div style={{
               width: 36, height: 36, borderRadius: '50%',
-              background: 'linear-gradient(135deg, #c9a96e, #8b6914)',
+              background: 'linear-gradient(135deg, var(--es-emerald), var(--es-emerald-soft))',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2">
@@ -260,7 +260,7 @@ const Review = () => {
             <h3 style={{
               fontFamily: "'Cormorant Garamond', serif",
               fontSize: '1.4rem', fontWeight: 500,
-              color: '#1c1917', margin: 0, letterSpacing: '-0.01em',
+              color: 'var(--es-charcoal)', margin: 0, letterSpacing: '-0.01em',
             }}>
               Write a Review
             </h3>
@@ -303,7 +303,7 @@ const Review = () => {
                 marginTop: '20px',
                 width: '100%',
                 padding: '14px',
-                background: loading ? '#d4b896' : 'linear-gradient(135deg, #c9a96e, #8b6914)',
+                background: loading ? 'var(--es-emerald-muted)' : 'linear-gradient(135deg, var(--es-emerald), var(--es-emerald-soft))',
                 color: '#fff',
                 border: 'none',
                 borderRadius: '10px',
@@ -312,7 +312,7 @@ const Review = () => {
                 letterSpacing: '2.5px', textTransform: 'uppercase',
                 cursor: loading ? 'not-allowed' : 'pointer',
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
-                boxShadow: '0 8px 24px rgba(201,169,110,0.3)',
+                boxShadow: '0 8px 24px rgba(15,93,78,0.3)',
                 transition: 'all 0.2s ease',
               }}
             >
@@ -323,9 +323,9 @@ const Review = () => {
 
         {/* ── RIGHT: Testimonials ── */}
         <div style={{
-          background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
+          background: 'linear-gradient(135deg, var(--es-emerald) 0%, #0d463c 50%, #082d27 100%)',
           borderRadius: '24px',
-          border: '1px solid rgba(201,169,110,0.15)',
+          border: '1px solid rgba(15,93,78,0.15)',
           boxShadow: '0 30px 80px rgba(0,0,0,0.25)',
           padding: '48px 40px',
           position: 'relative',
@@ -339,13 +339,13 @@ const Review = () => {
           <div style={{
             position: 'absolute', top: -80, right: -80,
             width: 300, height: 300, borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(201,169,110,0.08) 0%, transparent 70%)',
+            background: 'radial-gradient(circle, rgba(15,93,78,0.08) 0%, transparent 70%)',
             pointerEvents: 'none',
           }} />
           <div style={{
             position: 'absolute', bottom: -80, left: -80,
             width: 200, height: 200, borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(201,169,110,0.06) 0%, transparent 70%)',
+            background: 'radial-gradient(circle, rgba(15,93,78,0.06) 0%, transparent 70%)',
             pointerEvents: 'none',
           }} />
 
@@ -354,7 +354,7 @@ const Review = () => {
             <span style={{
               fontFamily: "'Inter', sans-serif", fontSize: '10px',
               fontWeight: 600, letterSpacing: '3px', textTransform: 'uppercase',
-              color: '#c9a96e', display: 'block', marginBottom: '12px',
+              color: 'var(--es-emerald-soft)', display: 'block', marginBottom: '12px',
             }}>
               — Client Experiences
             </span>
@@ -376,7 +376,7 @@ const Review = () => {
               alignItems: 'center',
               flex: 1,
             }}>
-              <CircularProgress size={30} sx={{ color: '#c9a96e' }} />
+              <CircularProgress size={30} sx={{ color: 'var(--es-emerald)' }} />
             </div>
           ) : !hasDbReviews ? (
             <div style={{
@@ -391,12 +391,12 @@ const Review = () => {
             }}>
               <div style={{
                 width: 80, height: 80, borderRadius: '50%',
-                background: 'rgba(201,169,110,0.1)',
-                border: '1px solid rgba(201,169,110,0.3)',
+                background: 'rgba(15,93,78,0.1)',
+                border: '1px solid rgba(15,93,78,0.3)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                boxShadow: '0 8px 32px rgba(201,169,110,0.15)',
+                boxShadow: '0 8px 32px rgba(15,93,78,0.15)',
               }}>
-                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#c9a96e" strokeWidth="1.5">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--es-emerald)" strokeWidth="1.5">
                   <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                 </svg>
               </div>
@@ -422,7 +422,7 @@ const Review = () => {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
-                color: '#c9a96e',
+                color: 'var(--es-emerald)',
                 fontSize: '12px',
                 fontWeight: 600,
                 letterSpacing: '1px',
@@ -430,7 +430,7 @@ const Review = () => {
                 fontFamily: "'Inter', sans-serif",
                 marginTop: '12px'
               }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c9a96e" strokeWidth="2" style={{ transform: 'rotate(180deg)' }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--es-emerald)" strokeWidth="2" style={{ transform: 'rotate(180deg)' }}>
                   <path d="M5 12h14M12 5l7 7-7 7" />
                 </svg>
                 Use the form on the left
@@ -442,7 +442,7 @@ const Review = () => {
               <div style={{
                 fontSize: '80px', lineHeight: 1,
                 fontFamily: "'Cormorant Garamond', serif",
-                color: 'rgba(201,169,110,0.25)',
+                color: 'rgba(15,93,78,0.25)',
                 marginTop: '24px',
                 userSelect: 'none',
               }}>
@@ -474,7 +474,7 @@ const Review = () => {
                       width: 52, height: 52,
                       borderRadius: '50%',
                       objectFit: 'cover',
-                      border: '2px solid rgba(201,169,110,0.5)',
+                      border: '2px solid rgba(15,93,78,0.5)',
                       boxShadow: '0 4px 16px rgba(0,0,0,0.3)',
                       flexShrink: 0,
                     }}
@@ -517,7 +517,7 @@ const Review = () => {
                         width: i === activeSlide ? 24 : 8,
                         height: 8,
                         borderRadius: 4,
-                        background: i === activeSlide ? '#c9a96e' : 'rgba(255,255,255,0.2)',
+                        background: i === activeSlide ? 'var(--es-emerald)' : 'rgba(255,255,255,0.2)',
                         border: 'none',
                         cursor: 'pointer',
                         padding: 0,
@@ -548,8 +548,8 @@ const Review = () => {
                         backdropFilter: 'blur(8px)',
                       }}
                       onMouseEnter={e => {
-                        e.currentTarget.style.background = 'rgba(201,169,110,0.25)';
-                        e.currentTarget.style.borderColor = '#c9a96e';
+                        e.currentTarget.style.background = 'rgba(15,93,78,0.25)';
+                        e.currentTarget.style.borderColor = 'var(--es-emerald)';
                       }}
                       onMouseLeave={e => {
                         e.currentTarget.style.background = 'rgba(255,255,255,0.08)';

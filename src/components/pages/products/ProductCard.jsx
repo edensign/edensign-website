@@ -5,11 +5,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 
 import InfiniteScroll from 'react-infinite-scroll-component';
-import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import AddShoppingCartOutlinedIcon from '@mui/icons-material/AddShoppingCartOutlined';
@@ -47,8 +46,8 @@ const ProductCardSkeleton = () => (
     background: '#ffffff',
     borderRadius: '16px',
     overflow: 'hidden',
-    border: '1px solid rgba(213, 195, 184, 0.4)',
-    boxShadow: '0 8px 30px rgba(127, 85, 50, 0.02)',
+    border: '1px solid rgba(15, 93, 78, 0.15)',
+    boxShadow: '0 8px 30px rgba(15, 93, 78, 0.02)',
   }}>
     <div style={{ 
       aspectRatio: '4/5',
@@ -67,17 +66,17 @@ const ProductCardSkeleton = () => (
 /* ── Empty State ── */
 const EmptyState = ({ isFiltered, onReset }) => (
   <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '80px 24px' }}>
-    <div style={{ width: 80, height: 80, borderRadius: '50%', background: 'rgba(199,149,108,0.1)', display: 'flex', alignItems: 'center', justifycontent: 'center', margin: '0 auto 24px', justifyContent: 'center' }}>
-      <StorefrontOutlinedIcon sx={{ fontSize: 32, color: 'var(--es-primary)' }} />
+    <div style={{ width: 80, height: 80, borderRadius: '50%', background: 'rgba(15, 93, 78, 0.06)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px' }}>
+      <StorefrontOutlinedIcon sx={{ fontSize: 32, color: 'var(--es-emerald)' }} />
     </div>
     {isFiltered ? (
       <>
-        <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: '24px', fontWeight: 600, color: 'var(--es-espresso)', margin: '0 0 8px', fontStyle: 'italic' }}>No Products Found</h3>
-        <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', color: 'var(--es-on-surface-variant)', margin: '0 0 24px' }}>No products match your active search or filters.</p>
+        <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: '24px', fontWeight: 600, color: 'var(--es-charcoal)', margin: '0 0 8px', fontStyle: 'italic' }}>No Products Found</h3>
+        <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', color: 'var(--es-charcoal-60)', margin: '0 0 24px' }}>No products match your active search or filters.</p>
         <button
           onClick={onReset}
           style={{
-            background: 'linear-gradient(135deg, #c7956c, #7f5532)',
+            background: 'linear-gradient(135deg, var(--es-emerald), var(--es-emerald-soft))',
             border: 'none',
             borderRadius: '100px',
             padding: '12px 32px',
@@ -88,7 +87,7 @@ const EmptyState = ({ isFiltered, onReset }) => (
             cursor: 'pointer',
             letterSpacing: '0.12em',
             textTransform: 'uppercase',
-            boxShadow: '0 6px 20px rgba(127,85,50,0.2)',
+            boxShadow: '0 6px 20px rgba(15,93,78,0.2)',
           }}
         >
           Reset Filters
@@ -96,8 +95,8 @@ const EmptyState = ({ isFiltered, onReset }) => (
       </>
     ) : (
       <>
-        <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: '24px', fontWeight: 600, color: 'var(--es-espresso)', margin: '0 0 8px', fontStyle: 'italic' }}>Boutique is Empty</h3>
-        <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', color: 'var(--es-on-surface-variant)', margin: 0 }}>Check back later for curated beauty collections.</p>
+        <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: '24px', fontWeight: 600, color: 'var(--es-charcoal)', margin: '0 0 8px', fontStyle: 'italic' }}>Boutique is Empty</h3>
+        <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', color: 'var(--es-charcoal-60)', margin: 0 }}>Check back later for curated beauty collections.</p>
       </>
     )}
   </div>
@@ -140,8 +139,8 @@ const ProductCard_Item = React.memo(({ product, i, onEyeClick, onAddToCart, isIn
         background: '#ffffff',
         borderRadius: '16px',
         overflow: 'hidden',
-        boxShadow: hovered ? '0 20px 40px rgba(127, 85, 50, 0.08)' : '0 8px 30px rgba(127, 85, 50, 0.02)',
-        border: '1px solid rgba(213, 195, 184, 0.5)',
+        boxShadow: hovered ? '0 20px 40px rgba(15, 93, 78, 0.08)' : '0 8px 30px rgba(15, 93, 78, 0.02)',
+        border: '1px solid rgba(15, 93, 78, 0.15)',
         transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
         transform: hovered ? 'translateY(-6px)' : 'translateY(0)',
         position: 'relative',
@@ -154,7 +153,7 @@ const ProductCard_Item = React.memo(({ product, i, onEyeClick, onAddToCart, isIn
       <div style={{ position: 'absolute', top: 16, left: 16, zIndex: 10, display: 'flex', flexDirection: 'column', gap: '6px' }}>
         {product.is_bestseller && (
           <span style={{
-            background: 'linear-gradient(135deg, #c7956c, #7f5532)',
+            background: 'linear-gradient(135deg, var(--es-emerald), var(--es-emerald-soft))',
             color: '#fff',
             fontFamily: "'Inter', sans-serif",
             fontSize: '9px',
@@ -163,7 +162,7 @@ const ProductCard_Item = React.memo(({ product, i, onEyeClick, onAddToCart, isIn
             textTransform: 'uppercase',
             padding: '4px 10px',
             borderRadius: '100px',
-            boxShadow: '0 4px 10px rgba(127, 85, 50, 0.15)',
+            boxShadow: '0 4px 10px rgba(15, 93, 78, 0.15)',
           }}>Bestseller</span>
         )}
         {product.discount_percent > 0 && (
@@ -197,13 +196,13 @@ const ProductCard_Item = React.memo(({ product, i, onEyeClick, onAddToCart, isIn
           height: '36px',
           borderRadius: '50%',
           background: '#ffffff',
-          border: '1px solid rgba(213, 195, 184, 0.4)',
+          border: '1px solid rgba(15, 93, 78, 0.15)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          color: wishlisted ? '#ef4444' : 'var(--es-espresso)',
+          color: wishlisted ? '#ef4444' : 'var(--es-charcoal)',
           cursor: 'pointer',
-          boxShadow: '0 4px 12px rgba(127, 85, 50, 0.05)',
+          boxShadow: '0 4px 12px rgba(15, 93, 78, 0.05)',
           transition: 'all 0.2s',
         }}
       >
@@ -265,7 +264,7 @@ const ProductCard_Item = React.memo(({ product, i, onEyeClick, onAddToCart, isIn
                 ? '#94a3b8'
                 : justAdded
                   ? '#22c55e'
-                  : 'rgba(31, 27, 24, 0.9)',
+                  : 'var(--es-charcoal)',
               backdropFilter: 'blur(10px)',
               border: 'none',
               color: '#ffffff',
@@ -321,7 +320,7 @@ const ProductCard_Item = React.memo(({ product, i, onEyeClick, onAddToCart, isIn
             fontWeight: 700,
             letterSpacing: '0.2em',
             textTransform: 'uppercase',
-            color: 'var(--es-primary)',
+            color: 'var(--es-emerald)',
             display: 'block',
             marginBottom: '4px',
           }}>{product.brand}</span>
@@ -331,7 +330,7 @@ const ProductCard_Item = React.memo(({ product, i, onEyeClick, onAddToCart, isIn
             fontFamily: "'Playfair Display', serif",
             fontSize: '19px',
             fontWeight: 600,
-            color: 'var(--es-espresso)',
+            color: 'var(--es-charcoal)',
             margin: '0 0 6px 0',
             lineHeight: 1.3,
           }}>{product.name}</h3>
@@ -344,7 +343,7 @@ const ProductCard_Item = React.memo(({ product, i, onEyeClick, onAddToCart, isIn
             <span style={{
               fontFamily: "'Inter', sans-serif",
               fontSize: '11px',
-              color: 'var(--es-on-surface-variant)',
+              color: 'var(--es-charcoal-60)',
               marginLeft: '4px',
               fontWeight: 500,
             }}>(42)</span>
@@ -357,7 +356,7 @@ const ProductCard_Item = React.memo(({ product, i, onEyeClick, onAddToCart, isIn
             fontFamily: "'Inter', sans-serif",
             fontSize: '16px',
             fontWeight: 700,
-            color: 'var(--es-espresso)',
+            color: 'var(--es-charcoal)',
           }}>
             ₹{product.discounted_price || product.price}
           </span>
@@ -365,7 +364,7 @@ const ProductCard_Item = React.memo(({ product, i, onEyeClick, onAddToCart, isIn
             <span style={{
               fontFamily: "'Inter', sans-serif",
               fontSize: '12px',
-              color: 'var(--es-on-surface-variant)',
+              color: 'var(--es-charcoal-60)',
               textDecoration: 'line-through',
               opacity: 0.6,
             }}>
@@ -530,7 +529,7 @@ function ProductCard({
               textAlign: 'center',
               fontFamily: "'Playfair Display', serif",
               fontStyle: 'italic',
-              color: 'var(--es-on-surface-variant)',
+              color: 'var(--es-charcoal-60)',
               marginTop: '48px',
               fontSize: '15px'
             }}>

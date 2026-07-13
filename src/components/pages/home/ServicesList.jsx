@@ -8,82 +8,116 @@ import { useInView } from 'react-intersection-observer';
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 import SupportAgentOutlinedIcon from '@mui/icons-material/SupportAgentOutlined';
 import StorefrontOutlinedIcon from '@mui/icons-material/StorefrontOutlined';
+import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined';
+import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
+import WorkOutlineOutlinedIcon from '@mui/icons-material/WorkOutlineOutlined';
+import AccountBalanceOutlinedIcon from '@mui/icons-material/AccountBalanceOutlined';
+import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
 
-const services = [
+const modules = [
   {
-    icon: <CalendarMonthOutlinedIcon sx={{ fontSize: 36 }} />,
-    title: 'Appointments',
-    description:
-      'Stay free, stay stylish, stay ahead—let us take care of your beauty appointments effortlessly. Discover top-rated salons and book instantly.',
-    color: '#c7956c',
+    label: 'Salon Discovery',
+    note: 'Nearby · Premium · Verified',
     href: '/salons',
+    color: '#c7956c',
   },
   {
-    icon: <SupportAgentOutlinedIcon sx={{ fontSize: 36 }} />,
-    title: '24/7 Support',
-    description:
-      'Our dedicated team works around the clock to provide you the best experience with the utmost simplicity and care.',
+    label: 'Appointment Booking',
+    note: 'Stylist-specific or walk-in',
+    href: '/salons',
     color: '#9b7bca',
-    href: '/contact',
   },
   {
-    icon: <StorefrontOutlinedIcon sx={{ fontSize: 36 }} />,
-    title: 'Products',
-    description:
-      'Explore a curated collection of professional beauty products trusted by salons. Quality guaranteed with easy returns.',
-    color: '#56b39a',
+    label: 'Professional Marketplace',
+    note: 'Wholesale · Retail · Brands',
     href: '/products',
+    color: '#56b39a',
+  },
+  {
+    label: 'Salon Operations',
+    note: 'Inventory · Cashflow · Staff',
+    href: '#',
+    color: '#e88a6c',
+  },
+  {
+    label: 'Eden Academy',
+    note: 'Courses · Workshops · Certifications',
+    href: '#',
+    color: '#c7956c',
+  },
+  {
+    label: 'Careers Portal',
+    note: 'Stylists · Beauticians · Therapists',
+    href: '/job-seeker',
+    color: '#9b7bca',
+  },
+  {
+    label: 'Franchise Network',
+    note: 'Investors · Flagship openings',
+    href: '#',
+    color: '#56b39a',
+  },
+  {
+    label: 'AI Beauty Concierge',
+    note: 'Hair · Skin · Voice · WhatsApp',
+    href: '#',
+    color: '#e88a6c',
   },
 ];
 
-const cardVariants = {
-  hidden: { opacity: 0, y: 50 },
-  visible: (i) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, delay: i * 0.16, ease: 'easeOut' },
-  }),
-};
-
 const ServicesList = () => {
-  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.2 });
+  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
 
   return (
-    <section ref={ref} className="es-services-section">
-      <motion.div
-        className="es-section-header"
-        initial={{ opacity: 0, y: 30 }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.6, ease: 'easeOut' }}
-      >
-        <span className="es-eyebrow">What We Offer</span>
-        <h2 className="es-section-title">Our <em>Services</em></h2>
-        <div className="es-title-divider" />
-      </motion.div>
-
-      <div className="es-services-grid">
-        {services.map((service, i) => (
-          <motion.a
-            key={i}
-            href={service.href}
-            className="es-service-card"
-            custom={i}
-            initial="hidden"
-            animate={inView ? 'visible' : 'hidden'}
-            variants={cardVariants}
-            whileHover={{ y: -8, scale: 1.02 }}
-            style={{ textDecoration: 'none' }}
-          >
-            <div className="es-service-icon" style={{ color: service.color, borderColor: `${service.color}30`, background: `${service.color}12` }}>
-              {service.icon}
-            </div>
-            <h3 className="es-service-card-title" style={{ color: '#1a0f08' }}>{service.title}</h3>
-            <p className="es-service-card-desc">{service.description}</p>
-            <span className="es-service-link" style={{ color: service.color }}>
-              Learn more →
+    <section ref={ref} className="es-ecosystem-section">
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        {/* Header */}
+        <motion.div
+          className="es-ecosystem-header"
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.65, ease: 'easeOut' }}
+        >
+          <div className="es-ecosystem-header-inner">
+            <span className="es-eyebrow" style={{ color: 'var(--es-rose-gold)' }}>
+              One Ecosystem
             </span>
-          </motion.a>
-        ))}
+            <h2
+              className="es-section-title"
+              style={{ marginBottom: 0, maxWidth: '26ch' }}
+            >
+              Every stakeholder of beauty,{' '}
+              <em>under one roof.</em>
+            </h2>
+          </div>
+          <p className="es-ecosystem-subtext">
+            Eden Sign quietly connects customers, salons, stylists, academies,
+            distributors and brands into a single, elegant workflow.
+          </p>
+        </motion.div>
+
+        {/* 8-module grid */}
+        <div className="es-ecosystem-grid">
+          {modules.map((m, i) => (
+            <motion.a
+              key={m.label}
+              href={m.href}
+              className="es-ecosystem-cell"
+              style={{ textDecoration: 'none' }}
+              initial={{ opacity: 0, y: 24 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.55, delay: i * 0.06, ease: 'easeOut' }}
+            >
+              <span className="es-ecosystem-number">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <div>
+                <h3 className="es-ecosystem-cell-title">{m.label}</h3>
+                <p className="es-ecosystem-cell-note">{m.note}</p>
+              </div>
+            </motion.a>
+          ))}
+        </div>
       </div>
     </section>
   );

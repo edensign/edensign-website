@@ -48,12 +48,12 @@ const Offer = () => {
                     {stats.map((stat, i) => (
                         <>
                             {i > 0 && (
-                                <div key={`sep-${i}`} style={{ width: '1px', background: 'rgba(201,169,110,0.2)' }} />
+                                <div key={`sep-${i}`} style={{ width: '1px', background: 'rgba(15,93,78,0.2)' }} />
                             )}
                             <div key={stat.label}>
                                 <div className="offer-stat-number">
                                     {stat.value}
-                                    <span style={{ fontSize: '1.4rem', color: '#c9a96e' }}>+</span>
+                                    <span style={{ fontSize: '1.4rem', color: 'var(--es-emerald)' }}>+</span>
                                 </div>
                                 <div className="offer-stat-label">{stat.label}</div>
                             </div>

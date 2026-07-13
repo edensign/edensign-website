@@ -36,23 +36,53 @@ const ImageBoxes = () => {
           className="es-promo-card"
           initial={{ opacity: 0, x: i === 0 ? -60 : 60 }}
           animate={inView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.8, delay: i * 0.15, ease: 'easeOut' }}
+          transition={{ duration: 0.85, delay: i * 0.15, ease: 'easeOut' }}
         >
           <div className="es-promo-img-wrapper">
-            <img 
-              src={promo.img} 
-              alt={promo.headline} 
-              className="es-promo-img" 
+            <img
+              src={promo.img}
+              alt={promo.headline}
+              className="es-promo-img"
               loading="lazy"
               decoding="async"
             />
             <div className="es-promo-overlay" />
           </div>
+
           <div className="es-promo-content">
             <span className="es-promo-eyebrow">{promo.eyebrow}</span>
             <h2 className="es-promo-headline">{promo.headline}</h2>
             <p className="es-promo-desc">{promo.desc}</p>
-            <a href={promo.href} className="es-btn-primary">{promo.cta}</a>
+            <a
+              href={promo.href}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '14px 36px',
+                background: 'var(--es-rose-gold)',
+                color: '#fff',
+                fontFamily: "'Inter', sans-serif",
+                fontSize: '12px',
+                fontWeight: 700,
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase',
+                textDecoration: 'none',
+                borderRadius: '100px',
+                transition: 'background 0.3s ease, transform 0.25s ease',
+                boxShadow: '0 8px 28px rgba(199, 149, 108, 0.35)',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = '#a8724d';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'var(--es-rose-gold)';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
+            >
+              {promo.cta} →
+            </a>
           </div>
         </motion.div>
       ))}

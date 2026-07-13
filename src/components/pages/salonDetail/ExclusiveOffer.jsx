@@ -4,7 +4,7 @@
  * This software is the confidential information of Eden Sign Inc., and is licensed as
  * restricted rights software. The use, reproduction, or disclosure of this software is subject to
  * restrictions set forth in your license agreement with Eden Sign.
-*/
+ */
 
 import { useSelector } from 'react-redux';
 
@@ -29,7 +29,7 @@ const ExclusiveOffer = () => {
                 fontSize: 'clamp(2rem, 3.5vw, 3rem)',
                 fontWeight: 400,
                 lineHeight: 1.15,
-                color: '#1c1917',
+                color: 'var(--es-charcoal)',
                 margin: '0 0 16px 0',
                 letterSpacing: '-0.02em',
             }}>
@@ -39,7 +39,7 @@ const ExclusiveOffer = () => {
                 fontFamily: "'Inter', sans-serif",
                 fontSize: '14px',
                 lineHeight: 1.8,
-                color: '#78716c',
+                color: 'var(--es-charcoal-60)',
                 maxWidth: '520px',
                 margin: '0 0 40px 0',
                 letterSpacing: '0.02em',
@@ -58,29 +58,29 @@ const ExclusiveOffer = () => {
                             alignItems: 'center',
                             gap: '8px',
                             padding: '10px 22px',
-                            border: '1px solid rgba(201,169,110,0.35)',
+                            border: '1px solid rgba(15,93,78,0.35)',
                             fontFamily: "'Inter', sans-serif",
                             fontSize: '11px',
                             fontWeight: 500,
                             letterSpacing: '2px',
                             textTransform: 'uppercase',
-                            color: '#44403c',
-                            background: 'rgba(201,169,110,0.05)',
+                            color: 'var(--es-charcoal)',
+                            background: 'rgba(15,93,78,0.05)',
                             transition: 'all 0.3s ease',
                             cursor: 'default',
                         }}
                         onMouseEnter={e => {
-                            e.currentTarget.style.background = 'rgba(201,169,110,0.12)';
-                            e.currentTarget.style.borderColor = '#c9a96e';
-                            e.currentTarget.style.color = '#8b6914';
+                            e.currentTarget.style.background = 'rgba(15,93,78,0.12)';
+                            e.currentTarget.style.borderColor = 'var(--es-emerald)';
+                            e.currentTarget.style.color = 'var(--es-emerald-soft)';
                         }}
                         onMouseLeave={e => {
-                            e.currentTarget.style.background = 'rgba(201,169,110,0.05)';
-                            e.currentTarget.style.borderColor = 'rgba(201,169,110,0.35)';
-                            e.currentTarget.style.color = '#44403c';
+                            e.currentTarget.style.background = 'rgba(15,93,78,0.05)';
+                            e.currentTarget.style.borderColor = 'rgba(15,93,78,0.35)';
+                            e.currentTarget.style.color = 'var(--es-charcoal)';
                         }}
                     >
-                        <span style={{ color: '#c9a96e', fontSize: '8px' }}>✦</span>
+                        <span style={{ color: 'var(--es-emerald)', fontSize: '8px' }}>✦</span>
                         {item.name || item.label}
                     </span>
                 ))}

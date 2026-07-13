@@ -26,7 +26,7 @@ const AmenitiesComponent = () => {
         <section className="amenities-section">
             {/* Section header */}
             <div style={{ textAlign: 'center', marginBottom: '56px' }}>
-                <span className="section-label" style={{ justifyContent: 'center', color: '#c9a96e' }}>
+                <span className="section-label" style={{ justifyContent: 'center', color: 'var(--es-cream)' }}>
                     Our Facilities
                 </span>
                 <h2 className="section-heading section-heading-light">

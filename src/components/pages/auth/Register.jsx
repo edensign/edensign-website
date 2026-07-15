@@ -97,14 +97,14 @@ const Register = () => {
         "& .MuiOutlinedInput-root": {
             borderRadius: "12px",
             "&:hover fieldset": {
-                borderColor: "#c7956c"
+                borderColor: "var(--es-emerald)"
             },
             "&.Mui-focused fieldset": {
-                borderColor: "#c7956c"
+                borderColor: "var(--es-emerald)"
             }
         },
         "& .MuiInputLabel-root.Mui-focused": {
-            color: "#c7956c"
+            color: "var(--es-emerald)"
         }
     };
 
@@ -116,19 +116,20 @@ const Register = () => {
                 alignItems: "center",
                 minHeight: "calc(100vh - 200px)",
                 padding: "40px 20px",
-                marginTop: "80px"
+                marginTop: "80px",
+                backgroundColor: "var(--es-background)"
             }}
         >
             <Box
                 sx={{
-                    background: "rgba(253, 251, 250, 0.95)",
-                    backdropFilter: "blur(16px)",
+                    background: "rgba(255, 255, 255, 0.85)",
+                    backdropFilter: "blur(20px)",
                     padding: { xs: "30px", sm: "40px" },
                     maxWidth: "450px",
                     width: "100%",
-                    borderRadius: "24px",
-                    boxShadow: "0 12px 40px rgba(26, 10, 0, 0.08)",
-                    border: "1px solid rgba(199, 149, 108, 0.15)"
+                    borderRadius: "var(--es-radius-lg)",
+                    boxShadow: "var(--es-shadow-lg)",
+                    border: "1px solid var(--es-charcoal-10)"
                 }}
             >
                 {/* Logo */}
@@ -136,10 +137,10 @@ const Register = () => {
                     <Typography
                         sx={{
                             fontSize: "24px",
-                            fontFamily: "Playfair Display, serif",
+                            fontFamily: "var(--font-serif)",
                             letterSpacing: "0.2em",
                             textTransform: "lowercase",
-                            color: "#1a0f08",
+                            color: "var(--es-charcoal)",
                             fontWeight: "700"
                         }}
                     >
@@ -153,9 +154,9 @@ const Register = () => {
                     sx={{
                         textAlign: "center",
                         marginBottom: "8px",
-                        fontFamily: "Playfair Display, serif",
+                        fontFamily: "var(--font-serif)",
                         fontSize: "24px",
-                        color: "#1a0f08",
+                        color: "var(--es-charcoal)",
                         fontWeight: "600"
                     }}
                 >
@@ -166,9 +167,9 @@ const Register = () => {
                     sx={{
                         textAlign: "center",
                         marginBottom: "25px",
-                        color: "#6b5749",
+                        color: "var(--es-charcoal-60)",
                         fontSize: "13.5px",
-                        fontFamily: "Inter, sans-serif"
+                        fontFamily: "var(--font-sans)"
                     }}
                 >
                     Register to book appointments
@@ -202,7 +203,7 @@ const Register = () => {
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <PersonIcon sx={{ color: "#c7956c", fontSize: "20px" }} />
+                                    <PersonIcon sx={{ color: "var(--es-emerald)", fontSize: "20px" }} />
                                 </InputAdornment>
                             ),
                         }}
@@ -225,7 +226,7 @@ const Register = () => {
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <PhoneIcon sx={{ color: "#c7956c", fontSize: "20px" }} />
+                                    <PhoneIcon sx={{ color: "var(--es-emerald)", fontSize: "20px" }} />
                                 </InputAdornment>
                             ),
                         }}
@@ -248,7 +249,7 @@ const Register = () => {
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <EmailIcon sx={{ color: "#c7956c", fontSize: "20px" }} />
+                                    <EmailIcon sx={{ color: "var(--es-emerald)", fontSize: "20px" }} />
                                 </InputAdornment>
                             ),
                         }}
@@ -271,7 +272,7 @@ const Register = () => {
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <LockIcon sx={{ color: "#c7956c", fontSize: "20px" }} />
+                                    <LockIcon sx={{ color: "var(--es-emerald)", fontSize: "20px" }} />
                                 </InputAdornment>
                             ),
                             endAdornment: (
@@ -280,7 +281,7 @@ const Register = () => {
                                         onClick={() => setShowPassword(!showPassword)}
                                         edge="end"
                                         size="small"
-                                        sx={{ color: "#c7956c" }}
+                                        sx={{ color: "var(--es-emerald)" }}
                                     >
                                         {showPassword ? <VisibilityOffIcon fontSize="small" /> : <VisibilityIcon fontSize="small" />}
                                     </IconButton>
@@ -306,7 +307,7 @@ const Register = () => {
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <LockIcon sx={{ color: "#c7956c", fontSize: "20px" }} />
+                                    <LockIcon sx={{ color: "var(--es-emerald)", fontSize: "20px" }} />
                                 </InputAdornment>
                             ),
                             endAdornment: (
@@ -315,7 +316,7 @@ const Register = () => {
                                         onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                                         edge="end"
                                         size="small"
-                                        sx={{ color: "#c7956c" }}
+                                        sx={{ color: "var(--es-emerald)" }}
                                     >
                                         {showConfirmPassword ? <VisibilityOffIcon fontSize="small" /> : <VisibilityIcon fontSize="small" />}
                                     </IconButton>
@@ -336,13 +337,13 @@ const Register = () => {
                             fontWeight: "600",
                             letterSpacing: "0.08em",
                             borderRadius: "30px",
-                            background: "linear-gradient(135deg, #1a0a00 0%, #3d1e0a 100%)",
-                            boxShadow: "0 6px 20px rgba(26, 10, 0, 0.15)",
+                            background: "linear-gradient(135deg, var(--es-emerald) 0%, var(--es-emerald-soft) 100%)",
+                            boxShadow: "0 6px 20px rgba(15, 93, 78, 0.15)",
                             transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
                             "&:hover": {
-                                background: "linear-gradient(135deg, #c7956c, #a8724d)",
+                                background: "linear-gradient(135deg, var(--es-emerald-soft) 0%, var(--es-emerald) 100%)",
                                 transform: "translateY(-1px)",
-                                boxShadow: "0 8px 24px rgba(199, 149, 108, 0.3)"
+                                boxShadow: "0 8px 24px rgba(15, 93, 78, 0.25)"
                             },
                             "&:disabled": {
                                 background: "#ccc"
@@ -358,15 +359,15 @@ const Register = () => {
                         textAlign: "center",
                         marginTop: "20px",
                         fontSize: "14px",
-                        color: "#6b5749",
-                        fontFamily: "Inter, sans-serif"
+                        color: "var(--es-charcoal-60)",
+                        fontFamily: "var(--font-sans)"
                     }}
                 >
                     Already have an account?{" "}
                     <Link
                         to="/login"
                         style={{
-                            color: "#c7956c",
+                            color: "var(--es-emerald)",
                             textDecoration: "none",
                             fontWeight: "600"
                         }}

@@ -148,14 +148,14 @@ const Salon = () => {
       list = list.filter(s => s.mappedRating >= minRating);
     }
 
-    // 3. Search query filter
+    // 3. Search query filter (with phonetic normalization for v/w interchangeable letters)
     if (q.trim()) {
-      const needle = q.toLowerCase().trim();
+      const needle = q.toLowerCase().trim().replace(/w/g, 'v');
       list = list.filter(s => 
-        s.name.toLowerCase().includes(needle) ||
-        (s.landmark || '').toLowerCase().includes(needle) ||
-        (s.street || '').toLowerCase().includes(needle) ||
-        s.derivedCat.toLowerCase().includes(needle)
+        s.name.toLowerCase().replace(/w/g, 'v').includes(needle) ||
+        (s.landmark || '').toLowerCase().replace(/w/g, 'v').includes(needle) ||
+        (s.street || '').toLowerCase().replace(/w/g, 'v').includes(needle) ||
+        s.derivedCat.toLowerCase().replace(/w/g, 'v').includes(needle)
       );
     }
 

@@ -474,5 +474,265 @@
 }
 
 /* ── Keep old slide classes for any legacy references ── */
+/* ── Keep old slide classes for any legacy references ── */
 .es-slide { display: none !important; }
 .es-hero-wrapper { display: none !important; }
+
+/* ══════════════════════════════
+   AI Page Agent Integration Styles
+   ══════════════════════════════ */
+.es-hero-ai-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 20px;
+  border-radius: 18px;
+  background: rgba(15, 93, 78, 0.08);
+  color: var(--es-emerald);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  border: 1px solid rgba(15, 93, 78, 0.15);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.25s ease;
+  margin-left: 8px;
+}
+
+.es-hero-ai-toggle:hover {
+  background: var(--es-emerald);
+  color: var(--es-cream);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(15, 93, 78, 0.15);
+}
+
+.es-hero-search-ai-active {
+  display: flex;
+  align-items: center;
+  background: var(--es-white);
+  border-radius: 24px;
+  box-shadow: 0 12px 40px rgba(15, 93, 78, 0.15);
+  border: 1px solid rgba(15, 93, 78, 0.2);
+  padding: 6px;
+  gap: 12px;
+  max-width: 720px;
+  margin-bottom: 32px;
+  transition: all 0.3s ease;
+  animation: esFadeIn 0.3s ease;
+}
+
+.es-hero-search-ai-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  padding-left: 16px;
+}
+
+.es-hero-ai-glow-dot {
+  color: var(--es-emerald);
+  font-size: 18px;
+  animation: esSparkleGlow 2s infinite ease-in-out;
+}
+
+.es-hero-search-input-ai {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: var(--es-charcoal);
+  padding: 14px 0;
+}
+
+.es-hero-search-input-ai::placeholder {
+  color: var(--es-charcoal-40);
+}
+
+.es-hero-search-ai-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.es-hero-settings-gear {
+  background: rgba(26, 15, 8, 0.05);
+  border: none;
+  font-size: 16px;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.es-hero-settings-gear:hover {
+  background: rgba(26, 15, 8, 0.1);
+  transform: rotate(45deg);
+}
+
+.es-hero-ai-exit {
+  background: transparent;
+  border: 1px solid var(--es-charcoal-20);
+  color: var(--es-charcoal-60);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 12px 18px;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.es-hero-ai-exit:hover {
+  background: rgba(26, 15, 8, 0.05);
+  color: var(--es-charcoal);
+}
+
+.es-hero-ai-run {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 22px;
+  border-radius: 18px;
+  background: var(--es-emerald);
+  color: var(--es-cream);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 12px rgba(15, 93, 78, 0.25);
+}
+
+.es-hero-ai-run:hover:not(:disabled) {
+  background: var(--es-emerald-soft);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(15, 93, 78, 0.35);
+}
+
+.es-hero-ai-run:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* AI Status Overlay fixed in corner */
+.es-ai-agent-status-overlay {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  animation: esSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.es-ai-agent-status-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 24px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(15, 93, 78, 0.15);
+  border-radius: 20px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15), 0 2px 8px rgba(15, 93, 78, 0.05);
+  max-width: 380px;
+}
+
+.es-ai-agent-spinner {
+  font-size: 24px;
+  color: var(--es-emerald);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: esSpinAndPulse 2.5s infinite linear;
+}
+
+.es-ai-agent-status-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.es-ai-agent-status-title {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--es-charcoal);
+  text-transform: uppercase;
+}
+
+.es-ai-agent-status-desc {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  color: var(--es-charcoal-60);
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+/* Animations */
+@keyframes esFadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes esSlideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes esSparkleGlow {
+  0%, 100% { opacity: 0.6; transform: scale(1); filter: drop-shadow(0 0 2px rgba(15, 93, 78, 0.2)); }
+  50% { opacity: 1; transform: scale(1.2); filter: drop-shadow(0 0 8px rgba(15, 93, 78, 0.6)); }
+}
+
+@keyframes esSpinAndPulse {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.15); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 600px) {
+  .es-hero-search-ai-active {
+    flex-direction: column;
+    align-items: stretch;
+    border-radius: 20px;
+    padding: 8px;
+  }
+  .es-hero-search-ai-input-wrapper {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+  .es-hero-search-ai-controls {
+    justify-content: flex-end;
+    padding: 4px 8px 8px 8px;
+    border-top: 1px solid var(--es-charcoal-5);
+    margin-top: 4px;
+  }
+  .es-hero-ai-toggle {
+    margin-left: 0;
+    margin-top: 8px;
+    width: 100%;
+    border-radius: 14px;
+    padding: 16px;
+  }
+  .es-ai-agent-status-overlay {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+  }
+  .es-ai-agent-status-card {
+    max-width: 100%;
+  }
+}
+

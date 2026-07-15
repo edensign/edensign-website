@@ -201,7 +201,27 @@ function Topbar() {
           <div className="es-actions-wrapper" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             {/* Desktop Actions */}
             <div className="es-desktop-actions">
-
+              <Link
+                to="/contact"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  textDecoration: 'none',
+                  padding: '10px 20px',
+                  borderRadius: '100px',
+                  border: scrolled ? '1px solid rgba(15, 93, 78, 0.4)' : '1px solid rgba(26, 21, 18, 0.15)',
+                  background: scrolled ? 'rgba(15, 93, 78, 0.03)' : 'rgba(26, 21, 18, 0.02)',
+                  color: 'var(--es-emerald)',
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: '12.5px',
+                  fontWeight: 600,
+                  transition: 'all 0.25s ease',
+                  marginRight: '12px',
+                }}
+                className="es-join-btn"
+              >
+                Become a part of Eden Sign
+              </Link>
 
               <button
                 onClick={() => navigate('/cart')}
@@ -590,9 +610,6 @@ function Topbar() {
           display: flex;
           align-items: center;
           gap: 4px;
-          position: absolute;
-          left: 50%;
-          transform: translateX(-50%);
         }
 
         .es-desktop-actions {
@@ -617,6 +634,15 @@ function Topbar() {
         .es-login-btn:hover {
           transform: translateY(-1px);
           box-shadow: 0 4px 20px rgba(199,149,108,0.5) !important;
+        }
+
+        /* Join button hover */
+        .es-join-btn:hover {
+          background: var(--es-emerald) !important;
+          color: var(--es-cream) !important;
+          border-color: var(--es-emerald) !important;
+          transform: translateY(-1px);
+          box-shadow: 0 4px 12px rgba(15, 93, 78, 0.15) !important;
         }
 
         /* Avatar hover */
@@ -660,7 +686,7 @@ function Topbar() {
         .es-logout-btn:hover { background: rgba(199,149,108,0.08) !important; }
 
         /* Responsive breakpoints */
-        @media (max-width: 900px) {
+        @media (max-width: 1150px) {
           .es-desktop-nav, .es-desktop-actions { display: none !important; }
           .es-mobile-actions { display: flex !important; }
         }
@@ -670,7 +696,7 @@ function Topbar() {
           .toolbar { padding: 0 16px !important; }
         }
 
-        @media (min-width: 901px) {
+        @media (min-width: 1151px) {
           .es-mobile-actions { display: none !important; }
         }
       `}</style>

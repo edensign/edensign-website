@@ -33,8 +33,8 @@ import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 const PRESETS = {
   gemini: {
     name: 'Google Gemini',
-    baseURL: 'http://localhost:8080/api/v1/ai-agent',
-    model: 'gemini-1.5-flash',
+    baseURL: import.meta.env.VITE_PAGE_AGENT_BASE_URL || 'http://localhost:8080/api/v1/ai-agent',
+    model: import.meta.env.VITE_PAGE_AGENT_MODEL || 'gemini-1.5-flash',
     info: 'Gemini is proxied securely through the backend. Leave API Key blank to use server default, or enter a custom key.'
   },
 

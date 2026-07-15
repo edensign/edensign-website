@@ -71,9 +71,14 @@ const Carousel = () => {
       return;
     }
 
-    const apiKey = import.meta.env.VITE_PAGE_AGENT_API_KEY || '';
-    const baseURL = import.meta.env.VITE_PAGE_AGENT_BASE_URL || 'http://localhost:8080/api/v1/ai-agent';
-    const model = import.meta.env.VITE_PAGE_AGENT_MODEL || 'gemini-1.5-flash';
+    const storedKey = localStorage.getItem('es_ai_agent_api_key');
+    const apiKey = (storedKey && storedKey.trim() !== '') ? storedKey : (import.meta.env.VITE_PAGE_AGENT_API_KEY || '');
+
+    const storedBase = localStorage.getItem('es_ai_agent_base_url');
+    const baseURL = (storedBase && storedBase.trim() !== '') ? storedBase : (import.meta.env.VITE_PAGE_AGENT_BASE_URL || 'http://localhost:8080/api/v1/ai-agent');
+
+    const storedMod = localStorage.getItem('es_ai_agent_model');
+    const model = (storedMod && storedMod.trim() !== '') ? storedMod : (import.meta.env.VITE_PAGE_AGENT_MODEL || 'gemini-1.5-flash');
 
     console.log("✦ AI Agent Configuration (Gemini Dedicated):", {
       provider: 'gemini',

@@ -75,7 +75,7 @@ const Booking = ({ appointmentRef, selectedService }) => {
   const salonPhoto = salon?.front_image 
     ? (salon.front_image.startsWith('http') ? salon.front_image : `${S3_BASE}/eden-sign/salon/front/${salon.front_image}`)
     : (images && images.length > 0 && images[0]?.image_src
-        ? `${S3_BASE}/eden-sign/salon/${images[0].type || 'front'}/${images[0].image_src}`
+        ? (images[0].image_src.startsWith('http') ? images[0].image_src : `${S3_BASE}/eden-sign/salon/${images[0].type || 'front'}/${images[0].image_src}`)
         : appointmentImg);
 
   const refId = React.useRef();

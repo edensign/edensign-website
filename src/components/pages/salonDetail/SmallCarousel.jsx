@@ -54,7 +54,7 @@ const SmallCarousel = () => {
 
             {displayImages?.map((image, index) => (
                 <Box className='small-sliding' key={index} >
-                    <img src={image.isFallback ? image.image_src : `${S3_BASE}/eden-sign/salon/${image.type || 'front'}/${image.image_src}`} alt="Salon" />
+                    <img src={image.isFallback || image.image_src?.startsWith('http') ? image.image_src : `${S3_BASE}/eden-sign/salon/${image.type || 'front'}/${image.image_src}`} alt="Salon" />
                 </Box>
             ))}
 

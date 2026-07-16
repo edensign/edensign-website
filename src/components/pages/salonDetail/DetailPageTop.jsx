@@ -43,7 +43,7 @@ const DetailPageTop = () => {
                     }}
                 >
                     <img
-                        src={image.isFallback ? image.image_src : `${S3_BASE}/eden-sign/salon/${image.type || 'front'}/${image.image_src}`}
+                        src={image.isFallback || image.image_src?.startsWith('http') ? image.image_src : `${S3_BASE}/eden-sign/salon/${image.type || 'front'}/${image.image_src}`}
                         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                         alt="Salon background"
                     />

@@ -28,7 +28,9 @@ const TYPE_LABELS = {
 const S3_BASE = 'https://salon-s3.s3.us-east-1.amazonaws.com';
 
 const buildUrl = (img) =>
-    `${S3_BASE}/eden-sign/salon/${img.type || 'front'}/${img.image_src}`;
+    img.image_src && (img.image_src.startsWith('http://') || img.image_src.startsWith('https://'))
+        ? img.image_src
+        : `${S3_BASE}/eden-sign/salon/${img.type || 'front'}/${img.image_src}`;
 
 const SalonGallery = () => {
     const { images } = useSelector(state => state.salonDetail);

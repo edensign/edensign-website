@@ -54,32 +54,7 @@ const Salon = () => {
   const [loading, setLoading] = useState(true);
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
-  // Geolocation
-  const [coordinates, setCoordinates] = useState({ latitude: null, longitude: null });
-  const [locationState, setLocationState] = useState('prompt'); // 'prompt', 'granted', 'denied'
-
-  // Fetch coordinates on mount
-  useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setCoordinates({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-          });
-          setLocationState('granted');
-        },
-        (error) => {
-          console.warn("Geolocation access denied:", error);
-          setLocationState('denied');
-        }
-      );
-    } else {
-      setLocationState('denied');
-    }
-  }, []);
-
-  // Fetch salons whenever coordinates change
+  // Fetch salons on mount
   useEffect(() => {
     let isMounted = true;
     setLoading(true);
@@ -88,8 +63,8 @@ const Salon = () => {
       null,
       null,
       null,
-      coordinates.latitude,
-      coordinates.longitude
+      null,
+      null
     )
       .then(res => {
         if (isMounted) {
@@ -110,7 +85,7 @@ const Salon = () => {
       });
 
     return () => { isMounted = false; };
-  }, [coordinates]);
+  }, []);
 
   // Client side filters
   const filtered = useMemo(() => {
@@ -243,7 +218,7 @@ const Salon = () => {
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 20px', borderRadius: '16px', background: 'rgba(26,21,18,0.02)', minWidth: '220px' }}>
               <LocationOnOutlinedIcon sx={{ color: 'var(--es-emerald)', fontSize: 20 }} />
               <span style={{ fontSize: '14px', color: 'var(--es-charcoal-60)', fontFamily: 'var(--font-sans)' }}>
-                {locationState === 'granted' ? 'Nearby active' : 'All locations'}
+                All locations
               </span>
             </div>
           </div>
@@ -251,7 +226,7 @@ const Salon = () => {
           <div style={{ marginTop: '24px', display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '8px', fontSize: '13px', color: 'var(--es-charcoal-60)', fontFamily: 'var(--font-sans)' }}>
             <span><strong style={{ color: 'var(--es-charcoal)' }}>{filtered.length}</strong> curated salons</span>
             <span>·</span>
-            <span><strong style={{ color: 'var(--es-charcoal)' }}>{locationState === 'granted' ? 'Closest sorted' : 'Global directory'}</strong></span>
+            <span><strong style={{ color: 'var(--es-charcoal)' }}>Global directory</strong></span>
             <span>·</span>
             <span><strong style={{ color: 'var(--es-charcoal)' }}>100%</strong> editor-verified</span>
           </div>

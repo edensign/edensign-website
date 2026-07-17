@@ -91,9 +91,9 @@ function Topbar() {
   /* ── cart quantity from redux ── */
   const cartTotalQty = useSelector(state => state.cart.totalQty);
 
-  /* ── keep existing auth logic — memoized to avoid re-running on every cart update ── */
-  const customer = React.useMemo(() => API.CustomerAPI.getCustomer(), []);
-  const isLoggedIn = React.useMemo(() => API.CustomerAPI.isLoggedIn(), []);
+  /* ── keep existing auth logic — evaluated dynamically to reflect login/logout state changes ── */
+  const customer = API.CustomerAPI.getCustomer();
+  const isLoggedIn = API.CustomerAPI.isLoggedIn();
 
   const getUserInitials = React.useCallback(() => {
     if (!customer?.username) return 'U';

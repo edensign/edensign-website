@@ -171,7 +171,7 @@ const Dashboard = () => {
             {/* --- Mobile Header --- */}
             {isMobile && (
                 <Box className="dash-mobile-nav">
-                    <IconButton onClick={() => setSidebarOpen(true)} sx={{ color: '#c9a84c' }}>
+                    <IconButton onClick={() => setSidebarOpen(true)} sx={{ color: 'var(--es-emerald)' }}>
                         <MenuIcon />
                     </IconButton>
                     <Typography className="dash-mobile-title">EdenSign Dashboard</Typography>
@@ -242,7 +242,7 @@ const Dashboard = () => {
                 <Box className="dash-view-container">
                     {loading ? (
                         <Box className="dash-loading">
-                            <CircularProgress sx={{ color: '#c9a84c' }} />
+                            <CircularProgress sx={{ color: 'var(--es-emerald)' }} />
                         </Box>
                     ) : (
                         <AnimatePresence mode="wait">
@@ -285,9 +285,9 @@ const Dashboard = () => {
                                                                 </div>
                                                             </div>
                                                         </div>
-
+ 
                                                         <Divider className="luxury-divider" />
-
+ 
                                                         <div className="appt-card-footer">
                                                             <div className="appt-footer-item">
                                                                 <Typography className="appt-footer-lbl">Stylist</Typography>
@@ -303,14 +303,14 @@ const Dashboard = () => {
                                             </Grid>
                                         )) : (
                                             <Box className="dash-empty-state">
-                                                <CalendarMonthIcon sx={{ fontSize: 60, color: '#c7956c', opacity: 0.2, mb: 2 }} />
-                                                <Typography variant="h6" color="#1a0f08">No appointments booked yet.</Typography>
-                                                <Typography color="#6b5749">Start your beauty journey today.</Typography>
+                                                <CalendarMonthIcon sx={{ fontSize: 60, color: 'var(--es-emerald)', opacity: 0.15, mb: 2 }} />
+                                                <Typography variant="h6" color="var(--es-charcoal)">No appointments booked yet.</Typography>
+                                                <Typography color="var(--es-charcoal-60)">Start your beauty journey today.</Typography>
                                             </Box>
                                         )}
                                     </Grid>
                                 )}
-
+ 
                                 {activeView === "cards" && (
                                     <Box className="dash-cards-grid">
                                         {cards.length > 0 ? cards.map((card) => (
@@ -323,43 +323,43 @@ const Dashboard = () => {
                                             </div>
                                         )) : (
                                             <Box className="dash-empty-state">
-                                                <ConfirmationNumberIcon sx={{ fontSize: 60, opacity: 0.1, mb: 2 }} />
+                                                <ConfirmationNumberIcon sx={{ fontSize: 60, color: 'var(--es-emerald)', opacity: 0.15, mb: 2 }} />
                                                 <Typography variant="h6">No digital cards claimed.</Typography>
-                                                <Typography color="rgba(255,255,255,0.4)">Exclusive offers are waiting for you.</Typography>
+                                                <Typography color="var(--es-charcoal-60)">Exclusive offers are waiting for you.</Typography>
                                             </Box>
                                         )}
                                     </Box>
                                 )}
-
+ 
                                 {activeView === "wallet" && (
                                     <Box sx={{ animation: 'fadeIn 0.5s ease' }}>
                                         {/* Wallet Balance Card */}
                                         <Card sx={{ 
                                             mb: 5, 
                                             borderRadius: '24px', 
-                                            background: 'linear-gradient(135deg, #1a0a00 0%, #3d1e0a 100%)',
-                                            boxShadow: '0 20px 40px rgba(26,10,0,0.15)',
+                                            background: 'linear-gradient(135deg, var(--es-emerald) 0%, #083c32 100%)',
+                                            boxShadow: '0 20px 40px rgba(15,93,78,0.15)',
                                             position: 'relative',
                                             overflow: 'hidden',
-                                            border: '1px solid rgba(199,149,108,0.2)'
+                                            border: '1px solid rgba(255,255,255,0.12)'
                                         }}>
                                             {/* Decorative Background Elements */}
                                             <Box sx={{
                                                 position: 'absolute', top: -50, right: -50, width: 200, height: 200,
-                                                background: 'radial-gradient(circle, rgba(199,149,108,0.15) 0%, rgba(0,0,0,0) 70%)',
+                                                background: 'radial-gradient(circle, rgba(244, 201, 196, 0.15) 0%, rgba(0,0,0,0) 70%)',
                                                 borderRadius: '50%'
                                             }} />
                                             <Box sx={{
                                                 position: 'absolute', bottom: -50, left: -50, width: 150, height: 150,
-                                                background: 'radial-gradient(circle, rgba(199,149,108,0.1) 0%, rgba(0,0,0,0) 70%)',
+                                                background: 'radial-gradient(circle, rgba(244, 201, 196, 0.1) 0%, rgba(0,0,0,0) 70%)',
                                                 borderRadius: '50%'
                                             }} />
-
+ 
                                             <CardContent sx={{ position: 'relative', zIndex: 1, p: { xs: 4, md: 6 }, textAlign: 'center' }}>
-                                                <Typography sx={{ fontFamily: 'Inter, sans-serif', fontSize: '15px', color: '#c7956c', letterSpacing: '0.05em', textTransform: 'uppercase', mb: 1 }}>
+                                                <Typography sx={{ fontFamily: 'var(--font-sans)', fontSize: '15px', color: 'var(--es-blush)', letterSpacing: '0.05em', textTransform: 'uppercase', mb: 1, fontWeight: 500 }}>
                                                     Available Balance
                                                 </Typography>
-                                                <Typography sx={{ fontFamily: 'Playfair Display, serif', fontSize: { xs: '42px', md: '56px' }, fontWeight: 700, color: '#fff', mb: 4, textShadow: '0 2px 10px rgba(0,0,0,0.3)' }}>
+                                                <Typography sx={{ fontFamily: 'var(--font-serif)', fontSize: { xs: '42px', md: '56px' }, fontWeight: 500, color: '#fff', mb: 4, textShadow: '0 2px 10px rgba(0,0,0,0.3)' }}>
                                                     ₹{parseFloat(walletBalance).toFixed(2)}
                                                 </Typography>
                                                 
@@ -373,7 +373,7 @@ const Dashboard = () => {
                                                     mx: 'auto'
                                                 }}>
                                                     <Box sx={{ position: 'relative', width: { xs: '100%', sm: 'auto' } }}>
-                                                        <span style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', color: '#a8724d', fontSize: '18px', fontWeight: 600 }}>₹</span>
+                                                        <span style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', color: 'var(--es-blush)', fontSize: '18px', fontWeight: 600 }}>₹</span>
                                                         <input 
                                                             type="number" 
                                                             placeholder="Amount to add" 
@@ -383,9 +383,9 @@ const Dashboard = () => {
                                                                 padding: '16px 20px 16px 40px', 
                                                                 borderRadius: '14px', 
                                                                 background: 'rgba(255,255,255,0.08)', 
-                                                                border: '1px solid rgba(199,149,108,0.4)',
+                                                                border: '1px solid rgba(255,255,255,0.15)',
                                                                 color: '#fff',
-                                                                fontFamily: 'Inter, sans-serif',
+                                                                fontFamily: 'var(--font-sans)',
                                                                 fontSize: '16px',
                                                                 outline: 'none',
                                                                 width: '100%',
@@ -402,17 +402,17 @@ const Dashboard = () => {
                                                         onClick={handleAddMoney}
                                                         disabled={processingPayment}
                                                         style={{ 
-                                                            background: 'linear-gradient(135deg, #c7956c, #a8724d)', 
-                                                            color: '#fff', 
+                                                            background: 'linear-gradient(135deg, var(--es-blush-soft) 0%, var(--es-blush) 100%)', 
+                                                            color: 'var(--es-charcoal)', 
                                                             border: 'none',
                                                             borderRadius: '14px',
                                                             padding: '16px 32px',
-                                                            fontFamily: 'Inter, sans-serif',
+                                                            fontFamily: 'var(--font-sans)',
                                                             fontSize: '16px',
                                                             fontWeight: 600,
                                                             cursor: processingPayment ? 'not-allowed' : 'pointer',
                                                             opacity: processingPayment ? 0.7 : 1,
-                                                            boxShadow: '0 8px 20px rgba(199,149,108,0.4)',
+                                                            boxShadow: '0 8px 20px rgba(15, 93, 78, 0.15)',
                                                             width: '100%',
                                                             maxWidth: '200px'
                                                         }}
@@ -422,9 +422,9 @@ const Dashboard = () => {
                                                 </Box>
                                             </CardContent>
                                         </Card>
-
+ 
                                         {/* Transactions Section */}
-                                        <Typography sx={{ fontFamily: 'Playfair Display, serif', fontSize: '24px', fontWeight: 700, color: '#1a0f08', mb: 3 }}>
+                                        <Typography sx={{ fontFamily: 'var(--font-serif)', fontSize: '24px', fontWeight: 500, color: 'var(--es-charcoal)', mb: 3 }}>
                                             Recent Transactions
                                         </Typography>
                                         
@@ -434,45 +434,45 @@ const Dashboard = () => {
                                                     <motion.div key={tx.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
                                                         <Card sx={{ 
                                                             background: '#fff', 
-                                                            border: 'none', 
+                                                            border: '1px solid var(--es-charcoal-5)', 
                                                             borderRadius: '16px',
-                                                            boxShadow: '0 4px 15px rgba(26,10,0,0.03)',
+                                                            boxShadow: 'var(--es-shadow)',
                                                             transition: 'transform 0.2s',
-                                                            '&:hover': { transform: 'translateY(-2px)', boxShadow: '0 8px 25px rgba(26,10,0,0.06)' }
+                                                            '&:hover': { transform: 'translateY(-2px)', boxShadow: 'var(--es-shadow-md)' }
                                                         }}>
                                                             <CardContent sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: '20px !important' }}>
                                                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                                                                     <Box sx={{
                                                                         width: 48, height: 48, borderRadius: '12px',
                                                                         display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                                                        background: tx.type === 'credit' ? 'rgba(76,217,100,0.1)' : 'rgba(255,59,48,0.1)',
-                                                                        color: tx.type === 'credit' ? '#34c759' : '#ff3b30'
+                                                                        background: tx.type === 'credit' ? 'var(--es-emerald-muted)' : 'rgba(255,59,48,0.08)',
+                                                                        color: tx.type === 'credit' ? 'var(--es-emerald)' : '#ff3b30'
                                                                     }}>
                                                                         {tx.type === 'credit' ? <AccountBalanceWalletIcon /> : <ShoppingBagOutlinedIcon />}
                                                                     </Box>
                                                                     <Box>
-                                                                        <Typography sx={{ fontFamily: 'Inter, sans-serif', fontSize: '16px', fontWeight: 600, color: '#1a0f08' }}>
+                                                                        <Typography sx={{ fontFamily: 'var(--font-sans)', fontSize: '16px', fontWeight: 600, color: 'var(--es-charcoal)' }}>
                                                                             {tx.source.replace(/_/g, ' ')}
                                                                         </Typography>
-                                                                        <Typography sx={{ fontFamily: 'Inter, sans-serif', fontSize: '13px', color: '#9a8070' }}>
+                                                                        <Typography sx={{ fontFamily: 'var(--font-sans)', fontSize: '13px', color: 'var(--es-charcoal-60)' }}>
                                                                             {new Date(tx.created_at).toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
                                                                         </Typography>
                                                                     </Box>
                                                                 </Box>
                                                                 <Box textAlign="right">
                                                                     <Typography sx={{ 
-                                                                        fontFamily: 'Inter, sans-serif', fontSize: '18px', fontWeight: 700,
-                                                                        color: tx.type === 'credit' ? '#34c759' : '#1a0f08' 
+                                                                        fontFamily: 'var(--font-sans)', fontSize: '18px', fontWeight: 700,
+                                                                        color: tx.type === 'credit' ? 'var(--es-emerald)' : 'var(--es-charcoal)' 
                                                                     }}>
                                                                         {tx.type === 'credit' ? '+' : '-'} ₹{parseFloat(tx.amount).toFixed(2)}
                                                                     </Typography>
                                                                     <Box sx={{ 
                                                                         display: 'inline-block', mt: 0.5, px: 1.5, py: 0.5, borderRadius: '6px',
-                                                                        background: tx.status === 'success' ? 'rgba(76,217,100,0.1)' : tx.status === 'pending' ? 'rgba(255,204,0,0.1)' : 'rgba(255,59,48,0.1)',
+                                                                        background: tx.status === 'success' ? 'var(--es-emerald-muted)' : tx.status === 'pending' ? 'rgba(255,204,0,0.08)' : 'rgba(255,59,48,0.08)',
                                                                     }}>
                                                                         <Typography sx={{ 
-                                                                            fontFamily: 'Inter, sans-serif', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase',
-                                                                            color: tx.status === 'success' ? '#34c759' : tx.status === 'pending' ? '#d4a000' : '#ff3b30'
+                                                                            fontFamily: 'var(--font-sans)', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase',
+                                                                            color: tx.status === 'success' ? 'var(--es-emerald)' : tx.status === 'pending' ? '#d4a000' : '#ff3b30'
                                                                         }}>
                                                                             {tx.status}
                                                                         </Typography>
@@ -486,11 +486,11 @@ const Dashboard = () => {
                                         ) : (
                                             <Box sx={{ 
                                                 textAlign: 'center', py: 8, background: '#fff', borderRadius: '20px', 
-                                                boxShadow: '0 4px 15px rgba(26,10,0,0.03)', border: '1px dashed rgba(199,149,108,0.3)' 
+                                                boxShadow: 'var(--es-shadow)', border: '1px dashed var(--es-charcoal-10)' 
                                             }}>
-                                                <AccountBalanceWalletIcon sx={{ fontSize: 64, color: '#c7956c', opacity: 0.2, mb: 2 }} />
-                                                <Typography sx={{ fontFamily: 'Inter, sans-serif', fontSize: '18px', fontWeight: 600, color: '#1a0f08' }}>No transactions yet.</Typography>
-                                                <Typography sx={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', color: '#9a8070', mt: 1 }}>Your wallet activity will appear here.</Typography>
+                                                <AccountBalanceWalletIcon sx={{ fontSize: 64, color: 'var(--es-emerald)', opacity: 0.15, mb: 2 }} />
+                                                <Typography sx={{ fontFamily: 'var(--font-sans)', fontSize: '18px', fontWeight: 600, color: 'var(--es-charcoal)' }}>No transactions yet.</Typography>
+                                                <Typography sx={{ fontFamily: 'var(--font-sans)', fontSize: '14px', color: 'var(--es-charcoal-60)', mt: 1 }}>Your wallet activity will appear here.</Typography>
                                             </Box>
                                         )}
                                     </Box>
@@ -528,8 +528,8 @@ const Dashboard = () => {
                     )}
 
                     {/* --- Mini Footer --- */}
-                    <Box sx={{ mt: 10, pt: 4, borderTop: '1px solid rgba(199,149,108,0.1)', textAlign: 'center', opacity: 0.5 }}>
-                        <Typography variant="body2" color="#6b5749">
+                    <Box sx={{ mt: 10, pt: 4, borderTop: '1px solid var(--es-charcoal-10)', textAlign: 'center', opacity: 0.5 }}>
+                        <Typography variant="body2" color="var(--es-charcoal-60)">
                             © {new Date().getFullYear()} EdenSign Customer Portal. All Rights Reserved.
                         </Typography>
                     </Box>

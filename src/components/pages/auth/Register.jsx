@@ -21,6 +21,7 @@ import {
     InputAdornment,
     IconButton
 } from "@mui/material";
+import { useToast } from "../../common/Toast";
 import PersonIcon from "@mui/icons-material/Person";
 import PhoneIcon from "@mui/icons-material/Phone";
 import EmailIcon from "@mui/icons-material/Email";
@@ -55,6 +56,7 @@ const Register = () => {
     const [success, setSuccess] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const { showToast } = useToast();
 
     const formik = useFormik({
         initialValues: {
@@ -85,7 +87,9 @@ const Register = () => {
                 }
             } catch (err) {
                 console.error("Registration error:", err);
-                setError(err.response?.data?.data || "Registration failed. Please try again.");
+                const errMsg = err.response?.data?.msg || err.response?.data?.data || "Registration failed. Please try again.";
+                setError(errMsg);
+                showToast(errMsg, "error");
             } finally {
                 setLoading(false);
             }
@@ -376,6 +380,8 @@ const Register = () => {
                     </Link>
                 </Typography>
             </Box>
+
+
         </Box>
     );
 };

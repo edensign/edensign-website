@@ -65,7 +65,8 @@ const Login = () => {
                 }
             } catch (err) {
                 console.error("Login error:", err);
-                setError(err.response?.data?.data || "Login failed. Please try again.");
+                const errMsg = err.response?.data?.msg || err.response?.data?.data || "Login failed. Please try again.";
+                setError(errMsg);
             } finally {
                 setLoading(false);
             }

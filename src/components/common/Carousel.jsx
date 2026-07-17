@@ -9,6 +9,7 @@
 import React, { useState } from 'react';
 import './carousel.css';
 import { PageAgent } from 'page-agent';
+import { useNavigate } from 'react-router-dom';
 
 /* ── Inline SVG icons (no extra deps) ── */
 const PinIcon = () => (
@@ -32,10 +33,81 @@ const SparkleIcon = () => (
 );
 
 const Carousel = () => {
+  const navigate = useNavigate();
+
   // AI Agent States
   const [aiCommand, setAiCommand] = useState('');
   const [isAgentRunning, setIsAgentRunning] = useState(false);
   const [agentStatus, setAgentStatus] = useState('');
+
+  // Global System Settings for AI Agent
+  const [isAgentEnabled, setIsAgentEnabled] = useState(true);
+  const [globalAgentConfig, setGlobalAgentConfig] = useState(null);
+  const [traditionalQuery, setTraditionalQuery] = useState('');
+
+  // Traditional Search Suggestion States
+  const [allSalons, setAllSalons] = useState([]);
+  const [allProducts, setAllProducts] = useState([]);
+  const [filteredSuggestions, setFilteredSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+
+  // Fetch global AI page agent configuration on mount
+  React.useEffect(() => {
+    const fetchConfig = async () => {
+      try {
+        const baseUrl = import.meta.env.VITE_BASE_URL || 'http://localhost:8080/api/v1';
+        const response = await fetch(`${baseUrl}/system-config/page-agent`);
+        const json = await response.json();
+        if (json.status === 'Success' && json.data) {
+          setIsAgentEnabled(!!json.data.enabled);
+          setGlobalAgentConfig(json.data);
+        }
+      } catch (err) {
+        console.error("✦ Carousel: Failed to fetch global page agent config:", err);
+      }
+    };
+    fetchConfig();
+  }, []);
+
+  // Fetch salons and products for fallback traditional search suggestions
+  React.useEffect(() => {
+    const loadSearchData = async () => {
+      try {
+        const baseUrl = import.meta.env.VITE_BASE_URL || 'http://localhost:8080/api/v1';
+        
+        // Fetch salons
+        const salonsRes = await fetch(`${baseUrl}/salons`);
+        const salonsJson = await salonsRes.json();
+        if (salonsJson.status === 'Success' && salonsJson.data) {
+          const rows = salonsJson.data.rows || [];
+          setAllSalons(rows);
+        }
+
+        // Fetch products
+        const productsRes = await fetch(`${baseUrl}/products`);
+        const productsJson = await productsRes.json();
+        if (productsJson.status === 'Success' && productsJson.data) {
+          const rows = productsJson.data.rows || [];
+          setAllProducts(rows);
+        }
+      } catch (err) {
+        console.error("✦ Carousel: Failed to fetch salons/products search data:", err);
+      }
+    };
+
+    loadSearchData();
+  }, []);
+
+  // Click outside to close suggestion dropdown
+  React.useEffect(() => {
+    const handleOutsideClick = (e) => {
+      if (!e.target.closest('.es-hero-search-wrapper')) {
+        setShowSuggestions(false);
+      }
+    };
+    document.addEventListener('click', handleOutsideClick);
+    return () => document.removeEventListener('click', handleOutsideClick);
+  }, []);
 
   // Clean empty strings and migrate old Google URLs from localStorage
   React.useEffect(() => {
@@ -59,6 +131,51 @@ const Carousel = () => {
     }
   }, []);
 
+  const handleTraditionalSubmit = (e) => {
+    e.preventDefault();
+    if (!traditionalQuery.trim()) return;
+    setShowSuggestions(false);
+    navigate(`/salons?search=${encodeURIComponent(traditionalQuery)}`);
+  };
+
+  const handleTraditionalQueryChange = (val) => {
+    setTraditionalQuery(val);
+    if (!val.trim()) {
+      setFilteredSuggestions([]);
+      setShowSuggestions(false);
+      return;
+    }
+
+    const query = val.toLowerCase().trim();
+
+    // Filter salons by name, area or city
+    const matchingSalons = allSalons.filter(s => 
+      s.name?.toLowerCase().includes(query) || 
+      s.area?.toLowerCase().includes(query) ||
+      s.city?.toLowerCase().includes(query)
+    ).slice(0, 5).map(s => ({ ...s, type: 'salon' }));
+
+    // Filter products by name or description
+    const matchingProducts = allProducts.filter(p => 
+      p.name?.toLowerCase().includes(query) || 
+      p.description?.toLowerCase().includes(query)
+    ).slice(0, 5).map(p => ({ ...p, type: 'product' }));
+
+    const combined = [...matchingSalons, ...matchingProducts];
+    setFilteredSuggestions(combined);
+    setShowSuggestions(combined.length > 0);
+  };
+
+  const handleSuggestionClick = (item) => {
+    setShowSuggestions(false);
+    setTraditionalQuery(item.name || '');
+    if (item.type === 'salon') {
+      navigate(`/salon/detail/${item.salon_code}`);
+    } else if (item.type === 'product') {
+      navigate('/product/detail', { state: { details: { product: item, productImg: item.image } } });
+    }
+  };
+
 
 
   // Traditional search logic removed
@@ -71,14 +188,9 @@ const Carousel = () => {
       return;
     }
 
-    const storedKey = localStorage.getItem('es_ai_agent_api_key');
-    const apiKey = (storedKey && storedKey.trim() !== '') ? storedKey : (import.meta.env.VITE_PAGE_AGENT_API_KEY || '');
-
-    const storedBase = localStorage.getItem('es_ai_agent_base_url');
-    const baseURL = (storedBase && storedBase.trim() !== '') ? storedBase : (import.meta.env.VITE_PAGE_AGENT_BASE_URL || 'http://localhost:8080/api/v1/ai-agent');
-
-    const storedMod = localStorage.getItem('es_ai_agent_model');
-    const model = (storedMod && storedMod.trim() !== '') ? storedMod : (import.meta.env.VITE_PAGE_AGENT_MODEL || 'gemini-1.5-flash');
+    const apiKey = globalAgentConfig?.apiKey || localStorage.getItem('es_ai_agent_api_key') || import.meta.env.VITE_PAGE_AGENT_API_KEY || '';
+    const baseURL = globalAgentConfig?.baseURL || localStorage.getItem('es_ai_agent_base_url') || import.meta.env.VITE_PAGE_AGENT_BASE_URL || 'http://localhost:8080/api/v1/ai-agent';
+    const model = globalAgentConfig?.model || localStorage.getItem('es_ai_agent_model') || import.meta.env.VITE_PAGE_AGENT_MODEL || 'google/gemma-4-26b-a4b-it:free';
 
     console.log("✦ AI Agent Configuration (Gemini Dedicated):", {
       provider: 'gemini',
@@ -178,38 +290,119 @@ Guidelines:
               global academies, and belong to a world designed around the craft of beauty.
             </p>
 
-            {/* Search bar (AI Agent Dedicated) */}
-            <form className="es-hero-search es-hero-search-ai-active" onSubmit={handleAISubmit}>
-              <div className="es-hero-search-ai-input-wrapper">
-                <span className="es-hero-ai-glow-dot">✦</span>
-                <input
-                  type="text"
-                  placeholder="Ask AI (e.g. 'go to academy page', 'go to about page', 'click sign in')..."
-                  value={aiCommand}
-                  onChange={(e) => setAiCommand(e.target.value)}
-                  className="es-hero-search-input-ai"
-                  id="hero-ai-command"
-                  disabled={isAgentRunning}
-                  autoFocus
-                />
+            {/* Search bar (AI Agent Dedicated vs Traditional fallback) */}
+            {isAgentEnabled ? (
+              <form className="es-hero-search es-hero-search-ai-active" onSubmit={handleAISubmit}>
+                <div className="es-hero-search-ai-input-wrapper">
+                  <span className="es-hero-ai-glow-dot">✦</span>
+                  <input
+                    type="text"
+                    placeholder="Ask AI (e.g. 'go to academy page', 'go to about page', 'click sign in')..."
+                    value={aiCommand}
+                    onChange={(e) => setAiCommand(e.target.value)}
+                    className="es-hero-search-input-ai"
+                    id="hero-ai-command"
+                    disabled={isAgentRunning}
+                    autoFocus
+                  />
+                </div>
+                <div className="es-hero-search-ai-controls">
+                  <button
+                    type="submit"
+                    className="es-hero-search-btn es-hero-ai-run"
+                    disabled={isAgentRunning || !aiCommand.trim()}
+                  >
+                    {isAgentRunning ? 'Searching...' : 'Search'}
+                  </button>
+                </div>
+              </form>
+            ) : (
+              <div className="es-hero-search-wrapper">
+                <form className="es-hero-search" onSubmit={handleTraditionalSubmit}>
+                  <div className="es-hero-search-ai-input-wrapper" style={{ boxShadow: 'none', border: '1px solid rgba(0, 0, 0, 0.08)' }}>
+                    <span style={{ marginRight: '10px', display: 'flex', alignItems: 'center', color: 'var(--es-emerald)' }}>
+                      <SearchIcon />
+                    </span>
+                    <input
+                      type="text"
+                      placeholder="Search salons, products, rituals..."
+                      value={traditionalQuery}
+                      onChange={(e) => handleTraditionalQueryChange(e.target.value)}
+                      onFocus={() => {
+                        if (filteredSuggestions.length > 0) setShowSuggestions(true);
+                      }}
+                      className="es-hero-search-input-ai"
+                      id="hero-traditional-search"
+                      style={{ color: 'var(--es-charcoal)' }}
+                      autoComplete="off"
+                    />
+                  </div>
+                  <div className="es-hero-search-ai-controls">
+                    <button
+                      type="submit"
+                      className="es-hero-search-btn"
+                      disabled={!traditionalQuery.trim()}
+                    >
+                      Search
+                    </button>
+                  </div>
+                </form>
+
+                {/* Suggestions Dropdown */}
+                {showSuggestions && (
+                  <div className="es-hero-search-suggestions">
+                    {/* Salons Section */}
+                    {filteredSuggestions.some(item => item.type === 'salon') && (
+                      <div className="es-suggestion-section">
+                        <div className="es-suggestion-section-title">SALONS</div>
+                        {filteredSuggestions.filter(item => item.type === 'salon').map(salon => (
+                          <div
+                            key={`salon-${salon.id}`}
+                            className="es-suggestion-item"
+                            onClick={() => handleSuggestionClick(salon)}
+                          >
+                            <div className="es-suggestion-item-main">
+                              <span className="es-suggestion-item-name">{salon.name}</span>
+                              <span className="es-suggestion-item-meta">{salon.area || ''}{salon.area && salon.city ? ', ' : ''}{salon.city || ''}</span>
+                            </div>
+                            <span className="es-suggestion-type-badge salon">Salon</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Products Section */}
+                    {filteredSuggestions.some(item => item.type === 'product') && (
+                      <div className="es-suggestion-section">
+                        <div className="es-suggestion-section-title">PRODUCTS</div>
+                        {filteredSuggestions.filter(item => item.type === 'product').map(product => (
+                          <div
+                            key={`product-${product.id}`}
+                            className="es-suggestion-item"
+                            onClick={() => handleSuggestionClick(product)}
+                          >
+                            <div className="es-suggestion-item-main">
+                              <span className="es-suggestion-item-name">{product.name}</span>
+                              <span className="es-suggestion-item-meta">₹{product.price || ''}</span>
+                            </div>
+                            <span className="es-suggestion-type-badge product">Product</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
-              <div className="es-hero-search-ai-controls">
-                <button
-                  type="submit"
-                  className="es-hero-search-btn es-hero-ai-run"
-                  disabled={isAgentRunning || !aiCommand.trim()}
-                >
-                  {isAgentRunning ? 'Searching...' : 'Search'}
-                </button>
-              </div>
-            </form>
+            )}
 
             {/* Feature tags */}
             <div className="es-hero-tags">
-              <span className="es-hero-tag">
-                <SparkleIcon />
-                AI Beauty Concierge
-              </span>
+              {isAgentEnabled && (
+                <span className="es-hero-tag">
+                  <SparkleIcon />
+                  AI Beauty Concierge
+                </span>
+              )}
               <span className="es-hero-tag">
                 <span className="es-hero-tag-dot" />
                 Verified salons &amp; stylists
@@ -257,11 +450,13 @@ Guidelines:
             </div>
 
             {/* AI chip bottom-right */}
-            <div className="es-hero-ai-chip">
-              <span className="es-hero-ai-icon">✦</span>
-              <span className="es-hero-ai-text">AI ASSISTANT</span>
-              <span className="es-hero-ai-sub">Analyze my routine</span>
-            </div>
+            {isAgentEnabled && (
+              <div className="es-hero-ai-chip">
+                <span className="es-hero-ai-icon">✦</span>
+                <span className="es-hero-ai-text">AI ASSISTANT</span>
+                <span className="es-hero-ai-sub">Analyze my routine</span>
+              </div>
+            )}
           </div>
 
         </div>

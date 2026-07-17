@@ -736,3 +736,120 @@
   }
 }
 
+/* =========================================
+   AI Page Agent Off - Traditional Search Suggestions
+   ========================================= */
+.es-hero-search-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 640px;
+  margin-bottom: 32px;
+}
+
+/* Adjust margins on search form inside wrapper */
+.es-hero-search-wrapper .es-hero-search {
+  margin-bottom: 0 !important;
+}
+
+/* Suggestions Dropdown Container */
+.es-hero-search-suggestions {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  box-shadow: 0 20px 48px rgba(26, 21, 18, 0.15);
+  z-index: 999;
+  max-height: 380px;
+  overflow-y: auto;
+  padding: 8px 0;
+  display: flex;
+  flex-direction: column;
+  animation: es-fade-slide-up 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes es-fade-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.es-suggestion-section {
+  padding: 4px 0;
+}
+
+.es-suggestion-section:not(:last-child) {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.es-suggestion-section-title {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--es-charcoal-40);
+  letter-spacing: 0.15em;
+  padding: 8px 16px 4px 16px;
+  text-transform: uppercase;
+}
+
+.es-suggestion-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.es-suggestion-item:hover {
+  background: rgba(15, 93, 78, 0.05); /* Light emerald tint */
+}
+
+.es-suggestion-item-main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: left;
+}
+
+.es-suggestion-item-name {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--es-charcoal);
+}
+
+.es-suggestion-item-meta {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  color: var(--es-charcoal-60);
+}
+
+.es-suggestion-type-badge {
+  font-family: var(--font-sans);
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 99px;
+  letter-spacing: 0.05em;
+}
+
+.es-suggestion-type-badge.salon {
+  background: rgba(15, 93, 78, 0.08);
+  color: var(--es-emerald);
+}
+
+.es-suggestion-type-badge.product {
+  background: rgba(193, 161, 142, 0.15);
+  color: #a47d6c;
+}

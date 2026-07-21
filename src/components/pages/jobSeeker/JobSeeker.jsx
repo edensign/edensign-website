@@ -51,12 +51,12 @@ const JobSeekers = () => {
         const getAllSkills = () => {
             API.SkillAPI.getAll(false, 0, 30)
                 .then(data => {
-                    if (data?.status === 'Success') {
+                    if (data?.status === 'Success' && data?.data?.rows) {
                         setSkills(data.data.rows);
                     }
                 })
                 .catch(err => {
-                    throw err;
+                    console.error("Error fetching skills:", err);
                 });
         }
         getAllSkills();

@@ -6,6 +6,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { BRAND_NAME } from '../../../brand.js';
 
 const AIAssistantSection = () => {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.15 });
@@ -102,7 +103,7 @@ const AIAssistantSection = () => {
             <div className="es-ai-chat-header">
               <div className="es-ai-chat-avatar">✦</div>
               <div>
-                <p className="es-ai-chat-name">Eden Concierge</p>
+                <p className="es-ai-chat-name">{BRAND_NAME} Concierge</p>
                 <p className="es-ai-chat-status">Online · replies instantly</p>
               </div>
             </div>

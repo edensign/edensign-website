@@ -14,6 +14,7 @@ import { ThemeProvider, useTheme } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
 
 import { ColorModeContext, useMode, tokens } from "./theme";
+import BRAND, { getMetaTitle } from "./brand";
 import Topbar from "./components/common/Topbar";
 import Loader from "./components/common/Loader";
 import Footer from './components/common/Footer';
@@ -128,7 +129,51 @@ function App() {
     if (location.pathname) {
       window.scrollTo(0, 0);
     }
+
+    const path = location.pathname;
+    let title = "";
+
+    if (path === "/" || path === "") {
+      title = `${BRAND.name} — ${BRAND.tagline}`;
+    } else if (path === "/about") {
+      title = getMetaTitle("About Us");
+    } else if (path === "/contact") {
+      title = getMetaTitle("Contact Us");
+    } else if (path === "/job-seeker") {
+      title = getMetaTitle("Careers & Opportunities");
+    } else if (path.startsWith("/job-seeker/")) {
+      title = getMetaTitle("Job Opportunity");
+    } else if (path === "/legal-info") {
+      title = getMetaTitle("Legal & Privacy Information");
+    } else if (path === "/login") {
+      title = getMetaTitle("Login");
+    } else if (path === "/register") {
+      title = getMetaTitle("Register");
+    } else if (path === "/salons") {
+      title = getMetaTitle("Discover Salons");
+    } else if (path.startsWith("/salon/detail")) {
+      title = getMetaTitle("Salon Details");
+    } else if (path === "/products") {
+      title = getMetaTitle("Beauty Products");
+    } else if (path.startsWith("/product/detail")) {
+      title = getMetaTitle("Product Details");
+    } else if (path === "/faq") {
+      title = getMetaTitle("FAQ");
+    } else if (path === "/cart") {
+      title = getMetaTitle("Shopping Cart");
+    } else if (path === "/checkout") {
+      title = getMetaTitle("Checkout");
+    } else if (path === "/academy") {
+      title = getMetaTitle(BRAND.academy);
+    } else if (path.startsWith("/dashboard")) {
+      title = getMetaTitle(BRAND.dashboard);
+    } else {
+      title = getMetaTitle("404 Not Found");
+    }
+
+    document.title = title;
   }, [location.pathname]);
+
 
   return (
     <ColorModeContext.Provider value={colorMode}>

@@ -4,6 +4,7 @@
 
 import React from 'react';
 import AboutBg from "../../assets/eden-signature.png";
+import { BRAND_NAME } from '../../../brand.js';
 
 const AboutPageTop = () => {
   return (
@@ -53,7 +54,7 @@ const AboutPageTop = () => {
               borderRadius: '999px',
               border: '1px solid rgba(15,93,78,0.2)',
             }}>
-              About Eden Sign
+              About {BRAND_NAME}
             </span>
             <span style={{
               display: 'inline-block',
@@ -178,7 +179,7 @@ const AboutPageTop = () => {
 
           <img
             src="https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/makeup/skincare-closeup.jpg"
-            alt="Eden Sign Salon"
+            alt={`${BRAND_NAME} Salon`}
             loading="eager"
             style={{
               width: '100%',

@@ -27,6 +27,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 import API from "../../../apis";
+import { BRAND_COMPACT } from "../../../brand";
 
 const validationSchema = Yup.object({
     contact_no: Yup.string()
@@ -109,7 +110,7 @@ const Login = () => {
                             fontWeight: "700"
                         }}
                     >
-                        edensign
+                        {BRAND_COMPACT.toLowerCase()}
                     </Typography>
                 </Box>
 

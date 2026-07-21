@@ -9,8 +9,10 @@ import React, { useState, useRef } from "react";
 import html2canvas from "html2canvas";
 import "./PremiumOfferCard.css";
 import { useToast } from "./Toast";
+import { BRAND_COMPACT } from "../../brand";
 
 const DEFAULT_LOGO = "✦";
+
 
 const formatDate = (dateStr) => {
     if (!dateStr) return "—";
@@ -80,7 +82,7 @@ const PremiumOfferCard = ({ offer, cardData, onClaim, showClaimButton = true }) 
                     logging: false,
                 });
                 const link = document.createElement("a");
-                link.download = `EdenSign-Card-${cardData?.card_id || 'Offer'}.png`;
+                link.download = `${BRAND_COMPACT}-Card-${cardData?.card_id || 'Offer'}.png`;
                 link.href = canvas.toDataURL("image/png");
                 link.click();
                 showToast("Card downloaded successfully!", "success");

@@ -19,6 +19,20 @@ import { useToast } from '../../common/Toast';
 import './InfiniteScroll.css';
 import customer from '../../assets/customer-resiz.jpg';
 import sadFaceImage from '../../assets/sad-face.svg';
+import seekerAvatar1 from '../../assets/seeker-avatar-1.png';
+import seekerAvatar2 from '../../assets/seeker-avatar-2.png';
+import seekerAvatar3 from '../../assets/seeker-avatar-3.png';
+import { BRAND_COMPACT } from '../../../brand.js';
+
+
+const SEEKER_AVATARS = [seekerAvatar1, seekerAvatar2, seekerAvatar3];
+
+
+const getSeekerAvatar = (seeker, index) => {
+  const idNum = parseInt(seeker?.id, 10);
+  const idx = !isNaN(idNum) ? Math.abs(idNum) % SEEKER_AVATARS.length : (typeof index === 'number' ? Math.abs(index) % SEEKER_AVATARS.length : 0);
+  return SEEKER_AVATARS[idx];
+};
 
 const ENV = import.meta.env;
 
@@ -84,26 +98,27 @@ const SeekerCard = ({ seeker, index, getCityByName, getStateByName }) => {
   };
 
   const exp = (seeker.experience || '').trim();
-  const expLabel = !exp || exp === 'fresher' || exp === '0' 
-    ? "Fresher" 
-    : exp.startsWith('trainer:') 
-      ? `${exp.substring(8)}y · Trainer` 
+  const expLabel = !exp || exp === 'fresher' || exp === '0'
+    ? "Fresher"
+    : exp.startsWith('trainer:')
+      ? `${exp.substring(8)}y · Trainer`
       : `${exp} Years Exp`;
 
   // Get primary skill from skills array
   const primarySkill = seeker.skills && seeker.skills.length > 0 ? seeker.skills[0].name : 'Artisan';
-  
+
   // Resolve city
   const cityName = seeker.city ? getCityByName(seeker.city) : '';
   const stateName = seeker.state ? getStateByName(seeker.state) : '';
   const locationLabel = cityName ? `${cityName}${stateName ? ', ' + stateName : ''}` : 'India';
 
   // Photo
+  const fallbackImg = getSeekerAvatar(seeker, index);
   const S3_BASE = 'https://salon-s3.s3.us-east-1.amazonaws.com';
   const hasImage = !!seeker.photo;
   const profileImg = hasImage
     ? (seeker.photo.startsWith('http') ? seeker.photo : `${S3_BASE}/job-seeker/photo/${seeker.photo}`)
-    : null;
+    : fallbackImg;
 
   return (
     <motion.article
@@ -126,38 +141,21 @@ const SeekerCard = ({ seeker, index, getCityByName, getStateByName }) => {
     >
       {/* Top Image area */}
       <div style={{ position: 'relative', width: '100%', aspectRatio: '16/11', overflow: 'hidden' }}>
-        {hasImage ? (
-          <img
-            src={profileImg}
-            alt={seeker.name}
-            loading="lazy"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.8s ease' }}
-            className="es-seeker-img"
-          />
-        ) : (
-          <div style={{
-            width: '100%',
-            height: '100%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            background: 'linear-gradient(135deg, var(--es-emerald) 0%, var(--es-emerald-soft) 100%)',
-            color: '#ffffff',
-            fontFamily: "'Cormorant Garamond', serif",
-            fontSize: '3.5rem',
-            fontWeight: 500,
-            textTransform: 'uppercase'
-          }}>
-            {seeker.name ? seeker.name.trim().charAt(0).toUpperCase() : '?'}
-          </div>
-        )}
+        <img
+          src={profileImg}
+          onError={(e) => { e.currentTarget.src = fallbackImg; }}
+          alt={seeker.name}
+          loading="lazy"
+          style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.8s ease' }}
+          className="es-seeker-img"
+        />
         {/* Gradient overlay */}
         <div style={{
           position: 'absolute',
           inset: 0,
           background: 'linear-gradient(to top, rgba(26,21,18,0.85) 0%, rgba(26,21,18,0.1) 70%, transparent 100%)',
         }} />
-        
+
         {/* Brand Label */}
         <span style={{
           position: 'absolute',
@@ -173,7 +171,7 @@ const SeekerCard = ({ seeker, index, getCityByName, getStateByName }) => {
           letterSpacing: '0.18em',
           textTransform: 'uppercase'
         }}>
-          EDEN SIGN
+          {BRAND_COMPACT.toUpperCase()}
         </span>
 
         {/* Availability Badge */}
@@ -328,57 +326,59 @@ const JobSeekerCards = ({ skills, selectedSkill, selectedGender, selectedExperie
       selectedType
     )
       .then(response => {
-        if (response.status === 'Success') {
-          if (response.data) {
-            response.data.forEach(resp => {
-              resp.skills = getSkillsByName(resp.skills);
-            });
-          }
+        if (response?.status === 'Success' && Array.isArray(response?.data)) {
+          response.data.forEach(resp => {
+            resp.skills = getSkillsByName(resp.skills);
+          });
           setjobSeekerDetail({
-            ...jobSeekerDetail,
             listData: response.data,
-            totalResults: response.data[0]?.result_count || 0
+            totalResults: response.data[0]?.result_count || response.data.length || 0,
+            page: 0,
+            loading: false
           });
         } else {
-          setjobSeekerDetail({ listData: [], loading: false });
+          setjobSeekerDetail({ listData: [], totalResults: 0, page: 0, loading: false });
         }
         setInitialLoading(false);
       })
       .catch(error => {
-        setjobSeekerDetail({ listData: [], loading: false });
+        console.error("JobSeeker detail fetch error:", error);
+        setjobSeekerDetail({ listData: [], totalResults: 0, page: 0, loading: false });
         setInitialLoading(false);
-        throw error;
       });
   }, [skills, selectedSkill, selectedGender, selectedExperience, searchQuery, refreshTrigger, selectedType, selectedGenderState]);
 
   useEffect(() => {
     API.StateAPI.getStates()
-      .then(data => { if (data?.status === 'Success') setStates(data.data.rows); })
-      .catch(err => { throw err; });
+      .then(data => { if (data?.status === 'Success' && data?.data?.rows) setStates(data.data.rows); })
+      .catch(err => { console.error("Error loading states:", err); });
   }, []);
 
   useEffect(() => {
     API.CityAPI.getCities()
-      .then(data => { if (data?.status === 'Success') setCities(data.data.rows); })
-      .catch(err => { throw err; });
+      .then(data => { if (data?.status === 'Success' && data?.data?.rows) setCities(data.data.rows); })
+      .catch(err => { console.error("Error loading cities:", err); });
   }, []);
 
   function getSkillsByName(dataObj) {
-    const objId = dataObj?.split(',');
-    if (objId) return skills.filter(skill => objId.includes(skill.id.toString()));
+    if (!dataObj || !skills || !Array.isArray(skills)) return [];
+    const objId = typeof dataObj === 'string' ? dataObj.split(',') : Array.isArray(dataObj) ? dataObj : [];
+    return skills.filter(skill => objId.includes(skill.id.toString()));
   }
 
   const getCityByName = (id) => {
+    if (!id || !cities) return '';
     return cities.find(city => id === city.id)?.name || '';
   };
 
   const getStateByName = (id) => {
+    if (!id || !states) return '';
     return states.find(state => id === state.id)?.name || '';
   };
 
   const fetchMoreData = async () => {
     const nextPage = jobSeekerDetail.page + 1;
-    setjobSeekerDetail({ ...jobSeekerDetail, page: nextPage, loading: true });
+    setjobSeekerDetail(prev => ({ ...prev, page: nextPage, loading: true }));
     API.JobSeekerAPI.getJobSeekerDetail(
       nextPage,
       ENV.VITE_JOB_SEEKER_SIZE,
@@ -389,20 +389,20 @@ const JobSeekerCards = ({ skills, selectedSkill, selectedGender, selectedExperie
       selectedType
     )
       .then(response => {
-        if (response.status === 'Success' && response?.data) {
+        if (response?.status === 'Success' && Array.isArray(response?.data)) {
           response.data.forEach(resp => { resp.skills = getSkillsByName(resp.skills); });
-          setjobSeekerDetail({
-            ...jobSeekerDetail,
-            listData: jobSeekerDetail.listData.concat(response.data),
+          setjobSeekerDetail(prev => ({
+            ...prev,
+            listData: prev.listData.concat(response.data),
             loading: false
-          });
+          }));
         } else {
-          setjobSeekerDetail({ listData: [], loading: false });
+          setjobSeekerDetail(prev => ({ ...prev, loading: false }));
         }
       })
       .catch(error => {
-        setjobSeekerDetail({ listData: [], loading: false });
-        throw error;
+        console.error("Error fetching more job seekers:", error);
+        setjobSeekerDetail(prev => ({ ...prev, loading: false }));
       });
   };
 

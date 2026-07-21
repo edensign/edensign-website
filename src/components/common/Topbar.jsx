@@ -24,6 +24,8 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import CallOutlinedIcon from '@mui/icons-material/CallOutlined';
 
 import API from '../../apis';
+import BRAND, { BRAND_NAME, BRAND_COMPACT } from '../../brand';
+
 
 /* ── nav links ── */
 const navLinks = [
@@ -164,7 +166,11 @@ function Topbar() {
               fontSize: '24px',
               color: 'var(--es-charcoal)',
             }}>
-              Eden <span style={{ fontStyle: 'italic', color: 'var(--es-emerald)' }}>Sign</span>
+              {BRAND_NAME.split(' ')[0]} {BRAND_NAME.split(' ').slice(1).join(' ') && (
+                <span style={{ fontStyle: 'italic', color: 'var(--es-emerald)' }}>
+                  {BRAND_NAME.split(' ').slice(1).join(' ')}
+                </span>
+              )}
             </span>
           </Link>
 
@@ -220,8 +226,9 @@ function Topbar() {
                 }}
                 className="es-join-btn"
               >
-                Become a part of Eden Sign
+                Become a part of {BRAND_NAME}
               </Link>
+
 
               <button
                 onClick={() => navigate('/cart')}
@@ -511,7 +518,7 @@ function Topbar() {
                     fontWeight: 700,
                     fontSize: '18px',
                     color: '#1a0a00',
-                  }}>edensign</span>
+                  }}>{BRAND_COMPACT.toLowerCase()}</span>
                 </div>
                 <button
                   onClick={() => setMobileMenuOpen(false)}

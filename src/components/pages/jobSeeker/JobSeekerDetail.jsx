@@ -20,11 +20,22 @@ import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import API from '../../../apis';
 import { JobSeekerDetailSkeleton } from '../../common/PageSkeletons';
 import customer from '../../assets/customer-resiz.jpg';
+import seekerAvatar1 from '../../assets/seeker-avatar-1.png';
+import seekerAvatar2 from '../../assets/seeker-avatar-2.png';
+import seekerAvatar3 from '../../assets/seeker-avatar-3.png';
+
+const SEEKER_AVATARS = [seekerAvatar1, seekerAvatar2, seekerAvatar3];
+
+const getSeekerAvatar = (seeker) => {
+  const idNum = parseInt(seeker?.id, 10);
+  const idx = !isNaN(idNum) ? Math.abs(idNum) % SEEKER_AVATARS.length : 0;
+  return SEEKER_AVATARS[idx];
+};
 
 const JobSeekerDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  
+
   const [seeker, setSeeker] = useState(null);
   const [address, setAddress] = useState(null);
   const [states, setStates] = useState([]);
@@ -36,7 +47,7 @@ const JobSeekerDetail = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        
+
         // Fetch states, cities, and skills for resolving references
         const [statesData, citiesData, skillsData] = await Promise.all([
           API.StateAPI.getStates().catch(() => ({ status: 'Failed' })),
@@ -56,7 +67,7 @@ const JobSeekerDetail = () => {
         const seekerResponse = await API.JobSeekerAPI.getById(id);
         if (seekerResponse.status === 'Success' && seekerResponse.data) {
           const seekerData = seekerResponse.data;
-          
+
           // Map skills
           if (seekerData.skills) {
             const skillIds = seekerData.skills.split(',');
@@ -64,7 +75,7 @@ const JobSeekerDetail = () => {
           } else {
             seekerData.skillsList = [];
           }
-          
+
           setSeeker(seekerData);
         }
 
@@ -100,8 +111,8 @@ const JobSeekerDetail = () => {
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '60vh', textAlign: 'center', padding: '24px' }}>
         <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: '28px', color: 'var(--es-charcoal)', marginBottom: '12px' }}>Profile Not Found</h3>
         <p style={{ fontFamily: 'Inter, sans-serif', color: 'var(--es-charcoal-60)', marginBottom: '24px' }}>The requested Job Seeker profile could not be retrieved.</p>
-        <button 
-          onClick={() => navigate('/job-seeker')} 
+        <button
+          onClick={() => navigate('/job-seeker')}
           style={{
             display: 'inline-flex',
             alignItems: 'center',
@@ -183,7 +194,7 @@ const JobSeekerDetail = () => {
   };
 
   const isPdf = seeker.resume && seeker.resume.toLowerCase().endsWith('.pdf');
-  const s3Url = seeker.resume 
+  const s3Url = seeker.resume
     ? (seeker.resume.startsWith('http') ? seeker.resume : `https://salon-s3.s3.us-east-1.amazonaws.com/job-seeker/${seeker.resume}`)
     : null;
 
@@ -239,7 +250,7 @@ const JobSeekerDetail = () => {
         </div>
 
         {/* Profile Details Container */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -248,9 +259,9 @@ const JobSeekerDetail = () => {
         >
           {/* Left Column: Basic Information */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
-            
+
             {/* Main Profile Card */}
-            <div 
+            <div
               style={{
                 background: '#fff',
                 borderRadius: '24px',
@@ -266,14 +277,15 @@ const JobSeekerDetail = () => {
             >
               {/* Profile Top Color Strip Accent */}
               <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '8px', borderTopLeftRadius: '24px', borderTopRightRadius: '24px', background: 'linear-gradient(90deg, var(--es-charcoal), var(--es-emerald))' }} />
-              
+
               {/* Profile Image */}
               {(() => {
+                const fallbackImg = getSeekerAvatar(seeker);
                 const S3_BASE = 'https://salon-s3.s3.us-east-1.amazonaws.com';
                 const hasImage = !!seeker.photo;
                 const profileImg = hasImage
                   ? (seeker.photo.startsWith('http') ? seeker.photo : `${S3_BASE}/job-seeker/photo/${seeker.photo}`)
-                  : null;
+                  : fallbackImg;
 
                 return (
                   <div style={{
@@ -289,29 +301,12 @@ const JobSeekerDetail = () => {
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}>
-                    {hasImage ? (
-                      <img
-                        src={profileImg}
-                        alt={seeker.name}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                      />
-                    ) : (
-                      <div style={{
-                        width: '100%',
-                        height: '100%',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        background: 'linear-gradient(135deg, var(--es-emerald) 0%, var(--es-emerald-soft) 100%)',
-                        color: '#ffffff',
-                        fontFamily: "'Cormorant Garamond', serif",
-                        fontSize: '3.5rem',
-                        fontWeight: 500,
-                        textTransform: 'uppercase'
-                      }}>
-                        {seeker.name ? seeker.name.trim().charAt(0).toUpperCase() : '?'}
-                      </div>
-                    )}
+                    <img
+                      src={profileImg}
+                      onError={(e) => { e.currentTarget.src = fallbackImg; }}
+                      alt={seeker.name}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    />
                   </div>
                 );
               })()}
@@ -358,7 +353,7 @@ const JobSeekerDetail = () => {
             </div>
 
             {/* About Me Section */}
-            <div 
+            <div
               style={{
                 background: '#fff',
                 borderRadius: '24px',
@@ -376,7 +371,7 @@ const JobSeekerDetail = () => {
             </div>
 
             {/* Skills & Extras */}
-            <div 
+            <div
               style={{
                 background: '#fff',
                 borderRadius: '24px',
@@ -446,9 +441,9 @@ const JobSeekerDetail = () => {
 
           {/* Right Column: Contact & CV Document Viewer */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
-            
+
             {/* Contact Details Card */}
-            <div 
+            <div
               style={{
                 background: '#fff',
                 borderRadius: '24px',
@@ -460,7 +455,7 @@ const JobSeekerDetail = () => {
               <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: '20px', color: 'var(--es-charcoal)', margin: '0 0 20px 0', display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <PersonOutlineOutlinedIcon sx={{ color: 'var(--es-emerald)' }} /> Contact Details
               </h3>
-              
+
               <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
                   <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: 'rgba(15,93,78,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
@@ -524,7 +519,7 @@ const JobSeekerDetail = () => {
             </div>
 
             {/* CV Viewer Card */}
-            <div 
+            <div
               style={{
                 background: '#fff',
                 borderRadius: '24px',

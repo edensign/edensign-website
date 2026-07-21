@@ -72,11 +72,11 @@ const Booking = ({ appointmentRef, selectedService }) => {
   const URLParams = useParams();
 
   const S3_BASE = import.meta.env.VITE_S3_BASE_URL || 'https://salon-s3.s3.us-east-1.amazonaws.com';
-  const salonPhoto = salon?.front_image 
+  const salonPhoto = salon?.front_image
     ? (salon.front_image.startsWith('http') ? salon.front_image : `${S3_BASE}/eden-sign/salon/front/${salon.front_image}`)
     : (images && images.length > 0 && images[0]?.image_src
-        ? (images[0].image_src.startsWith('http') ? images[0].image_src : `${S3_BASE}/eden-sign/salon/${images[0].type || 'front'}/${images[0].image_src}`)
-        : appointmentImg);
+      ? (images[0].image_src.startsWith('http') ? images[0].image_src : `${S3_BASE}/eden-sign/salon/${images[0].type || 'front'}/${images[0].image_src}`)
+      : appointmentImg);
 
   const refId = React.useRef();
   const checkboxLabel = { inputProps: { 'aria-label': 'Checkboxes' } };
@@ -93,7 +93,7 @@ const Booking = ({ appointmentRef, selectedService }) => {
           });
           if (res.data?.data) setWalletBalance(res.data.data.balance || 0);
         }
-      } catch (e) {}
+      } catch (e) { }
     };
     fetchBalance();
   }, [customerToken]);
@@ -110,7 +110,7 @@ const Booking = ({ appointmentRef, selectedService }) => {
   const formik = useFormik({
     initialValues,
     enableReinitialize: true,
-    onSubmit: () => {}
+    onSubmit: () => { }
   });
 
   React.useImperativeHandle(refId, () => ({
@@ -174,9 +174,9 @@ const Booking = ({ appointmentRef, selectedService }) => {
     }
     return slots.length > 0 ? slots : [
       "10:00 - 11:00 AM", "11:00 AM - 12:00 PM",
-      "12:00 - 1:00 PM",  "1:00 - 2:00 PM",
-      "2:00 - 3:00 PM",   "3:00 - 4:00 PM",
-      "4:00 - 5:00 PM",   "5:00 - 6:00 PM"
+      "12:00 - 1:00 PM", "1:00 - 2:00 PM",
+      "2:00 - 3:00 PM", "3:00 - 4:00 PM",
+      "4:00 - 5:00 PM", "5:00 - 6:00 PM"
     ];
   };
 
@@ -203,8 +203,8 @@ const Booking = ({ appointmentRef, selectedService }) => {
     setBookingStatus({ type: '', message: '' });
 
     if (!formik.values.services) return setBookingStatus({ type: 'error', message: 'Please select a service' });
-    if (!formik.values.stylist)  return setBookingStatus({ type: 'error', message: 'Please select a stylist' });
-    if (!formik.values.slots)    return setBookingStatus({ type: 'error', message: 'Please select a time slot' });
+    if (!formik.values.stylist) return setBookingStatus({ type: 'error', message: 'Please select a stylist' });
+    if (!formik.values.slots) return setBookingStatus({ type: 'error', message: 'Please select a time slot' });
 
     const employee = salonEmployee.find(emp => emp.name.toLowerCase() === formik.values.stylist);
     if (!employee) return setBookingStatus({ type: 'error', message: 'Invalid stylist selected' });
@@ -271,8 +271,8 @@ const Booking = ({ appointmentRef, selectedService }) => {
           config: {
             display: {
               blocks: {
-                upi:   { name: 'Pay via UPI',           instruments: [{ method: 'upi' }] },
-                other: { name: 'Other Payment Modes',   instruments: [{ method: 'card' }, { method: 'netbanking' }, { method: 'wallet' }] }
+                upi: { name: 'Pay via UPI', instruments: [{ method: 'upi' }] },
+                other: { name: 'Other Payment Modes', instruments: [{ method: 'card' }, { method: 'netbanking' }, { method: 'wallet' }] }
               },
               sequence: ['block.upi', 'block.other'],
               preferences: { show_default_blocks: true }
@@ -550,18 +550,18 @@ const Booking = ({ appointmentRef, selectedService }) => {
                   MenuProps={MenuProps}
                 >
                   {slots.map((slot, idx) => {
-                    const isBooked  = bookedSlots.includes(slot);
-                    const isPassed  = isSlotPassed(idx);
+                    const isBooked = bookedSlots.includes(slot);
+                    const isPassed = isSlotPassed(idx);
                     const isDisabled = isBooked || isPassed;
-                    
+
                     let statusText = '';
                     if (isBooked) statusText = ' (Booked)';
                     else if (isPassed) statusText = ' (Passed)';
 
                     return (
-                      <MenuItem 
-                        value={slot} 
-                        key={idx} 
+                      <MenuItem
+                        value={slot}
+                        key={idx}
                         disabled={isDisabled}
                       >
                         {slot}{statusText}

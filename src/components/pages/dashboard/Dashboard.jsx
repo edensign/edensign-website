@@ -5,9 +5,9 @@
  */
 
 import React, { useState, useEffect } from "react";
-import { 
-    Box, Typography, CircularProgress, Grid, Card, CardContent, 
-    Divider, Chip, IconButton, useMediaQuery, useTheme 
+import {
+    Box, Typography, CircularProgress, Grid, Card, CardContent,
+    Divider, Chip, IconButton, useMediaQuery, useTheme
 } from "@mui/material";
 import { motion, AnimatePresence } from "framer-motion";
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
@@ -23,15 +23,17 @@ import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 
 import API from "../../../apis";
 import { api } from "../../../apis/config/axiosConfig";
+import BRAND, { BRAND_NAME, BRAND_DASHBOARD, BRAND_PORTAL, BRAND_COPYRIGHT_YEAR, BRAND_LEGAL } from "../../../brand";
 import PremiumOfferCard from "../../common/PremiumOfferCard";
 import { loadRazorpayScript } from "../../utils/razorpay";
 import { useToast } from "../../common/Toast";
 import "./Dashboard.css";
 
+
 const Dashboard = () => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-    
+
     const [activeView, setActiveView] = useState("appointments");
     const [appointments, setAppointments] = useState([]);
     const [cards, setCards] = useState([]);
@@ -41,7 +43,7 @@ const Dashboard = () => {
     const [processingPayment, setProcessingPayment] = useState(false);
     const [loading, setLoading] = useState(true);
     const [sidebarOpen, setSidebarOpen] = useState(!isMobile);
-    
+
     const customer = API.CustomerAPI.getCustomer();
     const token = API.CustomerAPI.getToken();
 
@@ -113,7 +115,7 @@ const Dashboard = () => {
                 key: import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_xxxxxx',
                 amount: orderData.amount,
                 currency: 'INR',
-                name: 'Eden Sign',
+                name: BRAND_NAME,
                 description: 'Add Money to Wallet',
                 order_id: orderData.id,
                 handler: async function (response) {
@@ -123,7 +125,7 @@ const Dashboard = () => {
                             razorpay_payment_id: response.razorpay_payment_id,
                             razorpay_signature: response.razorpay_signature
                         }, { headers: { Authorization: `Bearer ${token}` } });
-                        
+
                         showToast("Money added successfully!", "success");
                         setAddAmount("");
                         fetchData();
@@ -174,29 +176,29 @@ const Dashboard = () => {
                     <IconButton onClick={() => setSidebarOpen(true)} sx={{ color: 'var(--es-emerald)' }}>
                         <MenuIcon />
                     </IconButton>
-                    <Typography className="dash-mobile-title">EdenSign Dashboard</Typography>
+                    <Typography className="dash-mobile-title">{BRAND_DASHBOARD}</Typography>
                 </Box>
             )}
 
             {/* --- Sidebar --- */}
             <AnimatePresence>
                 {(sidebarOpen || !isMobile) && (
-                    <motion.div 
+                    <motion.div
                         className="dash-sidebar"
                         initial={isMobile ? { x: -300 } : false}
                         animate={{ x: 0 }}
                         exit={{ x: -300 }}
                     >
                         {isMobile && (
-                            <IconButton 
-                                onClick={() => setSidebarOpen(false)} 
+                            <IconButton
+                                onClick={() => setSidebarOpen(false)}
                                 className="dash-sidebar-close"
                                 sx={{ position: 'absolute', top: 10, right: 10, color: 'rgba(255,255,255,0.4)' }}
                             >
                                 <CloseIcon />
                             </IconButton>
                         )}
-                        
+
                         <div className="dash-sidebar-header">
                             <div className="dash-avatar">
                                 {customer?.username?.charAt(0).toUpperCase()}
@@ -207,7 +209,7 @@ const Dashboard = () => {
 
                         <nav className="dash-nav">
                             {menuItems.map(item => (
-                                <button 
+                                <button
                                     key={item.id}
                                     className={`dash-nav-item ${activeView === item.id ? 'is-active' : ''}`}
                                     onClick={() => {
@@ -263,12 +265,12 @@ const Dashboard = () => {
                                                             <Typography className="appt-salon-name">
                                                                 {appt.salon_employee?.salon?.name || "Premium Salon"}
                                                             </Typography>
-                                                            <Chip 
-                                                                label={new Date(appt.date) < new Date() ? "Past" : "Confirmed"} 
+                                                            <Chip
+                                                                label={new Date(appt.date) < new Date() ? "Past" : "Confirmed"}
                                                                 className={new Date(appt.date) < new Date() ? "luxury-chip-past" : "luxury-chip-active"}
                                                             />
                                                         </div>
-                                                        
+
                                                         <div className="appt-card-grid">
                                                             <div className="appt-card-item">
                                                                 <CalendarMonthIcon className="appt-item-icon" />
@@ -285,9 +287,9 @@ const Dashboard = () => {
                                                                 </div>
                                                             </div>
                                                         </div>
- 
+
                                                         <Divider className="luxury-divider" />
- 
+
                                                         <div className="appt-card-footer">
                                                             <div className="appt-footer-item">
                                                                 <Typography className="appt-footer-lbl">Stylist</Typography>
@@ -310,15 +312,15 @@ const Dashboard = () => {
                                         )}
                                     </Grid>
                                 )}
- 
+
                                 {activeView === "cards" && (
                                     <Box className="dash-cards-grid">
                                         {cards.length > 0 ? cards.map((card) => (
                                             <div className="dash-card-wrapper" key={card.id}>
-                                                <PremiumOfferCard 
-                                                    offer={card.offer} 
-                                                    cardData={card} 
-                                                    showClaimButton={false} 
+                                                <PremiumOfferCard
+                                                    offer={card.offer}
+                                                    cardData={card}
+                                                    showClaimButton={false}
                                                 />
                                             </div>
                                         )) : (
@@ -330,13 +332,13 @@ const Dashboard = () => {
                                         )}
                                     </Box>
                                 )}
- 
+
                                 {activeView === "wallet" && (
                                     <Box sx={{ animation: 'fadeIn 0.5s ease' }}>
                                         {/* Wallet Balance Card */}
-                                        <Card sx={{ 
-                                            mb: 5, 
-                                            borderRadius: '24px', 
+                                        <Card sx={{
+                                            mb: 5,
+                                            borderRadius: '24px',
                                             background: 'linear-gradient(135deg, var(--es-emerald) 0%, #083c32 100%)',
                                             boxShadow: '0 20px 40px rgba(15,93,78,0.15)',
                                             position: 'relative',
@@ -354,7 +356,7 @@ const Dashboard = () => {
                                                 background: 'radial-gradient(circle, rgba(244, 201, 196, 0.1) 0%, rgba(0,0,0,0) 70%)',
                                                 borderRadius: '50%'
                                             }} />
- 
+
                                             <CardContent sx={{ position: 'relative', zIndex: 1, p: { xs: 4, md: 6 }, textAlign: 'center' }}>
                                                 <Typography sx={{ fontFamily: 'var(--font-sans)', fontSize: '15px', color: 'var(--es-blush)', letterSpacing: '0.05em', textTransform: 'uppercase', mb: 1, fontWeight: 500 }}>
                                                     Available Balance
@@ -362,11 +364,11 @@ const Dashboard = () => {
                                                 <Typography sx={{ fontFamily: 'var(--font-serif)', fontSize: { xs: '42px', md: '56px' }, fontWeight: 500, color: '#fff', mb: 4, textShadow: '0 2px 10px rgba(0,0,0,0.3)' }}>
                                                     ₹{parseFloat(walletBalance).toFixed(2)}
                                                 </Typography>
-                                                
-                                                <Box sx={{ 
-                                                    display: 'flex', 
-                                                    justifyContent: 'center', 
-                                                    alignItems: 'center', 
+
+                                                <Box sx={{
+                                                    display: 'flex',
+                                                    justifyContent: 'center',
+                                                    alignItems: 'center',
                                                     gap: 2,
                                                     flexDirection: { xs: 'column', sm: 'row' },
                                                     maxWidth: '500px',
@@ -374,15 +376,15 @@ const Dashboard = () => {
                                                 }}>
                                                     <Box sx={{ position: 'relative', width: { xs: '100%', sm: 'auto' } }}>
                                                         <span style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', color: 'var(--es-blush)', fontSize: '18px', fontWeight: 600 }}>₹</span>
-                                                        <input 
-                                                            type="number" 
-                                                            placeholder="Amount to add" 
-                                                            value={addAmount} 
+                                                        <input
+                                                            type="number"
+                                                            placeholder="Amount to add"
+                                                            value={addAmount}
                                                             onChange={(e) => setAddAmount(e.target.value)}
-                                                            style={{ 
-                                                                padding: '16px 20px 16px 40px', 
-                                                                borderRadius: '14px', 
-                                                                background: 'rgba(255,255,255,0.08)', 
+                                                            style={{
+                                                                padding: '16px 20px 16px 40px',
+                                                                borderRadius: '14px',
+                                                                background: 'rgba(255,255,255,0.08)',
                                                                 border: '1px solid rgba(255,255,255,0.15)',
                                                                 color: '#fff',
                                                                 fontFamily: 'var(--font-sans)',
@@ -391,19 +393,19 @@ const Dashboard = () => {
                                                                 width: '100%',
                                                                 boxSizing: 'border-box',
                                                                 transition: 'all 0.3s ease'
-                                                            }} 
+                                                            }}
                                                             onFocus={(e) => e.target.style.background = 'rgba(255,255,255,0.12)'}
                                                             onBlur={(e) => e.target.style.background = 'rgba(255,255,255,0.08)'}
                                                         />
                                                     </Box>
-                                                    <motion.button 
+                                                    <motion.button
                                                         whileHover={{ scale: processingPayment ? 1 : 1.05 }}
                                                         whileTap={{ scale: processingPayment ? 1 : 0.95 }}
                                                         onClick={handleAddMoney}
                                                         disabled={processingPayment}
-                                                        style={{ 
-                                                            background: 'linear-gradient(135deg, var(--es-blush-soft) 0%, var(--es-blush) 100%)', 
-                                                            color: 'var(--es-charcoal)', 
+                                                        style={{
+                                                            background: 'linear-gradient(135deg, var(--es-blush-soft) 0%, var(--es-blush) 100%)',
+                                                            color: 'var(--es-charcoal)',
                                                             border: 'none',
                                                             borderRadius: '14px',
                                                             padding: '16px 32px',
@@ -422,19 +424,19 @@ const Dashboard = () => {
                                                 </Box>
                                             </CardContent>
                                         </Card>
- 
+
                                         {/* Transactions Section */}
                                         <Typography sx={{ fontFamily: 'var(--font-serif)', fontSize: '24px', fontWeight: 500, color: 'var(--es-charcoal)', mb: 3 }}>
                                             Recent Transactions
                                         </Typography>
-                                        
+
                                         {walletTransactions.length > 0 ? (
                                             <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                                                 {walletTransactions.map((tx) => (
                                                     <motion.div key={tx.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
-                                                        <Card sx={{ 
-                                                            background: '#fff', 
-                                                            border: '1px solid var(--es-charcoal-5)', 
+                                                        <Card sx={{
+                                                            background: '#fff',
+                                                            border: '1px solid var(--es-charcoal-5)',
                                                             borderRadius: '16px',
                                                             boxShadow: 'var(--es-shadow)',
                                                             transition: 'transform 0.2s',
@@ -460,17 +462,17 @@ const Dashboard = () => {
                                                                     </Box>
                                                                 </Box>
                                                                 <Box textAlign="right">
-                                                                    <Typography sx={{ 
+                                                                    <Typography sx={{
                                                                         fontFamily: 'var(--font-sans)', fontSize: '18px', fontWeight: 700,
-                                                                        color: tx.type === 'credit' ? 'var(--es-emerald)' : 'var(--es-charcoal)' 
+                                                                        color: tx.type === 'credit' ? 'var(--es-emerald)' : 'var(--es-charcoal)'
                                                                     }}>
                                                                         {tx.type === 'credit' ? '+' : '-'} ₹{parseFloat(tx.amount).toFixed(2)}
                                                                     </Typography>
-                                                                    <Box sx={{ 
+                                                                    <Box sx={{
                                                                         display: 'inline-block', mt: 0.5, px: 1.5, py: 0.5, borderRadius: '6px',
                                                                         background: tx.status === 'success' ? 'var(--es-emerald-muted)' : tx.status === 'pending' ? 'rgba(255,204,0,0.08)' : 'rgba(255,59,48,0.08)',
                                                                     }}>
-                                                                        <Typography sx={{ 
+                                                                        <Typography sx={{
                                                                             fontFamily: 'var(--font-sans)', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase',
                                                                             color: tx.status === 'success' ? 'var(--es-emerald)' : tx.status === 'pending' ? '#d4a000' : '#ff3b30'
                                                                         }}>
@@ -484,9 +486,9 @@ const Dashboard = () => {
                                                 ))}
                                             </Box>
                                         ) : (
-                                            <Box sx={{ 
-                                                textAlign: 'center', py: 8, background: '#fff', borderRadius: '20px', 
-                                                boxShadow: 'var(--es-shadow)', border: '1px dashed var(--es-charcoal-10)' 
+                                            <Box sx={{
+                                                textAlign: 'center', py: 8, background: '#fff', borderRadius: '20px',
+                                                boxShadow: 'var(--es-shadow)', border: '1px dashed var(--es-charcoal-10)'
                                             }}>
                                                 <AccountBalanceWalletIcon sx={{ fontSize: 64, color: 'var(--es-emerald)', opacity: 0.15, mb: 2 }} />
                                                 <Typography sx={{ fontFamily: 'var(--font-sans)', fontSize: '18px', fontWeight: 600, color: 'var(--es-charcoal)' }}>No transactions yet.</Typography>
@@ -530,7 +532,7 @@ const Dashboard = () => {
                     {/* --- Mini Footer --- */}
                     <Box sx={{ mt: 10, pt: 4, borderTop: '1px solid var(--es-charcoal-10)', textAlign: 'center', opacity: 0.5 }}>
                         <Typography variant="body2" color="var(--es-charcoal-60)">
-                            © {new Date().getFullYear()} EdenSign Customer Portal. All Rights Reserved.
+                            © {BRAND_COPYRIGHT_YEAR} {BRAND_PORTAL}. All Rights Reserved.
                         </Typography>
                     </Box>
                 </Box>
@@ -538,8 +540,8 @@ const Dashboard = () => {
 
             {/* --- Mobile Overlay --- */}
             {isMobile && sidebarOpen && (
-                <Box 
-                    className="dash-mobile-overlay" 
+                <Box
+                    className="dash-mobile-overlay"
                     onClick={() => setSidebarOpen(false)}
                 />
             )}

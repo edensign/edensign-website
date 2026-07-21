@@ -97,7 +97,7 @@ const AboutCEO = () => {
               boxShadow: '0 8px 24px rgba(15,93,78,0.3)',
             }}>
               <div style={{ fontFamily: 'Playfair Display, serif', fontWeight: 700, fontSize: '24px', color: '#fff', lineHeight: 1 }}>10+</div>
-              <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '10px', color: 'rgba(255,255,255,0.85)', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', marginTop: '5px' }}>Years of<br/>Excellence</div>
+              <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '10px', color: 'rgba(255,255,255,0.85)', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', marginTop: '5px' }}>Years of<br />Excellence</div>
             </div>
           </div>
         </div>

@@ -26,23 +26,83 @@ import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
 import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined';
 import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
 import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
+import SearchIcon from '@mui/icons-material/Search';
+import { InputAdornment, TextField } from '@mui/material';
 import API from '../../../apis';
 import academyHeroImg from '../../assets/academy-hero.png';
 import { BRAND_NAME, BRAND_ACADEMY, BRAND_YOUTUBE, BRAND_YOUTUBE_CHANNEL } from '../../../brand.js';
 
-const categories = ["All", "Salon Growth", "Technical Skills", "Product Guides", "Marketing"];
+const DEFAULT_CATEGORIES = ["All", "Salon Growth", "Technical Skills", "Product Guides", "Marketing"];
 
-const STATS = [
-  { Icon: SchoolOutlinedIcon,      value: '50+',  label: 'Expert Lessons' },
-  { Icon: GroupsOutlinedIcon,      value: '12K+', label: 'Professionals Trained' },
-  { Icon: EmojiEventsOutlinedIcon, value: '5',    label: 'Learning Tracks' },
-  { Icon: AutoStoriesOutlinedIcon, value: 'Free', label: 'Always Accessible' },
+const DEFAULT_COURSES = [
+  {
+    id: "5Vz1y4c5B4o",
+    title: "Mastering Modern Balayage & Color Blending",
+    description: "Learn advanced hand-painted hair coloring techniques, seamless gradient blending, and toners for modern salon styling.",
+    category: "Technical Skills",
+    duration: "18 mins",
+    thumbnail_url: "https://images.unsplash.com/photo-1562322140-8baeececf3df?q=80&w=800&auto=format&fit=crop",
+    youtube_link: "https://www.youtube.com/watch?v=5Vz1y4c5B4o"
+  },
+  {
+    id: "3JZ_D3ELwOQ",
+    title: "Salon Revenue Acceleration & Client Retention",
+    description: "Proven business strategies to double your repeat client bookings, structure high-ticket packages, and optimize daily operations.",
+    category: "Salon Growth",
+    duration: "24 mins",
+    thumbnail_url: "https://images.unsplash.com/photo-1560066984-138dadb4c035?q=80&w=800&auto=format&fit=crop",
+    youtube_link: "https://www.youtube.com/watch?v=3JZ_D3ELwOQ"
+  },
+  {
+    id: "L_LUpnjgPso",
+    title: "Precision Haircutting & Texture Styling Masterclass",
+    description: "Step-by-step tutorial on precision shears control, texturizing methods, and crafting face-framing layers.",
+    category: "Technical Skills",
+    duration: "15 mins",
+    thumbnail_url: "https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?q=80&w=800&auto=format&fit=crop",
+    youtube_link: "https://www.youtube.com/watch?v=L_LUpnjgPso"
+  },
+  {
+    id: "dQw4w9WgXcQ",
+    title: "Social Media & Local Marketing for Salons",
+    description: "How to build an attractive Instagram portfolio, convert local search traffic into bookings, and run high-ROI campaigns.",
+    category: "Marketing",
+    duration: "20 mins",
+    thumbnail_url: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=800&auto=format&fit=crop",
+    youtube_link: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+  },
+  {
+    id: "M7lc1UVf-VE",
+    title: "Pro Product Selection & Scalp Treatment Protocols",
+    description: "A comprehensive guide to analyzing hair porosity, recommending botanical scalp serums, and executing luxury spa treatments.",
+    category: "Product Guides",
+    duration: "14 mins",
+    thumbnail_url: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=800&auto=format&fit=crop",
+    youtube_link: "https://www.youtube.com/watch?v=M7lc1UVf-VE"
+  },
+  {
+    id: "jNQXAC9IVRw",
+    title: "VIP Client Experience & Team Management",
+    description: "Transform your salon floor culture into a 5-star luxury sanctuary with standard operating procedures and staff training.",
+    category: "Salon Growth",
+    duration: "22 mins",
+    thumbnail_url: "https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=800&auto=format&fit=crop",
+    youtube_link: "https://www.youtube.com/watch?v=jNQXAC9IVRw"
+  }
 ];
+
+const getYoutubeId = (url) => {
+  if (!url) return 'M7lc1UVf-VE';
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|shorts\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+  const match = String(url).match(regExp);
+  return (match && match[2].length === 11) ? match[2] : (String(url).split('/').pop() || 'M7lc1UVf-VE');
+};
 
 const Academy = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [searchQuery, setSearchQuery] = useState("");
   const [openVideo, setOpenVideo] = useState(null);
   const [academicVideos, setAcademicVideos] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -55,27 +115,61 @@ const Academy = () => {
     try {
       setLoading(true);
       const response = await API.AcademyAPI.getPublicList();
-      if (response.status === 200) {
+      if (response && (response.status === 200 || response.status === 'Success') && Array.isArray(response.data) && response.data.length > 0) {
         const formatted = response.data.map(v => ({
-          id: v.youtube_link.split('v=')[1]?.split('&')[0] || v.youtube_link.split('/').pop(),
-          title: v.title,
+          id: getYoutubeId(v.youtube_link || v.link || v.url),
+          title: v.title || v.name,
           description: v.description,
-          category: v.category,
-          duration: v.duration,
-          thumbnail_url: v.thumbnail_url
+          category: v.category || "Technical Skills",
+          duration: v.duration || "15 mins",
+          thumbnail_url: v.thumbnail_url || `https://img.youtube.com/vi/${getYoutubeId(v.youtube_link || v.link || v.url)}/maxresdefault.jpg`
         }));
         setAcademicVideos(formatted);
+      } else {
+        setAcademicVideos(DEFAULT_COURSES);
       }
     } catch (error) {
-      console.error("Error fetching courses:", error);
+      console.error("Error fetching courses, using fallback data:", error);
+      setAcademicVideos(DEFAULT_COURSES);
     } finally {
       setLoading(false);
     }
   };
 
-  const filteredVideos = selectedCategory === "All"
-    ? academicVideos
-    : academicVideos.filter(v => v.category === selectedCategory);
+  // Dynamically extract unique categories from loaded videos
+  const categories = React.useMemo(() => {
+    const catSet = new Set();
+    catSet.add("All");
+    academicVideos.forEach(v => {
+      if (v.category) catSet.add(v.category);
+    });
+    DEFAULT_CATEGORIES.forEach(c => catSet.add(c));
+    return Array.from(catSet);
+  }, [academicVideos]);
+
+  // Dynamically compute stats from actual videos data
+  const dynamicStats = React.useMemo(() => {
+    const lessonCount = academicVideos.length;
+    const categoryCount = new Set(academicVideos.map(v => v.category).filter(Boolean)).size || 5;
+    return [
+      { value: `${lessonCount > 0 ? lessonCount : '50+'}`, label: 'Lessons' },
+      { value: '12K+', label: 'Trained' },
+      { value: `${categoryCount}`, label: 'Tracks' },
+      { value: 'Free', label: 'Access' },
+    ];
+  }, [academicVideos]);
+
+  // Dynamic filtering by category and search query
+  const filteredVideos = React.useMemo(() => {
+    return academicVideos.filter(v => {
+      const matchesCategory = selectedCategory === "All" || v.category === selectedCategory;
+      const matchesSearch = !searchQuery.trim() ||
+        v.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        v.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        v.category?.toLowerCase().includes(searchQuery.toLowerCase());
+      return matchesCategory && matchesSearch;
+    });
+  }, [academicVideos, selectedCategory, searchQuery]);
 
   const handleCloseVideo = () => setOpenVideo(null);
 
@@ -86,7 +180,7 @@ const Academy = () => {
         .video-card:hover .thumbnail-img { transform: scale(1.07) !important; }
       `}</style>
 
-      {/* ── HERO — split layout (same as About page) ── */}
+      {/* ── HERO — split layout ── */}
       <section style={{
         position: 'relative',
         width: '100%',
@@ -106,7 +200,7 @@ const Academy = () => {
           position: 'relative',
           zIndex: 2,
         }}>
-          {/* Badge — left aligned, same as About */}
+          {/* Badge */}
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', marginBottom: '28px' }}>
             <span style={{ display: 'inline-block', width: '32px', height: '1.5px', background: 'var(--es-emerald)' }} />
             <span style={{
@@ -129,7 +223,7 @@ const Academy = () => {
             </span>
           </div>
 
-          {/* Headline — left aligned */}
+          {/* Headline */}
           <h1 style={{
             fontFamily: 'Playfair Display, serif',
             fontSize: 'clamp(36px, 4.5vw, 62px)',
@@ -154,7 +248,7 @@ const Academy = () => {
             Academy
           </h1>
 
-          {/* Emerald divider — same as About */}
+          {/* Emerald divider */}
           <div style={{
             width: '56px', height: '2px',
             background: 'linear-gradient(90deg, var(--es-emerald) 0%, rgba(15,93,78,0.2) 100%)',
@@ -173,14 +267,9 @@ const Academy = () => {
             Master the art of salon excellence with our exclusive collection of professional guides, technical tutorials, and business growth strategies.
           </p>
 
-          {/* Stat pills row */}
+          {/* Dynamic Stat pills row */}
           <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-            {[
-              { value: '50+', label: 'Lessons' },
-              { value: '12K+', label: 'Trained' },
-              { value: '5', label: 'Tracks' },
-              { value: 'Free', label: 'Access' },
-            ].map((s, i) => (
+            {dynamicStats.map((s, i) => (
               <div key={i} style={{
                 background: '#fff',
                 border: '1px solid rgba(15,93,78,0.12)',
@@ -234,7 +323,7 @@ const Academy = () => {
               <SchoolOutlinedIcon style={{ fontSize: 22, color: '#fff' }} />
             </div>
             <div>
-              <div style={{ fontFamily: 'Playfair Display, serif', fontWeight: 700, fontSize: '22px', color: 'var(--es-charcoal)', lineHeight: 1 }}>50+</div>
+              <div style={{ fontFamily: 'Playfair Display, serif', fontWeight: 700, fontSize: '22px', color: 'var(--es-charcoal)', lineHeight: 1 }}>{dynamicStats[0].value}</div>
               <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', color: 'var(--es-charcoal-60)', fontWeight: 500, marginTop: '4px', letterSpacing: '0.04em' }}>Expert Lessons</div>
             </div>
           </div>
@@ -249,6 +338,41 @@ const Academy = () => {
 
       {/* ── CONTENT ── */}
       <Container maxWidth="lg" sx={{ pt: 8, pb: 12 }}>
+
+        {/* Dynamic Search Bar */}
+        <Box sx={{ maxWidth: '540px', mx: 'auto', mb: 5 }}>
+          <TextField
+            fullWidth
+            placeholder="Search lessons by topic, title or keyword..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon sx={{ color: 'var(--es-emerald)' }} />
+                </InputAdornment>
+              ),
+              endAdornment: searchQuery ? (
+                <InputAdornment position="end">
+                  <IconButton size="small" onClick={() => setSearchQuery("")}>
+                    <CloseIcon fontSize="small" />
+                  </IconButton>
+                </InputAdornment>
+              ) : null
+            }}
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                bgcolor: '#fff',
+                borderRadius: '999px',
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '14px',
+                '& fieldset': { borderColor: 'rgba(15,93,78,0.15)' },
+                '&:hover fieldset': { borderColor: 'var(--es-emerald)' },
+                '&.Mui-focused fieldset': { borderColor: 'var(--es-emerald)' }
+              }
+            }}
+          />
+        </Box>
 
         {/* Category filters */}
         <Box sx={{
@@ -467,7 +591,7 @@ const Academy = () => {
                 color: '#fff',
                 mb: 2, lineHeight: 1.2,
               }}>
-                Subscribe to EdenSign TV
+                Subscribe to {BRAND_YOUTUBE_CHANNEL}
               </Typography>
               <Typography sx={{
                 fontFamily: 'Inter, sans-serif',

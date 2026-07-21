@@ -80,4 +80,11 @@ export const BRAND_PORTAL = config.customerPortal;
 /** SEO suffix for page titles e.g. "— Eden Sign" */
 export const BRAND_SEO_SUFFIX = config.seoSuffix;
 
+/** Format dynamic document titles for browser tabs */
+export const getMetaTitle = (pageTitle) => {
+  if (!pageTitle) return `${config.name} — ${config.tagline}`;
+  return `${pageTitle} — ${config.seoSuffix || config.name}`;
+};
+
 export default BRAND;
+

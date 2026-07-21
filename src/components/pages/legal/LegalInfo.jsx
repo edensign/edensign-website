@@ -1,6 +1,7 @@
 import React from 'react'
 import productimage from "../../assets/productbg.webp"
 import { Box } from '@mui/material'
+import { BRAND_WEBSITE, BRAND_LEGAL } from '../../../brand'
 
 function LegalInfo() {
     return (
@@ -71,7 +72,7 @@ function LegalInfo() {
                         textTransform: "uppercase",
                         color: "var(--es-primary)",
                         marginBottom: "8px"
-                    }}>Who We Are</h2>
+                    }}>Who We Are ({BRAND_LEGAL})</h2>
                     <p style={{
                         fontFamily: "'Inter', sans-serif",
                         fontSize: "15px",
@@ -80,7 +81,7 @@ function LegalInfo() {
                         color: "var(--es-on-surface-variant)",
                         marginBottom: "40px"
                     }}>
-                        Our website address is: https://edensign.com/.
+                        Our website address is: {BRAND_WEBSITE}.
                     </p>
 
                     <hr style={{ border: "none", borderTop: "1px solid rgba(213, 195, 184, 0.4)", marginBottom: "40px" }} />

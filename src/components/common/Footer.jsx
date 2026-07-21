@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { BRAND_NAME, BRAND_COMPACT, BRAND_INSTAGRAM, BRAND_EMAIL_INFO, BRAND_PHONE, BRAND_ADDRESS, BRAND_HOURS } from '../../brand.js';
+import { BRAND_NAME, BRAND_COMPACT, BRAND_INSTAGRAM, BRAND_FACEBOOK, BRAND_TWITTER, BRAND_YOUTUBE, BRAND_EMAIL_INFO, BRAND_PHONE, BRAND_ADDRESS, BRAND_HOURS, BRAND_COPYRIGHT_YEAR, BRAND_LEGAL } from '../../brand.js';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
@@ -39,10 +39,11 @@ const legalLinks = [
 
 const socialLinks = [
   { Icon: InstagramIcon, href: BRAND_INSTAGRAM, label: 'Instagram' },
-  { Icon: FacebookIcon, href: '#', label: 'Facebook' },
-  { Icon: TwitterIcon, href: '#', label: 'Twitter' },
-  { Icon: YouTubeIcon, href: '#', label: 'YouTube' },
+  { Icon: FacebookIcon, href: BRAND_FACEBOOK, label: 'Facebook' },
+  { Icon: TwitterIcon, href: BRAND_TWITTER, label: 'Twitter' },
+  { Icon: YouTubeIcon, href: BRAND_YOUTUBE, label: 'YouTube' },
 ];
+
 
 const contactItems = [
   { Icon: CallIcon, text: BRAND_PHONE },
@@ -304,7 +305,7 @@ function Footer() {
             opacity: 0.6,
             margin: 0,
           }}>
-            © {new Date().getFullYear()} {BRAND_COMPACT.toUpperCase()}. All Rights Reserved. Made with ❤️ in India.
+            © {BRAND_COPYRIGHT_YEAR} {BRAND_LEGAL}. All Rights Reserved. Made with ❤️ in India.
           </p>
           <p style={{
             fontFamily: 'Inter, sans-serif',

@@ -305,17 +305,17 @@ function CartPage() {
         payment_method: 'card',
         useWallet: false,
         items: items.map(item => ({
-            product_id: item.id,
-            quantity: item.qty,
-            price: Number(item.discounted_price || item.price || 0)
+          product_id: item.id,
+          quantity: item.qty,
+          price: Number(item.discounted_price || item.price || 0)
         })),
         shipping_address: {
-            name: customer.username || 'Customer',
-            email: customer.email || '',
-            phone: customer.phone || '',
-            address: giftWrap ? `GIFT WRAPPED. Note: ${giftNote.substring(0, 140)}` : 'Default Address',
-            city: 'Default City',
-            pincode: '000000'
+          name: customer.username || 'Customer',
+          email: customer.email || '',
+          phone: customer.phone || '',
+          address: giftWrap ? `GIFT WRAPPED. Note: ${giftNote.substring(0, 140)}` : 'Default Address',
+          city: 'Default City',
+          pincode: '000000'
         }
       };
 
@@ -326,79 +326,79 @@ function CartPage() {
       const responseOk = (response.data && response.data.status === 'Success') || response.status === 200;
 
       if (responseOk) {
-          const data = response.data?.data || response.data;
+        const data = response.data?.data || response.data;
 
-          if (data?.payment?.status === 'payment_pending') {
-              const rpOrder = data.payment.razorpay_order;
+        if (data?.payment?.status === 'payment_pending') {
+          const rpOrder = data.payment.razorpay_order;
 
-              if (!window.Razorpay) {
-                  setOrderError('Razorpay SDK failed to load.');
-                  setIsProcessing(false);
-                  return;
-              }
-
-              const options = {
-                  description: 'Order Payment - Eden Sign',
-                  image: 'https://i.imgur.com/3g7nmJC.png',
-                  currency: 'INR',
-                  key: import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_xxxxxx',
-                  amount: rpOrder.amount,
-                  name: 'Eden Sign',
-                  order_id: rpOrder.id,
-                  prefill: {
-                    name: customer.username || '',
-                    email: customer.email || '',
-                    contact: customer.phone || ''
-                  },
-                  notes: { orderId: data.order?.id },
-                  theme: { color: '#0f5d4e' },
-                  config: {
-                    display: {
-                      blocks: {
-                        upi: {
-                          name: 'Pay via UPI',
-                          instruments: [{ method: 'upi' }]
-                        },
-                        other: {
-                          name: 'Other Payment Modes',
-                          instruments: [{ method: 'card' }, { method: 'netbanking' }, { method: 'wallet' }]
-                        }
-                      },
-                      sequence: ['block.upi', 'block.other'],
-                      preferences: { show_default_blocks: true }
-                    }
-                  },
-                  handler: async function (rpData) {
-                    try {
-                        await api.post('/wallet/verify-payment', {
-                            razorpay_order_id: rpData.razorpay_order_id,
-                            razorpay_payment_id: rpData.razorpay_payment_id,
-                            razorpay_signature: rpData.razorpay_signature,
-                            type: 'order',
-                            reference_id: data.order?.id
-                        }, { headers: { Authorization: `Bearer ${customerToken}` } });
-
-                        dispatch(clearCart());
-                        navigate('/dashboard');
-                    } catch (err) {
-                        setOrderError('Payment was received but verification failed. Please contact support.');
-                        setIsProcessing(false);
-                    }
-                  },
-                  modal: {
-                    ondismiss: function () {
-                      setOrderError('Payment was cancelled. Your cart is saved.');
-                      setIsProcessing(false);
-                    }
-                  }
-              };
-
-              const paymentObject = new window.Razorpay(options);
-              paymentObject.open();
-          } else {
-              dispatch(clearCart());
-              navigate('/dashboard');
+          if (!window.Razorpay) {
+            setOrderError('Razorpay SDK failed to load.');
+            setIsProcessing(false);
+            return;
           }
+
+          const options = {
+            description: 'Order Payment - Eden Sign',
+            image: 'https://i.imgur.com/3g7nmJC.png',
+            currency: 'INR',
+            key: import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_xxxxxx',
+            amount: rpOrder.amount,
+            name: 'Eden Sign',
+            order_id: rpOrder.id,
+            prefill: {
+              name: customer.username || '',
+              email: customer.email || '',
+              contact: customer.phone || ''
+            },
+            notes: { orderId: data.order?.id },
+            theme: { color: '#0f5d4e' },
+            config: {
+              display: {
+                blocks: {
+                  upi: {
+                    name: 'Pay via UPI',
+                    instruments: [{ method: 'upi' }]
+                  },
+                  other: {
+                    name: 'Other Payment Modes',
+                    instruments: [{ method: 'card' }, { method: 'netbanking' }, { method: 'wallet' }]
+                  }
+                },
+                sequence: ['block.upi', 'block.other'],
+                preferences: { show_default_blocks: true }
+              }
+            },
+            handler: async function (rpData) {
+              try {
+                await api.post('/wallet/verify-payment', {
+                  razorpay_order_id: rpData.razorpay_order_id,
+                  razorpay_payment_id: rpData.razorpay_payment_id,
+                  razorpay_signature: rpData.razorpay_signature,
+                  type: 'order',
+                  reference_id: data.order?.id
+                }, { headers: { Authorization: `Bearer ${customerToken}` } });
+
+                dispatch(clearCart());
+                navigate('/dashboard');
+              } catch (err) {
+                setOrderError('Payment was received but verification failed. Please contact support.');
+                setIsProcessing(false);
+              }
+            },
+            modal: {
+              ondismiss: function () {
+                setOrderError('Payment was cancelled. Your cart is saved.');
+                setIsProcessing(false);
+              }
+            }
+          };
+
+          const paymentObject = new window.Razorpay(options);
+          paymentObject.open();
+        } else {
+          dispatch(clearCart());
+          navigate('/dashboard');
+        }
       } else {
         setOrderError(response.data?.data || 'Failed to place order.');
         setIsProcessing(false);
@@ -551,7 +551,7 @@ function CartPage() {
                 A quiet moment before checkout. Every essence is packed by hand at our atelier partners and shipped with a written note from the maker.
               </p>
             </div>
-            
+
             {/* Steps progress */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '16px', textTransform: 'uppercase', letterSpacing: '0.24em', fontSize: '11px', fontWeight: 600, color: 'var(--es-charcoal-60)' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>

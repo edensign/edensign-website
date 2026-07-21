@@ -366,125 +366,125 @@ const ConfirmStep = ({ form, payMethod, items, grandTotal, shipping, discount, u
   let payableAmount = grandTotal;
   let walletDeduction = 0;
   if (useWallet && walletBalance > 0) {
-      if (walletBalance >= grandTotal) {
-          payableAmount = 0;
-          walletDeduction = grandTotal;
-      } else {
-          payableAmount = grandTotal - walletBalance;
-          walletDeduction = walletBalance;
-      }
+    if (walletBalance >= grandTotal) {
+      payableAmount = 0;
+      walletDeduction = grandTotal;
+    } else {
+      payableAmount = grandTotal - walletBalance;
+      walletDeduction = walletBalance;
+    }
   }
 
   return (
-  <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -30 }}>
-    <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: '24px', color: '#1a0f08', margin: '0 0 24px' }}>
-      Review Your Order
-    </h2>
+    <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -30 }}>
+      <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: '24px', color: '#1a0f08', margin: '0 0 24px' }}>
+        Review Your Order
+      </h2>
 
-    {/* Delivery summary */}
-    <SummaryBlock title="📦 Delivery To">
-      <p style={summaryText}>{form.name} &bull; {form.phone}</p>
-      <p style={summaryText}>{form.address}, {form.city} – {form.pincode}</p>
-      <p style={summaryText}>{form.email}</p>
-    </SummaryBlock>
+      {/* Delivery summary */}
+      <SummaryBlock title="📦 Delivery To">
+        <p style={summaryText}>{form.name} &bull; {form.phone}</p>
+        <p style={summaryText}>{form.address}, {form.city} – {form.pincode}</p>
+        <p style={summaryText}>{form.email}</p>
+      </SummaryBlock>
 
-    {/* Payment summary */}
-    <SummaryBlock title="💳 Payment">
-      <p style={summaryText}>
-        {payMethod === 'card' ? 'Credit / Debit Card' : payMethod === 'upi' ? 'UPI' : 'Cash on Delivery'}
-      </p>
-    </SummaryBlock>
+      {/* Payment summary */}
+      <SummaryBlock title="💳 Payment">
+        <p style={summaryText}>
+          {payMethod === 'card' ? 'Credit / Debit Card' : payMethod === 'upi' ? 'UPI' : 'Cash on Delivery'}
+        </p>
+      </SummaryBlock>
 
-    {/* Items */}
-    <SummaryBlock title="🛍 Items">
-      {items.map(item => (
-        <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            {item.productImg && (
-              <div style={{ width: 44, height: 44, borderRadius: '10px', background: '#faf6f1', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', flexShrink: 0 }}>
-                <img src={item.productImg} alt={item.name} style={{ maxWidth: 40, maxHeight: 40, objectFit: 'contain' }} />
+      {/* Items */}
+      <SummaryBlock title="🛍 Items">
+        {items.map(item => (
+          <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              {item.productImg && (
+                <div style={{ width: 44, height: 44, borderRadius: '10px', background: '#faf6f1', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', flexShrink: 0 }}>
+                  <img src={item.productImg} alt={item.name} style={{ maxWidth: 40, maxHeight: 40, objectFit: 'contain' }} />
+                </div>
+              )}
+              <div>
+                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '13px', fontWeight: 600, color: '#1a0f08' }}>{item.name}</div>
+                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', color: '#9a8070' }}>Qty: {item.qty}</div>
               </div>
-            )}
-            <div>
-              <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '13px', fontWeight: 600, color: '#1a0f08' }}>{item.name}</div>
-              <div style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', color: '#9a8070' }}>Qty: {item.qty}</div>
             </div>
+            <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', fontWeight: 700, color: '#1a0f08' }}>
+              ₹{(Number(item.discounted_price || item.price) * item.qty).toLocaleString('en-IN')}
+            </span>
           </div>
-          <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px', fontWeight: 700, color: '#1a0f08' }}>
-            ₹{(Number(item.discounted_price || item.price) * item.qty).toLocaleString('en-IN')}
+        ))}
+      </SummaryBlock>
+
+      {/* Totals */}
+      <div style={{ background: 'rgba(199,149,108,0.05)', borderRadius: '14px', padding: '16px 20px', marginBottom: '24px' }}>
+        {discount > 0 && (
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
+            <span style={summaryText}>Promo Discount</span>
+            <span style={{ ...summaryText, color: '#16a34a', fontWeight: 700 }}>−₹{discount.toLocaleString('en-IN')}</span>
+          </div>
+        )}
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
+          <span style={summaryText}>Shipping</span>
+          <span style={{ ...summaryText, color: shipping === 0 ? '#16a34a' : '#1a0f08', fontWeight: 700 }}>
+            {shipping === 0 ? 'FREE' : `₹${shipping}`}
           </span>
         </div>
-      ))}
-    </SummaryBlock>
+        {useWallet && walletDeduction > 0 && (
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
+            <span style={summaryText}>Wallet Used</span>
+            <span style={{ ...summaryText, color: '#ef4444', fontWeight: 700 }}>−₹{walletDeduction.toLocaleString('en-IN')}</span>
+          </div>
+        )}
+        <div style={{ borderTop: '1px solid rgba(199,149,108,0.15)', paddingTop: '10px', display: 'flex', justifyContent: 'space-between' }}>
+          <span style={{ fontFamily: 'Playfair Display, serif', fontSize: '17px', fontWeight: 700, color: '#1a0f08' }}>Payable Amount</span>
+          <span style={{ fontFamily: 'Playfair Display, serif', fontSize: '20px', fontWeight: 700, color: '#1a0f08' }}>
+            ₹{payableAmount.toLocaleString('en-IN')}
+          </span>
+        </div>
+      </div>
 
-    {/* Totals */}
-    <div style={{ background: 'rgba(199,149,108,0.05)', borderRadius: '14px', padding: '16px 20px', marginBottom: '24px' }}>
-      {discount > 0 && (
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-          <span style={summaryText}>Promo Discount</span>
-          <span style={{ ...summaryText, color: '#16a34a', fontWeight: 700 }}>−₹{discount.toLocaleString('en-IN')}</span>
+      {orderError && (
+        <div style={{
+          background: 'rgba(239,68,68,0.07)', border: '1px solid rgba(239,68,68,0.25)',
+          borderRadius: '12px', padding: '12px 16px', marginBottom: '16px',
+          fontFamily: 'Inter, sans-serif', fontSize: '13px', color: '#b91c1c', lineHeight: 1.5
+        }}>
+          ⚠️ {orderError}
         </div>
       )}
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-        <span style={summaryText}>Shipping</span>
-        <span style={{ ...summaryText, color: shipping === 0 ? '#16a34a' : '#1a0f08', fontWeight: 700 }}>
-          {shipping === 0 ? 'FREE' : `₹${shipping}`}
-        </span>
-      </div>
-      {useWallet && walletDeduction > 0 && (
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-          <span style={summaryText}>Wallet Used</span>
-          <span style={{ ...summaryText, color: '#ef4444', fontWeight: 700 }}>−₹{walletDeduction.toLocaleString('en-IN')}</span>
-        </div>
-      )}
-      <div style={{ borderTop: '1px solid rgba(199,149,108,0.15)', paddingTop: '10px', display: 'flex', justifyContent: 'space-between' }}>
-        <span style={{ fontFamily: 'Playfair Display, serif', fontSize: '17px', fontWeight: 700, color: '#1a0f08' }}>Payable Amount</span>
-        <span style={{ fontFamily: 'Playfair Display, serif', fontSize: '20px', fontWeight: 700, color: '#1a0f08' }}>
-          ₹{payableAmount.toLocaleString('en-IN')}
-        </span>
-      </div>
-    </div>
 
-    {orderError && (
-      <div style={{
-        background: 'rgba(239,68,68,0.07)', border: '1px solid rgba(239,68,68,0.25)',
-        borderRadius: '12px', padding: '12px 16px', marginBottom: '16px',
-        fontFamily: 'Inter, sans-serif', fontSize: '13px', color: '#b91c1c', lineHeight: 1.5
-      }}>
-        ⚠️ {orderError}
+      <div style={{ display: 'flex', gap: '12px' }}>
+        <button
+          onClick={onBack}
+          style={{
+            flex: '0 0 auto', padding: '14px 22px', borderRadius: '12px',
+            border: '1.5px solid rgba(199,149,108,0.3)',
+            background: '#fff', cursor: 'pointer',
+            fontFamily: 'Inter, sans-serif', fontSize: '14px', fontWeight: 600, color: '#6b5749',
+            display: 'flex', alignItems: 'center', gap: '6px',
+          }}
+        >
+          <ArrowBackIcon sx={{ fontSize: 17 }} /> Back
+        </button>
+        <motion.button
+          whileHover={{ scale: 1.02, boxShadow: '0 8px 32px rgba(34,197,94,0.3)' }}
+          whileTap={{ scale: 0.97 }}
+          onClick={onPlace}
+          style={{
+            flex: 1, padding: '16px', borderRadius: '14px', border: 'none', cursor: 'pointer',
+            background: 'linear-gradient(135deg, #16a34a, #22c55e)',
+            color: '#fff', fontFamily: 'Inter, sans-serif', fontSize: '15px', fontWeight: 700,
+            letterSpacing: '0.04em',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+            boxShadow: '0 4px 20px rgba(34,197,94,0.25)',
+          }}
+        >
+          <LockOutlinedIcon sx={{ fontSize: 17 }} /> Place Order Now ✓
+        </motion.button>
       </div>
-    )}
-
-    <div style={{ display: 'flex', gap: '12px' }}>
-      <button
-        onClick={onBack}
-        style={{
-          flex: '0 0 auto', padding: '14px 22px', borderRadius: '12px',
-          border: '1.5px solid rgba(199,149,108,0.3)',
-          background: '#fff', cursor: 'pointer',
-          fontFamily: 'Inter, sans-serif', fontSize: '14px', fontWeight: 600, color: '#6b5749',
-          display: 'flex', alignItems: 'center', gap: '6px',
-        }}
-      >
-        <ArrowBackIcon sx={{ fontSize: 17 }} /> Back
-      </button>
-      <motion.button
-        whileHover={{ scale: 1.02, boxShadow: '0 8px 32px rgba(34,197,94,0.3)' }}
-        whileTap={{ scale: 0.97 }}
-        onClick={onPlace}
-        style={{
-          flex: 1, padding: '16px', borderRadius: '14px', border: 'none', cursor: 'pointer',
-          background: 'linear-gradient(135deg, #16a34a, #22c55e)',
-          color: '#fff', fontFamily: 'Inter, sans-serif', fontSize: '15px', fontWeight: 700,
-          letterSpacing: '0.04em',
-          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
-          boxShadow: '0 4px 20px rgba(34,197,94,0.25)',
-        }}
-      >
-        <LockOutlinedIcon sx={{ fontSize: 17 }} /> Place Order Now ✓
-      </motion.button>
-    </div>
-  </motion.div>
+    </motion.div>
   );
 };
 
@@ -517,7 +517,7 @@ function CheckoutPage() {
             setWalletBalance(res.data.data.balance || 0);
           }
         }
-      } catch (e) {}
+      } catch (e) { }
     };
     fetchBalance();
   }, [customerToken]);
@@ -528,9 +528,9 @@ function CheckoutPage() {
     setOrderError('');
 
     if (!API.CustomerAPI.isLoggedIn()) {
-        setOrderError('Please login to place an order. Redirecting...');
-        setTimeout(() => navigate('/login'), 1500);
-        return;
+      setOrderError('Please login to place an order. Redirecting...');
+      setTimeout(() => navigate('/login'), 1500);
+      return;
     }
 
     try {
@@ -542,9 +542,9 @@ function CheckoutPage() {
         payment_method: payMethod,
         useWallet: useWallet,
         items: items.map(item => ({
-            product_id: item.id,
-            quantity: item.qty,
-            price: Number(item.discounted_price || item.price || 0)
+          product_id: item.id,
+          quantity: item.qty,
+          price: Number(item.discounted_price || item.price || 0)
         })),
         shipping_address: form
       };
@@ -557,68 +557,68 @@ function CheckoutPage() {
       const responseOk = (response.data && response.data.status === 'Success') || response.status === 200;
 
       if (responseOk) {
-          const data = response.data?.data || response.data;
+        const data = response.data?.data || response.data;
 
-          if (data?.payment?.status === 'payment_pending') {
-              const rpOrder = data.payment.razorpay_order;
+        if (data?.payment?.status === 'payment_pending') {
+          const rpOrder = data.payment.razorpay_order;
 
-              if (!window.Razorpay) {
-                const loaded = await loadRazorpayScript();
-                if (!loaded) {
-                  setOrderError('Razorpay SDK failed to load. Please try again.');
-                  return;
-                }
-              }
-
-              const options = {
-                  description: 'Order Payment - Eden Sign',
-                  image: 'https://i.imgur.com/3g7nmJC.png',
-                  currency: 'INR',
-                  key: import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_xxxxxx',
-                  amount: rpOrder.amount,
-                  name: 'Eden Sign',
-                  order_id: rpOrder.id,
-                  prefill: {
-                    name: form.name || '',
-                    email: form.email || '',
-                    contact: form.phone || ''
-                  },
-                  notes: { orderId: data.order?.id },
-                  theme: { color: '#c7956c' },
-                  handler: async function (rpData) {
-                    try {
-                        await api.post('/wallet/verify-payment', {
-                            razorpay_order_id: rpData.razorpay_order_id,
-                            razorpay_payment_id: rpData.razorpay_payment_id,
-                            razorpay_signature: rpData.razorpay_signature,
-                            type: 'order',
-                            reference_id: data.order?.id
-                        }, { headers: { Authorization: `Bearer ${customerToken}` } });
-                        dispatch(clearCart());
-                        navigate('/dashboard');
-                    } catch (err) {
-                        setOrderError('Payment was received but verification failed. Please contact support.');
-                    }
-                  },
-                  modal: {
-                    ondismiss: function () {
-                      setOrderError('Payment was cancelled. Your order is saved — complete payment to confirm.');
-                    }
-                  }
-              };
-
-              const paymentObject = new window.Razorpay(options);
-              paymentObject.open();
-
-          } else if (data?.payment?.status === 'paid') {
-              // Fully paid by wallet
-              dispatch(clearCart());
-              navigate('/dashboard');
-          } else {
-              // No payment required (COD etc.)
-              dispatch(clearCart());
-              navigate('/dashboard');
+          if (!window.Razorpay) {
+            const loaded = await loadRazorpayScript();
+            if (!loaded) {
+              setOrderError('Razorpay SDK failed to load. Please try again.');
+              return;
+            }
           }
+
+          const options = {
+            description: 'Order Payment - Eden Sign',
+            image: 'https://i.imgur.com/3g7nmJC.png',
+            currency: 'INR',
+            key: import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_xxxxxx',
+            amount: rpOrder.amount,
+            name: 'Eden Sign',
+            order_id: rpOrder.id,
+            prefill: {
+              name: form.name || '',
+              email: form.email || '',
+              contact: form.phone || ''
+            },
+            notes: { orderId: data.order?.id },
+            theme: { color: '#c7956c' },
+            handler: async function (rpData) {
+              try {
+                await api.post('/wallet/verify-payment', {
+                  razorpay_order_id: rpData.razorpay_order_id,
+                  razorpay_payment_id: rpData.razorpay_payment_id,
+                  razorpay_signature: rpData.razorpay_signature,
+                  type: 'order',
+                  reference_id: data.order?.id
+                }, { headers: { Authorization: `Bearer ${customerToken}` } });
+                dispatch(clearCart());
+                navigate('/dashboard');
+              } catch (err) {
+                setOrderError('Payment was received but verification failed. Please contact support.');
+              }
+            },
+            modal: {
+              ondismiss: function () {
+                setOrderError('Payment was cancelled. Your order is saved — complete payment to confirm.');
+              }
+            }
+          };
+
+          const paymentObject = new window.Razorpay(options);
+          paymentObject.open();
+
+        } else if (data?.payment?.status === 'paid') {
+          // Fully paid by wallet
+          dispatch(clearCart());
+          navigate('/dashboard');
+        } else {
+          // No payment required (COD etc.)
+          dispatch(clearCart());
+          navigate('/dashboard');
+        }
       } else {
         setOrderError(response.data?.data || 'Failed to place order. Please try again.');
       }

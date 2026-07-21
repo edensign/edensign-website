@@ -14,6 +14,7 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import LanguageIcon from '@mui/icons-material/Language';
 import { useSelector } from "react-redux";
+import { BRAND_EMAIL_INFO } from "../../../brand";
 
 const TheLocations = () => {
     const { salon } = useSelector(state => state.salonDetail);
@@ -173,7 +174,7 @@ const TheLocations = () => {
                                 </Typography>
                                 <Typography 
                                     component="a"
-                                    href={`mailto:${salon?.email || "info@edensign.com"}`}
+                                    href={`mailto:${salon?.email || BRAND_EMAIL_INFO}`}
                                     sx={{ 
                                         fontSize: "14px", 
                                         color: "var(--es-charcoal)", 
@@ -183,7 +184,7 @@ const TheLocations = () => {
                                         "&:hover": { color: "var(--es-emerald-soft)" }
                                     }}
                                 >
-                                    {salon?.email || "info@edensign.com"}
+                                    {salon?.email || BRAND_EMAIL_INFO}
                                 </Typography>
                             </Box>
                         </Box>

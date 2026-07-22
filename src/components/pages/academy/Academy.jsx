@@ -16,10 +16,16 @@ import {
   Dialog,
   DialogContent,
   Button,
+  Slider,
   useMediaQuery,
   useTheme
 } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import PauseIcon from '@mui/icons-material/Pause';
+import Replay10Icon from '@mui/icons-material/Replay10';
+import Forward10Icon from '@mui/icons-material/Forward10';
+import VolumeUpIcon from '@mui/icons-material/VolumeUp';
+import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 import CloseIcon from '@mui/icons-material/Close';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
@@ -171,7 +177,208 @@ const Academy = () => {
     });
   }, [academicVideos, selectedCategory, searchQuery]);
 
-  const handleCloseVideo = () => setOpenVideo(null);
+  // Video Player Control States & Refs
+  const playerRef = React.useRef(null);
+  const timerRef = React.useRef(null);
+  const controlsTimeoutRef = React.useRef(null);
+
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [isMuted, setIsMuted] = useState(false);
+  const [showControls, setShowControls] = useState(true);
+  const [isSeeking, setIsSeeking] = useState(false);
+
+  // Time formatter helper (e.g. 02:15 or 01:15:30)
+  const formatTime = (seconds) => {
+    if (!seconds || isNaN(seconds)) return "00:00";
+    const s = Math.floor(seconds);
+    const hrs = Math.floor(s / 3600);
+    const mins = Math.floor((s % 3600) / 60);
+    const secs = s % 60;
+    const pad = (num) => String(num).padStart(2, '0');
+    if (hrs > 0) {
+      return `${hrs}:${pad(mins)}:${pad(secs)}`;
+    }
+    return `${pad(mins)}:${pad(secs)}`;
+  };
+
+  // Load YouTube IFrame API script tag on mount
+  React.useEffect(() => {
+    if (!window.YT) {
+      const tag = document.createElement('script');
+      tag.src = 'https://www.youtube.com/iframe_api';
+      const firstScriptTag = document.getElementsByTagName('script')[0];
+      if (firstScriptTag && firstScriptTag.parentNode) {
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+      } else {
+        document.head.appendChild(tag);
+      }
+    }
+  }, []);
+
+  // Initialize player when openVideo is active
+  React.useEffect(() => {
+    if (!openVideo) {
+      if (playerRef.current) {
+        try { playerRef.current.destroy(); } catch (e) {}
+        playerRef.current = null;
+      }
+      if (timerRef.current) clearInterval(timerRef.current);
+      return;
+    }
+
+    setShowControls(true);
+    setIsPlaying(true);
+    setCurrentTime(0);
+    setDuration(0);
+
+    const initPlayer = () => {
+      if (window.YT && window.YT.Player) {
+        playerRef.current = new window.YT.Player('academy-yt-player', {
+          events: {
+            onReady: (event) => {
+              try {
+                event.target.playVideo();
+                setIsPlaying(true);
+                const dur = event.target.getDuration();
+                if (dur) setDuration(dur);
+              } catch (err) {}
+            },
+            onStateChange: (event) => {
+              if (window.YT && window.YT.PlayerState) {
+                if (event.data === window.YT.PlayerState.PLAYING) {
+                  setIsPlaying(true);
+                } else if (event.data === window.YT.PlayerState.PAUSED) {
+                  setIsPlaying(false);
+                } else if (event.data === window.YT.PlayerState.ENDED) {
+                  setIsPlaying(false);
+                }
+              }
+            }
+          }
+        });
+      }
+    };
+
+    if (window.YT && window.YT.Player) {
+      initPlayer();
+    } else {
+      const checkInterval = setInterval(() => {
+        if (window.YT && window.YT.Player) {
+          clearInterval(checkInterval);
+          initPlayer();
+        }
+      }, 150);
+      return () => clearInterval(checkInterval);
+    }
+  }, [openVideo]);
+
+  // Polling playback timer & duration
+  React.useEffect(() => {
+    if (!openVideo) return;
+    timerRef.current = setInterval(() => {
+      if (playerRef.current && typeof playerRef.current.getCurrentTime === 'function' && !isSeeking) {
+        try {
+          const cur = playerRef.current.getCurrentTime() || 0;
+          const dur = playerRef.current.getDuration() || 0;
+          setCurrentTime(cur);
+          if (dur > 0) setDuration(dur);
+          if (typeof playerRef.current.isMuted === 'function') {
+            setIsMuted(playerRef.current.isMuted());
+          }
+        } catch (e) {}
+      }
+    }, 250);
+
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, [openVideo, isSeeking]);
+
+  // Control handlers
+  const handlePlayPause = (e) => {
+    e?.stopPropagation();
+    if (!playerRef.current) return;
+    try {
+      if (isPlaying) {
+        playerRef.current.pauseVideo();
+        setIsPlaying(false);
+      } else {
+        playerRef.current.playVideo();
+        setIsPlaying(true);
+      }
+    } catch (e) {}
+  };
+
+  const handleRewind10 = (e) => {
+    e?.stopPropagation();
+    if (!playerRef.current) return;
+    try {
+      const cur = playerRef.current.getCurrentTime() || 0;
+      const target = Math.max(0, cur - 10);
+      playerRef.current.seekTo(target, true);
+      setCurrentTime(target);
+    } catch (e) {}
+  };
+
+  const handleForward10 = (e) => {
+    e?.stopPropagation();
+    if (!playerRef.current) return;
+    try {
+      const cur = playerRef.current.getCurrentTime() || 0;
+      const dur = playerRef.current.getDuration() || duration || 0;
+      const target = Math.min(dur, cur + 10);
+      playerRef.current.seekTo(target, true);
+      setCurrentTime(target);
+    } catch (e) {}
+  };
+
+  const handleSliderChange = (e, newValue) => {
+    setIsSeeking(true);
+    setCurrentTime(newValue);
+  };
+
+  const handleSliderChangeCommitted = (e, newValue) => {
+    setIsSeeking(false);
+    if (playerRef.current && typeof playerRef.current.seekTo === 'function') {
+      try {
+        playerRef.current.seekTo(newValue, true);
+      } catch (e) {}
+    }
+  };
+
+  const handleToggleMute = (e) => {
+    e?.stopPropagation();
+    if (!playerRef.current) return;
+    try {
+      if (playerRef.current.isMuted()) {
+        playerRef.current.unMute();
+        setIsMuted(false);
+      } else {
+        playerRef.current.mute();
+        setIsMuted(true);
+      }
+    } catch (e) {}
+  };
+
+  const handleMouseMovePlayer = () => {
+    setShowControls(true);
+    if (controlsTimeoutRef.current) clearTimeout(controlsTimeoutRef.current);
+    controlsTimeoutRef.current = setTimeout(() => {
+      if (isPlaying) {
+        setShowControls(false);
+      }
+    }, 3500);
+  };
+
+  const handleCloseVideo = () => {
+    if (playerRef.current) {
+      try { playerRef.current.destroy(); } catch (e) {}
+      playerRef.current = null;
+    }
+    setOpenVideo(null);
+  };
 
   return (
     <Box sx={{ minHeight: '100vh', background: 'var(--es-cream)', pt: '80px' }}>
@@ -649,7 +856,7 @@ const Academy = () => {
         </motion.div>
       </Container>
 
-      {/* ── Video Modal ── */}
+      {/* ── Custom Video Player Modal ── */}
       <Dialog
         fullScreen={isMobile}
         maxWidth="lg"
@@ -658,36 +865,301 @@ const Academy = () => {
         onClose={handleCloseVideo}
         PaperProps={{
           sx: {
-            borderRadius: isMobile ? 0 : '20px',
+            borderRadius: isMobile ? 0 : '24px',
             bgcolor: '#000',
             overflow: 'hidden',
+            boxShadow: '0 25px 70px rgba(0,0,0,0.5)',
           }
         }}
       >
-        <Box sx={{ position: 'relative', width: '100%', pt: '56.25%' }}>
-          <IconButton
-            onClick={handleCloseVideo}
-            sx={{
-              position: 'absolute', top: 16, right: 16, zIndex: 10,
-              color: '#fff',
-              background: 'rgba(0,0,0,0.6)',
-              backdropFilter: 'blur(8px)',
-              border: '1px solid rgba(255,255,255,0.1)',
-              '&:hover': { background: 'rgba(0,0,0,0.85)' }
-            }}
-          >
-            <CloseIcon />
-          </IconButton>
+        <Box 
+          onMouseMove={handleMouseMovePlayer}
+          onClick={handlePlayPause}
+          sx={{ 
+            position: 'relative', 
+            width: '100%', 
+            pt: '56.25%', 
+            bgcolor: '#000',
+            cursor: 'pointer',
+            overflow: 'hidden'
+          }}
+        >
           {openVideo && (
             <iframe
-              style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none' }}
-              src={`https://www.youtube.com/embed/${openVideo.id}?autoplay=1`}
+              id="academy-yt-player"
+              style={{ 
+                position: 'absolute', 
+                top: 0, 
+                left: 0, 
+                width: '100%', 
+                height: '100%', 
+                border: 'none',
+                pointerEvents: 'none'
+              }}
+              src={`https://www.youtube.com/embed/${openVideo.id}?enablejsapi=1&autoplay=1&controls=0&rel=0&modestbranding=1&iv_load_policy=3&playsinline=1`}
               title={openVideo.title}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
             />
           )}
+
+          {/* Controls Overlay Container */}
+          <Box
+            sx={{
+              position: 'absolute',
+              inset: 0,
+              zIndex: 10,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              background: showControls || !isPlaying
+                ? 'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.2) 40%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0.85) 100%)'
+                : 'transparent',
+              opacity: showControls || !isPlaying ? 1 : 0,
+              transition: 'opacity 0.35s ease',
+              p: { xs: 2, sm: 3 }
+            }}
+          >
+            {/* Top Bar: Title & Close Button */}
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', pointerEvents: 'auto' }}>
+              <Typography sx={{
+                fontFamily: 'Inter, sans-serif',
+                color: '#fff',
+                fontSize: { xs: '13px', sm: '15px' },
+                fontWeight: 600,
+                textShadow: '0 2px 8px rgba(0,0,0,0.8)',
+                maxWidth: '80%',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis'
+              }}>
+                {openVideo?.title}
+              </Typography>
+
+              <IconButton
+                onClick={(e) => { e.stopPropagation(); handleCloseVideo(); }}
+                sx={{
+                  color: '#fff',
+                  background: 'rgba(255,255,255,0.15)',
+                  backdropFilter: 'blur(8px)',
+                  '&:hover': { background: 'rgba(255,255,255,0.3)', transform: 'scale(1.05)' }
+                }}
+              >
+                <CloseIcon />
+              </IconButton>
+            </Box>
+
+            {/* Center Controls: Rewind -10s | Play/Pause | Forward +10s */}
+            <Box 
+              sx={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center', 
+                gap: { xs: 2, sm: 4 },
+                pointerEvents: 'auto'
+              }}
+            >
+              {/* Rewind 10s */}
+              <Box
+                onClick={handleRewind10}
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  cursor: 'pointer',
+                  color: '#fff',
+                  transition: 'transform 0.2s',
+                  '&:hover': { transform: 'scale(1.15)', color: 'var(--es-emerald)' }
+                }}
+              >
+                <IconButton sx={{ color: 'inherit', p: 1.5, background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(4px)' }}>
+                  <Replay10Icon sx={{ fontSize: { xs: 32, sm: 42 } }} />
+                </IconButton>
+                <Typography sx={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', fontWeight: 600, mt: 0.5, opacity: 0.9 }}>-10s</Typography>
+              </Box>
+
+              {/* Center Play/Pause */}
+              <Box
+                onClick={handlePlayPause}
+                sx={{
+                  width: { xs: 64, sm: 80 },
+                  height: { xs: 64, sm: 80 },
+                  borderRadius: '50%',
+                  background: '#fff',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  boxShadow: '0 8px 30px rgba(0,0,0,0.4)',
+                  cursor: 'pointer',
+                  transition: 'transform 0.2s, background-color 0.2s',
+                  '&:hover': { transform: 'scale(1.1)' }
+                }}
+              >
+                {isPlaying ? (
+                  <PauseIcon sx={{ fontSize: { xs: 36, sm: 48 }, color: 'var(--es-emerald)' }} />
+                ) : (
+                  <PlayArrowIcon sx={{ fontSize: { xs: 36, sm: 48 }, color: 'var(--es-emerald)', ml: 0.5 }} />
+                )}
+              </Box>
+
+              {/* Forward 10s */}
+              <Box
+                onClick={handleForward10}
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  cursor: 'pointer',
+                  color: '#fff',
+                  transition: 'transform 0.2s',
+                  '&:hover': { transform: 'scale(1.15)', color: 'var(--es-emerald)' }
+                }}
+              >
+                <IconButton sx={{ color: 'inherit', p: 1.5, background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(4px)' }}>
+                  <Forward10Icon sx={{ fontSize: { xs: 32, sm: 42 } }} />
+                </IconButton>
+                <Typography sx={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', fontWeight: 600, mt: 0.5, opacity: 0.9 }}>+10s</Typography>
+              </Box>
+            </Box>
+
+            {/* Bottom Bar: Duration Timeline & Volume Controls */}
+            <Box 
+              onClick={(e) => e.stopPropagation()}
+              sx={{ 
+                display: 'flex', 
+                flexDirection: 'column', 
+                gap: 1, 
+                pointerEvents: 'auto',
+                width: '100%'
+              }}
+            >
+              {/* Timeline Slider & Time Displays */}
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                <Typography sx={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', fontWeight: 600, color: '#fff', minWidth: '45px' }}>
+                  {formatTime(currentTime)}
+                </Typography>
+
+                <Slider
+                  size="small"
+                  value={currentTime}
+                  min={0}
+                  max={duration || 100}
+                  onChange={handleSliderChange}
+                  onChangeCommitted={handleSliderChangeCommitted}
+                  sx={{
+                    color: 'var(--es-emerald)',
+                    height: 5,
+                    py: 1,
+                    '& .MuiSlider-thumb': {
+                      width: 14,
+                      height: 14,
+                      transition: '0.2s',
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.5)',
+                      '&:hover, &.Mui-focused': {
+                        boxShadow: '0 0 0 8px rgba(15, 93, 78, 0.3)'
+                      }
+                    },
+                    '& .MuiSlider-track': {
+                      border: 'none',
+                      background: 'linear-gradient(90deg, var(--es-emerald) 0%, var(--es-emerald-soft) 100%)'
+                    },
+                    '& .MuiSlider-rail': {
+                      opacity: 0.35,
+                      backgroundColor: '#fff'
+                    }
+                  }}
+                />
+
+                <Typography sx={{ fontFamily: 'Inter, sans-serif', fontSize: '12px', fontWeight: 600, color: 'rgba(255,255,255,0.8)', minWidth: '45px', textAlign: 'right' }}>
+                  {formatTime(duration)}
+                </Typography>
+
+                <IconButton onClick={handleToggleMute} sx={{ color: '#fff', p: 0.5 }}>
+                  {isMuted ? <VolumeOffIcon fontSize="small" /> : <VolumeUpIcon fontSize="small" />}
+                </IconButton>
+              </Box>
+            </Box>
+          </Box>
+
+          {/* Dynamic Progress Duration Line at bottom of video box */}
+          <Box
+            sx={{
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              height: '4px',
+              bgcolor: 'var(--es-emerald)',
+              width: `${duration > 0 ? (currentTime / duration) * 100 : 0}%`,
+              transition: 'width 0.2s linear',
+              zIndex: 12,
+              boxShadow: '0 0 10px var(--es-emerald)'
+            }}
+          />
         </Box>
+
+        {/* Dedicated Duration Bar & Control Panel under video */}
+        <Box sx={{ bgcolor: '#111827', px: { xs: 2, sm: 4 }, py: 2, color: '#fff', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 1, sm: 2 } }}>
+            {/* Rewind -10s */}
+            <IconButton onClick={handleRewind10} sx={{ color: '#fff', bgcolor: 'rgba(255,255,255,0.1)', '&:hover': { bgcolor: 'var(--es-emerald)' } }}>
+              <Replay10Icon fontSize="small" />
+            </IconButton>
+
+            {/* Play/Pause */}
+            <IconButton onClick={handlePlayPause} sx={{ color: '#fff', bgcolor: 'var(--es-emerald)', '&:hover': { bgcolor: 'var(--es-emerald-soft)' } }}>
+              {isPlaying ? <PauseIcon fontSize="small" /> : <PlayArrowIcon fontSize="small" />}
+            </IconButton>
+
+            {/* Forward +10s */}
+            <IconButton onClick={handleForward10} sx={{ color: '#fff', bgcolor: 'rgba(255,255,255,0.1)', '&:hover': { bgcolor: 'var(--es-emerald)' } }}>
+              <Forward10Icon fontSize="small" />
+            </IconButton>
+
+            {/* Time / Duration Text */}
+            <Typography sx={{ fontFamily: 'Inter, sans-serif', fontSize: '13px', fontWeight: 600, color: 'rgba(255,255,255,0.9)', minWidth: '95px', whiteSpace: 'nowrap' }}>
+              {formatTime(currentTime)} / {formatTime(duration)}
+            </Typography>
+
+            {/* Dynamic Interactive Duration Line (Progress Slider) */}
+            <Box sx={{ flexGrow: 1, mx: 1 }}>
+              <Slider
+                value={currentTime}
+                min={0}
+                max={duration || 100}
+                onChange={handleSliderChange}
+                onChangeCommitted={handleSliderChangeCommitted}
+                sx={{
+                  color: 'var(--es-emerald)',
+                  height: 6,
+                  py: 1,
+                  '& .MuiSlider-thumb': {
+                    width: 16,
+                    height: 16,
+                    backgroundColor: '#fff',
+                    boxShadow: '0 2px 10px rgba(0,0,0,0.5)',
+                    '&:hover, &.Mui-focused': {
+                      boxShadow: '0 0 0 8px rgba(15, 93, 78, 0.3)'
+                    }
+                  },
+                  '& .MuiSlider-track': {
+                    border: 'none',
+                    background: 'linear-gradient(90deg, var(--es-emerald) 0%, #00e676 100%)'
+                  },
+                  '& .MuiSlider-rail': {
+                    opacity: 0.25,
+                    backgroundColor: '#fff'
+                  }
+                }}
+              />
+            </Box>
+
+            {/* Mute Toggle */}
+            <IconButton onClick={handleToggleMute} sx={{ color: 'rgba(255,255,255,0.8)', '&:hover': { color: '#fff' } }}>
+              {isMuted ? <VolumeOffIcon fontSize="small" /> : <VolumeUpIcon fontSize="small" />}
+            </IconButton>
+          </Box>
+        </Box>
+
         {!isMobile && (
           <DialogContent sx={{ bgcolor: 'var(--es-cream)', p: 4 }}>
             <Box sx={{ mb: 0.5 }}>

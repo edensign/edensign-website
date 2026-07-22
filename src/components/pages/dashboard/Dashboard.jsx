@@ -20,6 +20,8 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import PersonIcon from '@mui/icons-material/Person';
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
+import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 
 import API from "../../../apis";
 import { api } from "../../../apis/config/axiosConfig";
@@ -36,6 +38,7 @@ const Dashboard = () => {
 
     const [activeView, setActiveView] = useState("appointments");
     const [appointments, setAppointments] = useState([]);
+    const [orders, setOrders] = useState([]);
     const [cards, setCards] = useState([]);
     const [walletBalance, setWalletBalance] = useState(0);
     const [walletTransactions, setWalletTransactions] = useState([]);
@@ -50,11 +53,12 @@ const Dashboard = () => {
     const fetchData = async () => {
         setLoading(true);
         try {
-            const [apptRes, cardRes, balanceRes, txRes] = await Promise.all([
+            const [apptRes, cardRes, balanceRes, txRes, ordersRes] = await Promise.all([
                 API.AppointmentAPI.getMyAppointments(token),
                 API.DigitalOfferAPI.getMyCards(token),
                 api.get('/wallet/balance', { headers: { Authorization: `Bearer ${token}` } }),
-                api.get('/wallet/transactions', { headers: { Authorization: `Bearer ${token}` } })
+                api.get('/wallet/transactions', { headers: { Authorization: `Bearer ${token}` } }),
+                api.get('/orders/my', { headers: { Authorization: `Bearer ${token}` } })
             ]);
 
             if (apptRes.status === "Success") {
@@ -68,6 +72,9 @@ const Dashboard = () => {
             }
             if (txRes.data?.data?.rows) {
                 setWalletTransactions(txRes.data.data.rows || []);
+            }
+            if (ordersRes.data?.data?.orders) {
+                setOrders(ordersRes.data.data.orders || []);
             }
         } catch (error) {
             console.error("Dashboard fetch error:", error);
@@ -155,6 +162,7 @@ const Dashboard = () => {
 
     const menuItems = [
         { id: "appointments", label: "Appointments", icon: <CalendarMonthIcon />, count: appointments.length },
+        { id: "orders", label: "My Orders", icon: <ShoppingBagIcon />, count: orders.length },
         { id: "cards", label: "Offer Cards", icon: <ConfirmationNumberIcon />, count: cards.length },
         { id: "wallet", label: "My Wallet", icon: <AccountBalanceWalletIcon /> },
         { id: "profile", label: "My Profile", icon: <PersonIcon /> },
@@ -297,7 +305,7 @@ const Dashboard = () => {
                                                             </div>
                                                             <div className="appt-footer-item">
                                                                 <Typography className="appt-footer-lbl">Services</Typography>
-                                                                <Typography className="appt-footer-val">{appt.services || "Selected Services"}</Typography>
+                                                                <Typography className="appt-footer-val">{appt.service_name || appt.services || "Selected Services"}</Typography>
                                                             </div>
                                                         </div>
                                                     </CardContent>
@@ -312,6 +320,159 @@ const Dashboard = () => {
                                         )}
                                     </Grid>
                                 )}
+
+                                {activeView === "orders" && (() => {
+                                    const ORDER_PIPELINE = [
+                                        { value: "paid", label: "Confirmed", icon: "✅" },
+                                        { value: "processing", label: "Processing", icon: "⚙️" },
+                                        { value: "dispatched", label: "Dispatched", icon: "📦" },
+                                        { value: "on_the_way", label: "On The Way", icon: "🚚" },
+                                        { value: "delivered", label: "Delivered", icon: "🎉" },
+                                    ];
+                                    const STATUS_CONFIG = {
+                                        payment_pending: { label: "Payment Pending", color: "#d97706", bg: "rgba(217,119,6,0.1)" },
+                                        paid: { label: "Confirmed", color: "#10b981", bg: "rgba(16,185,129,0.1)" },
+                                        processing: { label: "Processing", color: "#3b82f6", bg: "rgba(59,130,246,0.1)" },
+                                        dispatched: { label: "Dispatched", color: "#8b5cf6", bg: "rgba(139,92,246,0.1)" },
+                                        on_the_way: { label: "On The Way", color: "#f97316", bg: "rgba(249,115,22,0.1)" },
+                                        delivered: { label: "Delivered", color: "#22c55e", bg: "rgba(34,197,94,0.1)" },
+                                        cancelled: { label: "Cancelled", color: "#ef4444", bg: "rgba(239,68,68,0.1)" },
+                                    };
+                                    return (
+                                        <Grid container spacing={3}>
+                                            {orders.length > 0 ? orders.map((order) => {
+                                                const cfg = STATUS_CONFIG[order.status] || { label: order.status, color: "#64748b", bg: "rgba(100,116,139,0.1)" };
+                                                const pipelineIdx = ORDER_PIPELINE.findIndex(s => s.value === order.status);
+                                                return (
+                                                    <Grid item xs={12} key={order.id}>
+                                                        <Card sx={{
+                                                            background: '#fff',
+                                                            border: '1px solid var(--es-charcoal-5)',
+                                                            borderRadius: '20px',
+                                                            boxShadow: 'var(--es-shadow)',
+                                                            overflow: 'hidden',
+                                                            '&:hover': { boxShadow: 'var(--es-shadow-md)', transform: 'translateY(-2px)', transition: 'all 0.3s' }
+                                                        }}>
+                                                            <CardContent sx={{ p: 3 }}>
+                                                                {/* Header row */}
+                                                                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2, flexWrap: 'wrap', gap: 1 }}>
+                                                                    <Box>
+                                                                        <Typography sx={{ fontFamily: 'var(--font-sans)', fontWeight: 700, fontSize: '16px', color: 'var(--es-charcoal)' }}>
+                                                                            Order #{order.id}
+                                                                        </Typography>
+                                                                        <Typography sx={{ fontFamily: 'var(--font-sans)', fontSize: '12px', color: 'var(--es-charcoal-60)', mt: 0.3 }}>
+                                                                            {new Date(order.created_at || Date.now()).toLocaleString('en-IN')}
+                                                                        </Typography>
+                                                                    </Box>
+                                                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                                                                        <Typography sx={{ fontFamily: 'var(--font-sans)', fontWeight: 800, fontSize: '18px', color: 'var(--es-emerald)' }}>
+                                                                            ₹{Number(order.total_amount || 0).toLocaleString('en-IN')}
+                                                                        </Typography>
+                                                                        <Chip
+                                                                            label={cfg.label}
+                                                                            size="small"
+                                                                            sx={{
+                                                                                fontWeight: 700, fontSize: '11px',
+                                                                                color: cfg.color, backgroundColor: cfg.bg,
+                                                                                border: `1px solid ${cfg.color}33`,
+                                                                                borderRadius: '8px', minWidth: 90
+                                                                            }}
+                                                                        />
+                                                                    </Box>
+                                                                </Box>
+
+                                                                {/* Pipeline bar (only for active pipeline statuses) */}
+                                                                {pipelineIdx >= 0 && (
+                                                                    <Box sx={{ mb: 2, p: 2, borderRadius: '14px', background: 'rgba(15,93,78,0.03)', border: '1px solid rgba(15,93,78,0.06)' }}>
+                                                                        <Typography sx={{ fontSize: '10px', fontWeight: 700, color: 'var(--es-charcoal-60)', textTransform: 'uppercase', letterSpacing: '0.06em', mb: 1.5 }}>
+                                                                            Order Progress
+                                                                        </Typography>
+                                                                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                                                            {ORDER_PIPELINE.map((step, idx) => {
+                                                                                const done = idx <= pipelineIdx;
+                                                                                return (
+                                                                                    <React.Fragment key={step.value}>
+                                                                                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: 52 }}>
+                                                                                            <Box sx={{
+                                                                                                width: 32, height: 32, borderRadius: '50%',
+                                                                                                background: done ? 'var(--es-emerald)' : 'rgba(148,163,184,0.2)',
+                                                                                                border: done ? 'none' : '2px solid rgba(148,163,184,0.3)',
+                                                                                                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                                                                                boxShadow: done ? '0 4px 12px rgba(15,93,78,0.2)' : 'none',
+                                                                                                transition: 'all 0.4s',
+                                                                                                fontSize: done ? '14px' : '10px'
+                                                                                            }}>
+                                                                                                {done ? step.icon : <Box sx={{ width: 8, height: 8, borderRadius: '50%', background: 'rgba(148,163,184,0.4)' }} />}
+                                                                                            </Box>
+                                                                                            <Typography sx={{
+                                                                                                fontSize: '9px', fontWeight: done ? 700 : 500,
+                                                                                                color: done ? 'var(--es-emerald)' : 'var(--es-charcoal-60)',
+                                                                                                mt: 0.7, textAlign: 'center', whiteSpace: 'nowrap'
+                                                                                            }}>
+                                                                                                {step.label}
+                                                                                            </Typography>
+                                                                                        </Box>
+                                                                                        {idx < ORDER_PIPELINE.length - 1 && (
+                                                                                            <Box sx={{
+                                                                                                flex: 1, height: 2, mb: 2.5, mx: 0.5,
+                                                                                                background: done && idx < pipelineIdx ? 'var(--es-emerald)' : 'rgba(148,163,184,0.2)',
+                                                                                                transition: 'all 0.4s'
+                                                                                            }} />
+                                                                                        )}
+                                                                                    </React.Fragment>
+                                                                                );
+                                                                            })}
+                                                                        </Box>
+                                                                    </Box>
+                                                                )}
+
+                                                                {/* Cancelled banner */}
+                                                                {order.status === 'cancelled' && (
+                                                                    <Box sx={{ mb: 2, p: 1.5, borderRadius: '10px', background: 'rgba(239,68,68,0.06)', border: '1px solid rgba(239,68,68,0.15)', textAlign: 'center' }}>
+                                                                        <Typography sx={{ fontSize: '13px', fontWeight: 600, color: '#ef4444' }}>❌ This order has been cancelled.</Typography>
+                                                                    </Box>
+                                                                )}
+
+                                                                <Divider sx={{ my: 2, borderColor: 'var(--es-charcoal-5)' }} />
+
+                                                                {/* Ordered items */}
+                                                                {order.order_item && order.order_item.length > 0 ? (
+                                                                    <Box>
+                                                                        <Typography sx={{ fontFamily: 'var(--font-sans)', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--es-charcoal-60)', mb: 1.5 }}>
+                                                                            Ordered Items
+                                                                        </Typography>
+                                                                        {order.order_item.map((item, idx) => (
+                                                                            <Box key={idx} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1, p: 1, borderRadius: '8px', background: 'rgba(15,93,78,0.03)' }}>
+                                                                                <Typography sx={{ fontFamily: 'var(--font-sans)', fontSize: '13px', fontWeight: 600, color: 'var(--es-charcoal)' }}>
+                                                                                    {item.product?.name || `Product #${item.product_id}`}
+                                                                                    {item.product?.brand && <span style={{ fontWeight: 400, color: 'var(--es-charcoal-60)', fontSize: '12px' }}> · {item.product.brand}</span>}
+                                                                                    <span style={{ color: 'var(--es-charcoal-60)', fontWeight: 400 }}> × {item.quantity}</span>
+                                                                                </Typography>
+                                                                                <Typography sx={{ fontFamily: 'var(--font-sans)', fontSize: '13px', fontWeight: 700, color: 'var(--es-emerald)' }}>
+                                                                                    ₹{Number((item.price || 0) * (item.quantity || 1)).toLocaleString('en-IN')}
+                                                                                </Typography>
+                                                                            </Box>
+                                                                        ))}
+                                                                    </Box>
+                                                                ) : (
+                                                                    <Typography sx={{ fontFamily: 'var(--font-sans)', fontSize: '13px', color: 'var(--es-charcoal-60)' }}>
+                                                                        Total paid: ₹{Number(order.total_amount || 0).toLocaleString('en-IN')}
+                                                                    </Typography>
+                                                                )}
+                                                            </CardContent>
+                                                        </Card>
+                                                    </Grid>
+                                                );
+                                            }) : (
+                                                <Box className="dash-empty-state">
+                                                    <ShoppingBagIcon sx={{ fontSize: 60, color: 'var(--es-emerald)', opacity: 0.15, mb: 2 }} />
+                                                    <Typography variant="h6" color="var(--es-charcoal)">No orders placed yet.</Typography>
+                                                    <Typography color="var(--es-charcoal-60)">Explore our shop and place your first order!</Typography>
+                                                </Box>
+                                            )}
+                                        </Grid>
+                                    );
+                                })()}
 
                                 {activeView === "cards" && (
                                     <Box className="dash-cards-grid">

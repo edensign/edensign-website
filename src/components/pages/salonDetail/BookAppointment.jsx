@@ -223,12 +223,15 @@ const Booking = ({ appointmentRef, selectedService }) => {
       booked_for: formik.values.else ? formik.values.persons : 'self',
     };
 
-    const bookingFee = salon?.booking_fee ? parseFloat(salon.booking_fee) : 100;
+    const selectedServiceObj = salon?.services?.find(
+      (s) => String(s.id) === String(formik.values.services)
+    );
+    const serviceAmount = selectedServiceObj ? parseFloat(selectedServiceObj.price || 500) : 500;
     setLoading(true);
 
     try {
       const initRes = await api.post('/wallet/initiate-appointment-payment', {
-        amount: bookingFee, useWallet,
+        amount: serviceAmount, useWallet,
       }, { headers: { Authorization: `Bearer ${customerToken}` } });
 
       const initData = initRes.data?.data;
@@ -258,6 +261,7 @@ const Booking = ({ appointmentRef, selectedService }) => {
         const sdkLoaded = await loadRazorpayScript();
         if (!sdkLoaded) { setBookingStatus({ type: 'error', message: 'Razorpay SDK failed to load.' }); return; }
 
+        const customerInfo = API.CustomerAPI.getCustomer() || {};
         const options = {
           description: 'Appointment Booking - Eden Sign',
           image: 'https://i.imgur.com/3g7nmJC.png',
@@ -266,18 +270,12 @@ const Booking = ({ appointmentRef, selectedService }) => {
           amount: rpOrder.amount,
           name: 'Eden Sign',
           order_id: rpOrder.id,
-          prefill: { name: '', email: '', contact: '' },
-          theme: { color: 'var(--es-emerald)' },
-          config: {
-            display: {
-              blocks: {
-                upi: { name: 'Pay via UPI', instruments: [{ method: 'upi' }] },
-                other: { name: 'Other Payment Modes', instruments: [{ method: 'card' }, { method: 'netbanking' }, { method: 'wallet' }] }
-              },
-              sequence: ['block.upi', 'block.other'],
-              preferences: { show_default_blocks: true }
-            }
+          prefill: {
+            name: customerInfo.username || customerInfo.name || '',
+            email: customerInfo.email || '',
+            contact: customerInfo.contact_no || customerInfo.phone || '9999999999'
           },
+          theme: { color: '#0f5d4e' },
           handler: async function (rpData) {
             try {
               const bookRes = await api.post('/wallet/verify-appointment', {
@@ -493,7 +491,9 @@ const Booking = ({ appointmentRef, selectedService }) => {
                   MenuProps={MenuProps}
                 >
                   {salon?.services?.map((service, index) => (
-                    <MenuItem value={service.id} key={index}>{service.name}</MenuItem>
+                    <MenuItem value={service.id} key={index}>
+                      {service.name} - ₹{service.price || '500'}
+                    </MenuItem>
                   ))}
                 </Select>
               </FormControl>

@@ -57,7 +57,7 @@ const FeaturedSalons = () => {
               img: s.front_image || s.banner_image || "https://images.unsplash.com/photo-1560066984-138dadb4c035?q=80&w=640&auto=format&fit=crop",
               location: s.landmark ? `${s.landmark}, ${s.street || ''}` : s.area || "Nearby",
               tag: s.type === 'Male' ? "Hair & Barber" : s.type === 'Female' ? "Hair & Spa" : "Hair & Scalp Therapy",
-              rating: s.rating ? parseFloat(s.rating).toFixed(1) : "4.5",
+              rating: s.rating ? parseFloat(s.rating).toFixed(1) : (4.3 + (((s.id || s.salon_code?.length || 1) * 7) % 7) * 0.1).toFixed(1),
               price: s.booking_fee ? `Booking Fee ₹${s.booking_fee}` : "from ₹100",
               salon_code: s.salon_code
             }));

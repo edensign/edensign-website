@@ -106,7 +106,7 @@ const Salon = () => {
       return {
         ...s,
         derivedCat,
-        mappedRating: s.rating ? parseFloat(s.rating) : 4.5,
+        mappedRating: s.rating ? parseFloat(s.rating) : (4.3 + (((s.id || s.salon_code?.length || 1) * 7) % 7) * 0.1),
         mappedPrice: s.booking_fee ? parseFloat(s.booking_fee) : 100,
         priceLabel: s.booking_fee ? `Booking Fee ₹${s.booking_fee}` : "from ₹100",
         distanceLabel: s.distance !== undefined && s.distance !== null ? `${parseFloat(s.distance).toFixed(1)} km` : null

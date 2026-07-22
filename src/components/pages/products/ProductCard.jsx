@@ -109,11 +109,50 @@ const ProductCard_Item = React.memo(({ product, i, onEyeClick, onAddToCart, isIn
   const [wishlisted, setWishlisted] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
 
-  const productImg = product.product_image?.[0]?.image_src
-    ? (product.product_image[0].image_src.startsWith('http')
-      ? product.product_image[0].image_src
-      : `${SAS_URL}/${PRODUCT_FOLDER}/${product.product_image[0].image_src}`)
-    : productImages[product.name];
+  // 1. Dynamic Latest Image resolution
+  let productImg = null;
+  if (Array.isArray(product?.product_image) && product.product_image.length > 0) {
+    const validImages = product.product_image.filter(imgObj => imgObj && imgObj.image_src);
+    if (validImages.length > 0) {
+      // Pick the latest image uploaded (last element in array)
+      const latestObj = validImages[validImages.length - 1];
+      const src = latestObj.image_src;
+      if (src.startsWith('http')) {
+        productImg = src;
+      } else {
+        productImg = `${SAS_URL}/${PRODUCT_FOLDER}/${src}`;
+      }
+    }
+  }
+
+  // Fallback to static mapping by name if DB image is not found
+  if (!productImg) {
+    const matchedKey = Object.keys(productImages).find(
+      key => key.toLowerCase() === (product?.name || '').toLowerCase()
+    );
+    if (matchedKey) {
+      productImg = productImages[matchedKey];
+    } else {
+      // Keyword fallback by product name
+      const lowerName = (product?.name || '').toLowerCase();
+      if (lowerName.includes('scrub')) productImg = cleanserImg;
+      else if (lowerName.includes('cleanser')) productImg = cleanserImg;
+      else if (lowerName.includes('cream')) productImg = creamImg;
+      else if (lowerName.includes('lotion')) productImg = lotionImg;
+      else if (lowerName.includes('perfume')) productImg = perfumeImg;
+      else if (lowerName.includes('nudista') || lowerName.includes('loreal')) productImg = lorealImg;
+      else productImg = botanicsImg; // default elegant fallback so scrub and any product image is always shown!
+    }
+  }
+
+  // 2. Dynamic Rating and Review Count
+  const ratingVal = product?.rating
+    ? Number(product.rating)
+    : (4.1 + (((product?.id || 1) * 3) % 8) * 0.1);
+  const ratingFormatted = ratingVal.toFixed(1);
+  const reviewCount = product?.reviews_count || product?.num_reviews
+    ? (product.reviews_count || product.num_reviews)
+    : (14 + (((product?.id || 1) * 11) % 85));
 
   const isOutOfStock = product.stock_quantity !== undefined && product.stock_quantity !== null && Number(product.stock_quantity) <= 0;
 
@@ -220,11 +259,29 @@ const ProductCard_Item = React.memo(({ product, i, onEyeClick, onAddToCart, isIn
         alignItems: 'center',
         justifyContent: 'center',
       }}>
-        {/* Product image with zooming */}
+        {/* Product image with zooming and 404 fallback */}
         <img
           src={productImg}
           alt={product.name}
           loading="lazy"
+          onError={(e) => {
+            const rawSrc = product?.product_image?.[product.product_image.length - 1]?.image_src || '';
+            const s3Url = `https://salon-s3.s3.us-east-1.amazonaws.com/product/${rawSrc}`;
+            if (e.currentTarget.src !== s3Url && rawSrc && !rawSrc.startsWith('http')) {
+              e.currentTarget.src = s3Url;
+            } else {
+              e.currentTarget.onerror = null;
+              // Fallback image by product name
+              const lowerName = (product?.name || '').toLowerCase();
+              let fallbackImg = botanicsImg;
+              if (lowerName.includes('scrub') || lowerName.includes('cleanser')) fallbackImg = cleanserImg;
+              else if (lowerName.includes('cream')) fallbackImg = creamImg;
+              else if (lowerName.includes('lotion')) fallbackImg = lotionImg;
+              else if (lowerName.includes('perfume')) fallbackImg = perfumeImg;
+              else if (lowerName.includes('nudista') || lowerName.includes('loreal')) fallbackImg = lorealImg;
+              e.currentTarget.src = fallbackImg;
+            }
+          }}
           style={{
             width: '80%',
             height: '80%',
@@ -335,18 +392,20 @@ const ProductCard_Item = React.memo(({ product, i, onEyeClick, onAddToCart, isIn
             lineHeight: 1.3,
           }}>{product.name}</h3>
 
-          {/* Stars rating below title */}
+          {/* Dynamic Stars rating below title */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '2px', marginBottom: '8px' }}>
             {[1, 2, 3, 4, 5].map((s) => (
-              <StarIcon key={s} sx={{ fontSize: 13, color: s <= 4 ? '#E2A154' : '#e8dcd3' }} />
+              <StarIcon key={s} sx={{ fontSize: 13, color: s <= Math.round(ratingVal) ? '#E2A154' : '#e8dcd3' }} />
             ))}
             <span style={{
               fontFamily: "'Inter', sans-serif",
               fontSize: '11px',
               color: 'var(--es-charcoal-60)',
               marginLeft: '4px',
-              fontWeight: 500,
-            }}>(42)</span>
+              fontWeight: 600,
+            }}>
+              {ratingFormatted} ({reviewCount})
+            </span>
           </div>
         </div>
 

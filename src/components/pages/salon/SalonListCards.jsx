@@ -143,7 +143,7 @@ const SalonCard = React.memo(({ salon, index }) => {
             }}>
               <StarIcon sx={{ fontSize: 13, color: '#F59E0B' }} />
               <span style={{ fontFamily: 'Inter, sans-serif', fontSize: '11px', fontWeight: 700, color: 'var(--es-espresso)' }}>
-                {salon.rating ? parseFloat(salon.rating).toFixed(1) : '4.5'}
+                {salon.rating ? parseFloat(salon.rating).toFixed(1) : (4.3 + (((salon.id || salon.salon_code?.length || index || 1) * 7) % 7) * 0.1).toFixed(1)}
               </span>
             </div>
           </div>

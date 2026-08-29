@@ -13,6 +13,11 @@ const initialState = {
     loading: true
 };
 
+const detailState = {
+    salon: {},
+    images: []
+};
+
 export const setSalonReducer = (state = initialState, action) => {
     switch (action.type) {
         case ActionTypes.SET_SALONS:
@@ -20,6 +25,19 @@ export const setSalonReducer = (state = initialState, action) => {
                 ...state,
                 listData: action.payload.listData,
                 loading: action.payload.loading
+            };
+        default:
+            return state;
+    };
+};
+
+export const setSalonDetailReducer = (state = detailState, action) => {
+    switch (action.type) {
+        case ActionTypes.SET_SALON_DETAIL:
+            return {
+                ...state,
+                salon: action.payload.salon,
+                images: action.payload.images
             };
         default:
             return state;

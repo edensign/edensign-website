@@ -1,0 +1,227 @@
+/* =========================================
+   Eden Sign — Product Carousel (Radiant Minimalism)
+   ========================================= */
+
+.product-section {
+  padding: 0;
+  background: transparent;
+  overflow: hidden;
+}
+
+.product-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 4%;
+  position: relative;
+}
+
+.product-swiper {
+  padding: 40px 10px 80px !important;
+}
+
+/* Glassmorphic Card */
+.product-card-wrapper {
+  height: 100%;
+}
+
+.product-card {
+  position: relative;
+  background: #ffffff;
+  border-radius: 24px;
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  height: 520px;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 30px 60px rgba(199, 149, 108, 0.12);
+  border-color: rgba(199, 149, 108, 0.2);
+}
+
+.product-image-container {
+  position: relative;
+  width: 100%;
+  height: 380px;
+  overflow: hidden;
+  background: #fdfaf8;
+}
+
+.product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.product-card:hover .product-image {
+  transform: scale(1.1);
+}
+
+.product-badge {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 6px 14px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(8px);
+  border-radius: 100px;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #c7956c;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  z-index: 2;
+}
+
+/* Glassmorphic Content Area */
+.product-content {
+  padding: 24px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: linear-gradient(to bottom, transparent, rgba(253, 250, 248, 0.5));
+}
+
+.product-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0 0 8px 0;
+  letter-spacing: -0.01em;
+}
+
+.product-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.product-category {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Swiper Navigation Customization */
+.product-nav-btn {
+  width: 54px;
+  height: 54px;
+  background: #ffffff;
+  border: 1px solid rgba(199, 149, 108, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #c7956c;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+
+.product-nav-btn:hover {
+  background: #c7956c;
+  color: #ffffff;
+  border-color: #c7956c;
+  box-shadow: 0 8px 25px rgba(199, 149, 108, 0.3);
+}
+
+.product-prev {
+  left: -27px;
+}
+
+.product-next {
+  right: -27px;
+}
+
+.product-nav-btn.swiper-button-disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* Swiper Pagination Customization */
+.product-swiper .swiper-pagination {
+  bottom: 0px !important;
+}
+
+.product-swiper .swiper-pagination-bullet {
+  width: 30px;
+  height: 3px;
+  border-radius: 0;
+  background: #e0e0e0;
+  opacity: 1;
+  transition: all 0.3s ease;
+}
+
+.product-swiper .swiper-pagination-bullet-active {
+  background: #c7956c;
+  width: 50px;
+}
+
+/* Quick View Button */
+.quick-view-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(26, 10, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: all 0.4s ease;
+  z-index: 1;
+}
+
+.product-card:hover .quick-view-overlay {
+  opacity: 1;
+}
+
+.btn-minimal {
+  padding: 12px 28px;
+  background: #ffffff;
+  color: #1a1a1a;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transform: translateY(20px);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.product-card:hover .btn-minimal {
+  transform: translateY(0);
+}
+
+.btn-minimal:hover {
+  background: #c7956c;
+  color: #ffffff;
+}
+
+@media (max-width: 1200px) {
+  .product-prev { left: 0; }
+  .product-next { right: 0; }
+}
+
+@media (max-width: 768px) {
+  .product-section { padding: 60px 0; }
+  .product-card { height: 480px; }
+  .product-image-container { height: 340px; }
+  .product-nav-btn { display: none; }
+}

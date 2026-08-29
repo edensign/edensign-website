@@ -1,0 +1,10 @@
+/* ============================================================
+   AboutUs.css — Clean styling for the About Us page
+   ============================================================ */
+
+.ourcomponent {
+  background-color: var(--es-background);
+  min-height: 100vh;
+  width: 100%;
+}
+

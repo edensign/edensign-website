@@ -12,7 +12,7 @@ const ENV = import.meta.env;
 
 export const api = axios.create({
   withCredentials: true,
-  baseURL: ENV.VITE_BASE_URL,
+  baseURL: ENV.VITE_BASE_URL?.replace(/"/g, ""),
   validateStatus: (status) => (status >= 200 && status < 300) || status == 404
 });
 
@@ -34,6 +34,7 @@ api.interceptors.response.use(undefined, (error) => {
   return errorHandler(error);
 });
 
+//request token when edensign admin is logged in not on website
 api.interceptors.request.use(req => {
   req.headers.Type = "website";
   return req;

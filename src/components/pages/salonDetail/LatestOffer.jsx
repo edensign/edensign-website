@@ -6,18 +6,37 @@
  * restrictions set forth in your license agreement with Eden Sign.
 */
 
-import { Box } from "@mui/material";
-
 const LatestOffer = () => {
     return (
-        <Box sx={{ width: "70%", display: "flex", flexDirection: "column", alignItems: "center", margin: "auto", marginBottom: "2%", position: "relative" }}>
-            <span className="offer-line"></span>
-            <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                <span style={{ fontSize: "12px", fontWeight: "500", lineHeight: "32px", letterSpacing: "2.1px", textTransform: "uppercase" }}>browse through</span>
-                <p style={{ fontWeight: "400", fontSize: "52px", fontFamily: "Marcellus, sans-serif", lineHeight: "1.2em", letterSpacing: "-0.04em", textTransform: "capitalize", margin: "1% auto" }}>our latest offers</p>
-            </Box>
-        </Box>
-    )
+        <section className="latest-offer-section">
+            <span className="section-label" style={{ justifyContent: 'center', color: '#c9a96e' }}>
+                Browse Through
+            </span>
+            <h2 className="section-heading section-heading-light">
+                Our Latest Offers
+            </h2>
+            <p style={{
+                fontFamily: "'Inter', sans-serif",
+                fontSize: '14px',
+                lineHeight: 1.8,
+                color: 'rgba(255,255,255,0.45)',
+                maxWidth: '480px',
+                margin: '0 auto',
+                letterSpacing: '0.02em',
+            }}>
+                Handpicked seasonal promotions and exclusive deals curated just for you.
+                Scroll through and discover savings on our most loved treatments.
+            </p>
+
+            {/* Decorative gold rule */}
+            <div style={{
+                width: '48px',
+                height: '1px',
+                background: 'linear-gradient(to right, transparent, #c9a96e, transparent)',
+                margin: '32px auto 0',
+            }} />
+        </section>
+    );
 };
 
 export default LatestOffer;

@@ -1,50 +1,62 @@
 /**
  * Copyright © 2023, Eden Sign Inc. ALL RIGHTS RESERVED.
- *
- * This software is the confidential information of Eden Sign Inc., and is licensed as
- * restricted rights software. The use, reproduction, or disclosure of this software is subject to
- * restrictions set forth in your license agreement with Eden Sign.
-*/
+ */
 
-import { Button, Box, Grid, useMediaQuery } from '@mui/material';
-import DiamondIcon from '@mui/icons-material/Diamond';
-
+import React from 'react';
+import { motion } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
 
 const AboutContainer = () => {
-    const isMobile = useMediaQuery("(max-width:480px)");
-    const isTab = useMediaQuery("(max-width:920px)");
+  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.2 });
 
-    return (        //border: "3px solid crimson",
-        <Grid container sx={{ marginBottom: "10%", minHeight: "80vh" }}>
-            <Grid item xs={6} md={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
-                <Box
-                    sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        height: "100%",
-                        width: isMobile ? "100%" : "80%",
-                        backgroundColor: "#ffffff"
-                    }}
-                >
-                    <p style={{ fontFamily: "Marcellus,sans-serif", fontWeight: "400", fontSize: "20px", lineHeight: "20px", letterSpacing: "0.8em", textTransform: "uppercase" }}> about </p>
-                    <DiamondIcon sx={{ fontSize: "10px" }} />
-                    <p style={{ fontWeight: "400", fontSize: "32px", lineHeight: "1.28", letterSpacing: "0.14em", textTransform: "uppercase", marginTop: "6px" }}> our shop </p>
-                    <p style={{ fontWeight: "300", fontSize: "14px", lineHeight: "22px", letterSpacing: "0.015em", padding: "0 40px" }}> Hello there, this is the brand new product of the company that will make you go like a lavender queen. Hope you enjoy the day and keep purchasing the latest trends from our company to become fashion icon. </p>
-                    <p style={{ fontWeight: "300", fontSize: "14px", lineHeight: "22px", letterSpacing: "0.015em", padding: "0 40px" }}> Hello there, this is the brand new product of the company that will make you go like a lavender queen. Hope you enjoy the day and keep purchasing the latest trends from our company to become fashion icon. </p>
-                    <Button variant='contained' color='primary' sx={{ borderRadius: "0", fontWeight: "400", fontSize: "12px", lineHeight: "1.2", letterSpacing: "0.265em", height: "40px" }}> Read More </Button>
-                </Box>
-            </Grid>
-            <Grid item xs={6} md={6}>
-                <Box
-                    sx={{ height: "100%", width: isMobile ? "100%" : "80%", backgroundColor: '#E6E6FA', marginTop: "10%" }}
-                >
-                    <img src="https://edensign.blob.core.windows.net/image-storage/makeup/brushes3.jpg" className='collection-img' alt="about-us" />
-                </Box>
-            </Grid>
-        </Grid >
-    )
-}
+  return (
+    <section ref={ref} className="es-split-section es-about-section">
+      <motion.div
+        className="es-split-text-side"
+        initial={{ opacity: 0, x: -60 }}
+        animate={inView ? { opacity: 1, x: 0 } : {}}
+        transition={{ duration: 0.85, ease: 'easeOut' }}
+      >
+        <span className="es-eyebrow">Our Story</span>
+        <h2 className="es-section-title">About <em>Us</em></h2>
+        <div className="es-title-divider" style={{ marginBottom: '24px' }} />
+        <p className="es-split-body">
+          Your ultimate destination for effortless salon appointment bookings! We bridge the gap between
+          clients and salons, making beauty and grooming services accessible with just a few clicks.
+          Whether you're looking for a haircut, spa treatment, or a complete makeover, we've got you covered.
+        </p>
+        <p className="es-split-body">
+          Our user-friendly platform helps you discover top-rated salons, view their services, check
+          availability, and book your appointment instantly. Designed with convenience in mind, Eden Sign
+          ensures a seamless experience for both clients and salon professionals.
+        </p>
+        <p className="es-split-tagline">
+          Join us in revolutionizing the way you book salon appointments — because your time and beauty matter.
+        </p>
+        <a href="/about" className="es-btn-primary" style={{ marginTop: '12px', display: 'inline-block' }}>
+          Read More
+        </a>
+      </motion.div>
+
+      <motion.div
+        className="es-split-img-side"
+        initial={{ opacity: 0, x: 60 }}
+        animate={inView ? { opacity: 1, x: 0 } : {}}
+        transition={{ duration: 0.85, delay: 0.15, ease: 'easeOut' }}
+      >
+        <div className="es-split-img-frame es-about-frame">
+          <img
+            src="https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/service/keratin.jpg"
+            alt="About Eden Sign"
+            className="es-split-img"
+            loading="lazy"
+            decoding="async"
+          />
+          <div className="es-split-img-accent es-about-accent" />
+        </div>
+      </motion.div>
+    </section>
+  );
+};
 
 export default AboutContainer;

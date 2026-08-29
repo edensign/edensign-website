@@ -1,39 +1,63 @@
 /**
  * Copyright © 2023, Eden Sign Inc. ALL RIGHTS RESERVED.
- *
- * This software is the confidential information of Eden Sign Inc., and is licensed as
- * restricted rights software. The use, reproduction, or disclosure of this software is subject to
- * restrictions set forth in your license agreement with Eden Sign.
-*/
+ */
 
-import { Box, Grid, useMediaQuery } from '@mui/material';
+import React from 'react';
+import { motion } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
+
+const promos = [
+  {
+    img: 'https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/makeup/skincare.jpg',
+    eyebrow: 'Best Of',
+    headline: 'Salons',
+    desc: 'Discover the finest salons in your city — curated, verified, and ready to book.',
+    cta: 'Explore Salons',
+    href: '/salons',
+  },
+  {
+    img: 'https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/makeup/product.jpg',
+    eyebrow: 'Book Your',
+    headline: 'Appointment',
+    desc: 'Premium beauty experiences at your fingertips — bookable in under 60 seconds.',
+    cta: 'Book Now',
+    href: '/salons',
+  },
+];
 
 const ImageBoxes = () => {
-    const isMobile = useMediaQuery("(max-width:480px)");
-    const isTab = useMediaQuery("(max-width:920px)");
+  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.15 });
 
-    return (        // border: "3px solid crimson",
-        <Grid container sx={{ width: "100%", maxHeight: "100vh", marginBottom: "8%" }}>
-            <Grid item xs={12} md={6}>
-                <Box sx={{
-                    position: "relative", width: "100%", height: "90vh", backgroundColor: '#ffffff'
-                }}>
-                    <img id="best-of-img" src="https://edensign.blob.core.windows.net/image-storage/makeup/skincare.jpg" />
-                    <p id="best-of"> best of </p>
-                    <p id="skincare"> skincare </p>
-                </Box>
-            </Grid>
-            <Grid item xs={12} md={6}>
-                <Box sx={{
-                    position: "relative", width: "100%", height: "90vh", backgroundColor: '#ffffff', marginTop: "4%"
-                }}>
-                    <img id="top-brands-img" src="https://edensign.blob.core.windows.net/image-storage/makeup/product.jpg" />
-                    <p id="top-brands"> top brands </p>
-                    <p id="makeup"> makeup </p>
-                </Box>
-            </Grid>
-        </Grid>
-    )
-}
+  return (
+    <section ref={ref} className="es-promo-section">
+      {promos.map((promo, i) => (
+        <motion.div
+          key={i}
+          className="es-promo-card"
+          initial={{ opacity: 0, x: i === 0 ? -60 : 60 }}
+          animate={inView ? { opacity: 1, x: 0 } : {}}
+          transition={{ duration: 0.8, delay: i * 0.15, ease: 'easeOut' }}
+        >
+          <div className="es-promo-img-wrapper">
+            <img 
+              src={promo.img} 
+              alt={promo.headline} 
+              className="es-promo-img" 
+              loading="lazy"
+              decoding="async"
+            />
+            <div className="es-promo-overlay" />
+          </div>
+          <div className="es-promo-content">
+            <span className="es-promo-eyebrow">{promo.eyebrow}</span>
+            <h2 className="es-promo-headline">{promo.headline}</h2>
+            <p className="es-promo-desc">{promo.desc}</p>
+            <a href={promo.href} className="es-btn-primary">{promo.cta}</a>
+          </div>
+        </motion.div>
+      ))}
+    </section>
+  );
+};
 
 export default ImageBoxes;

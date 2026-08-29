@@ -2,15 +2,13 @@
  * Copyright © 2023, Eden Sign Inc. ALL RIGHTS RESERVED.
  *
  * This software is the confidential information of Eden Sign Inc., and is licensed as
- * restricted rights software. The use,reproduction, or disclosure of this software is subject to
+ * restricted rights software. The use, reproduction, or disclosure of this software is subject to
  * restrictions set forth in your license agreement with Eden Sign.
  */
 
 import { api } from "./config/axiosConfig";
 import { defineCancelApiObject } from "./config/axiosUtils";
-import { Utility } from "../components/utils";
 
-const { getLocalStorage } = Utility();
 
 export const SalonAPI = {
     /** Get salons from the database that meets the specified query parameters
@@ -25,44 +23,45 @@ export const SalonAPI = {
         });
         return response;
     },
-    /** Create salon in the database
+
+    /** Get salon list by joining 2 tables from the database
      */
-    createSalon: async (user, cancel = false) => {
-        return await api.request({
-            url: `/create-salon`,
-            headers: {
-                "x-access-token": getLocalStorage("auth").token
-            },
-            method: "POST",
-            data: user,
-            signal: cancel ? cancelApiObject[this.createSalon.name].handleRequestCancellation().signal : undefined,
+    getSalonList: async (category = [], gender = null, cityId = null, minRating = null, latitude = null, longitude = null, cancel = false) => {
+        const params = new URLSearchParams();
+        if (gender) params.append('gender', gender);
+        if (cityId) params.append('city_id', cityId);
+        if (minRating) params.append('min_rating', minRating);
+        if (latitude !== null && latitude !== undefined) params.append('latitude', latitude);
+        if (longitude !== null && longitude !== undefined) params.append('longitude', longitude);
+
+        if (category && category.length > 0) {
+            category.forEach(item => {
+                if (item === 'Featured') {
+                    params.append('is_featured', 'true');
+                } else if (item === 'Franchise') {
+                    params.append('is_franchise', 'true');
+                }
+            });
+        }
+
+        const { data: response } = await api.request({
+            url: `/get-salon-list?${params.toString()}`,
+            method: "GET",
+            signal: cancel ? cancelApiObject[this.getSalonList.name].handleRequestCancellation().signal : undefined,
         });
+        return response;
     },
-    /** Update salon in the database
+
+    /** Get complete salon detail of a particular salon from the database
      */
-    updateSalon: async (fields, cancel = false) => {
-        return await api.request({
-            url: `/update-salon`,
-            headers: {
-                "x-access-token": getLocalStorage("auth").token
-            },
-            method: "PATCH",
-            data: fields,
-            signal: cancel ? cancelApiObject[this.updateSalon.name].handleRequestCancellation().signal : undefined,
-        });
-    },
-    /** Get salon by user id from the database
-     */
-    getSalonByUserId: async (id, cancel = false) => {
-        return await api.request({
-            url: `/get-by-user-id`,
-            headers: {
-                "x-access-token": getLocalStorage("auth").token
-            },
+    getSalonDetail: async (salon_code, cancel = false) => {
+        const { data: response } = await api.request({
+            url: `/get-salon-detail`,
             method: "POST",
-            data: id,
-            signal: cancel ? cancelApiObject[this.getSalonByUserId.name].handleRequestCancellation().signal : undefined,
+            data: salon_code,
+            signal: cancel ? cancelApiObject[this.getSalonDetail.name].handleRequestCancellation().signal : undefined,
         });
+        return response;
     }
 };
 

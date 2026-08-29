@@ -4,46 +4,92 @@
  * This software is the confidential information of Eden Sign Inc., and is licensed as
  * restricted rights software. The use, reproduction, or disclosure of this software is subject to
  * restrictions set forth in your license agreement with Eden Sign.
-*/
+ */
 
-import { Box, Button } from "@mui/material";
-import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
+import React from 'react';
 
-import videoImg from "../../assets/video.jpg"
+const VideoSection = ({ salon }) => {
+    // Dynamically retrieve the video URL uploaded by the salon
+    const videoUrl = salon?.video_url || salon?.videoUrl || salon?.video || salon?.work_video_url;
 
-const VideoSection = () => {
+    // Use a lightweight default poster (video.jpg, 141 KB) or one uploaded by the salon
+    const defaultPosterUrl = new URL('../../assets/video.jpg', import.meta.url).href;
+    const videoPosterUrl = salon?.video_poster_url || salon?.videoPosterUrl || salon?.thumbnail || salon?.poster || defaultPosterUrl;
+
+    // If no video URL is present, don't render this section
+    if (!videoUrl) {
+        return null;
+    }
+
     return (
-        <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", width: "90%", height: "93vh", margin: "auto", marginBottom: "11%", position: "relative" }}>
-            <Box sx={{
-                display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", height: "100%", width: "37%", backgroundColor: "#ffffff", marginRight: "2%", boxShadow: "4px 4px 6px #800080, -4px -4px 6px #800080"
-            }}>
-                <span style={{ width: "1px", height: "48px", backgroundColor: "#c4c4c4", position: "absolute", top: "60px", left: "50px" }}></span>
-                <p style={{ width: "72%", textAlign: "left", marginTop: "20px", fontWeight: "400", fontSize: "16px", lineHeight: "1.28", letterSpacing: "0.1em", textTransform: "uppercase" }}> luxury salon </p>
-                <p style={{ width: "72%", textAlign: "left", fontWeight: "400", fontSize: "36px", fontFamily: "Marcellus, sans-serif", lineHeight: "1", letterSpacing: "0.1em", textTransform: "capitalize", marginTop: "6px" }}> get cozy. </p>
-                <p style={{ width: "72%", textAlign: "left", marginTop: "-4px", fontWeight: "300", fontSize: "14px", lineHeight: "22px", letterSpacing: "0.015em" }}> Hello there, this is the brand new product of the company that will make you go like a lavender queen. Hope you enjoy the day and keep purchasing the latest trends from our company to become fashion icon. </p>
-                <Button type="submit" variant="outlined" onClick={e => e.preventDefault()}
-                    sx={{ borderRadius: 0, width: "72%", marginTop: "20px", fontSize: "12px", letterSpacing: "0.2em", lineHeight: "2em", fontWeight: "600", padding: "20px", textTransform: "uppercase" }}>Discover More</Button>
-            </Box>
+        <div className="video-section">
+            {/* Left text panel */}
+            <div className="video-text-panel">
+                <span className="section-label" style={{ color: '#c9a96e' }}>
+                    Luxury Salon
+                </span>
 
-            <Box sx={{ display: "flex", width: "75%", position: "relative", boxShadow: "4px 4px 6px #800080, -4px -4px 6px #800080" }}>
-                <Box display="inline-block" position="inherit">
-                    <img src={videoImg} alt="Salon video"
-                        style={{
-                            width: "1268px", maxWidth: "100%", aspectRatio: "1268 / 916", boxShadow: "none", border: "none", backgroundPosition: "center", backgroundSize: "cover", cursor: "pointer", display: "flex", justifyContent: "center", alignItems: "center", overflow: "clip"
-                        }} />
-                </Box>
+                <h2 className="section-heading section-heading-light" style={{ fontSize: 'clamp(1.8rem, 3vw, 2.6rem)' }}>
+                    Get Cozy &amp; Unwind
+                </h2>
 
-                <a href="https://augustine.qodeinteractive.com/wp-content/uploads/2020/11/video2.mp4" datatype="iframe" target="_blank"
-                    style={{ display: "flex", justifyContent: "center", alignItems: "center", position: "absolute", left: "0", top: "0", height: "100%", width: "100%", zIndex: "10" }}
+                <p>
+                    Welcome to our exquisite luxury salon, where indulgence meets elegance
+                    in every detail. As you step into our opulent sanctuary, you'll be
+                    enveloped in an atmosphere of refined sophistication and unparalleled comfort.
+                </p>
+
+                <a
+                    href={videoUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="video-discover-btn"
+                    style={{ textDecoration: 'none' }}
                 >
-                    <PlayCircleFilledIcon sx={{
-                        height: "124px", width: "124px", transition: "transform 0.5s ease-in-out", "&:hover": { transform: "scale(1.2)" },
-                        "&:active": { color: "rgb(85, 26, 139)" }
-                    }} />
+                    <span>▶</span>
+                    <span>Watch Our Story</span>
                 </a>
-            </Box>
-        </Box>
-    )
+
+                {/* Decorative accent */}
+                <div style={{
+                    position: 'absolute',
+                    bottom: '32px',
+                    left: '44px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                    fontFamily: "'Inter', sans-serif",
+                    fontSize: '10px',
+                    letterSpacing: '2px',
+                    textTransform: 'uppercase',
+                    color: 'rgba(255,255,255,0.25)',
+                }}>
+                    <span style={{ width: '20px', height: '1px', background: 'rgba(201,169,110,0.4)' }} />
+                    Eden Sign Studio
+                </div>
+            </div>
+
+            {/* Right video / image panel */}
+            <div className="video-media-panel">
+                <img src={videoPosterUrl} alt="Salon interior preview" loading="lazy" decoding="async" />
+
+                <a
+                    href={videoUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="video-play-overlay"
+                    style={{ textDecoration: 'none' }}
+                >
+                    <div className="video-play-btn">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8 5v14l11-7z" />
+                        </svg>
+                    </div>
+                </a>
+            </div>
+        </div>
+    );
 };
 
 export default VideoSection;
+

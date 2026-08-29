@@ -9,16 +9,16 @@
 import { useEffect } from 'react';
 import { Box, Button } from '@mui/material';
 
-import haircutImg from "../../assets/services/haircut.jpg"
-import hairwashImg from "../../assets/services/hair_wash.jpg"
-import pedicureImg from "../../assets/services/pedicure.jpg"
-import manicureImg from "../../assets/services/manicure.jpg"
-import bridalMakeupImg from "../../assets/services/bridal_makeup.jpg"
+// import haircutImg from "../../assets/services/haircut.jpg"
+// import pedicureImg from "../../assets/"
+// import manicureImg from "../../assets/services/manicure.jpg"
+// import bridalMakeupImg from "../../assets/services/bridal-makeup.jpg"
 
 const ImagesCarousel = () => {
     let dateVar = new Date();
     let slideIndex = 0;
     let counter = 4;
+    const newsSectionURL = "https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/";
 
     function showSlides(num) {
         let slides = document.getElementsByClassName("images-sliding");
@@ -64,10 +64,35 @@ const ImagesCarousel = () => {
         <Box className="images-slider">
 
             <Box className='images-sliding'>
-                <Box style={{ display: "flex", alignItems: "center", position: "absolute", top: "36%", left: "40px", padding: "18px 12px", backdropFilter: "blur(20px)", color: "#ffffff", fontWeight: "500", fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}>
+                <Box style={{ display: "flex", alignItems: "center", position: "absolute", top: "30%", left: "40px", padding: "18px 12px", backdropFilter: "blur(20px)", color: "#ffffff", fontWeight: "500", fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}>
                     <span>{dateVar.toDateString()}</span>
                 </Box>
-                <img src="https://edensign.blob.core.windows.net/image-storage/header/photo1.jpg" />
+                <img src={`${newsSectionURL}service/bridal-makeup.jpg`} />
+                <Box>
+                    <p style={{ marginTop: "20px", fontSize: "13px", fontWeight: "500", lineHeight: "32px", letterSpacing: "2.1px", textTransform: "uppercase" }}>news & offers</p>
+                    <p style={{ marginTop: "-2px", fontWeight: "400", fontSize: "20px", letterSpacing: "0.01em", textTransform: "capitalize" }}>
+                        Mind and Body Relaxation
+                    </p>
+                    <p style={{ fontWeight: "300", fontSize: "13px", lineHeight: "22px", letterSpacing: "0.1em", marginTop: "-6px", paddingRight: "20px" }}> Lorem ipsum dolor sit amet, in nam denique suavitate repudiandae, homero dictas omnesque duo et. Novum dignissim consectetuer ei mel. Ne patrioque consequat persequeris</p>
+                    <Button type="submit" onClick={e => e.preventDefault()}
+                        sx={{
+                            borderRadius: 0,
+                            fontSize: "12px",
+                            letterSpacing: "0.05em",
+                            lineHeight: "2em",
+                            fontWeight: "600",
+                            padding: "4px 0",
+                            borderBottom: "1px solid",
+                            textTransform: "capitalize"
+                        }}>Read More</Button>
+                </Box>
+            </Box>
+
+            <Box className='images-sliding'>
+                <Box style={{ display: "flex", alignItems: "center", position: "absolute", top: "30%", left: "40px", padding: "18px 12px", backdropFilter: "blur(20px)", color: "#ffffff", fontWeight: "500", fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}>
+                    <span>{dateVar.toDateString()}</span>
+                </Box>
+                <img src={`${newsSectionURL}header/photo2.jpg`} />
                 <Box>
                     <p style={{ marginTop: "20px", fontSize: "13px", fontWeight: "500", lineHeight: "32px", letterSpacing: "2.1px", textTransform: "uppercase" }}>news & offers</p>
                     <p style={{ marginTop: "-2px", fontWeight: "400", fontSize: "20px", letterSpacing: "0.01em", textTransform: "capitalize" }}>
@@ -89,10 +114,10 @@ const ImagesCarousel = () => {
             </Box>
 
             <Box className='images-sliding'>
-                <Box style={{ display: "flex", alignItems: "center", position: "absolute", top: "36%", left: "40px", padding: "18px 12px", backdropFilter: "blur(20px)", color: "#ffffff", fontWeight: "500", fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}>
+                <Box style={{ display: "flex", alignItems: "center", position: "absolute", top: "30%", left: "40px", padding: "18px 12px", backdropFilter: "blur(20px)", color: "#ffffff", fontWeight: "500", fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}>
                     <span>{dateVar.toDateString()}</span>
                 </Box>
-                <img src="https://edensign.blob.core.windows.net/image-storage/header/photo2.jpg" />
+                <img src={`${newsSectionURL}header/photo3.jpg`} />
                 <Box>
                     <p style={{ marginTop: "20px", fontSize: "13px", fontWeight: "500", lineHeight: "32px", letterSpacing: "2.1px", textTransform: "uppercase" }}>news & offers</p>
                     <p style={{ marginTop: "-2px", fontWeight: "400", fontSize: "20px", letterSpacing: "0.01em", textTransform: "capitalize" }}>
@@ -114,10 +139,10 @@ const ImagesCarousel = () => {
             </Box>
 
             <Box className='images-sliding'>
-                <Box style={{ display: "flex", alignItems: "center", position: "absolute", top: "36%", left: "40px", padding: "18px 12px", backdropFilter: "blur(20px)", color: "#ffffff", fontWeight: "500", fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}>
+                <Box style={{ display: "flex", alignItems: "center", position: "absolute", top: "30%", left: "40px", padding: "18px 12px", backdropFilter: "blur(20px)", color: "#ffffff", fontWeight: "500", fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}>
                     <span>{dateVar.toDateString()}</span>
                 </Box>
-                <img src="https://edensign.blob.core.windows.net/image-storage/header/photo3.jpg" />
+                <img src={`${newsSectionURL}service/pedicure.jpg`} />
                 <Box>
                     <p style={{ marginTop: "20px", fontSize: "13px", fontWeight: "500", lineHeight: "32px", letterSpacing: "2.1px", textTransform: "uppercase" }}>news & offers</p>
                     <p style={{ marginTop: "-2px", fontWeight: "400", fontSize: "20px", letterSpacing: "0.01em", textTransform: "capitalize" }}>
@@ -139,10 +164,10 @@ const ImagesCarousel = () => {
             </Box>
 
             <Box className='images-sliding'>
-                <Box style={{ display: "flex", alignItems: "center", position: "absolute", top: "36%", left: "40px", padding: "18px 12px", backdropFilter: "blur(20px)", color: "#ffffff", fontWeight: "500", fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}>
+                <Box style={{ display: "flex", alignItems: "center", position: "absolute", top: "30%", left: "40px", padding: "18px 12px", backdropFilter: "blur(20px)", color: "#ffffff", fontWeight: "500", fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}>
                     <span>{dateVar.toDateString()}</span>
                 </Box>
-                <img src={haircutImg} />
+                <img src={`${newsSectionURL}service/airbrush-makeup.jpg`} />
                 <Box>
                     <p style={{ marginTop: "20px", fontSize: "13px", fontWeight: "500", lineHeight: "32px", letterSpacing: "2.1px", textTransform: "uppercase" }}>news & offers</p>
                     <p style={{ marginTop: "-2px", fontWeight: "400", fontSize: "20px", letterSpacing: "0.01em", textTransform: "capitalize" }}>
@@ -163,33 +188,8 @@ const ImagesCarousel = () => {
                 </Box>
             </Box>
 
-            <Box className='images-sliding'>
-                <Box style={{ display: "flex", alignItems: "center", position: "absolute", top: "36%", left: "40px", padding: "18px 12px", backdropFilter: "blur(20px)", color: "#ffffff", fontWeight: "500", fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}>
-                    <span>{dateVar.toDateString()}</span>
-                </Box>
-                <img src={hairwashImg} />
-                <Box>
-                    <p style={{ marginTop: "20px", fontSize: "13px", fontWeight: "500", lineHeight: "32px", letterSpacing: "2.1px", textTransform: "uppercase" }}>news & offers</p>
-                    <p style={{ marginTop: "-2px", fontWeight: "400", fontSize: "20px", letterSpacing: "0.01em", textTransform: "capitalize" }}>
-                        Body and soul - reviews for best spa
-                    </p>
-                    <p style={{ fontWeight: "300", fontSize: "13px", lineHeight: "22px", letterSpacing: "0.1em", marginTop: "-6px", paddingRight: "20px" }}> Lorem ipsum dolor sit amet, in nam denique suavitate repudiandae, homero dictas omnesque duo et. Novum dignissim consectetuer ei mel. Ne patrioque consequat persequeris</p>
-                    <Button type="submit" onClick={e => e.preventDefault()}
-                        sx={{
-                            borderRadius: 0,
-                            fontSize: "12px",
-                            letterSpacing: "0.05em",
-                            lineHeight: "2em",
-                            fontWeight: "600",
-                            padding: "4px 0",
-                            borderBottom: "1px solid",
-                            textTransform: "capitalize"
-                        }}>Read More</Button>
-                </Box>
-            </Box>
-
-            <Box className='images-sliding'>
-                <Box style={{ display: "flex", alignItems: "center", position: "absolute", top: "36%", left: "40px", padding: "18px 12px", backdropFilter: "blur(20px)", color: "#ffffff", fontWeight: "500", fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}>
+            {/* <Box className='images-sliding'>
+                <Box style={{ display: "flex", alignItems: "center", position: "absolute", top: "30%", left: "40px", padding: "18px 12px", backdropFilter: "blur(20px)", color: "#ffffff", fontWeight: "500", fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}>
                     <span>{dateVar.toDateString()}</span>
                 </Box>
                 <img src={pedicureImg} />
@@ -214,7 +214,7 @@ const ImagesCarousel = () => {
             </Box>
 
             <Box className='images-sliding'>
-                <Box style={{ display: "flex", alignItems: "center", position: "absolute", top: "36%", left: "40px", padding: "18px 12px", backdropFilter: "blur(20px)", color: "#ffffff", fontWeight: "500", fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}>
+                <Box style={{ display: "flex", alignItems: "center", position: "absolute", top: "30%", left: "40px", padding: "18px 12px", backdropFilter: "blur(20px)", color: "#ffffff", fontWeight: "500", fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}>
                     <span>{dateVar.toDateString()}</span>
                 </Box>
                 <img src={manicureImg} />
@@ -239,7 +239,7 @@ const ImagesCarousel = () => {
             </Box>
 
             <Box className='images-sliding'>
-                <Box style={{ display: "flex", alignItems: "center", position: "absolute", top: "36%", left: "40px", padding: "18px 12px", backdropFilter: "blur(20px)", color: "#ffffff", fontWeight: "500", fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}>
+                <Box style={{ display: "flex", alignItems: "center", position: "absolute", top: "30%", left: "40px", padding: "18px 12px", backdropFilter: "blur(20px)", color: "#ffffff", fontWeight: "500", fontSize: "14px", letterSpacing: "0.1em", textTransform: "uppercase" }}>
                     <span>{dateVar.toDateString()}</span>
                 </Box>
                 <img src={bridalMakeupImg} />
@@ -261,7 +261,7 @@ const ImagesCarousel = () => {
                             textTransform: "capitalize"
                         }}>Read More</Button>
                 </Box>
-            </Box>
+            </Box> */}
 
             <span className='images-arrow' style={{ left: "4%" }} onClick={() => controller(-1)}>&#10094;</span>
             <span className='images-arrow' style={{ right: "4%" }} onClick={() => controller(+1)}>&#10095;</span>

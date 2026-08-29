@@ -8,12 +8,18 @@
 
 import { combineReducers } from "redux";
 
-import { setSalonReducer } from "./SalonReducer";
+import { setFilterReducer } from "./FilterReducer";
 import { setProductReducer } from "./ProductReducer";
+import { setSalonReducer } from "./SalonReducer";
+import { setSalonDetailReducer } from "./SalonReducer";
+import { cartReducer } from "./CartReducer";
 
 const reducers = combineReducers({
+    filterOpen: setFilterReducer,
     allProducts: setProductReducer,
-    allSalons: setSalonReducer
+    allSalons: setSalonReducer,
+    salonDetail: setSalonDetailReducer,
+    cart: cartReducer,
 });
 
 export default reducers;

@@ -6,19 +6,64 @@
  * restrictions set forth in your license agreement with Eden Sign.
 */
 
-import { Box } from "@mui/material";
+import { useSelector } from 'react-redux';
 
 const Offer = () => {
+    const { salon } = useSelector(state => state.salonDetail);
+
+    // Don't render a large blank section if data isn't loaded yet
+    if (!salon || !salon.name) return null;
+
+    // ── Dynamic stats derived from salon data ──
+    const happyClients = salon.occupancy ? salon.occupancy * 50 : null;
+    const expertArtists = salon.staff_count || null;
+    const yearsExperience = salon.established_on
+        ? new Date().getFullYear() - new Date(salon.established_on).getFullYear()
+        : null;
+
+    const stats = [
+        happyClients   && { value: happyClients,    label: 'Happy Clients' },
+        expertArtists  && { value: expertArtists,   label: 'Expert Artists' },
+        yearsExperience && { value: yearsExperience, label: 'Years Experience' },
+    ].filter(Boolean);
+
     return (
-        <Box sx={{ width: "70%", display: "flex", flexDirection: "column", alignItems: "center", margin: "auto", marginBottom: "8%", position: "relative" }}>
-            <span className="offer-line"></span>
-            <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                <span style={{ fontSize: "12px", fontWeight: "500", lineHeight: "32px", letterSpacing: "2.1px", textTransform: "uppercase" }}>exclusive offer</span>
-                <p className="bigger-text">welcome to eden sign</p>
-                <span style={{ fontWeight: "300", fontSize: "14px", lineHeight: "22px", letterSpacing: "0.1em", padding: "0 130px" }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque gravida massa at erat iaculis, ut iaculis magna pulvinar. Donec quis odio cursus, consequat erat id.</span>
-            </Box>
-        </Box>
-    )
+        <section className="offer-section">
+            {/* decorative top line drawn in CSS via ::before */}
+
+            <span className="section-label" style={{ justifyContent: 'center' }}>
+                Where Beauty Meets Artistry
+            </span>
+
+            <h1 className="bigger-text">
+                Welcome to {salon.name}
+            </h1>
+
+            {salon.description && (
+                <p className="offer-desc">{salon.description}</p>
+            )}
+
+            {stats.length > 0 && (
+                <div className="offer-stats">
+                    {stats.map((stat, i) => (
+                        <>
+                            {i > 0 && (
+                                <div key={`sep-${i}`} style={{ width: '1px', background: 'rgba(201,169,110,0.2)' }} />
+                            )}
+                            <div key={stat.label}>
+                                <div className="offer-stat-number">
+                                    {stat.value}
+                                    <span style={{ fontSize: '1.4rem', color: '#c9a96e' }}>+</span>
+                                </div>
+                                <div className="offer-stat-label">{stat.label}</div>
+                            </div>
+                        </>
+                    ))}
+                </div>
+            )}
+        </section>
+    );
 };
 
 export default Offer;
+

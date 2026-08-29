@@ -1,121 +1,94 @@
 /**
  * Copyright © 2023, Eden Sign Inc. ALL RIGHTS RESERVED.
- *
- * This software is the confidential information of Eden Sign Inc., and is licensed as
- * restricted rights software. The use, reproduction, or disclosure of this software is subject to
- * restrictions set forth in your license agreement with Eden Sign.
-*/
+ */
 
-import { Box, List, ListItemButton, Typography } from "@mui/material";
+import React from 'react';
+import { motion } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
 import InstagramIcon from '@mui/icons-material/Instagram';
 
-import loreal from "../assets/brands/loreal.jpg"
-import aerin from "../assets/brands/aerin.jpg"
-import mac from "../assets/brands/mac.jpg"
-import fable from "../assets/brands/fable.jpg"
-import schwar from "../assets/brands/schwar.jpg"
-import revlon from "../assets/brands/revlon.png"
+const brandLogos = [
+  { name: "L'Oréal", img: 'https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/brands/loreal.jpg' },
+  { name: 'Aerin', img: 'https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/brands/aerin.jpg' },
+  { name: 'MAC', img: 'https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/brands/mac.jpg' },
+  { name: 'Revlon', img: 'https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/brands/revlon.png' },
+  { name: 'Fable', img: 'https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/brands/fable.jpg' },
+  { name: 'Schwarzkopf', img: 'https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/brands/schwar.jpg' },
+];
 
-import bg from "../assets/brands/bg2.png"
-
-import img from "../assets/brandImg/brandImg.jpg"
-import img2 from "../assets/brandImg/brandImg2.jpg"
-import img3 from "../assets/brandImg/brandImg3.jpg"
-import img4 from "../assets/brandImg/brandImg4.jpg"
-import img5 from "../assets/brandImg/brandImg5.jpg"
-import img6 from "../assets/brandImg/brandImg6.jpg"
+const galleryImages = [
+  'https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/brandImg/brandImg.jpg',
+  'https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/brandImg/brandImg2.jpg',
+  'https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/brandImg/brandImg3.jpg',
+  'https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/brandImg/brandImg4.jpg',
+  'https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/brandImg/brandImg5.jpg',
+  'https://salon-s3.s3.us-east-1.amazonaws.com/eden-website-image/brandImg/brandImg6.jpg',
+];
 
 const Brands = () => {
-    //border: "1px solid black",
-    return (
-        <Box sx={{ height: "96vh", width: "100%", marginBottom: "8%", position: "relative" }}>
-            <Box display="flex" justifyContent="center" marginBottom="6%"
-                sx={{ backgroundImage: `url(${bg})`, backgroundSize: "cover", backgroundRepeat: "repeat" }}>
-                <List component='nav' sx={{ display: "inline-flex", alignItems: "center" }}>
-                    <ListItemButton sx={{ "&:hover": { background: "transparent" } }}>
-                        <Box sx={{
-                            height: "20px", width: "108px", padding: "8px 25px", backgroundImage: `url(${loreal})`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", opacity: "0.4", transition: "all 0.2s ease",
-                            "&:hover": { opacity: "1", transform: "scale(1.2)" }
-                        }} />
-                    </ListItemButton>
-                    <ListItemButton sx={{ "&:hover": { background: "transparent" } }}>
-                        <Box sx={{
-                            height: "20px", width: "100px", padding: "8px 25px", backgroundImage: `url(${aerin})`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", opacity: "0.4", transition: "all 0.2s ease",
-                            "&:hover": { opacity: "1", transform: "scale(1.2)" }
-                        }} />
-                    </ListItemButton>
-                    <ListItemButton sx={{ "&:hover": { background: "transparent" } }}>
-                        <Box sx={{
-                            height: "20px", width: "140px", padding: "8px 25px", backgroundImage: `url(${mac})`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", opacity: "0.4", transition: "all 0.2s ease",
-                            "&:hover": { opacity: "1", transform: "scale(1.2)" }
-                        }} />
-                    </ListItemButton>
+  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.15 });
 
+  return (
+    <section ref={ref} className="es-brands-section">
+      {/* Section header */}
+      <motion.div
+        className="es-section-header"
+        initial={{ opacity: 0, y: 30 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.6 }}
+      >
+        <span className="es-eyebrow">Trusted Partners</span>
+        <h2 className="es-section-title">Our <em>Brands</em></h2>
+        <div className="es-title-divider" />
+      </motion.div>
 
-                    <Box sx={{
-                        display: "flex", justifyContent: "center", paddingRight: "10px", opacity: "0.8", transition: "all 0.2s ease",
-                        "&:hover": { opacity: "1", transform: "scale(1.2)" }
-                    }}>
-                        <span className="eden-signature">&nbsp;Eden signature</span>
-                    </Box>
+      {/* Infinite marquee */}
+      <div className="es-marquee-wrapper">
+        <div className="es-marquee-track">
+          {[...brandLogos, ...brandLogos].map((brand, i) => (
+            <div key={i} className="es-marquee-item">
+              <img src={brand.img} alt={brand.name} className="es-brand-logo" />
+            </div>
+          ))}
+        </div>
+      </div>
 
+      {/* Instagram gallery grid */}
+      <motion.div
+        className="es-insta-grid"
+        initial={{ opacity: 0, y: 40 }}
+        animate={inView ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.7, delay: 0.3 }}
+      >
+        {galleryImages.map((img, i) => (
+          <a
+            key={i}
+            href="https://instagram.com/edensign.in"
+            target="_blank"
+            rel="noreferrer"
+            className="es-insta-cell"
+          >
+            <img src={img} alt={`Eden Sign gallery ${i + 1}`} className="es-insta-img" />
+            <div className="es-insta-hover">
+              <InstagramIcon sx={{ fontSize: 28, color: '#fff' }} />
+            </div>
+          </a>
+        ))}
 
-                    <ListItemButton sx={{ "&:hover": { background: "transparent" } }}>
-                        <Box sx={{
-                            height: "48px", width: "130px", padding: "8px 25px", backgroundImage: `url(${revlon})`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", opacity: "0.4", transition: "all 0.2s ease",
-                            "&:hover": { opacity: "1", transform: "scale(1.2)" }
-                        }} />
-                    </ListItemButton>
-                    <ListItemButton sx={{ "&:hover": { background: "transparent" } }}>
-                        <Box sx={{
-                            height: "20px", width: "180px", padding: "8px 25px", backgroundImage: `url(${fable})`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", opacity: "0.4", transition: "all 0.2s ease",
-                            "&:hover": { opacity: "1", transform: "scale(1.2)" }
-                        }} />
-                    </ListItemButton>
-                    <ListItemButton sx={{ "&:hover": { background: "transparent" } }}>
-                        <Box sx={{
-                            height: "76px", width: "150px", padding: "8px 35px", backgroundImage: `url(${schwar})`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", opacity: "0.4", transition: "all 0.2s ease",
-                            "&:hover": { opacity: "1", transform: "scale(1.2)" }
-                        }} />
-                    </ListItemButton>
-                </List>
-            </Box>
-
-            <Box display="flex" justifyContent="center" alignItems="center">
-                <Box sx={{
-                    height: "40vh", width: "18%", backgroundImage: `url(${img})`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover"
-                }} />
-                <Box sx={{
-                    height: "40vh", width: "18%", backgroundImage: `url(${img2})`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", marginTop: "8%"
-                }} />
-                <Box sx={{
-                    height: "40vh", width: "18%", backgroundImage: `url(${img3})`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", marginTop: "-8%"
-                }} />
-                <Box sx={{
-                    height: "40vh", width: "18%", backgroundImage: `url(${img4})`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", marginTop: "14%"
-                }} />
-                <Box sx={{
-                    height: "40vh", width: "18%", backgroundImage: `url(${img5})`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", marginTop: "-4%"
-                }} />
-                <Box sx={{
-                    height: "40vh", width: "18%", backgroundImage: `url(${img6})`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", marginTop: "8%"
-                }} />
-            </Box>
-            <Box sx={{
-                height: "50vh", width: "24%", backgroundColor: "#ffffff", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "absolute", left: "38%", top: "32%", opacity: "0.9", "&:hover": { color: "#ffdde1", cursor: "pointer" }
-            }}>
-                <InstagramIcon sx={{ height: "18px", width: "18px", fontSize: "18px", lineHeight: "1", display: "block", borderColor: "#868686" }} />
-                <Typography sx={{
-                    textTransform: "uppercase", letterSpacing: "0.5em", fontSize: "16px", fontFamily: "Marcellus,sans-serif", fontWeight: "400", lineHeight: "28px", paddingTop: "10px"
-                }}>
-                    instagram </Typography>
-                <Typography sx={{
-                    textTransform: "uppercase", letterSpacing: "0.2em", fontSize: "12px", fontFamily: "Inter, sans-serif", lineHeight: "25px"
-                }}>
-                    @edensign </Typography>
-            </Box>
-        </Box>
-    )
+        {/* Center overlay card */}
+        <a
+          href="https://instagram.com/edensign.in"
+          target="_blank"
+          rel="noreferrer"
+          className="es-insta-center-card"
+        >
+          <InstagramIcon sx={{ fontSize: 32, color: '#c7956c' }} />
+          <span className="es-insta-handle-label">Follow Us</span>
+          <span className="es-insta-handle">@edensign</span>
+        </a>
+      </motion.div>
+    </section>
+  );
 };
 
 export default Brands;

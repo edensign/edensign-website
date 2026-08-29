@@ -12,22 +12,14 @@
 }
 
 
-#salon-listing-img {
+.salon-listing-img {
     height: auto;
     max-width: 100%;
-    vertical-align: middle;
+    display: inline-block;
     will-change: transform;
-    -webkit-transform: translateZ(0) ;
-    -webkit-perspective: 1000;
     -webkit-backface-visibility: hidden;
-    transform: translate3d(0px, 0px, 0px);
-    transition-duration: 3s;
 }
 
-#salon-listing-img:hover {
-    transform: translate3d(0px, -880px, 0px) scale(1.1);
-    transition: transform 10s ease;
-}
 
 
 

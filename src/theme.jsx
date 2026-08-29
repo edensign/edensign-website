@@ -4,12 +4,12 @@
  * This software is the confidential information of Eden Sign Inc., and is licensed as
  * restricted rights software. The use, reproduction, or disclosure of this software is subject to
  * restrictions set forth in your license agreement with Eden Sign.
-*/
+ */
 
 import { createContext, useState, useMemo } from "react";
 import { createTheme } from "@mui/material";
 
-// color design tokens
+// color design tokens (kept for backward compatibility or direct imports if any)
 export const tokens = (mode) => ({
     ...(mode === 'dark'
         ? {
@@ -22,7 +22,7 @@ export const tokens = (mode) => ({
                 600: "#525252",
                 700: "#3d3d3d",
                 800: "#292929",
-                900: "#141414"
+                900: "#141b2d"
             },
             primary: {
                 100: "#d0d1d5",
@@ -127,74 +127,175 @@ export const tokens = (mode) => ({
         })
 });
 
-
 //mui Theme Settings
 export const themeSettings = (mode) => {
-    const colors = tokens(mode);
+    const gold = "#c7956c";
+    const charcoal = "#1a0f08";
+    const darkObsidian = "#0f0a07";
+    const creamBg = "#FAF8F5";
+    const sandTan = "#e2d5c5";
 
     return {
         palette: {
             mode: mode,
-            ...(mode === "dark"
-                ? {
-                    primary: {
-                        main: colors.primary[500]
-                    },
-                    secondary: {
-                        main: colors.greenAccent[500]
-                    },
-                    neutral: {
-                        dark: colors.grey[700],
-                        main: colors.grey[500],
-                        light: colors.grey[100]
-                    },
-                    background: {
-                        default: colors.primary[500]
-                    }
-                } : {
-                    primary: {
-                        main: colors.primary[100]
-                    },
-                    secondary: {
-                        main: colors.greenAccent[500]
-                    },
-                    neutral: {
-                        dark: colors.grey[700],
-                        main: colors.grey[500],
-                        light: colors.grey[100]
-                    },
-                    background: {
-                        default: "#fcfcfc"
-                    }
-                })
+            primary: {
+                main: gold,
+                contrastText: mode === "dark" ? "#1a0f08" : "#ffffff",
+            },
+            secondary: {
+                main: mode === "dark" ? sandTan : charcoal,
+            },
+            background: {
+                default: mode === "dark" ? darkObsidian : creamBg,
+                paper: mode === "dark" ? "#18120e" : "#ffffff",
+            },
+            text: {
+                primary: mode === "dark" ? "#fdfbfa" : charcoal,
+                secondary: mode === "dark" ? "rgba(255, 255, 255, 0.7)" : "#6b5749",
+            },
+            neutral: {
+                dark: "#292929",
+                main: "#666666",
+                light: "#FAF6F0"
+            }
         },
         typography: {
-            fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
-            fontSize: 12,
+            fontFamily: ["Inter", "sans-serif"].join(","),
+            fontSize: 12.5,
             h1: {
-                fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
-                fontSize: 40,
+                fontFamily: ["Playfair Display", "serif"].join(","),
+                fontSize: 42,
+                fontWeight: 700,
+                lineHeight: 1.2,
             },
             h2: {
-                fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
+                fontFamily: ["Playfair Display", "serif"].join(","),
                 fontSize: 32,
+                fontWeight: 600,
+                lineHeight: 1.25,
             },
             h3: {
-                fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
+                fontFamily: ["Playfair Display", "serif"].join(","),
                 fontSize: 24,
+                fontWeight: 600,
+                lineHeight: 1.3,
             },
             h4: {
-                fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
-                fontSize: 20,
+                fontFamily: ["Inter", "sans-serif"].join(","),
+                fontSize: 18,
+                fontWeight: 600,
+                lineHeight: 1.4,
             },
             h5: {
-                fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
-                fontSize: 16,
+                fontFamily: ["Inter", "sans-serif"].join(","),
+                fontSize: 15,
+                fontWeight: 500,
+                lineHeight: 1.4,
             },
             h6: {
-                fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
-                fontSize: 14,
+                fontFamily: ["Inter", "sans-serif"].join(","),
+                fontSize: 13,
+                fontWeight: 500,
+                lineHeight: 1.4,
             },
+            button: {
+                fontFamily: ["Inter", "sans-serif"].join(","),
+                fontSize: 13,
+                fontWeight: 600,
+                letterSpacing: "0.05em",
+            }
+        },
+        components: {
+            MuiButton: {
+                styleOverrides: {
+                    root: {
+                        borderRadius: "30px",
+                        textTransform: "uppercase",
+                        letterSpacing: "0.08em",
+                        fontWeight: 600,
+                        padding: "10px 24px",
+                        transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                        "&:hover": {
+                            transform: "translateY(-1px)",
+                            boxShadow: "0 6px 20px rgba(199, 149, 108, 0.3)",
+                        }
+                    },
+                    containedPrimary: {
+                        background: "linear-gradient(135deg, #c7956c, #a8724d)",
+                        color: "#ffffff",
+                        "&:hover": {
+                            background: "linear-gradient(135deg, #a8724d, #c7956c)",
+                        }
+                    }
+                }
+            },
+            MuiTextField: {
+                styleOverrides: {
+                    root: {
+                        "& .MuiOutlinedInput-root": {
+                            borderRadius: "12px",
+                            transition: "all 0.3s ease",
+                            backgroundColor: mode === "dark" ? "rgba(255, 255, 255, 0.03)" : "rgba(26, 10, 0, 0.01)",
+                            "& fieldset": {
+                                borderColor: mode === "dark" ? "rgba(255, 255, 255, 0.15)" : "rgba(199, 149, 108, 0.25)",
+                            },
+                            "&:hover fieldset": {
+                                borderColor: "#c7956c",
+                            },
+                            "&.Mui-focused fieldset": {
+                                borderColor: "#c7956c",
+                                borderWidth: "1.5px",
+                            }
+                        },
+                        "& .MuiInputLabel-root": {
+                            color: mode === "dark" ? "rgba(255, 255, 255, 0.5)" : "#6b5749",
+                            "&.Mui-focused": {
+                                color: "#c7956c",
+                            }
+                        }
+                    }
+                }
+            },
+            MuiAccordion: {
+                styleOverrides: {
+                    root: {
+                        borderRadius: "16px !important",
+                        marginBottom: "12px",
+                        border: mode === "dark" ? "1px solid rgba(255, 255, 255, 0.08)" : "1px solid rgba(199, 149, 108, 0.15)",
+                        background: mode === "dark" ? "rgba(24, 18, 14, 0.6)" : "#ffffff",
+                        "&:before": {
+                            display: "none"
+                        },
+                        boxShadow: "0 4px 20px rgba(26, 10, 0, 0.02)",
+                        transition: "all 0.3s ease",
+                        "&.Mui-expanded": {
+                            boxShadow: "0 10px 30px rgba(199, 149, 108, 0.06)",
+                            borderColor: "#c7956c",
+                        }
+                    }
+                }
+            },
+            MuiAccordionSummary: {
+                styleOverrides: {
+                    root: {
+                        borderRadius: "16px",
+                        padding: "0 24px",
+                        "& .MuiAccordionSummary-content": {
+                            margin: "20px 0",
+                        }
+                    }
+                }
+            },
+            MuiRating: {
+                styleOverrides: {
+                    iconFilled: {
+                        color: gold,
+                    },
+                    iconHover: {
+                        color: "#a8724d",
+                    }
+                }
+            }
         }
     };
 };
